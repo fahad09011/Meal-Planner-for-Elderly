@@ -1,0 +1,15 @@
+{
+  "userId": 1,
+  "name": "Paddy",
+  "age": 80,
+  "dietaryPreferences": {
+    "vegetarian": false,
+    "glutenFree": true
+  },
+  "healthConditions": {
+    "diabetic": true,
+    "lowSodium": true
+  },
+  "allergies": ["nuts"],
+  "budgetPreference": "low"
+}
