@@ -1,0 +1,55 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.homeImage{
+    width: 100%;
+    height: 400px;
+    object-fit: fill;
+    object-position: center;
+}
+
+
+/* .parent */
+.homeButtonContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    border: 4px solid salmon;
+    place-items: center;
+    /* justify-content: center; */
+    /* align-content: center; */
+}
+
+.div1,.div2,.div3,.div4{
+    text-decoration: none;
+    color: black;
+     /* border: 2px solid black; */
+    height: 90px;
+    width: 350px;
+    background-color: #bfcdc0;
+    padding: 10px 30px 10px 30px;
+    border-radius: 13px 13px 13px 13px;
+    box-shadow: 2px 3px 3px #848a84;
+}
+
+.div3 {
+    grid-row-start: 2;
+}
+
+.div4 {
+    grid-row-start: 2;
+}
+        
+
+.HomeButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.buttonIcon{
+    height: 70px;
+}
