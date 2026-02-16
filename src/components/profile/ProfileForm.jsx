@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "../../assets/styles/profile.css";
 import Button from "../common/Button";
+import { ProfileContext } from "../../context/ProfileContext";
 
 function ProfileForm() {
-  const [profileData, setProfileData] = useState({
-    ageGroup: "",
-    dietary: [],
-    allergies: [],
-    healthConditions: [],
-    budget: "",
-  });
+  // const [profileData, setProfileData] = useState({
+  //   ageGroup: "",
+  //   dietary: [],
+  //   allergies: [],
+  //   healthConditions: [],
+  //   budget: "",
+  // });
+const { profileData,setProfileData } = useContext(ProfileContext)
 
   function handleOnChange(event) {
     const { name, value, type, checked } = event.target;
