@@ -4,14 +4,9 @@ import Button from "../common/Button";
 import { ProfileContext } from "../../context/ProfileContext";
 
 function ProfileForm() {
-  // const [profileData, setProfileData] = useState({
-  //   ageGroup: "",
-  //   dietary: [],
-  //   allergies: [],
-  //   healthConditions: [],
-  //   budget: "",
-  // });
-const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = useContext(ProfileContext)
+ 
+  const { profileData, setProfileData, saveProfile, clearProfile, hasProfile } =
+    useContext(ProfileContext);
 
   function handleOnChange(event) {
     const { name, value, type, checked } = event.target;
@@ -24,8 +19,9 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
           newArray = prev[name].filter((item) => item !== value);
         }
         return {
-          ...prev, [name]: newArray
-        }
+          ...prev,
+          [name]: newArray,
+        };
       });
     } else {
       setProfileData((prev) => ({ ...prev, [name]: value }));
@@ -51,7 +47,8 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
 
             <div className="ageGroupMainContainer">
               <div className="ageGroupContainer one">
-                <input required
+                <input
+                  required
                   className="check"
                   type="radio"
                   name="ageGroup"
@@ -71,7 +68,6 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
                   id="two"
                   onChange={handleOnChange}
                   checked={profileData.ageGroup === "51-60"}
-
                   value="51-60"
                 />
                 <label htmlFor="two">51-60</label>
@@ -85,7 +81,6 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
                   id="three"
                   onChange={handleOnChange}
                   checked={profileData.ageGroup === "61-70"}
-
                   value="61-70"
                 />
                 <label htmlFor="three">61-70</label>
@@ -99,7 +94,6 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
                   id="four"
                   onChange={handleOnChange}
                   checked={profileData.ageGroup === "70+"}
-
                   value="70+"
                 />
                 <label htmlFor="four">70+</label>
@@ -122,8 +116,6 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
                   onChange={handleOnChange}
                   value="vegetarian"
                   checked={profileData.dietary.includes("vegetarian")}
-
-                  
                 />
                 <label htmlFor="vegetarian">Vegetarian</label>
               </div>
@@ -136,7 +128,6 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
                   id="plantBased"
                   onChange={handleOnChange}
                   checked={profileData.dietary.includes("plantBased")}
-
                   value="plantBased"
                 />
                 <label htmlFor="plantBased">Plant-Based</label>
@@ -158,7 +149,6 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
                   id="nuts"
                   onChange={handleOnChange}
                   checked={profileData.allergies.includes("nuts")}
-
                   value="nuts"
                 />
                 <label htmlFor="nuts">Nuts</label>
@@ -172,7 +162,6 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
                   id="dairy"
                   onChange={handleOnChange}
                   checked={profileData.allergies.includes("dairy")}
-
                   value="dairy"
                 />
                 <label htmlFor="dairy">Dairy</label>
@@ -193,8 +182,9 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
                   name="healthConditions"
                   id="bloodPressure"
                   onChange={handleOnChange}
-                  checked={profileData.healthConditions.includes("bloodPressure")}
-
+                  checked={profileData.healthConditions.includes(
+                    "bloodPressure",
+                  )}
                   value="bloodPressure"
                 />
                 <label htmlFor="bloodPressure">High Blood Pressure</label>
@@ -207,7 +197,6 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
                   id="diabetes"
                   onChange={handleOnChange}
                   checked={profileData.healthConditions.includes("diabetes")}
-
                   value="diabetes"
                 />
                 <label htmlFor="diabetes">Diabetes</label>
@@ -229,7 +218,6 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
                   id="low"
                   onChange={handleOnChange}
                   checked={profileData.budget === "low"}
-
                   value="low"
                 />
                 <label htmlFor="low">Low</label>
@@ -262,22 +250,17 @@ const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = u
           </section>
           <hr />
           <div className="formButtonContainer">
-            {
-              !hasProfile ?
-               <Button type="submit">Save Profile</Button> : 
-               (<>
-               
-              
-                 <Button type="submit">Update Profile</Button>
-                 
-                 <Button
-                 type="button"
-                 onClick={clearProfile}>Clear Profile</Button>
-                  </>)
-            }
-           
+            {!hasProfile ? (
+              <Button type="submit">Save Profile</Button>
+            ) : (
+              <>
+                <Button type="submit">Update Profile</Button>
 
-          
+                <Button type="button" onClick={clearProfile}>
+                  Clear Profile
+                </Button>
+              </>
+            )}
           </div>
         </form>
       </main>

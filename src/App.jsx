@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css'
 import { ProfileContext } from './context/ProfileContext';
 import Home from './pages/Home';
-import { useEffect } from 'react';
 function App() {
   const defaultProfile = {
   ageGroup: "",
@@ -21,13 +20,14 @@ const [profileData, setProfileData] = useState(()=>{
   } 
 });
 
-function saveProfile(params) {
+function saveProfile() {
   localStorage.setItem("profile", JSON.stringify(profileData));
   console.log(localStorage.getItem("profile"));
 }
+
 function clearProfile() {
   if (localStorage.getItem("profile")) {
-      localStorage.clear();
+      localStorage.removeItem("profile");
       setProfileData(defaultProfile);
 
   } 
