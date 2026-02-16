@@ -3,6 +3,20 @@
     margin: 0;
     box-sizing: border-box;
 }
+:root{
+    --border-light:2px solid #a9a1a159;
+    --border-radius: 13px 13px 13px 13px;
+    --container-padding: 5px;
+    --primary-font-size: 1.25rem;
+    --primary-gap: 10px;
+    --seconary-gap: 5px;
+    --primary-green:#678B7A;
+    --secondary-green:#E3F2EC;
+    --main-back-ground-color:#FAF7F7;
+    --text-main-color:#2E2333;
+    --warning-color:#C7410C;
+
+}
 .logo{
     height: 60px;
 }
@@ -10,5 +24,7 @@
     height: 40px;
 }
 .navbar{
+    background-color: var(--main-back-ground-color);
     border: 2px solid lawngreen;
+    
 }

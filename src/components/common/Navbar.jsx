@@ -24,7 +24,7 @@ function Navbar() {
           <a className="nav-link" href="#">Shopping List</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">Setting</a>
+          <a className="nav-link" href="/">Profile</a>
         </li>
       </ul>
       <div className="infoContainer">

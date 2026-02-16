@@ -7,14 +7,18 @@ import mealButtonIcon from "../../src/assets/images/mealButtonIcon.png";
 import careButtonIcon from "../../src/assets/images/careButtonIcon.png";
 import profileButtonIcon from "../../src/assets/images/profileButtonIcon.png";
 import shoppingButtonIcon from "../../src/assets/images/shoppingButtonIcon.png";
+import ProfileForm from "../components/profile/ProfileForm";
+
 
 function Home() {
   return (
     <>
+   
       <main className="homeMainContainer">
         <section className="navbarSection">
           <Navbar />
         </section>
+        <ProfileForm/>
         <section className="homeContentSection">
           <div className="homeImgContianer">
             <img src={homeImage} alt="" className="homeImage" />

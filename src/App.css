@@ -6,6 +6,10 @@
 .mainAppContainer{
   border: 4px solid red;
   /* padding: 0 10px 0 10px; */
+   /* background-image: url(./assets/images/gradientbackground2.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
 }
 
 

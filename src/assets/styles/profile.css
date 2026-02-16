@@ -1,0 +1,182 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+:root{
+    --border-light:2px solid #a9a1a159;
+    --border-radius: 13px 13px 13px 13px;
+    --container-padding: 5px;
+    --primary-font-size: 1.25rem;
+    --primary-gap: 10px;
+    --seconary-gap: 5px;
+    --primary-green:#678B7A;
+    --secondary-green:#E3F2EC;
+    --main-back-ground-color:#FAF7F7;
+    --text-main-color:#2E2333;
+    --warning-color:#C7410C;
+
+}
+.profileMainContainer{
+    background-image: url(../images/gradientbackground2.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* height: 500px; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid red;
+    padding: calc(3* var(--container-padding));
+}
+.profileForm{
+    width: 70%;
+    padding: 10px;
+        /* margin-top: calc(2* var(--container-padding)); */
+    background-color: var(--main-back-ground-color);
+    border: var(--border-light);
+    border-radius: var(--border-radius);
+}
+
+/* age group */
+.ageGroupMainSection{
+    display:flex;
+    flex-direction: column;
+}
+.ageGroupMainContainer{
+    /* border: 2px solid maroon; */
+  
+}
+
+.ageGroupContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--primary-gap);
+    width: 120px;
+    font-size: var(--primary-font-size);
+    padding: var(--container-padding);
+    border-radius: var(--border-radius);
+    border: var(--border-light);
+    padding: 10px;
+}
+
+
+/* dietary  */
+.dietaryGroupMainContainer{
+/* border: 2px solid black; */
+}
+.dietaryGroupContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--primary-gap);
+    width: 200px;
+    font-size: var(--primary-font-size);
+    padding: var(--container-padding);
+    border-radius: var(--border-radius);
+    border: var(--border-light);
+    padding: 10px;
+}
+
+/* alergens */
+
+.alergiesGroupMainContainer{
+    /* border: 2px solid black; */
+}
+.alergiesGroupContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--primary-gap);
+    width: 200px;
+    font-size: var(--primary-font-size);
+    padding: var(--container-padding);
+    border-radius: var(--border-radius);
+    border: var(--border-light);
+    padding: 10px;
+}
+
+/* health consideration */
+.healthConsiderationGroupContainer{
+    /* border: 2px solid black; */
+}
+.healthConsiderationGroupContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--primary-gap);
+    width: fit-content;
+    font-size: var(--primary-font-size);
+    padding: var(--container-padding);
+    border-radius: var(--border-radius);
+    border: var(--border-light);
+    padding: 10px;
+}
+
+/* budget preference */
+
+.budgetGroupMainContainer{
+    /* border: 2px solid black; */
+}
+.budgetGroupContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--primary-gap);
+    width: fit-content;
+    font-size: var(--primary-font-size);
+    padding: var(--container-padding);
+    border-radius: var(--border-radius);
+    border: var(--border-light);
+    padding: 10px;
+}
+
+
+/* common styles */
+input[type="radio"],
+input[type="checkbox"] {
+  width: var(--primary-font-size);
+  height: var(--primary-font-size);
+  accent-color: var(--primary-green);
+}
+
+.ageGroupContainer:has(input:checked),
+.dietaryGroupContainer:has(input:checked),
+.alergiesGroupContainer:has(input:checked),
+.healthConsiderationGroupContainer:has(input:checked),
+.budgetGroupContainer:has(input:checked){
+background-color: var(--secondary-green);
+  accent-color: var(--primary-green);
+}
+
+
+.ageGroupMainContainer,
+.dietaryGroupMainContainer,
+.alergiesGroupMainContainer,
+.healthConsiderationGroupMainContainer,
+.budgetGroupMainContainer{
+    display: flex;
+    flex-direction: row;
+    gap: calc(2* var(--primary-gap));
+}
+
+.budgetMainSection,
+.healthConsiderationMainSection,
+.alergiesMainSection,
+.dietaryMainSection,
+.ageGroupMainSection{
+    /* border: 2px solid red; */
+    padding-left: var(--container-padding);
+}
+
+.title{
+    font-size: calc(1.2* var(--primary-font-size));
+    font-weight: 400;
+}
+hr{
+    color:  rgba(106, 106, 106, 0.53);
+
+}
