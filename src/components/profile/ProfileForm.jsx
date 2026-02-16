@@ -1,13 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../assets/styles/profile.css";
+import Button from "../common/Button";
 
 function ProfileForm() {
+  const [profileData, setProfileData] = useState({
+    ageGroup: "",
+    dietary: [],
+    allergies: [],
+    healthConditions: [],
+    budget: "",
+  });
+
+  function handleOnChange(event) {
+    const { name, value, type, checked } = event.target;
+    if (type === "checkbox") {
+      let newArray;
+      setProfileData((prev) => {
+        if (checked) {
+          newArray = [...prev[name], value];
+        } else {
+          newArray = prev[name].filter((item) => item !== value);
+        }
+        return {
+          ...prev, [name]: newArray
+        }
+      });
+    } else {
+      setProfileData((prev) => ({ ...prev, [name]: value }));
+    }
+  }
+
+  function handleOnSubmit(form) {
+    form.preventDefault();
+    console.log(profileData);
+  }
   return (
     <div>
       <main className="profileMainContainer">
-        <form action="" className="profileForm">
+        <form action="" onSubmit={handleOnSubmit} className="profileForm">
           <div className="formTitleContainer">
-            <h2 className="formTitle">Pofile Settings</h2>
+            <h2 className="formTitle">Profile Settings</h2>
+            <hr />
           </div>
           {/* age g */}
           <section className="ageGroupMainSection">
@@ -15,19 +48,57 @@ function ProfileForm() {
 
             <div className="ageGroupMainContainer">
               <div className="ageGroupContainer one">
-                <input type="radio" name="age" id="one" />
+                <input
+                  className="check"
+                  type="radio"
+                  name="ageGroup"
+                  id="one"
+                  onChange={handleOnChange}
+                  checked={profileData.ageGroup === "40-50"}
+                  value="40-50"
+                />
                 <label htmlFor="one">40-50</label>
               </div>
+
               <div className="ageGroupContainer two">
-                <input type="radio" name="age" id="two" />
+                <input
+                  className="check"
+                  type="radio"
+                  name="ageGroup"
+                  id="two"
+                  onChange={handleOnChange}
+                  checked={profileData.ageGroup === "51-60"}
+
+                  value="51-60"
+                />
                 <label htmlFor="two">51-60</label>
               </div>
+
               <div className="ageGroupContainer three">
-                <input type="radio" name="age" id="three" />
+                <input
+                  className="check"
+                  type="radio"
+                  name="ageGroup"
+                  id="three"
+                  onChange={handleOnChange}
+                  checked={profileData.ageGroup === "61-70"}
+
+                  value="61-70"
+                />
                 <label htmlFor="three">61-70</label>
               </div>
+
               <div className="ageGroupContainer four">
-                <input type="radio" name="age" id="four" />
+                <input
+                  className="check"
+                  type="radio"
+                  name="ageGroup"
+                  id="four"
+                  onChange={handleOnChange}
+                  checked={profileData.ageGroup === "70+"}
+
+                  value="70+"
+                />
                 <label htmlFor="four">70+</label>
               </div>
             </div>
@@ -39,42 +110,73 @@ function ProfileForm() {
             <p className="title">Dietary Preference</p>
 
             <div className="dietaryGroupMainContainer">
-              <div className="dietaryGroupContainer vegeterian">
+              <div className="dietaryGroupContainer vegetarian">
                 <input
+                  className="check"
                   type="checkbox"
                   name="dietary"
-                  id="vegeterian"
-                  value="vegeterian"
+                  id="vegetarian"
+                  onChange={handleOnChange}
+                  value="vegetarian"
+                  checked={profileData.dietary.includes("vegetarian")}
+
+                  
                 />
-                <label htmlFor="vegeterian">Vegeterian</label>
+                <label htmlFor="vegetarian">Vegetarian</label>
               </div>
+
               <div className="dietaryGroupContainer plantBased">
-                <input type="checkbox" name="dietary" id="plantBased" />
+                <input
+                  className="check"
+                  type="checkbox"
+                  name="dietary"
+                  id="plantBased"
+                  onChange={handleOnChange}
+                  checked={profileData.dietary.includes("plantBased")}
+
+                  value="plantBased"
+                />
                 <label htmlFor="plantBased">Plant-Based</label>
               </div>
             </div>
           </section>
           <hr />
 
+          {/* allergies Preference  */}
+          <section className="allergiesMainSection">
+            <p className="title">Allergies Preference</p>
 
-          {/* alergies Preference  */}
-          <section className="alergiesMainSection">
-            <p className="title">Alergies Preference</p>
+            <div className="allergiesGroupMainContainer">
+              <div className="allergiesGroupContainer nuts">
+                <input
+                  className="check"
+                  type="checkbox"
+                  name="allergies"
+                  id="nuts"
+                  onChange={handleOnChange}
+                  checked={profileData.allergies.includes("nuts")}
 
-            <div className="alergiesGroupMainContainer">
-              <div className="alergiesGroupContainer nuts">
-                <input type="checkbox" name="alergies" id="nuts" value="nuts" />
+                  value="nuts"
+                />
                 <label htmlFor="nuts">Nuts</label>
               </div>
 
-              <div className="alergiesGroupContainer dairy">
-                <input type="checkbox" name="alergies" id="dairy" />
+              <div className="allergiesGroupContainer dairy">
+                <input
+                  className="check"
+                  type="checkbox"
+                  name="allergies"
+                  id="dairy"
+                  onChange={handleOnChange}
+                  checked={profileData.allergies.includes("dairy")}
+
+                  value="dairy"
+                />
                 <label htmlFor="dairy">Dairy</label>
               </div>
             </div>
           </section>
           <hr />
-
 
           {/* healthConsideration Preference  */}
           <section className="healthConsiderationMainSection">
@@ -83,16 +185,29 @@ function ProfileForm() {
             <div className="healthConsiderationGroupMainContainer">
               <div className="healthConsiderationGroupContainer bloodPressure">
                 <input
+                  className="check"
                   type="checkbox"
-                  name="healthConsideration"
+                  name="healthConditions"
                   id="bloodPressure"
+                  onChange={handleOnChange}
+                  checked={profileData.healthConditions.includes("bloodPressure")}
+
                   value="bloodPressure"
                 />
                 <label htmlFor="bloodPressure">High Blood Pressure</label>
               </div>
-              <div className="healthConsiderationGroupContainer diabities">
-                <input type="checkbox" name="dietary" id="diabities" />
-                <label htmlFor="diabities">Diabities</label>
+              <div className="healthConsiderationGroupContainer diabetes">
+                <input
+                  className="check"
+                  type="checkbox"
+                  name="healthConditions"
+                  id="diabetes"
+                  onChange={handleOnChange}
+                  checked={profileData.healthConditions.includes("diabetes")}
+
+                  value="diabetes"
+                />
+                <label htmlFor="diabetes">Diabetes</label>
               </div>
             </div>
           </section>
@@ -104,27 +219,49 @@ function ProfileForm() {
 
             <div className="budgetGroupMainContainer">
               <div className="budgetGroupContainer low">
-                <input type="radio" name="budget" id="low" />
+                <input
+                  className="check"
+                  type="radio"
+                  name="budget"
+                  id="low"
+                  onChange={handleOnChange}
+                  checked={profileData.budget === "low"}
+
+                  value="low"
+                />
                 <label htmlFor="low">Low</label>
               </div>
               <div className="budgetGroupContainer medium">
-                <input type="radio" name="budget" id="medium" />
+                <input
+                  className="check"
+                  type="radio"
+                  name="budget"
+                  id="medium"
+                  onChange={handleOnChange}
+                  checked={profileData.budget === "medium"}
+                  value="medium"
+                />
                 <label htmlFor="medium">Medium</label>
               </div>
               <div className="budgetGroupContainer flexible">
-                <input type="radio" name="budget" id="flexible" />
+                <input
+                  className="check"
+                  type="radio"
+                  name="budget"
+                  id="flexible"
+                  onChange={handleOnChange}
+                  checked={profileData.budget === "flexible"}
+                  value="flexible"
+                />
                 <label htmlFor="flexible">Flexible</label>
               </div>
             </div>
           </section>
           <hr />
           <div className="formButtonContainer">
-            <button type="submit" className="saveButton">
-              Save
-            </button>
-            <button type="submit" className="updateButton">
-              Update
-            </button>
+            <Button type="submit">Save Profile</Button>
+
+            <Button type="submit">Update Profile</Button>
           </div>
         </form>
       </main>

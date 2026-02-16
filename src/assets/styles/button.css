@@ -1,0 +1,61 @@
+:root{
+    --border-light:2px solid #a9a1a159;
+    --border-radius: 13px 13px 13px 13px;
+    --container-padding: 5px;
+    --primary-font-size: 1.25rem;
+    --primary-gap: 10px;
+    --seconary-gap: 5px;
+    --primary-green:#455E4E;
+    --secondary-green:#E3F2EC;
+    --main-back-ground-color:#FAF7F7;
+    --text-main-color:#2E2333;
+    --warning-color:#C7410C;
+
+}
+
+.button {
+  min-width: 150px;
+  position: relative;
+  cursor: pointer;
+  padding: 12px 17px;
+  border: 0;
+  border-radius: 7px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  background: radial-gradient(
+    ellipse at bottom,
+    var(--secondary-green) 0%,
+    var(--primary-green) 0%
+  );
+  color: var(--main-back-ground-color);
+  transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+
+.button::before {
+  content: "";
+  width: 70%;
+  height: 1px;
+
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  opacity: 0.2;
+
+  transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+
+.button:hover {
+  color: rgb(255, 255, 255, 1);
+  transform: scale(1.1) translateY(-3px);
+}
+
+.button:hover::before {
+  opacity: 1;
+}

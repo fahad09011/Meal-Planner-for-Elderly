@@ -28,13 +28,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     padding: calc(3* var(--container-padding));
 }
 .profileForm{
     width: 70%;
     padding: 10px;
-        /* margin-top: calc(2* var(--container-padding)); */
     background-color: var(--main-back-ground-color);
     border: var(--border-light);
     border-radius: var(--border-radius);
@@ -81,12 +80,16 @@
     padding: 10px;
 }
 
-/* alergens */
 
-.alergiesGroupMainContainer{
+
+
+
+
+/* alergens */
+.allergiesGroupMainContainer{
     /* border: 2px solid black; */
 }
-.alergiesGroupContainer{
+.allergiesGroupContainer{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -98,7 +101,6 @@
     border: var(--border-light);
     padding: 10px;
 }
-
 /* health consideration */
 .healthConsiderationGroupContainer{
     /* border: 2px solid black; */
@@ -116,8 +118,10 @@
     padding: 10px;
 }
 
-/* budget preference */
 
+
+
+/* budget preference */
 .budgetGroupMainContainer{
     /* border: 2px solid black; */
 }
@@ -135,6 +139,10 @@
 }
 
 
+
+
+
+
 /* common styles */
 input[type="radio"],
 input[type="checkbox"] {
@@ -142,10 +150,9 @@ input[type="checkbox"] {
   height: var(--primary-font-size);
   accent-color: var(--primary-green);
 }
-
 .ageGroupContainer:has(input:checked),
 .dietaryGroupContainer:has(input:checked),
-.alergiesGroupContainer:has(input:checked),
+.allergiesGroupContainer:has(input:checked),
 .healthConsiderationGroupContainer:has(input:checked),
 .budgetGroupContainer:has(input:checked){
 background-color: var(--secondary-green);
@@ -155,7 +162,7 @@ background-color: var(--secondary-green);
 
 .ageGroupMainContainer,
 .dietaryGroupMainContainer,
-.alergiesGroupMainContainer,
+.allergiesGroupMainContainer,
 .healthConsiderationGroupMainContainer,
 .budgetGroupMainContainer{
     display: flex;
@@ -165,13 +172,12 @@ background-color: var(--secondary-green);
 
 .budgetMainSection,
 .healthConsiderationMainSection,
-.alergiesMainSection,
+.allergiesMainSection,
 .dietaryMainSection,
 .ageGroupMainSection{
     /* border: 2px solid red; */
     padding-left: var(--container-padding);
 }
-
 .title{
     font-size: calc(1.2* var(--primary-font-size));
     font-weight: 400;
@@ -179,4 +185,72 @@ background-color: var(--secondary-green);
 hr{
     color:  rgba(106, 106, 106, 0.53);
 
+}
+
+
+/* form button */
+.formButtonContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: calc(8* var(--primary-gap));
+}
+
+
+
+
+/* check box and radion button style */
+.check {
+ position: relative;
+ width: 20px;
+ height: 20px;
+ border-radius: 3px;
+ appearance: none;
+ background-color: #bbb;
+ transition: all .3s;
+}
+
+.check::before {
+ content: '';
+ position: absolute;
+ border: solid #fff;
+ display: block;
+ width: .5rem;
+ height: 1rem;
+ border-width: 0 .17em .17em 0;
+ z-index: 1;
+ opacity: 0;
+ right: calc(50% - .3em);
+ top: calc(50% - .6em);
+ transform: rotate(0deg);
+ transition: all .3s;
+ transform-origin: center center;
+}
+
+.check:checked {
+ animation: a .3s ease-in forwards;
+ background-color: var(--primary-green);
+}
+
+.check:checked::before {
+ opacity: 1;
+ transform: rotate(405deg);
+}
+
+@keyframes a {
+ 0% {
+  opacity: 1;
+  transform: scale(1) rotateY(0deg);
+ }
+
+ 50% {
+  opacity: 0;
+  transform: scale(.8) rotateY(180deg);
+ }
+
+ 100% {
+  opacity: 1;
+  transform: scale(1) rotateY(360deg);
+ }
 }

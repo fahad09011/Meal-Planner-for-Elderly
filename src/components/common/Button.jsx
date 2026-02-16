@@ -1,10 +1,26 @@
 import React from 'react'
-
-function Button() {
+import "../../assets/styles/Button.css";
+function Button({
+    children,
+    onClick,
+    type,
+    className= "",
+    disabled = false,
+}) {
+    const buttonBaseClass = "button";
   return (
+    <>
     <div>
-      
+    
+<button type={type}
+        onClick={onClick}
+        className={` ${buttonBaseClass} ${className}`}
+        
+        
+        >{children}</button>
+
     </div>
+    </>
   )
 }
 
