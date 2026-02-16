@@ -11,7 +11,7 @@ function ProfileForm() {
   //   healthConditions: [],
   //   budget: "",
   // });
-const { profileData,setProfileData } = useContext(ProfileContext)
+const { profileData,setProfileData, saveProfile, clearProfile, hasProfile  } = useContext(ProfileContext)
 
   function handleOnChange(event) {
     const { name, value, type, checked } = event.target;
@@ -35,6 +35,7 @@ const { profileData,setProfileData } = useContext(ProfileContext)
   function handleOnSubmit(form) {
     form.preventDefault();
     console.log(profileData);
+    saveProfile();
   }
   return (
     <div>
@@ -50,7 +51,7 @@ const { profileData,setProfileData } = useContext(ProfileContext)
 
             <div className="ageGroupMainContainer">
               <div className="ageGroupContainer one">
-                <input
+                <input required
                   className="check"
                   type="radio"
                   name="ageGroup"
@@ -261,9 +262,22 @@ const { profileData,setProfileData } = useContext(ProfileContext)
           </section>
           <hr />
           <div className="formButtonContainer">
-            <Button type="submit">Save Profile</Button>
+            {
+              !hasProfile ?
+               <Button type="submit">Save Profile</Button> : 
+               (<>
+               
+              
+                 <Button type="submit">Update Profile</Button>
+                 
+                 <Button
+                 type="button"
+                 onClick={clearProfile}>Clear Profile</Button>
+                  </>)
+            }
+           
 
-            <Button type="submit">Update Profile</Button>
+          
           </div>
         </form>
       </main>
