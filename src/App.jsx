@@ -45,9 +45,9 @@ const hasProfile = profileData.ageGroup !== "";
 
   return (
     <>
-    <Router>
     <ProfileContext.Provider value={{profileData, setProfileData, saveProfile, clearProfile, hasProfile
     }}>
+      <Router>
 
     <div className="mainAppContainer">
       <Navbar/>
@@ -60,8 +60,8 @@ const hasProfile = profileData.ageGroup !== "";
    
   </Routes>
     </div>
-        </ProfileContext.Provider>
     </Router>
+        </ProfileContext.Provider>
     </>
   )
 }
