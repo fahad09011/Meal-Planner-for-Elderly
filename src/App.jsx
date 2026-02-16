@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import './App.css'
 import { ProfileContext } from './context/ProfileContext';
 import Home from './pages/Home';
+import MealPlan from './pages/MealPlan';
+import Shopping from './pages/Shopping';
+import ProfileForm from './components/profile/ProfileForm';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from './components/common/Navbar';
+import Profile from './pages/Profile';
+
 function App() {
   const defaultProfile = {
   ageGroup: "",
@@ -38,15 +45,23 @@ const hasProfile = profileData.ageGroup !== "";
 
   return (
     <>
+    <Router>
     <ProfileContext.Provider value={{profileData, setProfileData, saveProfile, clearProfile, hasProfile
     }}>
 
     <div className="mainAppContainer">
-   <Home/>
-
+      <Navbar/>
+        <Routes>
+      <Route path="/" element={<Home/>}/>
+      <Route path="/home" element={<Home/>}/>
+      <Route path="/mealPlan" element={<MealPlan/>}/>
+      <Route path="/shopping" element={<Shopping/>}/>
+      <Route path="/profile" element={<Profile/>}/>
+   
+  </Routes>
     </div>
         </ProfileContext.Provider>
-
+    </Router>
     </>
   )
 }

@@ -16,9 +16,7 @@ function Home() {
    
       <main className="homeMainContainer">
         <section className="navbarSection">
-          <Navbar />
         </section>
-        <ProfileForm/>
         <section className="homeContentSection">
           <div className="homeImgContianer">
             <img src={homeImage} alt="" className="homeImage" />
