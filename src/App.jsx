@@ -8,7 +8,7 @@ import ProfileForm from './components/profile/ProfileForm';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/common/Navbar';
 import Profile from './pages/Profile';
-
+import nutriitonService from "./services/nutritionService";
 function App() {
   const defaultProfile = {
   ageGroup: "",
@@ -29,7 +29,7 @@ const [profileData, setProfileData] = useState(()=>{
 
 function saveProfile() {
   localStorage.setItem("profile", JSON.stringify(profileData));
-  console.log(localStorage.getItem("profile"));
+  console.log(`local storage: ${localStorage.getItem("profile")}`);
 }
 
 function clearProfile() {

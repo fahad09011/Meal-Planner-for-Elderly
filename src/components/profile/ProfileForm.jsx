@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import "../../assets/styles/profile.css";
 import Button from "../common/Button";
 import { ProfileContext } from "../../context/ProfileContext";
@@ -30,7 +30,7 @@ function ProfileForm() {
 
   function handleOnSubmit(form) {
     form.preventDefault();
-    console.log(profileData);
+    console.log(`Form: ${profileData}`);
     saveProfile();
   }
   return (
@@ -120,17 +120,17 @@ function ProfileForm() {
                 <label htmlFor="vegetarian">Vegetarian</label>
               </div>
 
-              <div className="dietaryGroupContainer plantBased">
+              <div className="dietaryGroupContainer glutenfree">
                 <input
                   className="check"
                   type="checkbox"
                   name="dietary"
-                  id="plantBased"
+                  id="glutenfree"
                   onChange={handleOnChange}
-                  checked={profileData.dietary.includes("plantBased")}
-                  value="plantBased"
+                  checked={profileData.dietary.includes("glutenfree")}
+                  value="glutenfree"
                 />
-                <label htmlFor="plantBased">Plant-Based</label>
+                <label htmlFor="glutenfree">Gluten Free</label>
               </div>
             </div>
           </section>

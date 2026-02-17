@@ -4,55 +4,55 @@
     "name": "Oatmeal with Berries",
     "category": "breakfast",
     "description": "Warm oats cooked with water and topped with fresh berries.",
-    "tags": ["vegetarian", "gluten_free"],
+    "dietary": ["vegetarian", "gluten_free"],
     "sugarLevel": "low",
     "sodiumLevel": "low",
     "allergens": [],
-    "costLevel": "low"
+    "budget": "low"
   },
   {
     "id": 2,
     "name": "Boiled Eggs and Whole Wheat Toast",
     "category": "breakfast",
     "description": "Boiled eggs served with whole wheat toast.",
-    "tags": [],
+    "dietary": [],
     "sugarLevel": "low",
     "sodiumLevel": "medium",
     "allergens": ["gluten", "eggs"],
-    "costLevel": "low"
+    "budget": "low"
   },
   {
     "id": 3,
     "name": "Vegetable Omelette",
     "category": "breakfast",
     "description": "Egg omelette cooked with onions, peppers, and spinach.",
-    "tags": ["gluten_free"],
+    "dietary": ["gluten_free"],
     "sugarLevel": "low",
     "sodiumLevel": "medium",
     "allergens": ["eggs"],
-    "costLevel": "low"
+    "budget": "low"
   },
   {
     "id": 4,
     "name": "Greek Yogurt with Nuts",
     "category": "breakfast",
     "description": "Low-fat Greek yogurt topped with mixed nuts.",
-    "tags": ["vegetarian", "gluten_free"],
+    "dietary": ["vegetarian", "gluten_free"],
     "sugarLevel": "medium",
     "sodiumLevel": "low",
     "allergens": ["nuts", "dairy"],
-    "costLevel": "medium"
+    "budget": "medium"
   },
   {
     "id": 5,
     "name": "Fruit Salad",
     "category": "breakfast",
     "description": "Fresh seasonal fruits mixed and served chilled.",
-    "tags": ["vegetarian", "gluten_free"],
+    "dietary": ["vegetarian", "gluten_free"],
     "sugarLevel": "medium",
     "sodiumLevel": "low",
     "allergens": [],
-    "costLevel": "low"
+    "budget": "low"
   },
 
   {
@@ -60,55 +60,55 @@
     "name": "Grilled Chicken Salad",
     "category": "lunch",
     "description": "Grilled chicken breast served on mixed salad greens.",
-    "tags": ["gluten_free"],
+    "dietary": ["gluten_free"],
     "sugarLevel": "low",
     "sodiumLevel": "low",
     "allergens": [],
-    "costLevel": "medium"
+    "budget": "medium"
   },
   {
     "id": 7,
     "name": "Vegetable Stir Fry",
     "category": "lunch",
     "description": "Mixed vegetables lightly stir-fried with minimal oil.",
-    "tags": ["vegetarian", "gluten_free"],
+    "dietary": ["vegetarian", "gluten_free"],
     "sugarLevel": "low",
     "sodiumLevel": "medium",
     "allergens": [],
-    "costLevel": "low"
+    "budget": "low"
   },
   {
     "id": 8,
     "name": "Lentil Soup",
     "category": "lunch",
     "description": "Slow-cooked lentil soup with herbs and vegetables.",
-    "tags": ["vegetarian", "gluten_free"],
+    "dietary": ["vegetarian", "gluten_free"],
     "sugarLevel": "low",
     "sodiumLevel": "low",
     "allergens": [],
-    "costLevel": "low"
+    "budget": "low"
   },
   {
     "id": 9,
     "name": "Tuna Sandwich",
     "category": "lunch",
     "description": "Tuna mixed with light mayo served on bread.",
-    "tags": [],
+    "dietary": [],
     "sugarLevel": "low",
     "sodiumLevel": "high",
     "allergens": ["gluten", "fish"],
-    "costLevel": "low"
+    "budget": "low"
   },
   {
     "id": 10,
     "name": "Quinoa Salad",
     "category": "lunch",
     "description": "Quinoa mixed with vegetables and olive oil.",
-    "tags": ["vegetarian", "gluten_free"],
+    "dietary": ["vegetarian", "gluten_free"],
     "sugarLevel": "low",
     "sodiumLevel": "medium",
     "allergens": [],
-    "costLevel": "medium"
+    "budget": "medium"
   },
 
   {
@@ -116,55 +116,55 @@
     "name": "Grilled Salmon",
     "category": "dinner",
     "description": "Grilled salmon seasoned with herbs and lemon.",
-    "tags": ["gluten_free"],
+    "dietary": ["gluten_free"],
     "sugarLevel": "low",
     "sodiumLevel": "low",
     "allergens": ["fish"],
-    "costLevel": "high"
+    "budget": "high"
   },
   {
     "id": 12,
     "name": "Vegetable Curry",
     "category": "dinner",
     "description": "Mixed vegetables cooked in a mild curry sauce.",
-    "tags": ["vegetarian", "gluten_free"],
+    "dietary": ["vegetarian", "gluten_free"],
     "sugarLevel": "medium",
     "sodiumLevel": "high",
     "allergens": [],
-    "costLevel": "low"
+    "budget": "low"
   },
   {
     "id": 13,
     "name": "Roasted Chicken with Potatoes",
     "category": "dinner",
     "description": "Oven-roasted chicken served with potatoes.",
-    "tags": [],
+    "dietary": [],
     "sugarLevel": "low",
     "sodiumLevel": "medium",
     "allergens": [],
-    "costLevel": "medium"
+    "budget": "medium"
   },
   {
     "id": 14,
     "name": "Stuffed Bell Peppers",
     "category": "dinner",
     "description": "Bell peppers stuffed with rice and vegetables.",
-    "tags": ["vegetarian", "gluten_free"],
+    "dietary": ["vegetarian", "gluten_free"],
     "sugarLevel": "medium",
     "sodiumLevel": "low",
     "allergens": [],
-    "costLevel": "low"
+    "budget": "low"
   },
   {
     "id": 15,
     "name": "Vegetable Lasagna",
     "category": "dinner",
     "description": "Layers of pasta with vegetables and tomato sauce.",
-    "tags": ["vegetarian"],
+    "dietary": ["vegetarian"],
     "sugarLevel": "medium",
     "sodiumLevel": "high",
     "allergens": ["gluten", "dairy"],
-    "costLevel": "medium"
+    "budget": "medium"
   },
 
   {
@@ -172,54 +172,102 @@
     "name": "Grilled Tofu with Vegetables",
     "category": "dinner",
     "description": "Grilled tofu served with steamed vegetables.",
-    "tags": ["vegetarian", "gluten_free"],
+    "dietary": ["vegetarian", "gluten_free"],
     "sugarLevel": "low",
     "sodiumLevel": "medium",
     "allergens": ["soy"],
-    "costLevel": "low"
+    "budget": "low"
   },
   {
     "id": 17,
     "name": "Beef Stew",
     "category": "dinner",
     "description": "Slow-cooked beef with vegetables in gravy.",
-    "tags": [],
+    "dietary": [],
     "sugarLevel": "low",
     "sodiumLevel": "high",
     "allergens": [],
-    "costLevel": "medium"
+    "budget": "medium"
   },
   {
     "id": 18,
     "name": "Rice and Beans",
     "category": "dinner",
     "description": "Boiled rice served with seasoned beans.",
-    "tags": ["vegetarian", "gluten_free"],
+    "dietary": ["vegetarian", "gluten_free"],
     "sugarLevel": "medium",
     "sodiumLevel": "medium",
     "allergens": [],
-    "costLevel": "low"
+    "budget": "low"
   },
   {
     "id": 19,
     "name": "Baked Turkey with Greens",
     "category": "dinner",
     "description": "Baked turkey served with green vegetables.",
-    "tags": ["gluten_free"],
+    "dietary": ["gluten_free"],
     "sugarLevel": "low",
     "sodiumLevel": "low",
     "allergens": [],
-    "costLevel": "medium"
+    "budget": "flexible"
   },
   {
     "id": 20,
     "name": "Vegetable Soup",
     "category": "dinner",
     "description": "Light vegetable soup with carrots and celery.",
-    "tags": ["vegetarian", "gluten_free"],
+    "dietary": ["vegetarian", "gluten_free"],
     "sugarLevel": "low",
     "sodiumLevel": "low",
     "allergens": [],
-    "costLevel": "low"
+    "budget": "low"
   }
+
+  ,
+  {
+    "id": 21,
+    "name": "Pancakes with Maple Syrup",
+    "category": "breakfast",
+    "description": "Fluffy pancakes served with generous maple syrup topping.",
+    "dietary": ["vegetarian"],
+    "sugarLevel": "high",
+    "sodiumLevel": "low",
+    "allergens": ["gluten", "eggs"],
+    "budget": "medium"
+  },
+  {
+    "id": 22,
+    "name": "Fruit Yogurt Parfait",
+    "category": "breakfast",
+    "description": "Layered yogurt with sweetened granola and tropical fruits.",
+    "dietary": ["vegetarian"],
+    "sugarLevel": "high",
+    "sodiumLevel": "low",
+    "allergens": ["dairy"],
+    "budget": "low"
+  },
+  {
+    "id": 23,
+    "name": "Honey Glazed Chicken",
+    "category": "dinner",
+    "description": "Chicken thighs coated in sweet honey glaze with rice.",
+    "dietary": [],
+    "sugarLevel": "high",
+    "sodiumLevel": "medium",
+    "allergens": [],
+    "budget": "flexible"
+  },
+  {
+    "id": 24,
+    "name": "Chocolate Banana Smoothie",
+    "category": "breakfast",
+    "description": "Blended bananas with chocolate syrup and sweetened milk.",
+    "dietary": ["vegetarian"],
+    "sugarLevel": "high",
+    "sodiumLevel": "low",
+    "allergens": ["dairy"],
+    "budget": "low"
+  }
+
+
 ]
