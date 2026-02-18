@@ -3,12 +3,13 @@ import './App.css'
 import { ProfileContext } from './context/ProfileContext';
 import Home from './pages/Home';
 import MealPlan from './pages/MealPlan';
+import BrowseMeal from './pages/BrowseMeal';
 import Shopping from './pages/Shopping';
 import ProfileForm from './components/profile/ProfileForm';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/common/Navbar';
 import Profile from './pages/Profile';
-import nutriitonService from "./services/nutritionService";
+
 function App() {
   const defaultProfile = {
   ageGroup: "",
@@ -55,6 +56,7 @@ const hasProfile = profileData.ageGroup !== "";
       <Route path="/" element={<Home/>}/>
       <Route path="/home" element={<Home/>}/>
       <Route path="/mealPlan" element={<MealPlan/>}/>
+      <Route path="/browseMeals" element={<BrowseMeal/>}/>
       <Route path="/shopping" element={<Shopping/>}/>
       <Route path="/profile" element={<Profile/>}/>
    

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ProfileContext } from "../context/ProfileContext";
 import filterMeals, { mealCountByCategory } from "../services/nutritionService";
 import meals from "../data/meals.json";
@@ -12,7 +12,7 @@ export default function useNutrition() {
 
   //   console.log("from usenutrition", filteredMeals);
 
-  //   console.log("count", count);
+    console.log("count", count);
 
   return { filteredMeals, count };
 }
