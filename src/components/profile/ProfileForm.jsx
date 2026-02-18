@@ -30,7 +30,7 @@ function ProfileForm() {
 
   function handleOnSubmit(form) {
     form.preventDefault();
-    console.log(`Form: ${profileData}`);
+    console.log("Form: ",profileData);
     saveProfile();
   }
   return (
@@ -127,8 +127,8 @@ function ProfileForm() {
                   name="dietary"
                   id="glutenfree"
                   onChange={handleOnChange}
-                  checked={profileData.dietary.includes("glutenfree")}
-                  value="glutenfree"
+                  checked={profileData.dietary.includes("gluten_free")}
+                  value="gluten_free"
                 />
                 <label htmlFor="glutenfree">Gluten Free</label>
               </div>
