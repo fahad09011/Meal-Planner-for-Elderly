@@ -48,11 +48,11 @@
 }
 .daySelectSection ul{
     /* border: 3px solid slateblue; */
-    display: flex;
+    /* display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-     width: 100%; 
+     width: 100%;  */
      gap: var(--primary-gap);
 }
 

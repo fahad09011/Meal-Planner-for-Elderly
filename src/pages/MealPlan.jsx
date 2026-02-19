@@ -1,7 +1,6 @@
 // with list
 import React, { useState } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
-
 import useNutrition from "../hooks/useNutrition";
 import "../assets/styles/mealPlan.css";
 import "../assets/styles/button.css";
@@ -43,7 +42,9 @@ function MealPlan() {
 
           {/* day selectior section */}
           <section className="daySelectSection">
-            <ul className="dayListContainer">
+              <ul className="dayListContainer flex flex-col sm:flex-row justify-center items-center gap-4 w-full">
+
+            {/* <ul className="dayListContainer flex  flex-col sm:flex-row jus"> */}
               {days.map((day) => (
                 <li key={day} className="dayList">
                   <Button
