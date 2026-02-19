@@ -1,9 +1,35 @@
 // with list
-import React from "react";
+import React, { useState } from "react";
+import ProgressBar from "@ramonak/react-progress-bar";
+
 import useNutrition from "../hooks/useNutrition";
 import "../assets/styles/mealPlan.css";
+import "../assets/styles/button.css";
+import Button from "../components/common/Button";
+import { useEffect } from "react";
 function MealPlan() {
   const meals = useNutrition();
+  const [selectedDay, SetselectedDay] = useState("Monday");
+  const [completedDay, setcompletedDay] = useState(3);
+  const progress = Math.round((completedDay/7)*100)
+
+  function handleSelectedDayOnclick(day) {
+    SetselectedDay(day);
+  }
+  useEffect(() => {
+    console.log(selectedDay);
+  }, [selectedDay]);
+
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
   return (
     <>
       {/* main  wrapper*/}
@@ -12,55 +38,33 @@ function MealPlan() {
         <main className="mealPlanMainContainer">
           {/* title container */}
           <div className="mealPlanMainContainerTitle">
-            <h2>Generat Weekly Plan</h2>
+            <h2>Generate Weekly Plan</h2>
           </div>
 
           {/* day selectior section */}
           <section className="daySelectSection">
             <ul className="dayListContainer">
-              <li className="dayList">
-                  <a href="#" className="day">
-                    Monady
-                  </a>
-              </li>
-              <li className="dayList">
-                 
-                  <a href="#" className="day">
-                    Tuesday
-                  </a>
-              </li>
-              <li className="dayList">
-                 
-                  <a href="#" className="day">
-                    Wednesday
-                  </a>
-              </li>
-              <li className="dayList">
-                 
-                  <a href="#" className="day">
-                    Thursday
-                  </a>
-              </li>
-              <li className="dayList">
-                 
-                  <a href="#" className="day">
-                    Friday
-                  </a>
-              </li>
-              <li className="dayList">
-                 
-                  <a href="#" className="day">
-                    Saturday
-                  </a>
-              </li>
-              <li className="dayList">
-                 
-                  <a href="#" className="day">
-                    Sunday
-                  </a>
-              </li>
+              {days.map((day) => (
+                <li key={day} className="dayList">
+                  <Button
+                    type="button"
+                    className={selectedDay === day ? "button" : "inActive"}
+                    onClick={() => handleSelectedDayOnclick(day)}
+                  >
+                    {day}
+                  </Button>
+                </li>
+              ))}
             </ul>
           </section>
+
+          {/* progress bar section */}
+          <section className="progressBarSection">
+
+            
+            <ProgressBar bgColor="#678B7A" height="40px" completed={progress}  labelAlignment="center" customLabel={`${completedDay}/7 completed`} maxCompleted={100}/>
+
+</section>
         </main>
       </main>
     </>

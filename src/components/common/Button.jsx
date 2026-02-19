@@ -4,7 +4,7 @@ function Button({
     children,
     onClick,
     type,
-    className= "",
+    className,
     disabled = false,
 }) {
     const buttonBaseClass = "button";

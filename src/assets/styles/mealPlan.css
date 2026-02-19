@@ -23,18 +23,18 @@
 
 /* ================= main wrapper ================ */
 .mainWrapper{
-    border: 2px solid black;
+    /* border: 2px solid black; */
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 10px;
+    /* padding: 10px; */
 }
 
 /* =====================main container =====================*/
 .mealPlanMainContainer{
     
     padding: 10px;
-border: 2px solid tomato;
+/* border: 2px solid tomato; */
 }
 
 /*==================== main page title container ===============*/
@@ -43,33 +43,36 @@ border: 2px solid tomato;
 }
 
 /* ==================Day selection section ======================*/
+.daySelectSection{
+    /* border: 5px solid mediumspringgreen; */
+}
 .daySelectSection ul{
-    border: 3px solid slateblue;
+    /* border: 3px solid slateblue; */
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    
-    /* margin: auto 0; */
+     width: 100%; 
+     gap: var(--primary-gap);
 }
 
 
-.daySelectSection ul li, .day{
+.daySelectSection ul li{
     text-decoration: none;
     list-style: none;
+    /* margin: 0 auto; */
 }
 
-.daySelectContainer{
-    width: 100%;
-}
 
 .dayList{
-    border: 2px solid red;
-    background-color: yellow;
+    /* border: 2px solid red; */
 }
-.day{
-    display: block;
-    width: 150px;
-    padding: 10px;
-    background-color: aqua;
+
+
+
+/*============ progressbar section================= */
+.progressBarSection{
+    /* border: 2px solid red; */
+    width: 50%;
+    
 }

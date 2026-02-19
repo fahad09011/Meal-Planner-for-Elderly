@@ -8,6 +8,7 @@
     --primary-green:#455E4E;
     --secondary-green:#E3F2EC;
     --main-back-ground-color:#FAF7F7;
+    --secondary-button-back-ground:#ebe1e1;
     --text-main-color:#2E2333;
     --warning-color:#C7410C;
 
@@ -58,4 +59,15 @@
 
 .button:hover::before {
   opacity: 1;
+}
+
+.activeButton{
+  background: black;
+  /* color: red; */
+}
+.inActive{
+  font-weight: 500;
+  color: var(--text-main-color);
+  background: var(--secondary-button-back-ground);
+
 }
