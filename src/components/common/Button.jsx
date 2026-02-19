@@ -1,5 +1,5 @@
 import React from 'react'
-import "../../assets/styles/Button.css";
+import "../../assets/styles/button.css";
 function Button({
     children,
     onClick,
