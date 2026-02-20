@@ -71,3 +71,8 @@
   background: var(--secondary-button-back-ground);
 
 }
+
+/* meal comp button */
+.mealButton{
+  width: 100%;
+}

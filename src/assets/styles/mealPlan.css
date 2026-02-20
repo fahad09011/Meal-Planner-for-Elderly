@@ -23,7 +23,7 @@
 
 /* ================= main wrapper ================ */
 .mainWrapper{
-    /* border: 2px solid black; */
+    border: 2px solid black;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -39,20 +39,21 @@
 
 /*==================== main page title container ===============*/
 .mealPlanMainContainerTitle{
-    /* border: 1px solid fuchsia; */
+    border: 1px solid fuchsia;
+    padding-bottom: 10px;
 }
 
 /* ==================Day selection section ======================*/
 .daySelectSection{
-    /* border: 5px solid mediumspringgreen; */
+    border: 5px solid mediumspringgreen;
 }
 .daySelectSection ul{
-    /* border: 3px solid slateblue; */
-    /* display: flex;
+    border: 3px solid slateblue;
+    display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-     width: 100%;  */
+     width: 100%; 
      gap: var(--primary-gap);
 }
 
@@ -60,19 +61,40 @@
 .daySelectSection ul li{
     text-decoration: none;
     list-style: none;
-    /* margin: 0 auto; */
+    margin: 0 auto;
 }
 
 
 .dayList{
-    /* border: 2px solid red; */
+    border: 2px solid red;
 }
 
 
 
 /*============ progressbar section================= */
 .progressBarSection{
-    /* border: 2px solid red; */
+    padding: 10px 0 10px 0;
+    border: 2px solid red;
     width: 50%;
-    
+}
+
+/* day title section */
+.dayTitleSection{
+    padding: 10px 0 10px 0;
+    border: 2px solid lawngreen;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: var(--primary-gap);
+    width: 60%;
+    margin: 0 auto;
+
+}
+.dayTitle{
+    border: 2px solid red;
+    width: 38%;
+}
+.dayText{
+    border: 2px solid black;
 }
