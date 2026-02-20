@@ -4,9 +4,12 @@ export default {
   "./index.html",
   "./src/**/*.{js,ts,jsx,tsx}",
 ],
+  corePlugins: {
+    // Avoid collision with Bootstrap's `.collapse` class used by the mobile navbar.
+    collapse: false,
+  },
   theme: {
     extend: {},
   },
   plugins: [],
 }
-
