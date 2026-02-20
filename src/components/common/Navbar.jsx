@@ -7,7 +7,7 @@ import { NavLink, Link } from "react-router-dom";
 function Navbar() {
   return (
     <div>
-        <nav className="navbar navbar-expand-lg bg- pt-0 pb-0">
+        <nav className="navbar navbar-expand-lg navbar-light pt-0 pb-0">
   <div className="container-fluid">
     <NavLink className="navbar-brand" to="/home"><img src={logo} alt="lopgo" className="logo" /> MealCare</NavLink>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
