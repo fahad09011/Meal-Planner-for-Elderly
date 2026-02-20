@@ -33,14 +33,14 @@ function MealPlan() {
     console.log(filterMeals);
   }
   const weeklyPlan = {
-    Monday: {brealfast: null, lunch: null, dinner: null},
-    Tuesday: {brealfast: null, lunch: null, dinner: null},
-    Wednesday: {brealfast: null, lunch: null, dinner: null},
-    Thursday: {brealfast: null, lunch: null, dinner: null},
-    Friday: {brealfast: null, lunch: null, dinner: null},
-    Saturday: {brealfast: null, lunch: null, dinner: null},
-    Sunday: {brealfast: null, lunch: null, dinner: null},
-  }
+    Monday: { brealfast: null, lunch: null, dinner: null },
+    Tuesday: { brealfast: null, lunch: null, dinner: null },
+    Wednesday: { brealfast: null, lunch: null, dinner: null },
+    Thursday: { brealfast: null, lunch: null, dinner: null },
+    Friday: { brealfast: null, lunch: null, dinner: null },
+    Saturday: { brealfast: null, lunch: null, dinner: null },
+    Sunday: { brealfast: null, lunch: null, dinner: null },
+  };
   return (
     <>
       {/* main  wrapper*/}
@@ -55,7 +55,6 @@ function MealPlan() {
           {/* day selectior section */}
           <section className="daySelectSection">
             <ul className="dayListContainer">
-              {/* <ul className="dayListContainer flex  flex-col sm:flex-row jus"> */}
               {days.map((day) => (
                 <li key={day} className="dayList">
                   <Button
@@ -85,11 +84,13 @@ function MealPlan() {
           <section className="dayTitleSection">
             <h2 className="dayTitle">{`Day ${days.indexOf(selectedDay) + 1} ${selectedDay}`}</h2>
             <h2 className="dayText">- Choose your for the Day</h2>
-            <button type="button" onClick={handlefiltereredMealsOnClick}>From Meal Plan</button>
+            {/* <button type="button" onClick={handlefiltereredMealsOnClick}>
+              From Meal Plan
+            </button> */}
           </section>
         </main>
 
-        <MealList meals={filterMeals}/>
+        <MealList meals={filterMeals} />
       </main>
     </>
   );

@@ -19,7 +19,7 @@ function MealCard({ meals }) {
 
         <section className="mealDataSection">
             <div className="mealNameContainer">
-          <h2 className="mealName">{meals.name}</h2>
+          <p className="mealName">{meals.name}</p>
 
             </div>
             <div className="mealdescriptionContainer">

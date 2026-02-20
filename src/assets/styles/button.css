@@ -2,7 +2,7 @@
     --border-light:2px solid #a9a1a159;
     --border-radius: 13px 13px 13px 13px;
     --container-padding: 5px;
-    --primary-font-size: 1.25rem;
+    --primary-font-size: 1.125rem;
     --primary-gap: 10px;
     --seconary-gap: 5px;
     --primary-green:#455E4E;
@@ -15,7 +15,10 @@
 }
 
 .button {
-  min-width: 150px;
+  max-height: 52px;
+  min-width: 120px;
+    font-weight: 500;
+
   position: relative;
   cursor: pointer;
   padding: 12px 17px;
@@ -75,4 +78,7 @@
 /* meal comp button */
 .mealButton{
   width: 100%;
+  font-size: 1.2rem;
+  /* height: 52px; */
+  font-weight: 500;
 }

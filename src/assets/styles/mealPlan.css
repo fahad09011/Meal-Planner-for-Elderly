@@ -32,7 +32,7 @@
 
 /* =====================main container =====================*/
 .mealPlanMainContainer{
-    
+    width: 100%;
     padding: 10px;
 /* border: 2px solid tomato; */
 }
@@ -49,9 +49,10 @@
 }
 .daySelectSection ul{
     border: 3px solid slateblue;
-    display: flex;
+   display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
      width: 100%; 
      gap: var(--primary-gap);
@@ -61,12 +62,9 @@
 .daySelectSection ul li{
     text-decoration: none;
     list-style: none;
-    margin: 0 auto;
-}
-
-
-.dayList{
+    /* margin: 0 auto; */
     border: 2px solid red;
+    width: fit-content;
 }
 
 
