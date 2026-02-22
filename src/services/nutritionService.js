@@ -53,6 +53,8 @@ export function mealCountByCategory(filterMeal) {
   })
 }
 
+
+
 export default function filterMeals(meals, profile) {
    let filteredMeal = meals.filter((meal) => {
     return (
@@ -63,7 +65,7 @@ export default function filterMeals(meals, profile) {
         filterByBudget(meal, profile)
       );
     });
-  console.log("from services", filteredMeal);
-  console.log("Total filtered meals: ", filteredMeal.length);
+  // console.log("from services", filteredMeal);
+  // console.log("Total filtered meals: ", filteredMeal.length);
   return filteredMeal;
 }

@@ -8,17 +8,22 @@ import Button from "../components/common/Button";
 import { useEffect } from "react";
 import MealList from "../components/meals/MealList";
 function MealPlan() {
-  const meals = useNutrition();
+  const mealsCount = useNutrition().count;
+
+  {
+    /* // random tags are optional discuss with supervisor */
+  }
+  // const getRandonMealTag = useNutrition().getRandonMealTag;
   const [selectedDay, SetselectedDay] = useState("Monday");
-  const [completedDay, setcompletedDay] = useState(3);
+  const [completedDay, setcompletedDay] = useState(0);
   const progress = Math.round((completedDay / 7) * 100);
   const filterMeals = useNutrition().filteredMeals;
+
   function handleSelectedDayOnclick(day) {
     SetselectedDay(day);
+    // console.log("from meal plan filter meals",filterMeals)
   }
-  useEffect(() => {
-    console.log(selectedDay);
-  }, [selectedDay]);
+
 
   const days = [
     "Monday",
@@ -29,18 +34,65 @@ function MealPlan() {
     "Saturday",
     "Sunday",
   ];
-  function handlefiltereredMealsOnClick() {
-    console.log(filterMeals);
-  }
-  const weeklyPlan = {
-    Monday: { brealfast: null, lunch: null, dinner: null },
-    Tuesday: { brealfast: null, lunch: null, dinner: null },
-    Wednesday: { brealfast: null, lunch: null, dinner: null },
-    Thursday: { brealfast: null, lunch: null, dinner: null },
-    Friday: { brealfast: null, lunch: null, dinner: null },
-    Saturday: { brealfast: null, lunch: null, dinner: null },
-    Sunday: { brealfast: null, lunch: null, dinner: null },
-  };
+  const [weeklyPlan, setWeeklyPlan] = useState({
+    Monday: { breakfast: null, lunch: null, dinner: null },
+    Tuesday: { breakfast: null, lunch: null, dinner: null },
+    Wednesday: { breakfast: null, lunch: null, dinner: null },
+    Thursday: { breakfast: null, lunch: null, dinner: null },
+    Friday: { breakfast: null, lunch: null, dinner: null },
+    Saturday: { breakfast: null, lunch: null, dinner: null },
+    Sunday: { breakfast: null, lunch: null, dinner: null },
+  })
+ const [daySelection, setDaySelection] = useState({
+  breakfast: null,
+  lunch: null,
+  dinner: null
+});
+
+
+ function selectMeal(meal) {
+  setDaySelection(prev => ({
+    ...prev,
+    [meal.category]: {id: meal.id, name: meal.name}
+  }));
+}
+  
+
+   function handleSaveDayPlan() {
+     const isNoMealSelected = Object.values(daySelection).some(value => value === null);
+   if (isNoMealSelected) {
+    alert("please select meals");
+    return;
+   } 
+    setWeeklyPlan((prevState)=>{
+      return{
+        ...prevState,
+        [selectedDay]:  daySelection
+      }
+    })
+    setcompletedDay((prev)=>prev+1)
+   }
+
+
+  //  reset day meal selection for next day
+     useEffect(() => {
+      const savedMeals = weeklyPlan[selectedDay];
+      const isEmpty = Object.values(savedMeals).every(value => value === null);
+      if (isEmpty) {
+        setDaySelection({
+  breakfast: null,
+  lunch: null,
+  dinner: null
+});
+      } else {
+        setDaySelection(savedMeals);
+      }
+    console.log("user select meal for day: ",selectedDay," meal: ",weeklyPlan);
+  }, [selectedDay,weeklyPlan]);
+
+  //   useEffect(() => {
+  //   console.log(selectedDay);
+  // }, [selectedDay]);
   return (
     <>
       {/* main  wrapper*/}
@@ -84,13 +136,32 @@ function MealPlan() {
           <section className="dayTitleSection">
             <h2 className="dayTitle">{`Day ${days.indexOf(selectedDay) + 1} ${selectedDay}`}</h2>
             <h2 className="dayText">- Choose your for the Day</h2>
-            {/* <button type="button" onClick={handlefiltereredMealsOnClick}>
+            <button type="button" onClick={selectMeal}>
               From Meal Plan
-            </button> */}
+            </button>
           </section>
         </main>
 
-        <MealList meals={filterMeals} />
+        <MealList meals={filterMeals} mealsCount={mealsCount} selectMeal={selectMeal} weeklyPlan={weeklyPlan}   daySelection={daySelection}
+
+selectedDay={selectedDay}
+
+/>
+
+        {/* // random tags are optional discuss with supervisor */}
+        {/* <MealList meals={filterMeals} mealsCount={mealsCount} getRandonMealTag={getRandonMealTag}/> */}
+
+        {/* button section */}
+        <section className="action-buttons-section">
+          <div className="day-actions">
+            <Button className="save-day-btn" onClick={handleSaveDayPlan}>💾 Save for {selectedDay}</Button>
+
+            <Button className="generate-plan-btn">
+              ✅ Generate Weekly Plan
+            </Button>
+          </div>
+        </section>
+        
       </main>
     </>
   );

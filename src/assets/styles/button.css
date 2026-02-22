@@ -82,3 +82,6 @@
   /* height: 52px; */
   font-weight: 500;
 }
+.click{
+  background: var(--text-main-color);
+}

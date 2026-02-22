@@ -20,13 +20,15 @@
 }
 .mainMealCardContainer{
   width: 100%;
+  min-height: 200px;
     display: flex;
     flex-direction: row;
     border: 2px solid rgb(148 148 155 / 35%);
     border-radius: 20px 20px 20px 20px;
     box-shadow: 4px 3px 9px 2px #00000040;
     overflow: hidden;
-    min-height: 250px;
+    background-color: var(--main-back-ground-color);
+    
 }
 
 /* image and button section */
@@ -34,11 +36,14 @@
     /* border: 2px solid fuchsia; */
     /* width: 40%; */
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
 
 }
 .mealImage{
-width: 100%;
-height: auto;
+/* width: 100%; */
+height: 180px;
+object-fit: cover;
 }
 .mealButtoncontainer{
       overflow: hidden;
@@ -49,21 +54,39 @@ height: auto;
 
 /* meal data section */
 .mealDataSection{
-    padding:10px;
-    width: 100%;
+    /* width: 60%; */
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between; */
+    display: grid;
+  grid-template-rows: auto 1fr auto;  /* Header, content, tags */
+  /* height: 180px; */
+    padding:5px 10px;
+    /* line-height: 1; */
+    
+    /* width: 100%; */
     /* border: 2px solid rgb(128, 0, 21); */
 }
 .mealName{
-    font-size: clamp(20px, 4vw , 28px);
+    font-size: clamp(18px, 1vw , 24px);
     font-weight: 600;
+        /* border: 2px solid rgb(128, 0, 21); */
+
 }
 .mealDescription{
     display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+     /* max-height: 3.6em;  3 lines × 1.2 line-height */
+  line-height: 1.2em;
+    /* border: 2px solid rgb(128, 0, 21); */
 }
 .mealTagContainer{
     /* display: flex; */
+        /* border: 2px solid rgb(128, 0, 21); */
+
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
@@ -75,6 +98,8 @@ height: auto;
 
 }
 .mealTagContainer p{
+    font-size: 0.9rem;
+    font-weight: 400;
     /* border: 2px solid red; */
     padding: 5px 10px 5px 10px;
     background-color: var(--secondary-green);

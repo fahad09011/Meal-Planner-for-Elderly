@@ -8,27 +8,30 @@ import careButtonIcon from "../../src/assets/images/careButtonIcon.png";
 import profileButtonIcon from "../../src/assets/images/profileButtonIcon.png";
 import shoppingButtonIcon from "../../src/assets/images/shoppingButtonIcon.png";
 import ProfileForm from "../components/profile/ProfileForm";
-
+import { NavLink, Link } from "react-router-dom";
 
 function Home() {
   return (
     <>
-   
       <main className="homeMainContainer">
-        <section className="navbarSection">
-        </section>
         <section className="homeContentSection">
           <div className="homeImgContianer">
             <img src={homeImage} alt="" className="homeImage" />
           </div>
           <div className="homeButtonContainer">
             {/* <div className="parent"> */}
-            <a className="div1">
-    <HomeButton icon={mealButtonIcon} title={"Create Meal Plan"}/>
+            <NavLink to="/mealPlan" className="div1">
+              <HomeButton icon={mealButtonIcon} title={"Create Meal Plan"} />
+            </NavLink>
+            <a className="div2">
+              <HomeButton icon={profileButtonIcon} title={"My Profile"} />
             </a>
-            <a className="div2"><HomeButton icon={profileButtonIcon} title={"My Profile"}/></a>
-            <a className="div3"><HomeButton icon={shoppingButtonIcon} title={"Shopping List"}/></a>
-            <a className="div4"><HomeButton icon={careButtonIcon} title={"Care Giver"}/></a>
+            <a className="div3">
+              <HomeButton icon={shoppingButtonIcon} title={"Shopping List"} />
+            </a>
+            <a className="div4">
+              <HomeButton icon={careButtonIcon} title={"Care Giver"} />
+            </a>
             {/* </div> */}
           </div>
         </section>

@@ -10,9 +10,23 @@ export default function useNutrition() {
 
   const count = mealCountByCategory(filteredMeals);
 
-  //   console.log("from usenutrition", filteredMeals);
 
-    console.log("count", count);
+  // function getRandonMealTag(meal) {
+  //   if(!meal.dietary || meal.dietary.length === 0){
+  //     return ""
+  //   }
+  //   let randomIndex = Math.floor(Math.random() * meal.dietary.length);
+  //   return meal.dietary[randomIndex];
 
-  return { filteredMeals, count };
+  //  }
+
+    // console.log("from usenutrition", filteredMeals);
+
+    // console.log("count", count);
+   
+
+  return { filteredMeals, count};
+
+  {/* // random tags are optional discuss with supervisor */}
+  // return { filteredMeals, count,getRandonMealTag};
 }

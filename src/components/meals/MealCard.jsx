@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import cerealImage from "../../assets/images/cereal.jpg";
 import Button from "../common/Button";
 import "../../assets/styles/mealCard.css";
-function MealCard({ meals }) {
+function MealCard({ meals,selectedDay,weeklyPlan,selectMeal,daySelection,
+  /* // random tags are optional discuss with supervisor */
+  getRandonMealTag }) {
   let capitalizer = (string) => {
     return string ? string[0].toUpperCase() + string.slice(1) : "";
   };
+  // random tags are optional discuss with supervisor
+  // const tag = getRandonMealTag(meals);
+
+// const selectedCategory = selectedMeal[meals.category]
+const isSelect = daySelection[meals.category] && daySelection[meals.category].id === meals.id;
   return (
     <>
       <main className="mainMealCardContainer ">
@@ -13,7 +20,7 @@ function MealCard({ meals }) {
           <img src={cerealImage} alt="mealimage" className="mealImage card-img-top" />
           <div className="mealButtoncontainer">
 
-          <Button className={"mealButton"}>Select Meal</Button>
+          <Button className={` mealButton ${isSelect ? "click" : ""}`} onClick={()=>(selectMeal(meals))}>{isSelect ? "Selected" : "Select"}</Button>
           </div>
         </section>
 
@@ -35,7 +42,7 @@ function MealCard({ meals }) {
         </p>
         
 
-         <p> {`${capitalizer(meals.budget)} Budget`}</p>
+         {/* <p> {`${capitalizer(meals.budget)} Budget`}</p> */}
     </div>
          
         </section>

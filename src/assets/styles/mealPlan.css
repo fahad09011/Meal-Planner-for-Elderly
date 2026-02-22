@@ -28,6 +28,11 @@
     flex-direction: column;
     width: 100%;
     /* padding: 10px; */
+      background-image: url(../images/gradientbackground2.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-blend-mode: color-burn; */
 }
 
 /* =====================main container =====================*/
@@ -39,16 +44,16 @@
 
 /*==================== main page title container ===============*/
 .mealPlanMainContainerTitle{
-    border: 1px solid fuchsia;
+    /* border: 1px solid fuchsia; */
     padding-bottom: 10px;
 }
 
 /* ==================Day selection section ======================*/
 .daySelectSection{
-    border: 5px solid mediumspringgreen;
+    /* border: 5px solid mediumspringgreen; */
 }
 .daySelectSection ul{
-    border: 3px solid slateblue;
+    /* border: 3px solid slateblue; */
    display: flex;
     flex-wrap: wrap;
     justify-content: left;
@@ -63,7 +68,7 @@
     text-decoration: none;
     list-style: none;
     /* margin: 0 auto; */
-    border: 2px solid red;
+    /* border: 2px solid red; */
     width: fit-content;
 }
 
@@ -72,14 +77,14 @@
 /*============ progressbar section================= */
 .progressBarSection{
     padding: 10px 0 10px 0;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     width: 50%;
 }
 
 /* day title section */
 .dayTitleSection{
     padding: 10px 0 10px 0;
-    border: 2px solid lawngreen;
+    /* border: 2px solid lawngreen; */
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -90,9 +95,72 @@
 
 }
 .dayTitle{
-    border: 2px solid red;
+    /* border: 2px solid red; */
     width: 38%;
 }
 .dayText{
-    border: 2px solid black;
+    /* border: 2px solid black; */
+}
+
+
+/* button section ================================ */
+.action-buttons-section {
+  padding: 32px 24px;
+  /* background: linear-gradient(135deg, #f8f9fa 0%, white 100%); */
+  /* border-top: 2px solid rgb(148 148 155 / 20%); */
+  margin-top: 24px;
+}
+
+.day-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.save-day-btn, .generate-plan-btn {
+  flex: 1;
+  min-width: 180px;
+  height: 56px;      /* Large touch target */
+  font-size: 18px;   /* Large text */
+  font-weight: 600;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: inset 0px 1px 3px 3px #5e5e5e
+}
+
+.save-day-btn {
+  background: var(--primary-green);
+  color: white;
+}
+
+.save-day-btn:hover:not(:disabled) {
+  background: #5a7d68;
+  transform: translateY(-1px);
+}
+
+.generate-plan-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.generate-plan-btn:not(:disabled) {
+  background: var(--primary-green);
+}
+
+.generate-plan-btn:disabled {
+  background: #dee2e6;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .day-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
 }
