@@ -5,7 +5,7 @@ function Button({
     onClick,
     type,
     className,
-    disabled = false,
+    disabled ,
 }) {
     const buttonBaseClass = "button";
   return (
@@ -16,7 +16,7 @@ function Button({
         onClick={onClick}
         className={` ${buttonBaseClass} ${className}`}
         
-        
+        disabled={disabled}
         >{children}</button>
 
     </div>

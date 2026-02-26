@@ -157,7 +157,12 @@
   color: #6c757d;
   cursor: not-allowed;
 }
-
+.mealCompleteBadge{
+  font-size: var(--primary-font-size);
+  /* word-spacing:; */
+  padding-left: 10px;
+  /* font-weight: bolder; */
+}
 @media (max-width: 768px) {
   .day-actions {
     flex-direction: column;
