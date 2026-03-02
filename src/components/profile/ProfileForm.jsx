@@ -1,12 +1,16 @@
 import React, { useContext } from "react";
 import "../../assets/styles/profile.css";
 import Button from "../common/Button";
-import { ProfileContext } from "../../context/ProfileContext";
+// import { ProfileContext } from "../../context/ProfileContext";
+// import { ProfileContext } from "../../context/ProfileContext";
+import { AppContext } from "../../context/AppContext";
 
 function ProfileForm() {
  
+  // const { profileData, setProfileData, saveProfile, clearProfile, hasProfile } =
+  //   useContext(ProfileContext);
   const { profileData, setProfileData, saveProfile, clearProfile, hasProfile } =
-    useContext(ProfileContext);
+    useContext(AppContext);
 
   function handleOnChange(event) {
     const { name, value, type, checked } = event.target;
