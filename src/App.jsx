@@ -9,6 +9,8 @@ import ProfileForm from './components/profile/ProfileForm';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/common/Navbar';
 import Profile from './pages/Profile';
+import ViewPlan from './components/meals/ViewPlan';
+import { AppProvider } from './context/AppContext';
 
 function App() {
   const defaultProfile = {
@@ -19,35 +21,36 @@ function App() {
   budget: ""
 };
 
-const [profileData, setProfileData] = useState(()=>{
-  const savedProfile = localStorage.getItem("profile");
-  if (savedProfile) {
-    return JSON.parse(savedProfile)
-  } else {
-    return defaultProfile
-  } 
-});
+// const [profileData, setProfileData] = useState(()=>{
+//   const savedProfile = localStorage.getItem("profile");
+//   if (savedProfile) {
+//     return JSON.parse(savedProfile)
+//   } else {
+//     return defaultProfile
+//   } 
+// });
 
-function saveProfile() {
-  localStorage.setItem("profile", JSON.stringify(profileData));
-  console.log(`local storage: ${localStorage.getItem("profile")}`);
-}
+// function saveProfile() {
+//   localStorage.setItem("profile", JSON.stringify(profileData));
+//   console.log(`local storage: ${localStorage.getItem("profile")}`);
+// }
 
-function clearProfile() {
-  if (localStorage.getItem("profile")) {
-      localStorage.removeItem("profile");
-      setProfileData(defaultProfile);
+// function clearProfile() {
+//   if (localStorage.getItem("profile")) {
+//       localStorage.removeItem("profile");
+//       setProfileData(defaultProfile);
 
-  } 
-}
+//   } 
+// }
 
-const hasProfile = profileData.ageGroup !== "";
+// const hasProfile = profileData.ageGroup !== "";
 
 
   return (
     <>
-    <ProfileContext.Provider value={{profileData, setProfileData, saveProfile, clearProfile, hasProfile
-    }}>
+    <AppProvider>
+    {/* <ProfileContext.Provider value={{profileData, setProfileData, saveProfile, clearProfile, hasProfile
+    }}> */}
       <Router>
 
     <div className="mainAppContainer">
@@ -57,13 +60,15 @@ const hasProfile = profileData.ageGroup !== "";
       <Route path="/home" element={<Home/>}/>
       <Route path="/mealPlan" element={<MealPlan/>}/>
       <Route path="/browseMeals" element={<BrowseMeal/>}/>
+      <Route path="/viewPlan" element={<ViewPlan/>}/>
       <Route path="/shopping" element={<Shopping/>}/>
       <Route path="/profile" element={<Profile/>}/>
    
   </Routes>
     </div>
     </Router>
-        </ProfileContext.Provider>
+        </AppProvider>
+        {/* </ProfileContext.Provider> */}
     </>
   )
 }

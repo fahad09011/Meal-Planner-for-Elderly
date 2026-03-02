@@ -1,5 +1,5 @@
 // with list
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import useNutrition from "../hooks/useNutrition";
 import "../assets/styles/mealPlan.css";
@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import MealList from "../components/meals/MealList";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import Popup from "../components/common/PopUp";
+import { AppContext } from "../context/AppContext";
 
 function MealPlan() {
   const mealsCount = useNutrition().count;
@@ -21,7 +22,7 @@ function MealPlan() {
   const [completedDay, setcompletedDay] = useState(0);
   const progress = Math.round((completedDay / 7) * 100);
   const filterMeals = useNutrition().filteredMeals;
-  
+
   const days = [
     "Monday",
     "Tuesday",
@@ -31,15 +32,16 @@ function MealPlan() {
     "Saturday",
     "Sunday",
   ];
-  const [weeklyPlan, setWeeklyPlan] = useState({
-    Monday: { breakfast: null, lunch: null, dinner: null },
-    Tuesday: { breakfast: null, lunch: null, dinner: null },
-    Wednesday: { breakfast: null, lunch: null, dinner: null },
-    Thursday: { breakfast: null, lunch: null, dinner: null },
-    Friday: { breakfast: null, lunch: null, dinner: null },
-    Saturday: { breakfast: null, lunch: null, dinner: null },
-    Sunday: { breakfast: null, lunch: null, dinner: null },
-  });
+  const {weeklyPlan, setWeeklyPlan,saveWeeklyPlan} = useContext(AppContext);
+  // const [weeklyPlan, setWeeklyPlan] = useState({
+  //   Monday: { breakfast: null, lunch: null, dinner: null },
+  //   Tuesday: { breakfast: null, lunch: null, dinner: null },
+  //   Wednesday: { breakfast: null, lunch: null, dinner: null },
+  //   Thursday: { breakfast: null, lunch: null, dinner: null },
+  //   Friday: { breakfast: null, lunch: null, dinner: null },
+  //   Saturday: { breakfast: null, lunch: null, dinner: null },
+  //   Sunday: { breakfast: null, lunch: null, dinner: null },
+  // });
   const [daySelection, setDaySelection] = useState({
     breakfast: null,
     lunch: null,
@@ -67,15 +69,6 @@ function MealPlan() {
     }));
   }
 
-
-
-
-
-
-
-
-
-
   function handleSaveDayPlan() {
     const isNoMealSelected = Object.values(daySelection).some(
       (value) => value === null,
@@ -93,6 +86,19 @@ function MealPlan() {
     // setcompletedDay((prev) => prev + 1);
   }
 
+
+// save plan method
+  // function saveWeeklyPlan() {
+  //   localStorage.setItem("Plan", JSON.stringify(weeklyPlan))
+  //   const savedPlanString = localStorage.getItem("Plan");
+  //   const savedPlan = JSON.parse(savedPlanString)
+  //   console.log("Saved weekly Plan:" ,savedPlan);
+  // }
+
+
+
+
+
   function generateWeeklyPlan() {
     // console.log("test generate weekly plan button")
     // console.log("test generate weekly plan button")
@@ -100,8 +106,9 @@ function MealPlan() {
     // console.log(
     //  "popup: ",isPopUpOpen
     // );
-    alert("Weekly Plan is generated Successfuly")
-    console.log("Weekly Plan is generated Successfuly",weeklyPlan)
+    saveWeeklyPlan(weeklyPlan);
+    alert("Weekly Plan is generated Successfuly");
+    console.log("Weekly Plan is generated Successfuly", weeklyPlan);
   }
   //  reset day meal selection for next day
   useEffect(() => {
@@ -122,22 +129,18 @@ function MealPlan() {
       " meal: ",
       weeklyPlan,
     );
-    let count = days.filter((day)=>isDayCompleted(weeklyPlan[day])
-    ).length
-    setcompletedDay(count)
-    console.log(
-     "day comletes: ",completedDay
-    );
-    console.log(
-     "day count as complete: ",count,"popup: ",isPopUpOpen
-    );
+    let count = days.filter((day) => isDayCompleted(weeklyPlan[day])).length;
+    setcompletedDay(count);
+    console.log("day comletes: ", completedDay);
+    console.log("day count as complete: ", count, "popup: ", isPopUpOpen);
   }, [selectedDay, weeklyPlan]);
 
 
-  
-  //   useEffect(() => {
-  //   console.log(selectedDay);
-  // }, [selectedDay]);
+
+
+
+
+
   return (
     <>
       {/* main  wrapper*/}
@@ -160,9 +163,11 @@ function MealPlan() {
                     onClick={() => handleSelectedDayOnclick(day)}
                   >
                     {day}
-                      {isDayCompleted(weeklyPlan[day]) && (<span className="mealCompleteBadge"><IoMdCheckmarkCircleOutline />
-</span>)}
-
+                    {isDayCompleted(weeklyPlan[day]) && (
+                      <span className="mealCompleteBadge">
+                        <IoMdCheckmarkCircleOutline />
+                      </span>
+                    )}
                   </Button>
                 </li>
               ))}
@@ -209,11 +214,15 @@ function MealPlan() {
               💾 Save for {selectedDay}
             </Button>
 
-            <Button className="generate-plan-btn"  disabled={completedDay ===7 ? false : true} onClick={generateWeeklyPlan}>
+            <Button
+              className="generate-plan-btn"
+              disabled={completedDay === 7 ? false : true}
+              onClick={generateWeeklyPlan}
+            >
               ✅ Generate Weekly Plan
             </Button>
           </div>
-          <div className="popUp">{isPopUpOpen ? <Popup/> : ""}</div>
+          <div className="popUp">{isPopUpOpen ? <Popup /> : ""}</div>
         </section>
       </main>
     </>

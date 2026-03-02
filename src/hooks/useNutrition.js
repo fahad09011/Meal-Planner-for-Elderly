@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
-import { ProfileContext } from "../context/ProfileContext";
+// import { ProfileContext } from "../context/ProfileContext";
 import filterMeals, { mealCountByCategory } from "../services/nutritionService";
 import meals from "../data/meals.json";
+import { AppContext } from "../context/AppContext";
 
 export default function useNutrition() {
-  const { profileData } = useContext(ProfileContext);
+  // const { profileData } = useContext(ProfileContext);
+  const { profileData, setProfileData } = useContext(AppContext);
 
   const filteredMeals = filterMeals(meals, profileData);
 

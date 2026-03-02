@@ -96,9 +96,9 @@ selectedDay={selectedDay}
         <p>no dinner were found</p>
       )}
       <hr />
-      <button type="button" onClick={() => handlefiltereredMealsOnClick(meals)}>
+      {/* <button type="button" onClick={() => handlefiltereredMealsOnClick(meals)}>
         From Meal List
-      </button>
+      </button> */}
     </div>
   );
 }
