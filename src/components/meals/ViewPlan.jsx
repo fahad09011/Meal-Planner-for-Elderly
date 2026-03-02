@@ -14,8 +14,8 @@ function ViewPlan() {
        <div  key={day}> 
           <h2>{day}</h2>
           <p>BreakFast: {value.breakfast?.name}</p>
-          <p>Lunch: {value.breakfast?.name}</p>
-          <p>Dinner: {value.breakfast?.name}</p>
+          <p>Lunch: {value.lunch?.name}</p>
+          <p>Dinner: {value.dinner?.name}</p>
           </div>
       )
     )}</h2>
