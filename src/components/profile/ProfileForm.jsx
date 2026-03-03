@@ -58,10 +58,10 @@ function ProfileForm() {
                   name="ageGroup"
                   id="one"
                   onChange={handleOnChange}
-                  checked={profileData.ageGroup === "40-50"}
-                  value="40-50"
+                  checked={profileData.ageGroup === "50-55"}
+                  value="50-55"
                 />
-                <label htmlFor="one">40-50</label>
+                <label htmlFor="one">50-55</label>
               </div>
 
               <div className="ageGroupContainer two">
@@ -71,10 +71,10 @@ function ProfileForm() {
                   name="ageGroup"
                   id="two"
                   onChange={handleOnChange}
-                  checked={profileData.ageGroup === "51-60"}
-                  value="51-60"
+                  checked={profileData.ageGroup === "56-60"}
+                  value="56-60"
                 />
-                <label htmlFor="two">51-60</label>
+                <label htmlFor="two">56-60</label>
               </div>
 
               <div className="ageGroupContainer three">
@@ -84,10 +84,10 @@ function ProfileForm() {
                   name="ageGroup"
                   id="three"
                   onChange={handleOnChange}
-                  checked={profileData.ageGroup === "61-70"}
-                  value="61-70"
+                  checked={profileData.ageGroup === "61-65"}
+                  value="61-65"
                 />
-                <label htmlFor="three">61-70</label>
+                <label htmlFor="three">61-65</label>
               </div>
 
               <div className="ageGroupContainer four">
@@ -97,10 +97,36 @@ function ProfileForm() {
                   name="ageGroup"
                   id="four"
                   onChange={handleOnChange}
-                  checked={profileData.ageGroup === "70+"}
-                  value="70+"
+                  checked={profileData.ageGroup === "66-70"}
+                  value="66-70"
                 />
-                <label htmlFor="four">70+</label>
+                <label htmlFor="four">66-70</label>
+              </div>
+
+              <div className="ageGroupContainer five">
+                <input
+                  className="check"
+                  type="radio"
+                  name="ageGroup"
+                  id="five"
+                  onChange={handleOnChange}
+                  checked={profileData.ageGroup === "71-75"}
+                  value="71-75"
+                />
+                <label htmlFor="four">71-75</label>
+              </div>
+
+              <div className="ageGroupContainer six">
+                <input
+                  className="check"
+                  type="radio"
+                  name="ageGroup"
+                  id="six"
+                  onChange={handleOnChange}
+                  checked={profileData.ageGroup === "80+"}
+                  value="80+"
+                />
+                <label htmlFor="four">80+</label>
               </div>
             </div>
           </section>
