@@ -83,6 +83,8 @@ const [weeklyPlan, setWeeklyPlan] = useState(()=>{
 });
 
   function saveProfile() {
+     localStorage.setItem("profile", JSON.stringify(profileData));
+
   console.log(`local storage: ${localStorage.getItem("profile")}`);
 }
 
