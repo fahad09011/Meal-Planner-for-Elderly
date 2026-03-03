@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { AppContext } from "../context/AppContext";
-import "../assets/styles/viewPlan.css";
-// import "../../assets/styles/viewPlan.css";
+import "../assets/styles/viewplan.css";
+
 import calender from "../assets/icons/calender.png";
 import Button from "../components/common/Button";
 import DayPlanCard from "../components/meals/DayPlanCard";
