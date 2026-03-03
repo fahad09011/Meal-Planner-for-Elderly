@@ -9,7 +9,7 @@ import ProfileForm from './components/profile/ProfileForm';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/common/Navbar';
 import Profile from './pages/Profile';
-import ViewPlan from './components/meals/ViewPlan';
+import ViewPlan from './pages/ViewPlan';
 import { AppProvider } from './context/AppContext';
 
 function App() {
