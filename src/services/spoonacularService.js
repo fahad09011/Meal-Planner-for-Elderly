@@ -1,4 +1,4 @@
-const API_KEY = import.meta.env.VITE_SPOONACULAR_KEY.trim();
+const API_KEY = import.meta.env.VITE_SPOONACULAR_KEY;
 import { transFormMeal } from "../utils/transformMeal";
 export default async function fetchMeals() {
 
