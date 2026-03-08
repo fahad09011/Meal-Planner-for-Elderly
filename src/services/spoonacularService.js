@@ -6,7 +6,7 @@ export default async function fetchMeals() {
     if (!API_KEY) {
         throw new Error("Check API key or add in .env / .env.local");
     }
-
+// jhfj
     // const params= new URLPattern({
     //     apiKey:API_KEY,
     //     addRecipeNutrition: "true",
