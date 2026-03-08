@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-    const rawApiKey = process.env.SPOONACULAR_KEY.trim();
+    const rawApiKey = process.env.SPOONACULAR_API_KEY.trim();
 const API_KEY= typeof rawApiKey === "string" ? rawApiKey.trim() : "";
   if (!API_KEY) {
     return res
