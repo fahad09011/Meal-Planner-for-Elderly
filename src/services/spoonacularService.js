@@ -6,8 +6,6 @@ export default async function fetchMeals() {
     if (!API_KEY) {
         throw new Error("Check API key or add in .env / .env.local");
     }
-// jhfj
-// dhghgh
     // const params= new URLPattern({
     //     apiKey:API_KEY,
     //     addRecipeNutrition: "true",
@@ -19,7 +17,7 @@ export default async function fetchMeals() {
     // })
     // const url =`https://api.spoonacular.com/recipes/complexSearch?${params.toString()}`;
 
-    const response = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeNutrition=true&addRecipeInformation=true&addRecipeInstructions=true&type= breakfast,main course,side dish&fillIngredients=true`);
+    const response = await fetch("api/meals");
     let data = null;
     try {
     data = await response.json();    
