@@ -10,7 +10,7 @@ import MealList from "../components/meals/MealList";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import Popup from "../components/common/PopUp";
 import { AppContext } from "../context/AppContext";
-
+import fetchMeals  from "../services/spoonacularService";
 function MealPlan() {
   const mealsCount = useNutrition().count;
 
@@ -32,7 +32,7 @@ function MealPlan() {
     "Saturday",
     "Sunday",
   ];
-  const {weeklyPlan, setWeeklyPlan,saveWeeklyPlan} = useContext(AppContext);
+  const { weeklyPlan, setWeeklyPlan, saveWeeklyPlan } = useContext(AppContext);
   // const [weeklyPlan, setWeeklyPlan] = useState({
   //   Monday: { breakfast: null, lunch: null, dinner: null },
   //   Tuesday: { breakfast: null, lunch: null, dinner: null },
@@ -68,6 +68,11 @@ function MealPlan() {
       [meal.category]: { id: meal.id, name: meal.name },
     }));
   }
+  function testFetch() {
+    fetchMeals()
+    .then((data) => console.log(data))
+    .catch((err) => console.error("Spoonacular API:", err.message));
+  }
 
   function handleSaveDayPlan() {
     const isNoMealSelected = Object.values(daySelection).some(
@@ -86,18 +91,13 @@ function MealPlan() {
     // setcompletedDay((prev) => prev + 1);
   }
 
-
-// save plan method
+  // save plan method
   // function saveWeeklyPlan() {
   //   localStorage.setItem("Plan", JSON.stringify(weeklyPlan))
   //   const savedPlanString = localStorage.getItem("Plan");
   //   const savedPlan = JSON.parse(savedPlanString)
   //   console.log("Saved weekly Plan:" ,savedPlan);
   // }
-
-
-
-
 
   function generateWeeklyPlan() {
     // console.log("test generate weekly plan button")
@@ -134,12 +134,6 @@ function MealPlan() {
     console.log("day comletes: ", completedDay);
     console.log("day count as complete: ", count, "popup: ", isPopUpOpen);
   }, [selectedDay, weeklyPlan]);
-
-
-
-
-
-
 
   return (
     <>
@@ -189,9 +183,9 @@ function MealPlan() {
           <section className="dayTitleSection">
             <h2 className="dayTitle">{`Day ${days.indexOf(selectedDay) + 1} ${selectedDay}`}</h2>
             <h2 className="dayText">- Choose your for the Day</h2>
-            {/* <button type="button" onClick={selectMeal}>
+            <button type="button" onClick={testFetch}>
               From Meal Plan
-            </button> */}
+            </button>
           </section>
         </main>
 

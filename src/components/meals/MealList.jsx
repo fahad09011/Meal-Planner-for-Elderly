@@ -13,6 +13,7 @@ daySelection,
 }) {
   function handlefiltereredMealsOnClick(meals) {
     console.log("meal list: ", meals);
+
   }
   const breakfast = meals.filter((meal) => {
     return meal.category === "breakfast";
