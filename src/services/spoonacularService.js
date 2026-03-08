@@ -2,7 +2,7 @@ const rawApiKey = import.meta.env.VITE_SPOONACULAR_API_KEY;
 const API_KEY= typeof rawApiKey === "string" ? rawApiKey.trim() : "";
 import { transFormMeal } from "../utils/transformMeal";
 export default async function fetchMeals() {
-
+// ll
     if (!API_KEY) {
         throw new Error("Check API key or add in .env / .env.local");
     }
