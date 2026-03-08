@@ -1,4 +1,5 @@
-
+const rawApiKey = import.meta.env.VITE_SPOONACULAR_KEY.trim();
+const API_KEY= typeof rawApiKey === "string" ? rawApiKey.trim() : "";
 import { transFormMeal } from "../utils/transformMeal";
 export default async function fetchMeals() {
 
@@ -17,7 +18,7 @@ export default async function fetchMeals() {
     // })
     // const url =`https://api.spoonacular.com/recipes/complexSearch?${params.toString()}`;
 
-    const response = await fetch("/api/meals");
+    const response = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeNutrition=true&addRecipeInformation=true&addRecipeInstructions=true&type= breakfast,main course,side dish&fillIngredients=true`);
     let data = null;
     try {
     data = await response.json();    
