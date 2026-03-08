@@ -3,6 +3,7 @@ const API_KEY= typeof rawApiKey === "string" ? rawApiKey.trim() : "";
 import { transFormMeal } from "../utils/transformMeal";
 export default async function fetchMeals() {
 // ll
+// ll
     if (!API_KEY) {
         throw new Error("Check API key or add in .env / .env.local");
     }
