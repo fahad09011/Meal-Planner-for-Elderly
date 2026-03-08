@@ -69,10 +69,9 @@ function MealPlan() {
     }));
   }
   function testFetch() {
-     fetchMeals()
-
-    // .then((data) => console.log(data))
-    // .catch((err) => console.error("Spoonacular API:", err.message));
+    fetchMeals()
+    .then((data) => console.log(data))
+    .catch((err) => console.error("Spoonacular API:", err.message));
   }
 
   function handleSaveDayPlan() {
