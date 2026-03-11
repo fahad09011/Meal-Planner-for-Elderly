@@ -11,6 +11,7 @@ import Navbar from './components/common/Navbar';
 import Profile from './pages/Profile';
 import ViewPlan from './pages/ViewPlan';
 import { AppProvider } from './context/AppContext';
+import TestSupabase from './components/TestSupabase';
 
 function App() {
   const defaultProfile = {
@@ -69,7 +70,7 @@ function App() {
     </Router>
         </AppProvider>
         {/* </ProfileContext.Provider> */}
-        
+        <TestSupabase/>
     </>
   )
 }
