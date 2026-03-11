@@ -69,6 +69,7 @@ function App() {
     </Router>
         </AppProvider>
         {/* </ProfileContext.Provider> */}
+        
     </>
   )
 }
