@@ -5,24 +5,21 @@ function MealList({
   meals,
   mealsCount,
   selectMeal,
-weeklyPlan,
-selectedDay,
-daySelection,
-  /* // random tags are optional discuss with supervisor */
-  getRandonMealTag,
+  weeklyPlan,
+  selectedDay,
+  daySelection,
 }) {
   function handlefiltereredMealsOnClick(meals) {
     console.log("meal list: ", meals);
-
   }
   const breakfast = meals.filter((meal) => {
-    return meal.category === "breakfast";
+    return meal.mealType === "breakfast";
   });
   const lunch = meals.filter((meal) => {
-    return meal.category === "lunch";
+    return meal.mealType === "lunch";
   });
   const dinner = meals.filter((meal) => {
-    return meal.category === "dinner";
+    return meal.mealType === "dinner";
   });
 
   const categories = ["breakfast", "lunch", "dinner"];
@@ -36,14 +33,13 @@ daySelection,
         breakfast.map((meal, index) => {
           return (
             <div className=" col-12 col-sm-6 col-xl-4 col-xxl-3" key={index}>
-              <MealCard meals={meal} selectMeal={selectMeal} weeklyPlan={weeklyPlan}   daySelection={daySelection}
-
-selectedDay={selectedDay}
-
-/>
-
-              {/* // random tags are optional discuss with supervisor */}
-              {/* <MealCard meals={meal} getRandonMealTag={getRandonMealTag}/> */}
+              <MealCard
+                meals={meal}
+                selectMeal={selectMeal}
+                weeklyPlan={weeklyPlan}
+                daySelection={daySelection}
+                selectedDay={selectedDay}
+              />
             </div>
           );
         })
@@ -51,22 +47,20 @@ selectedDay={selectedDay}
         <p>no breakfast were found</p>
       )}
       <hr />
-     <h2>
-        Lunch{" "}
-        <span className="badge bg-secondary">{mealsCount.lunch}</span>
+      <h2>
+        Lunch <span className="badge bg-secondary">{mealsCount.lunch}</span>
       </h2>
       {lunch.length > 0 ? (
         lunch.map((meal, index) => {
           return (
             <div className="col-12 col-sm-6 col-xl-4 col-xxl-3" key={index}>
-              <MealCard meals={meal} selectMeal={selectMeal} weeklyPlan={weeklyPlan}   daySelection={daySelection}
-
-selectedDay={selectedDay}
-
-/>
-
-              {/* // random tags are optional discuss with supervisor */}
-              {/* <MealCard meals={meal} getRandonMealTag={getRandonMealTag}/> */}
+              <MealCard
+                meals={meal}
+                selectMeal={selectMeal}
+                weeklyPlan={weeklyPlan}
+                daySelection={daySelection}
+                selectedDay={selectedDay}
+              />
             </div>
           );
         })
@@ -75,21 +69,19 @@ selectedDay={selectedDay}
       )}
       <hr />
       <h2>
-        Dinner{" "}
-        <span className="badge bg-secondary">{mealsCount.dinner}</span>
+        Dinner <span className="badge bg-secondary">{mealsCount.dinner}</span>
       </h2>
       {dinner.length > 0 ? (
         dinner.map((meal, index) => {
           return (
             <div className="col-12 col-sm-6 col-xl-4 col-xxl-3" key={index}>
-              <MealCard meals={meal} selectMeal={selectMeal} weeklyPlan={weeklyPlan}  daySelection={daySelection}
- 
-selectedDay={selectedDay}
-
-/>
-
-              {/* // random tags are optional discuss with supervisor */}
-              {/* <MealCard meals={meal} getRandonMealTag={getRandonMealTag}/> */}
+              <MealCard
+                meals={meal}
+                selectMeal={selectMeal}
+                weeklyPlan={weeklyPlan}
+                daySelection={daySelection}
+                selectedDay={selectedDay}
+              />
             </div>
           );
         })
@@ -97,9 +89,9 @@ selectedDay={selectedDay}
         <p>no dinner were found</p>
       )}
       <hr />
-      {/* <button type="button" onClick={() => handlefiltereredMealsOnClick(meals)}>
+      <button type="button" onClick={() => handlefiltereredMealsOnClick(meals)}>
         From Meal List
-      </button> */}
+      </button>
     </div>
   );
 }
