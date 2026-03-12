@@ -40,7 +40,7 @@ function MealCard({ meals, selectMeal, daySelection }) {
             {meals.diet.map((meal, index) => (
               <p key={index}>{capitalizer(meal)}</p>
             ))}
-            <p>{`${capitalizer(meals.sodiumLevel)} Sodium`}</p>
+            
           </div>
         </section>
       </main>

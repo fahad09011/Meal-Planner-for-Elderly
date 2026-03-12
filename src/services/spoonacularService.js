@@ -17,7 +17,7 @@ export default async function fetchMeals() {
     // })
     // const url =`https://api.spoonacular.com/recipes/complexSearch?${params.toString()}`;
 
-    const response = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeNutrition=true&addRecipeInformation=true&addRecipeInstructions=true&type=breakfast,lunch,dinner&fillIngredients=true&number=60`);
+    const response = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeNutrition=true&addRecipeInformation=true&addRecipeInstructions=true&type=breakfast,lunch,dinner&fillIngredients=true&number=10`);
     let data = null;
     try {
     data = await response.json();    

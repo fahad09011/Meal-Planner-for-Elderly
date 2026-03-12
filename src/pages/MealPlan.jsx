@@ -2,6 +2,7 @@
 import React, { useContext, useState } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import useNutrition from "../hooks/useNutrition";
+import useMealPlan from "../hooks/useMealPlan";
 import "../assets/styles/mealPlan.css";
 import "../assets/styles/button.css";
 import Button from "../components/common/Button";
@@ -10,15 +11,8 @@ import MealList from "../components/meals/MealList";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 import { AppContext } from "../context/AppContext";
-import fetchMeals  from "../services/spoonacularService";
+
 function MealPlan() {
-  const mealsCount = useNutrition().count;
-
-  const [selectedDay, SetselectedDay] = useState("Monday");
-  const [completedDay, setcompletedDay] = useState(0);
-  const progress = Math.round((completedDay / 7) * 100);
-  const filterMeals = useNutrition().filteredMeals;
-
   const days = [
     "Monday",
     "Tuesday",
@@ -28,136 +22,101 @@ function MealPlan() {
     "Saturday",
     "Sunday",
   ];
+
   const { weeklyPlan, setWeeklyPlan, saveWeeklyPlan } = useContext(AppContext);
   
-  const [daySelection, setDaySelection] = useState({
-    breakfast: null,
-    lunch: null,
-    dinner: null,
-  });
+  const [selectedDay, SetselectedDay] = useState("Monday");
+
+  const { apiMeals, loadingMeals, mealError, fetchApiMeals,daySelection,
+    selectMeal,setDaySelection,isDayCompleted,completedDay,handleSaveDayPlan,generateWeeklyPlan } = useMealPlan({days,weeklyPlan,setWeeklyPlan,selectedDay,saveWeeklyPlan});
+
+    // ise fix krna hai, at a monet local meal file se mealtype calculate kr raha hai 
+    const mealsCount = useNutrition().count;
+
+  const progress = Math.round((completedDay / 7) * 100);
+  
+
+  
+  
+  // const [daySelection, setDaySelection] = useState({
+  //   breakfast: null,
+  //   lunch: null,
+  //   dinner: null,
+  // });
   function handleSelectedDayOnclick(day) {
     SetselectedDay(day);
     // console.log("from meal plan filter meals",filterMeals)
   }
 
-  function isDayCompleted(day) {
-    return day.breakfast && day.lunch && day.dinner;
-  }
+  // function isDayCompleted(day) {
+  //   return day.breakfast && day.lunch && day.dinner;
+  // }
 
-  function selectMeal(meal) {
-    setDaySelection((prev) => ({
-      ...prev,
-      [meal.category]: { id: meal.id, name: meal.name },
-    }));
-  }
+  // function selectMeal(meal) {
+  //   setDaySelection((prev) => ({
+  //     ...prev,
+  //     [meal.mealType]: { id: meal.id, name: meal.title },
+  //   }));
+  // }
 
   
 
-  function handleSaveDayPlan() {
-    const isNoMealSelected = Object.values(daySelection).some(
-      (value) => value === null,
-    );
-    if (isNoMealSelected) {
-      alert("please select meals");
-      return;
-    }
-    setWeeklyPlan((prevState) => {
-      return {
-        ...prevState,
-        [selectedDay]: daySelection,
-      };
-    });
-  }
+  // function handleSaveDayPlan() {
+  //   const isNoMealSelected = Object.values(daySelection).some(
+  //     (value) => value === null,
+  //   );
+  //   if (isNoMealSelected) {
+  //     alert("please select meals");
+  //     return;
+  //   }
+  //   setWeeklyPlan((prevState) => {
+  //     return {
+  //       ...prevState,
+  //       [selectedDay]: daySelection,
+  //     };
+  //   });
+  // }
 
-  function generateWeeklyPlan() {
-    saveWeeklyPlan(weeklyPlan);
-    alert("Weekly Plan is generated Successfuly");
-    console.log("Weekly Plan is generated Successfuly", weeklyPlan);
-  }
+  // function generateWeeklyPlan() {
+  //   saveWeeklyPlan(weeklyPlan);
+  //   alert("Weekly Plan is generated Successfuly");
+  //   console.log("Weekly Plan is generated Successfuly", weeklyPlan);
+  // }
+
   //  reset day meal selection for next day
-  useEffect(() => {
-    const savedMeals = weeklyPlan[selectedDay];
-    const isEmpty = Object.values(savedMeals).every((value) => value === null);
-    if (isEmpty) {
-      setDaySelection({
-        breakfast: null,
-        lunch: null,
-        dinner: null,
-      });
-    } else {
-      setDaySelection(savedMeals);
-    }
-    console.log(
-      "user select meal for day: ",
-      selectedDay,
-      " meal: ",
-      weeklyPlan,
-    );
-    let count = days.filter((day) => isDayCompleted(weeklyPlan[day])).length;
-    setcompletedDay(count);
-    console.log("day comletes: ", completedDay);
-    console.log("day count as complete: ", count);
-    
-  }, [selectedDay, weeklyPlan]);
+  // useEffect(() => {
+  //   const savedMeals = weeklyPlan[selectedDay];
+  //   const isEmpty = Object.values(savedMeals).every((value) => value === null);
+  //   if (isEmpty) {
+  //     setDaySelection({
+  //       breakfast: null,
+  //       lunch: null,
+  //       dinner: null,
+  //     });
+  //   } else {
+  //     setDaySelection(savedMeals);
+  //   }
+  //   console.log(
+  //     "user select meal for day: ",
+  //     selectedDay,
+  //     " meal: ",
+  //     weeklyPlan,
+  //   );
 
-  
-  const[apiMeals, setApiMeals]=useState([]);
-  function testFetch() {
-    fetchMeals()
-    .then((data) => setApiMeals(data))
-    .catch((err) => console.error("Spoonacular API:", err.message));
-      console.log("API meal in meal Plan ",apiMeals)
-  } 
-  
+  //   // let count = days.filter((day) => isDayCompleted(weeklyPlan[day])).length;
+  //   // setcompletedDay(count);
+  //   console.log("day comletes: ", completedDay);
+  //   // console.log("day count as complete: ", count);
+    
+  // }, [selectedDay, weeklyPlan]);
+
 
 
 
 
   return (
     <>
-      {/* {apiMeals.map((ml,key)=>(
-        
-        <div key={key}>
-          <p>{ml.title}</p>
-        </div>
-        
-      ))} */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      
       {/* main  wrapper*/}
       <main className="mainWrapper ">
         {/* main  container*/}
@@ -204,12 +163,13 @@ function MealPlan() {
           <section className="dayTitleSection">
             <h2 className="dayTitle">{`Day ${days.indexOf(selectedDay) + 1} ${selectedDay}`}</h2>
             <h2 className="dayText">- Choose your for the Day</h2>
-            <button type="button" onClick={testFetch}>
+            <button type="button" onClick={fetchApiMeals}>
               From Meal Plan
             </button>
           </section>
         </main>
-
+              {loadingMeals && <p>Loading Meals</p>}
+              {mealError && <p>{mealError}</p>}
         <MealList
           meals={apiMeals}
           mealsCount={mealsCount}
