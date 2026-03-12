@@ -69,7 +69,7 @@ function App() {
     </Router>
         </AppProvider>
         {/* </ProfileContext.Provider> */}
-        <TestSupabase/>
+        {/* <TestSupabase/> */}
     </>
   )
 }
