@@ -28,91 +28,18 @@ function MealPlan() {
   const [selectedDay, SetselectedDay] = useState("Monday");
 
   const { apiMeals, loadingMeals, mealError, fetchApiMeals,daySelection,
-    selectMeal,setDaySelection,isDayCompleted,completedDay,handleSaveDayPlan,generateWeeklyPlan } = useMealPlan({days,weeklyPlan,setWeeklyPlan,selectedDay,saveWeeklyPlan});
-
+    selectMeal,isDayCompleted,completedDay,handleSaveDayPlan,generateWeeklyPlan } = useMealPlan({days,weeklyPlan,setWeeklyPlan,selectedDay,saveWeeklyPlan});
+    const { count, filteredMeals } = useNutrition(apiMeals);
     // ise fix krna hai, at a monet local meal file se mealtype calculate kr raha hai 
-    const mealsCount = useNutrition().count;
+    const mealsCount = count;
 
   const progress = Math.round((completedDay / 7) * 100);
   
-
-  
-  
-  // const [daySelection, setDaySelection] = useState({
-  //   breakfast: null,
-  //   lunch: null,
-  //   dinner: null,
-  // });
   function handleSelectedDayOnclick(day) {
     SetselectedDay(day);
+    console.log("filtered meals from nutrition service: ",filteredMeals)
     // console.log("from meal plan filter meals",filterMeals)
   }
-
-  // function isDayCompleted(day) {
-  //   return day.breakfast && day.lunch && day.dinner;
-  // }
-
-  // function selectMeal(meal) {
-  //   setDaySelection((prev) => ({
-  //     ...prev,
-  //     [meal.mealType]: { id: meal.id, name: meal.title },
-  //   }));
-  // }
-
-  
-
-  // function handleSaveDayPlan() {
-  //   const isNoMealSelected = Object.values(daySelection).some(
-  //     (value) => value === null,
-  //   );
-  //   if (isNoMealSelected) {
-  //     alert("please select meals");
-  //     return;
-  //   }
-  //   setWeeklyPlan((prevState) => {
-  //     return {
-  //       ...prevState,
-  //       [selectedDay]: daySelection,
-  //     };
-  //   });
-  // }
-
-  // function generateWeeklyPlan() {
-  //   saveWeeklyPlan(weeklyPlan);
-  //   alert("Weekly Plan is generated Successfuly");
-  //   console.log("Weekly Plan is generated Successfuly", weeklyPlan);
-  // }
-
-  //  reset day meal selection for next day
-  // useEffect(() => {
-  //   const savedMeals = weeklyPlan[selectedDay];
-  //   const isEmpty = Object.values(savedMeals).every((value) => value === null);
-  //   if (isEmpty) {
-  //     setDaySelection({
-  //       breakfast: null,
-  //       lunch: null,
-  //       dinner: null,
-  //     });
-  //   } else {
-  //     setDaySelection(savedMeals);
-  //   }
-  //   console.log(
-  //     "user select meal for day: ",
-  //     selectedDay,
-  //     " meal: ",
-  //     weeklyPlan,
-  //   );
-
-  //   // let count = days.filter((day) => isDayCompleted(weeklyPlan[day])).length;
-  //   // setcompletedDay(count);
-  //   console.log("day comletes: ", completedDay);
-  //   // console.log("day count as complete: ", count);
-    
-  // }, [selectedDay, weeklyPlan]);
-
-
-
-
 
   return (
     <>
@@ -168,19 +95,36 @@ function MealPlan() {
             </button>
           </section>
         </main>
-              {loadingMeals && <p>Loading Meals</p>}
-              {mealError && <p>{mealError}</p>}
-        <MealList
-          meals={apiMeals}
-          mealsCount={mealsCount}
-          selectMeal={selectMeal}
-          weeklyPlan={weeklyPlan}
-          daySelection={daySelection}
-          selectedDay={selectedDay}
-        />
-
-        {/* button section */}
-        <section className="action-buttons-section">
+              {/* {mealError && <p>{mealError}</p>} */}
+              {loadingMeals ? (
+                
+                
+                <section className="loading-container">
+                <div className="spinner-wrapper">
+                  <div className="spinner"></div>
+                  <p>Loading your meals...</p>
+                </div>
+              </section>
+                
+                ) :  mealError ? (
+                  /* ERROR SCREEN - Full replacement */
+                  <section className="error-container">
+                    <p>{mealError}</p>
+                    <button onClick={fetchApiMeals}>Try Again</button>
+                  </section>
+                ) :
+                (
+<>
+<MealList
+meals={apiMeals}
+mealsCount={mealsCount}
+selectMeal={selectMeal}
+weeklyPlan={weeklyPlan}
+daySelection={daySelection}
+selectedDay={selectedDay}
+/>
+{/* button section */}
+<section className="action-buttons-section">
           <div className="day-actions">
             <Button className="save-day-btn" onClick={handleSaveDayPlan}>
               💾 Save for {selectedDay}
@@ -196,6 +140,13 @@ function MealPlan() {
           </div>
           
         </section>
+
+
+</>
+              )}
+        
+
+        
       </main>
     </>
   );
