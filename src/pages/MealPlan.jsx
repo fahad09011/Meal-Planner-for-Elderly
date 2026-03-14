@@ -23,12 +23,12 @@ function MealPlan() {
     "Sunday",
   ];
 
-  const { weeklyPlan, setWeeklyPlan, saveWeeklyPlan } = useContext(AppContext);
+  const { weeklyPlan, setWeeklyPlan, saveWeeklyPlan, profileData } = useContext(AppContext);
   
   const [selectedDay, SetselectedDay] = useState("Monday");
 
   const { apiMeals, loadingMeals, mealError, fetchApiMeals,daySelection,
-    selectMeal,isDayCompleted,completedDay,handleSaveDayPlan,generateWeeklyPlan } = useMealPlan({days,weeklyPlan,setWeeklyPlan,selectedDay,saveWeeklyPlan});
+    selectMeal,isDayCompleted,completedDay,handleSaveDayPlan,generateWeeklyPlan } = useMealPlan({ days, weeklyPlan, setWeeklyPlan, selectedDay, saveWeeklyPlan, profileData });
     const { count, filteredMeals } = useNutrition(apiMeals);
     // ise fix krna hai, at a monet local meal file se mealtype calculate kr raha hai 
     const mealsCount = count;

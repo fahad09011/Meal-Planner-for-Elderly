@@ -191,8 +191,8 @@ const[isSubmitting, setIsSubmitting] = useState(false);
                   name="allergies"
                   id="nuts"
                   onChange={handleOnChange}
-                  checked={formData.allergies.includes("nuts")}
-                  value="nuts"
+                  checked={formData.allergies.includes("peanut")}
+                  value="peanut"
                 />
                 <label htmlFor="nuts">Nuts</label>
               </div>
