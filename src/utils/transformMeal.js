@@ -1,46 +1,58 @@
-const meal = {
-  id: null,
-  title: "",
-  image: "",
-  readyInMinutes: 0,
-  servings: 0,
+// const templateMeal = {
+//   id: null,
+//   title: "",
+//   image: "",
+//   readyInMinutes: 0,
+//   servings: 0,
 
-  diets: {},
+//   diet: [],
 
-  mealType: "",
+//   mealType: "",
 
-  ingredients: [
-    {
-      name: "",
-      aisle: "",
-      amount: 0,
-      unit: "",
-    },
-  ],
+//   ingredients: [
+//     {
+//       aisle: "",
+//       name: "",
+//       description: "",
+//       quantity: {
+//         amount: 0,
+//         unit: "",
+//       },
+//     },
+//   ],
 
-  allergens: {},
-  nutrition: {
-    calories: 0,
-    protein: 0,
-    fat: 0,
-    carbs: 0,
-    fiber: 0,
-    sodium: 0,
-    sugar: 0,
-  },
+//   allergens: {},
 
-  instructions: [
-    {
-      step: 0,
-      text: "",
-    },
-  ],
+//   nutrition: {
+//     calories: { amount: 0, unit: "kcal" },
+//     carbs: { amount: 0, unit: "g" },
+//     protein: { amount: 0, unit: "g" },
+//     fat: { amount: 0, unit: "g" },
+//     fiber: { amount: 0, unit: "g" },
+//     sodium: { amount: 0, unit: "mg" },
+//     sugar: { amount: 0, unit: "g" },
+//     calcium: { amount: 0, unit: "mg" },
+//     iron: { amount: 0, unit: "mg" },
+//     folate: { amount: 0, unit: "µg" },
+//     phosphorus: { amount: 0, unit: "mg" },
+//     saturatedFat: { amount: 0, unit: "g" },
+//     vitaminB12: { amount: 0, unit: "µg" },
+//     vitaminC: { amount: 0, unit: "mg" },
+//     vitaminD: { amount: 0, unit: "" },
+//   },
 
-  summary: "",
-};
+//   instructions: [
+//     {
+//       stepNumber: 0,
+//       description: "",
+//     },
+//   ],
+
+//   summary: "",
+// };
 
 export const extractNutrition = (apiNutrition) => {
-  const nutritionsMap = {
+  const nutritionMap = {
     calories: "Calories",
     protein: "Protein",
     fat: "Fat",
@@ -48,14 +60,22 @@ export const extractNutrition = (apiNutrition) => {
     fiber: "Fiber",
     sodium: "Sodium",
     sugar: "Sugar",
+    saturatedFat: "Saturated Fat",
+    phosphorus: "Phosphorus",
+    calcium: "Calcium",
+    vitaminD: "Vitamin D",
+    iron: "Iron",
+    folate: "Folate",
+    vitaminB12: "Vitamin B12",
+    vitaminC: "Vitamin C",
   };
   const result = {};
   const nutrients = Array.isArray(apiNutrition?.nutrients)
     ? apiNutrition.nutrients
     : [];
-  Object.entries(nutritionsMap).forEach(([key, mappedNutrients]) => {
+  Object.entries(nutritionMap).forEach(([key, mapedNutrients]) => {
     const nutrient = nutrients.find(
-      (apiNut) => apiNut?.name === mappedNutrients,
+      (apiNut) => apiNut?.name === mapedNutrients,
     );
     result[key] = {
       amount: nutrient?.amount ?? 0,
@@ -153,14 +173,13 @@ export const transFormMeal = (apiMeal) => {
   return {
     id: apiMeal.id ?? null,
     title: apiMeal.title ?? "",
-    img: apiMeal.image ?? "",
+    image: apiMeal.image ?? "",
     summary: apiMeal.summary ?? "",
     readyInMinutes: apiMeal.readyInMinutes ?? 0,
     servings: apiMeal.servings ?? 0,
     nutrition: extractNutrition(apiMeal.nutrition),
     diet: extractDiet(apiMeal.diets),
     mealType: extractMealCategory(apiMeal.dishTypes),
-    // mealType: Array.isArray(apiMeal.dishTypes) ? apiMeal.dishTypes : [],
     ingredients: extractIngredients(apiMeal.extendedIngredients),
     instructions: extractInstructions(apiMeal.analyzedInstructions),
   };
