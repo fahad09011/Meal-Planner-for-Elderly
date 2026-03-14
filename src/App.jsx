@@ -20,32 +20,6 @@ function App() {
   healthConditions: [],
   budget: ""
 };
-
-// const [profileData, setProfileData] = useState(()=>{
-//   const savedProfile = localStorage.getItem("profile");
-//   if (savedProfile) {
-//     return JSON.parse(savedProfile)
-//   } else {
-//     return defaultProfile
-//   } 
-// });
-
-// function saveProfile() {
-//   localStorage.setItem("profile", JSON.stringify(profileData));
-//   console.log(`local storage: ${localStorage.getItem("profile")}`);
-// }
-
-// function clearProfile() {
-//   if (localStorage.getItem("profile")) {
-//       localStorage.removeItem("profile");
-//       setProfileData(defaultProfile);
-
-//   } 
-// }
-
-// const hasProfile = profileData.ageGroup !== "";
-
-
   return (
     <>
     <AppProvider>
