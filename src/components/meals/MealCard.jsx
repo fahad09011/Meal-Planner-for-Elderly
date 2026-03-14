@@ -14,7 +14,7 @@ function MealCard({ meals, selectMeal, daySelection }) {
       <main className="mainMealCardContainer ">
         <section className="mealImgAndButtonSection">
           <img
-            src={meals.img}
+            src={meals.image}
             alt="mealimage"
             className="mealImage card-img-top"
           />

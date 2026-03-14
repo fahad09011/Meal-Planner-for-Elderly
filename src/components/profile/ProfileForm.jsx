@@ -223,15 +223,16 @@ const[isSubmitting, setIsSubmitting] = useState(false);
                   className="check"
                   type="checkbox"
                   name="healthConditions"
-                  id="bloodPressure"
+                  id="hypertension"
                   onChange={handleOnChange}
                   checked={formData.healthConditions.includes(
-                    "bloodPressure",
+                    "hypertension",
                   )}
-                  value="bloodPressure"
+                  value="hypertension"
                 />
-                <label htmlFor="bloodPressure">High Blood Pressure</label>
+                <label htmlFor="hypertension">Hypertension</label>
               </div>
+
               <div className="healthConsiderationGroupContainer diabetes">
                 <input
                   className="check"
@@ -244,6 +245,36 @@ const[isSubmitting, setIsSubmitting] = useState(false);
                 />
                 <label htmlFor="diabetes">Diabetes</label>
               </div>
+
+
+              <div className="healthConsiderationGroupContainer diabetes">
+                <input
+                  className="check"
+                  type="checkbox"
+                  name="healthConditions"
+                  id="kidneyDisease"
+                  onChange={handleOnChange}
+                  checked={formData.healthConditions.includes("kidneyDisease")}
+                  value="kidneyDisease"
+                />
+                <label htmlFor="kidneyDisease">Kidney Disease</label>
+              </div>
+
+
+              <div className="healthConsiderationGroupContainer diabetes">
+                <input
+                  className="check"
+                  type="checkbox"
+                  name="healthConditions"
+                  id="highCholesterol"
+                  onChange={handleOnChange}
+                  checked={formData.healthConditions.includes("highCholesterol")}
+                  value="highCholesterol"
+                />
+                <label htmlFor="highCholesterol">High Cholesterol</label>
+              </div>
+
+
             </div>
           </section>
           <hr />

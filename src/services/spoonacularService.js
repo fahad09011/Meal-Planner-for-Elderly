@@ -11,16 +11,6 @@ export default async function fetchMeals(profileData) {
     if (!API_KEY) {
         throw new Error("Check API key or add in .env / .env.local");
     }
-    // const params= new URLPattern({
-    //     apiKey:API_KEY,
-    //     addRecipeNutrition: "true",
-    //     addRecipeInformation:"true",
-    //     maxServings: "2",
-    //     addRecipeInstructions: "true",
-    //     type: "breakfast,main course,side dish",
-    //     fillIngredients: "true",
-    // })
-    // const url =`https://api.spoonacular.com/recipes/complexSearch?${params.toString()}`;
     console.log("Incoming Profile:", profileData);
 
     const params = buildMealQueryParams(profileData);
@@ -30,11 +20,10 @@ export default async function fetchMeals(profileData) {
     const queryString = new URLSearchParams(params).toString();
   
     console.log("Query String:", queryString);
-    const url =`https://api.spoonacular.com/recipes/complexSearch?${queryString}&apiKey=${API_KEY}`;
+    const url =`https://api.spoonacular.com/recipes/complexSearch?${queryString}&apiKey=${API_KEY}&number=10&maxCarbs=10.5`;
     console.log("Final API URL:", url);
 
     const response = await fetch(url);
-    // const response = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeNutrition=true&addRecipeInformation=true&addRecipeInstructions=true&type=breakfast,lunch,dinner&fillIngredients=true&number=10&diet=gluten free,vegetarian`);
     let data = null;
     try {
     data = await response.json();    
