@@ -7,6 +7,7 @@ const useMealPlan = ({
   setWeeklyPlan,
   selectedDay,
   saveWeeklyPlan,
+  profileData,
 }) => {
   const defaultDaySelection = {
     breakfast: null,
@@ -84,7 +85,7 @@ const useMealPlan = ({
       setLoadingMeals(true);
       setMealError("");
 
-      const data = await fetchMeals();
+      const data = await fetchMeals(profileData);
       setApiMeals(data);
 
       console.log("API meal in useMealPlan hook  ", data);
