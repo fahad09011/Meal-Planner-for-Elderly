@@ -5,9 +5,7 @@ const meal = {
   readyInMinutes: 0,
   servings: 0,
 
-  diets: {
-    
-  },
+  diets: {},
 
   mealType: "",
 
@@ -67,26 +65,42 @@ export const extractNutrition = (apiNutrition) => {
   return result;
 };
 const breakFastConditions = ["breakfast"];
-const dinnerConditions = ["dinner", "main course", "main dish"];
-const lunchConditions = [
-  "lunch",
-  "snack",
-  "salad",
-  "side dish",
-  "appetizer",
-  "soup",
-];
+const dinnerConditions = ["main course", "main dish"];
+const lunchConditions = ["salad", "side dish", "appetizer", "soup"];
 export const extractMealCategory = (apiMealType) => {
-  const mealTypes = Array.isArray(apiMealType) ? apiMealType : [];
-  if (breakFastConditions.some((cond) => mealTypes.includes(cond))) {
+  const mealTypes = Array.isArray(apiMealType)
+    ? apiMealType.map((type) => type.toLowerCase())
+    : [];
+
+  if (mealTypes.includes("breakfast")) {
     return "breakfast";
+  }
+
+  if (mealTypes.includes("lunch") && mealTypes.includes("dinner")) {
+    if (lunchConditions.some((cond) => mealTypes.includes(cond))) {
+      return "lunch";
+    } else if (dinnerConditions.some((cond) => mealTypes.includes(cond))) {
+      return "dinner";
+    } else {
+      return "lunch";
+    }
+  }
+
+  if (mealTypes.includes("lunch")) {
+    return "lunch";
+  }
+
+  if (mealTypes.includes("dinner")) {
+    return "dinner";
+  }
+
+  if (dinnerConditions.some((cond) => mealTypes.includes(cond))) {
+    return "dinner";
   }
   if (lunchConditions.some((cond) => mealTypes.includes(cond))) {
     return "lunch";
   }
-  if (dinnerConditions.some((cond) => mealTypes.includes(cond))) {
-    return "dinner";
-  }
+
   return "others";
 };
 export const extractIngredients = (apiIngredients) => {
@@ -127,6 +141,11 @@ export const extractInstructions = (apiInstructions) => {
   });
 };
 
+export const extractDiet = (apiDiets) => {
+  const diet = Array.isArray(apiDiets) ? apiDiets : [];
+  return diet;
+};
+
 export const transFormMeal = (apiMeal) => {
   if (apiMeal == null || typeof apiMeal !== "object") {
     return null;
@@ -139,6 +158,7 @@ export const transFormMeal = (apiMeal) => {
     readyInMinutes: apiMeal.readyInMinutes ?? 0,
     servings: apiMeal.servings ?? 0,
     nutrition: extractNutrition(apiMeal.nutrition),
+    diet: extractDiet(apiMeal.diets),
     mealType: extractMealCategory(apiMeal.dishTypes),
     // mealType: Array.isArray(apiMeal.dishTypes) ? apiMeal.dishTypes : [],
     ingredients: extractIngredients(apiMeal.extendedIngredients),

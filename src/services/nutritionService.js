@@ -4,7 +4,7 @@ function filterByDietary(meal, profile) {
   if (!profile.dietary || profile.dietary.length === 0) {
     return true;
   }
-  return profile.dietary.every((dt) => meal.dietary.includes(dt));
+  return profile.dietary.every((dt) => meal.diet.includes(dt));
 }
 
 function filterByAllergens(meal, profile) {
@@ -14,11 +14,12 @@ function filterByAllergens(meal, profile) {
   return !profile.allergies.some((alg) => meal.allergens.includes(alg));
 }
 
+
 function filterByHealthCondition(meal, profile) {
 if (!profile.healthConditions || profile.healthConditions.length === 0) {
     return true;
 }
-if(profile.healthConditions.includes("bloodPressure") && meal.sodiumLevel === "high"){
+if(profile.healthConditions.includes("bloodPressure") && meal.nutrition.sodium.amount === 500){
     return false;
 }
 if(profile.healthConditions.includes("diabetes") && meal.sugarLevel === "high"){
