@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import filterMeals, { mealCountByCategory } from "../services/nutritionService";
-import meals from "../data/meals.json";
 import { AppContext } from "../context/AppContext";
  const  useNutrition = (meals) => {
   const safeMeals = Array.isArray(meals) ? meals : [] ;

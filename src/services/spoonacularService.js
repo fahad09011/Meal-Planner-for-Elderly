@@ -20,7 +20,7 @@ export default async function fetchMeals(profileData) {
     const queryString = new URLSearchParams(params).toString();
   
     console.log("Query String:", queryString);
-    const url =`https://api.spoonacular.com/recipes/complexSearch?${queryString}&apiKey=${API_KEY}&number=10&maxCarbs=10.5`;
+    const url = `https://api.spoonacular.com/recipes/complexSearch?${queryString}&apiKey=${API_KEY}`;
     console.log("Final API URL:", url);
 
     const response = await fetch(url);

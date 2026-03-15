@@ -56,7 +56,7 @@ const useMealPlan = ({
   const generateWeeklyPlan=()=> {
     saveWeeklyPlan(weeklyPlan);
     alert("Weekly Plan is generated Successfuly");
-    console.log("Weekly Plan is generated Successfuly", weeklyPlan);
+    // console.log("Weekly Plan is generated Successfuly", weeklyPlan);
   }
 
   useEffect(() => {
@@ -72,12 +72,12 @@ const useMealPlan = ({
     } else {
       setDaySelection(savedMeals);
     }
-    console.log(
-            "user select meal for day: ",
-            selectedDay,
-            " meal: ",
-            weeklyPlan,
-          );
+    // console.log(
+    //         "user select meal for day: ",
+    //         selectedDay,
+    //         " meal: ",
+    //         weeklyPlan,
+    //       );
   }, [selectedDay, weeklyPlan]);
 
   const fetchApiMeals = async () => {
