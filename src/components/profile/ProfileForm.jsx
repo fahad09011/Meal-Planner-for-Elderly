@@ -170,8 +170,8 @@ const[isSubmitting, setIsSubmitting] = useState(false);
                   name="dietary"
                   id="glutenfree"
                   onChange={handleOnChange}
-                  checked={formData.dietary.includes("gluten_free")}
-                  value="gluten_free"
+                  checked={formData.dietary.includes("gluten free")}
+                  value="gluten free"
                 />
                 <label htmlFor="glutenfree">Gluten Free</label>
               </div>
@@ -189,12 +189,12 @@ const[isSubmitting, setIsSubmitting] = useState(false);
                   className="check"
                   type="checkbox"
                   name="allergies"
-                  id="nuts"
+                  id="peanut"
                   onChange={handleOnChange}
                   checked={formData.allergies.includes("peanut")}
                   value="peanut"
                 />
-                <label htmlFor="nuts">Nuts</label>
+                <label htmlFor="peanut">Peanut</label>
               </div>
 
               <div className="allergiesGroupContainer dairy">
