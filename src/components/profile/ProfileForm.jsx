@@ -170,8 +170,8 @@ const[isSubmitting, setIsSubmitting] = useState(false);
                   name="dietary"
                   id="glutenfree"
                   onChange={handleOnChange}
-                  checked={formData.dietary.includes("gluten free")}
-                  value="gluten free"
+                  checked={formData.dietary.includes("gluten_free")}
+                  value="gluten_free"
                 />
                 <label htmlFor="glutenfree">Gluten Free</label>
               </div>

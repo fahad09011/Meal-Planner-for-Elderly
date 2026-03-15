@@ -6,7 +6,6 @@ import useMealPlan from "../hooks/useMealPlan";
 import "../assets/styles/mealPlan.css";
 import "../assets/styles/button.css";
 import Button from "../components/common/Button";
-import { useEffect } from "react";
 import MealList from "../components/meals/MealList";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
@@ -29,6 +28,7 @@ function MealPlan() {
 
   const { apiMeals, loadingMeals, mealError, fetchApiMeals,daySelection,
     selectMeal,isDayCompleted,completedDay,handleSaveDayPlan,generateWeeklyPlan } = useMealPlan({ days, weeklyPlan, setWeeklyPlan, selectedDay, saveWeeklyPlan, profileData });
+    
     const { count, filteredMeals } = useNutrition(apiMeals);
     // ise fix krna hai, at a monet local meal file se mealtype calculate kr raha hai 
     const mealsCount = count;
@@ -116,7 +116,7 @@ function MealPlan() {
                 (
 <>
 <MealList
-meals={apiMeals}
+meals={filteredMeals}
 mealsCount={mealsCount}
 selectMeal={selectMeal}
 weeklyPlan={weeklyPlan}

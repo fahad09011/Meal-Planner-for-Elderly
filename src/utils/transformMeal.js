@@ -50,7 +50,7 @@
 
 //   summary: "",
 // };
-
+import { dietResponseMap } from "../services/nutrition/dietMap";
 export const extractNutrition = (apiNutrition) => {
   const nutritionMap = {
     calories: "Calories",
@@ -84,6 +84,7 @@ export const extractNutrition = (apiNutrition) => {
   });
   return result;
 };
+
 const breakFastConditions = ["breakfast"];
 const dinnerConditions = ["main course", "main dish"];
 const lunchConditions = ["salad", "side dish", "appetizer", "soup"];
@@ -161,10 +162,19 @@ export const extractInstructions = (apiInstructions) => {
   });
 };
 
+
+
+
 export const extractDiet = (apiDiets) => {
-  const diet = Array.isArray(apiDiets) ? apiDiets : [];
-  return diet;
+  
+  const diets = Array.isArray(apiDiets) ? apiDiets : [];
+  const normalizedDiets = diets
+  .map((diet)=> String(diet).toLowerCase().trim())
+.map((diet)=> dietResponseMap[diet] ?? null)
+.filter(Boolean);
+return[...new Set(normalizedDiets)];  
 };
+
 
 export const transFormMeal = (apiMeal) => {
   if (apiMeal == null || typeof apiMeal !== "object") {
@@ -177,6 +187,7 @@ export const transFormMeal = (apiMeal) => {
     summary: apiMeal.summary ?? "",
     readyInMinutes: apiMeal.readyInMinutes ?? 0,
     servings: apiMeal.servings ?? 0,
+    pricePerServing: Number(((apiMeal.pricePerServing ?? 0) / 100).toFixed(2)),
     nutrition: extractNutrition(apiMeal.nutrition),
     diet: extractDiet(apiMeal.diets),
     mealType: extractMealCategory(apiMeal.dishTypes),

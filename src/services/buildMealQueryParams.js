@@ -1,17 +1,7 @@
 // import healthConditionRules from "./nutrition/healthConditionRules";
 import healthConditionRules from "./nutrition/healthConditionRules";
-const dietMap={
-    gluten_free: "gluten free",
-    vegetarian: "vegetarian",
-    lacto_vegetarian: "lacto-vegetarian",
-    ovo_vegetarian: "ovo-vegetarian",
-    vegan: "vegan",
-    pescetarian: "pescetarian",
-    paleo: "paleo",
-    primal: "primal",
-    low_fodmap: "low FODMAP",
-    whole30: "whole30",
-};
+import { dietRequestMap } from "./nutrition/dietMap";
+
 const intoleranceMap={
     dairy: "dairy",
     egg: "egg",
@@ -26,6 +16,8 @@ const intoleranceMap={
     treeNut: "tree nut",
     wheat: "wheat",
 };
+
+
 // const healthConditionRules = {
 //     diabetes: {
 //       maxCarbs: 60,
@@ -95,15 +87,16 @@ function buildMealQueryParams(profileData) {
       addRecipeInstructions: true,
       fillIngredients: true,
       type: "breakfast,lunch,dinner",
-      number: 10,
+      number: 20,
     };
+
     const dietValues=[];
     const intoleranceValues=[];
 
     if(profileData.dietary.length > 0){
         profileData.dietary.forEach((diet)=>{
-            if(dietMap[diet]){
-                dietValues.push(dietMap[diet]);
+            if(dietRequestMap[diet]){
+                dietValues.push(dietRequestMap[diet]);
             };
         });
         if(dietValues.length>0){

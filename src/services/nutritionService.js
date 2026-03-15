@@ -1,18 +1,23 @@
 import healthConditionRules from "./nutrition/healthConditionRules";
 // meal filter consts section ===============================
+
+import { dietCompatibilityMap } from "./nutrition/dietMap";
 const filterByDietary = (meal, profile) => {
-  console.log("filterByDietary called");
-  console.log("meal.diet:", meal.diet);
-  console.log("profile.dietary:", profile.dietary);
+  
   if (!profile.dietary || profile.dietary.length === 0) {
     console.log("No dietary preferences, returning true");
 
     return true;
   }
-const result = profile.dietary.every((dt) => meal.diet.includes(dt));
-console.log("filterByDietary result:", result);
+  const mealDiet = Array.isArray(meal.diet) ? meal.diet : [];
+  return profile.dietary.every((selectedDiet)=>{
+    const allowedDiets = dietCompatibilityMap[selectedDiet] || [selectedDiet];
+    return allowedDiets.some((allowedDiet)=>mealDiet.includes(allowedDiet));
+  })
+// const result = profile.dietary.every((dt) => meal.diet.includes(dt));
+// console.log("filterByDietary result:", result);
 
-  return result
+//   return result
 };
 
 
@@ -45,16 +50,11 @@ const filterByHealthCondition = (meal, profile) => {
           const { ruleType, nutrientKey } = parseNutritionRuleKey(key);
           const mealNutrient = meal.nutrition?.[nutrientKey];
           const nutrientAmount = mealNutrient?.amount ?? 0;
-          // console.log(
-          //   "key: ",key,", RuleType ",ruleType,", Nutrient Key: ",nutrientKey,", value: ",value,
-          // );
-          // console.log("Meal nutrients:", nutrientKey, nutrientAmount);
-          if (ruleType === "max" && nutrientAmount > value) {
-            return false;
-          }
-          if (ruleType === "min" && nutrientAmount < value) {
-            return false;
-          }
+          const hasValue = Number.isFinite(nutrientAmount);
+          if (!hasValue) continue;
+          if (ruleType === "min" && nutrientAmount === 0) continue;
+          if (ruleType === "max" && nutrientAmount > value) return false;
+          if (ruleType === "min" && nutrientAmount < value) return false;
         }
 
         // console.log("healthCondition",healthCondition,healthConditionRules[healthCondition],
@@ -65,11 +65,28 @@ const filterByHealthCondition = (meal, profile) => {
   return true;
 };
 
+const budgetRule={
+  low: 4,
+  medium: 8,
+flexible: true
+}
 const filterByBudget = (meal, profile) => {
   if (!profile.budget) {
     return true;
   }
-  return meal.budget === profile.budget;
+
+  const pricePerServing = Number(meal.pricePerServing);
+  const priceValid = Number.isFinite(pricePerServing) && pricePerServing >= 0;
+
+  if (!priceValid) {
+    return true;
+  }
+
+  const { low, medium, flexible } = budgetRule;
+  if (profile.budget === "low" && pricePerServing <= low) return true;
+  if (profile.budget === "medium" && pricePerServing <= medium) return true;
+  if (profile.budget === "flexible") return true;
+  return false;
 };
 
 // meal type dinner , lunch , dinner count consts section ====================
