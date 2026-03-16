@@ -2,6 +2,7 @@ import React, { useContext,useState } from "react";
 import "../../assets/styles/profile.css";
 import Button from "../common/Button";
 import { AppContext } from "../../context/AppContext";
+import { useEffect } from "react";
 
 function ProfileForm() {
  
@@ -9,7 +10,9 @@ function ProfileForm() {
     useContext(AppContext);
 const [formData, setFormData] = useState(profileData);
 const[isSubmitting, setIsSubmitting] = useState(false);
-
+useEffect(()=>{
+  setFormData(profileData)
+},[profileData]);
   function handleOnChange(event) {
     const { name, value, type, checked } = event.target;
     if (type === "checkbox") {
