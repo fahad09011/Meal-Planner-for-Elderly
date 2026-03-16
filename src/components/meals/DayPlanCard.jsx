@@ -14,7 +14,6 @@ function DayPlanCard({ weeklyPlan }) {
             <h2 className="day">{day}</h2>
 
             <div className="card secondaryCard" style={{ width: "18rem" }}>
-              {/* <p>Breakfast</p> */}
               <img
                 className="card-img-top"
                 src={mealImg}
@@ -72,67 +71,6 @@ function DayPlanCard({ weeklyPlan }) {
           </main>
         </div>
       ))}
-
-      {/* <main className="viewMealcard">
-        <div className="dayContainer">
-          <p>Monday</p>
-          <p>¬¬¬Complete</p>
-        </div>
-
-        <div className="card" style={{ width: "18rem" }}>
-          <p>Breakfast</p>
-          <img
-            className="card-img-top"
-            src={mealImg}
-            alt="Card image cap"
-            style={{ height: "10rem" }}
-          />
-          <div className="card-body">
-            <h5 className="card-title">meal name</h5>
-            <p className="card-text">meal description</p>
-          </div>
-
-          <button className="bt" onClick={test}>
-            <img src={arrow} alt="icon" />
-          </button>
-        </div>
-
-        <div className="card" style={{ width: "18rem" }}>
-          <p>Dinner</p>
-          <img
-            className="card-img-top"
-            src={mealImg}
-            alt="Card image cap"
-            style={{ height: "10rem" }}
-          />
-          <div className="card-body">
-            <h5 className="card-title">meal name ...Lunch</h5>
-            <p className="card-text">meal description</p>
-          </div>
-
-          <button className="bt">
-            <img src={arrow} alt="icon" />
-          </button>
-        </div>
-
-        <div className="card" style={{ width: "18rem" }}>
-          <p>Dinner</p>
-          <img
-            className="card-img-top"
-            src={mealImg}
-            alt="Card image cap"
-            style={{ height: "10rem" }}
-          />
-          <div className="card-body">
-            <h5 className="card-title">meal name</h5>
-            <p className="card-text">meal description</p>
-          </div>
-
-          <button className="bt">
-            <img src={arrow} alt="icon" />
-          </button>
-        </div>
-      </main> */}
     </div>
   );
 }

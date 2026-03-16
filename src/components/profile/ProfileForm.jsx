@@ -1,22 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext,useState } from "react";
 import "../../assets/styles/profile.css";
 import Button from "../common/Button";
-// import { ProfileContext } from "../../context/ProfileContext";
-// import { ProfileContext } from "../../context/ProfileContext";
 import { AppContext } from "../../context/AppContext";
+import { useEffect } from "react";
 
 function ProfileForm() {
  
-  // const { profileData, setProfileData, saveProfile, clearProfile, hasProfile } =
-  //   useContext(ProfileContext);
-  const { profileData, setProfileData, saveProfile, clearProfile, hasProfile } =
+  const { profileData, setProfileData, saveProfile, clearProfile, hasProfile,defaultProfile } =
     useContext(AppContext);
-
+const [formData, setFormData] = useState(profileData);
+const[isSubmitting, setIsSubmitting] = useState(false);
+useEffect(()=>{
+  setFormData(profileData)
+},[profileData]);
   function handleOnChange(event) {
     const { name, value, type, checked } = event.target;
     if (type === "checkbox") {
       let newArray;
-      setProfileData((prev) => {
+      setFormData((prev) => {
         if (checked) {
           newArray = [...prev[name], value];
         } else {
@@ -28,14 +29,29 @@ function ProfileForm() {
         };
       });
     } else {
-      setProfileData((prev) => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   }
 
-  function handleOnSubmit(form) {
+  const handleOnSubmit = async (form) => {
     form.preventDefault();
-    console.log("Form: ",profileData);
-    saveProfile();
+    setIsSubmitting(true);
+    const result = await saveProfile(formData);
+    
+    console.log("Profile successfuly saved");
+      alert("Profile successfuly saved");
+    setIsSubmitting(false);
+    if(!result.success){
+      console.log("Profile Saved Failed");
+      alert("Profile Saved Failed");
+    }
+  };
+
+  const handleOnClearProfile = () =>{
+    clearProfile();
+    setFormData(defaultProfile);
+    console.log("Profile successfuly cleared");
+      alert("Profile successfuly cleared");
   }
   return (
     <div>
@@ -58,7 +74,7 @@ function ProfileForm() {
                   name="ageGroup"
                   id="one"
                   onChange={handleOnChange}
-                  checked={profileData.ageGroup === "50-55"}
+                  checked={formData.ageGroup === "50-55"}
                   value="50-55"
                 />
                 <label htmlFor="one">50-55</label>
@@ -71,7 +87,7 @@ function ProfileForm() {
                   name="ageGroup"
                   id="two"
                   onChange={handleOnChange}
-                  checked={profileData.ageGroup === "56-60"}
+                  checked={formData.ageGroup === "56-60"}
                   value="56-60"
                 />
                 <label htmlFor="two">56-60</label>
@@ -84,7 +100,7 @@ function ProfileForm() {
                   name="ageGroup"
                   id="three"
                   onChange={handleOnChange}
-                  checked={profileData.ageGroup === "61-65"}
+                  checked={formData.ageGroup === "61-65"}
                   value="61-65"
                 />
                 <label htmlFor="three">61-65</label>
@@ -97,7 +113,7 @@ function ProfileForm() {
                   name="ageGroup"
                   id="four"
                   onChange={handleOnChange}
-                  checked={profileData.ageGroup === "66-70"}
+                  checked={formData.ageGroup === "66-70"}
                   value="66-70"
                 />
                 <label htmlFor="four">66-70</label>
@@ -110,10 +126,10 @@ function ProfileForm() {
                   name="ageGroup"
                   id="five"
                   onChange={handleOnChange}
-                  checked={profileData.ageGroup === "71-75"}
+                  checked={formData.ageGroup === "71-75"}
                   value="71-75"
                 />
-                <label htmlFor="four">71-75</label>
+                <label htmlFor="five">71-75</label>
               </div>
 
               <div className="ageGroupContainer six">
@@ -123,10 +139,10 @@ function ProfileForm() {
                   name="ageGroup"
                   id="six"
                   onChange={handleOnChange}
-                  checked={profileData.ageGroup === "80+"}
+                  checked={formData.ageGroup === "80+"}
                   value="80+"
                 />
-                <label htmlFor="four">80+</label>
+                <label htmlFor="six">80+</label>
               </div>
             </div>
           </section>
@@ -145,7 +161,7 @@ function ProfileForm() {
                   id="vegetarian"
                   onChange={handleOnChange}
                   value="vegetarian"
-                  checked={profileData.dietary.includes("vegetarian")}
+                  checked={formData.dietary.includes("vegetarian")}
                 />
                 <label htmlFor="vegetarian">Vegetarian</label>
               </div>
@@ -157,7 +173,7 @@ function ProfileForm() {
                   name="dietary"
                   id="glutenfree"
                   onChange={handleOnChange}
-                  checked={profileData.dietary.includes("gluten_free")}
+                  checked={formData.dietary.includes("gluten_free")}
                   value="gluten_free"
                 />
                 <label htmlFor="glutenfree">Gluten Free</label>
@@ -176,12 +192,12 @@ function ProfileForm() {
                   className="check"
                   type="checkbox"
                   name="allergies"
-                  id="nuts"
+                  id="peanut"
                   onChange={handleOnChange}
-                  checked={profileData.allergies.includes("nuts")}
-                  value="nuts"
+                  checked={formData.allergies.includes("peanut")}
+                  value="peanut"
                 />
-                <label htmlFor="nuts">Nuts</label>
+                <label htmlFor="peanut">Peanut</label>
               </div>
 
               <div className="allergiesGroupContainer dairy">
@@ -191,7 +207,7 @@ function ProfileForm() {
                   name="allergies"
                   id="dairy"
                   onChange={handleOnChange}
-                  checked={profileData.allergies.includes("dairy")}
+                  checked={formData.allergies.includes("dairy")}
                   value="dairy"
                 />
                 <label htmlFor="dairy">Dairy</label>
@@ -210,15 +226,16 @@ function ProfileForm() {
                   className="check"
                   type="checkbox"
                   name="healthConditions"
-                  id="bloodPressure"
+                  id="hypertension"
                   onChange={handleOnChange}
-                  checked={profileData.healthConditions.includes(
-                    "bloodPressure",
+                  checked={formData.healthConditions.includes(
+                    "hypertension",
                   )}
-                  value="bloodPressure"
+                  value="hypertension"
                 />
-                <label htmlFor="bloodPressure">High Blood Pressure</label>
+                <label htmlFor="hypertension">Hypertension</label>
               </div>
+
               <div className="healthConsiderationGroupContainer diabetes">
                 <input
                   className="check"
@@ -226,11 +243,41 @@ function ProfileForm() {
                   name="healthConditions"
                   id="diabetes"
                   onChange={handleOnChange}
-                  checked={profileData.healthConditions.includes("diabetes")}
+                  checked={formData.healthConditions.includes("diabetes")}
                   value="diabetes"
                 />
                 <label htmlFor="diabetes">Diabetes</label>
               </div>
+
+
+              <div className="healthConsiderationGroupContainer diabetes">
+                <input
+                  className="check"
+                  type="checkbox"
+                  name="healthConditions"
+                  id="kidneyDisease"
+                  onChange={handleOnChange}
+                  checked={formData.healthConditions.includes("kidneyDisease")}
+                  value="kidneyDisease"
+                />
+                <label htmlFor="kidneyDisease">Kidney Disease</label>
+              </div>
+
+
+              <div className="healthConsiderationGroupContainer diabetes">
+                <input
+                  className="check"
+                  type="checkbox"
+                  name="healthConditions"
+                  id="highCholesterol"
+                  onChange={handleOnChange}
+                  checked={formData.healthConditions.includes("highCholesterol")}
+                  value="highCholesterol"
+                />
+                <label htmlFor="highCholesterol">High Cholesterol</label>
+              </div>
+
+
             </div>
           </section>
           <hr />
@@ -247,7 +294,7 @@ function ProfileForm() {
                   name="budget"
                   id="low"
                   onChange={handleOnChange}
-                  checked={profileData.budget === "low"}
+                  checked={formData.budget === "low"}
                   value="low"
                 />
                 <label htmlFor="low">Low</label>
@@ -259,7 +306,7 @@ function ProfileForm() {
                   name="budget"
                   id="medium"
                   onChange={handleOnChange}
-                  checked={profileData.budget === "medium"}
+                  checked={formData.budget === "medium"}
                   value="medium"
                 />
                 <label htmlFor="medium">Medium</label>
@@ -271,7 +318,7 @@ function ProfileForm() {
                   name="budget"
                   id="flexible"
                   onChange={handleOnChange}
-                  checked={profileData.budget === "flexible"}
+                  checked={formData.budget === "flexible"}
                   value="flexible"
                 />
                 <label htmlFor="flexible">Flexible</label>
@@ -281,12 +328,12 @@ function ProfileForm() {
           <hr />
           <div className="formButtonContainer">
             {!hasProfile ? (
-              <Button type="submit">Save Profile</Button>
+              <Button type="submit">{isSubmitting ? "Saving..." : "Save Profile"}</Button>
             ) : (
               <>
-                <Button type="submit">Update Profile</Button>
+                <Button type="submit">{isSubmitting ? "Updating..." : "Update Profile"}</Button>
 
-                <Button type="button" onClick={clearProfile}>
+                <Button type="button" onClick={handleOnClearProfile}>
                   Clear Profile
                 </Button>
               </>

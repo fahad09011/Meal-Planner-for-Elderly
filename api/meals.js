@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
-    const rawApiKey = process.env.SPOONACULAR_API_KEY.trim();
-const API_KEY= typeof rawApiKey === "string" ? rawApiKey.trim() : "";
+  const rawApiKey = process.env.SPOONACULAR_API_KEY.trim();
+  const API_KEY = typeof rawApiKey === "string" ? rawApiKey.trim() : "";
   if (!API_KEY) {
     return res
       .status(500)
@@ -19,7 +19,7 @@ const API_KEY= typeof rawApiKey === "string" ? rawApiKey.trim() : "";
     }
     return res.status(200).json(data);
   } catch (error) {
-    console.error("Serverless Spoonacular error:", err);
+    console.error("Serverless Spoonacular error:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 }
