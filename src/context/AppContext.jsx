@@ -1,8 +1,10 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import {createProfile , updateProfile,getProfile } from "../services/profileService";
+import { useAuth } from "./AuthContext";
 
 export const AppContext = createContext();
     export function AppProvider({children}){
-
+const {user} = useAuth();
 const defaultProfile = {
   ageGroup: "",
   dietary: [],
@@ -10,7 +12,27 @@ const defaultProfile = {
   healthConditions: [],
   budget: ""
 };
+const [profileData, setProfileData] = useState(defaultProfile);
+const hasProfile = profileData.ageGroup !== "";
 
+useEffect(()=>{
+if (!user) {
+    return;
+}
+const loadProfile= async ()=>{
+  const {success, data} = await getProfile(user.id);
+  if (success && data) {
+    setProfileData({
+      ageGroup:data.age_group ,
+  dietary: data.dietary ,
+  allergies: data.allergies ,
+  healthConditions: data.health_conditions ,
+  budget: data.budget ,
+    });
+  }
+}
+loadProfile();
+},[user])
 
 const defaultWeeklyPlan = {
   Monday: { breakfast: null, lunch: null, dinner: null },
@@ -23,57 +45,42 @@ const defaultWeeklyPlan = {
 };
 
 const [weeklyPlan, setWeeklyPlan] = useState(defaultWeeklyPlan);
-// const [weeklyPlan, setWeeklyPlan] = useState(()=>{
-//       const savedPlan = localStorage.getItem("Plan");
-//       if (savedPlan) {
-//         console.log("profile",savedPlan)
-//     return JSON.parse(savedPlan)
-//       } else {
-        
-//       }
-      
-//       console.log("profile",savedPlan)
-    
-//     return defaultWeeklyPlan
-    
-
-//   });
-
 
   function saveWeeklyPlan(plan) {
     setWeeklyPlan(plan);
   }
-  // function saveWeeklyPlan(plan) {
-  //   localStorage.setItem("Plan", JSON.stringify(plan))
-  //   const savedPlanString = localStorage.getItem("Plan");
-  //   const savedPlan = JSON.parse(savedPlanString)
-  //   console.log("Saved weekly Plan:" ,savedPlan);
-  // }
 
 
 
 
 
 
-  const [profileData, setProfileData] = useState(defaultProfile);
-//   const [profileData, setProfileData] = useState(()=>{
-//   const savedProfile = localStorage.getItem("profile");
-//   if (savedProfile) {
-//     console.log("profile",savedProfile)
-//     return JSON.parse(savedProfile)
-//   } else {
-//         console.log("profile",defaultProfile)
 
-//     return defaultProfile
-//   } 
-// });
 
 
 const saveProfile =async (profileLoad) => {
  try {
    // temporary DB-ready behavior:
       // after successful save/update in DB, official state should update
-      setProfileData(profileLoad);
+      let result ;
+      if (hasProfile) {
+       result = await  updateProfile(user.id, profileLoad);
+        if (result.success) {
+          console.log("updated method called");
+          setProfileData(profileLoad);
+        } else {
+          return {success: false, error: result.error};
+        }
+      } else {
+        result = await createProfile(user.id, profileLoad);
+        if (result.success) {
+          console.log("created method called");
+
+          setProfileData(profileLoad);
+        } else {
+          return {success: false, error: result.error};
+        }
+      }
       console.log("Profile saved successfully",profileLoad);
       return {success: true, error: null,};
  } catch (error) {
@@ -81,11 +88,8 @@ const saveProfile =async (profileLoad) => {
   return {success: false, error: error};
  }
 };
-//   function saveProfile() {
-//      localStorage.setItem("profile", JSON.stringify(profileData));
 
-//   console.log(`local storage: ${localStorage.getItem("profile")}`);
-// }
+
 
 function clearProfile() {
   setProfileData(defaultProfile);
@@ -99,7 +103,6 @@ function clearProfile() {
 // }
 
 
-const hasProfile = profileData.ageGroup !== "";
 
 
 
