@@ -21,7 +21,20 @@ const useMealPlan = ({
   const selectMeal = (meal) => {
     setDaySelection((prev) => ({
       ...prev,
-      [meal.mealType]: { id: meal.id, title: meal.title },
+      [meal.mealType]: { 
+         id: meal.id,
+         title: meal.title,
+         image: meal.image,
+         summary: meal.summary,
+         readyInMinutes: meal.readyInMinutes,
+         servings: meal.servings,
+         pricePerServing: meal.pricePerServing,
+         nutrition: meal.nutrition,
+         diet: meal.diet,
+         mealType: meal.mealType,
+         ingredients: meal.ingredients,
+         instructions: meal.instructions,
+         },
     }));
   };
 
@@ -50,7 +63,9 @@ const useMealPlan = ({
         ...prevState,
         [selectedDay]: daySelection,
       };
-    });
+    }
+  )
+  console.log("daySelection: ", daySelection);
   }
 
   const generateWeeklyPlan=()=> {
@@ -72,12 +87,14 @@ const useMealPlan = ({
     } else {
       setDaySelection(savedMeals);
     }
-    // console.log(
-    //         "user select meal for day: ",
-    //         selectedDay,
-    //         " meal: ",
-    //         weeklyPlan,
-    //       );
+    console.log(
+            "user select meal for day: ",
+            selectedDay,
+            " meal: ",
+            weeklyPlan,
+          );
+
+          // start from here
   }, [selectedDay, weeklyPlan]);
 
   const fetchApiMeals = async () => {

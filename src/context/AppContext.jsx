@@ -60,8 +60,9 @@ const [weeklyPlan, setWeeklyPlan] = useState(defaultWeeklyPlan);
 
 const saveProfile =async (profileLoad) => {
  try {
-   // temporary DB-ready behavior:
-      // after successful save/update in DB, official state should update
+      if (!user) {
+        return {success: false, error: new Error("User not authenticated")};
+      }
       let result ;
       if (hasProfile) {
        result = await  updateProfile(user.id, profileLoad);

@@ -60,10 +60,10 @@ function MealPlan() {
                 <li key={day} className="dayList">
                   <Button
                     type="button"
-                    className={selectedDay === day ? "button" : "inActive"}
+                    className={`dayButton ${selectedDay === day ? "button " : "inActive"}`}
                     onClick={() => handleSelectedDayOnclick(day)}
                   >
-                    {day}
+                    {day.slice(0,3)}
                     {isDayCompleted(weeklyPlan[day]) && (
                       <span className="mealCompleteBadge">
                         <IoMdCheckmarkCircleOutline />
@@ -73,6 +73,9 @@ function MealPlan() {
                 </li>
               ))}
             </ul>
+            <Button className="save-day-btn save-day-btn-top " onClick={handleSaveDayPlan}>
+              💾 Save for {selectedDay}
+            </Button>
           </section>
 
           {/* progress bar section */}
@@ -88,12 +91,13 @@ function MealPlan() {
           </section>
           {/* day title section */}
           <section className="dayTitleSection">
-            <h2 className="dayTitle">{`Day ${days.indexOf(selectedDay) + 1} ${selectedDay}`}</h2>
-            <h2 className="dayText">- Choose your for the Day</h2>
-            <button type="button" onClick={fetchApiMeals}>
+            <h2 className="dayTitle">{`Day ${days.indexOf(selectedDay) + 1} - ${selectedDay}`}</h2>
+            <p className="dayText">Choose one meal per category</p>
+            <button type="button" className="testButton" onClick={fetchApiMeals}>
               From Meal Plan
             </button>
           </section>
+
         </main>
               {/* {mealError && <p>{mealError}</p>} */}
               {loadingMeals ? (
@@ -115,6 +119,9 @@ function MealPlan() {
                 ) :
                 (
 <>
+<div className="cont">
+
+
 <MealList
 meals={filteredMeals}
 mealsCount={mealsCount}
@@ -141,7 +148,7 @@ selectedDay={selectedDay}
           
         </section>
 
-
+        </div>
 </>
               )}
         
