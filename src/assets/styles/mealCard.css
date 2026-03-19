@@ -1,48 +1,50 @@
 /* ── Card container ── */
 .mainMealCardContainer {
   width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;   /* image → button → text, top to bottom */
-  border: var(--border-light);
-  border-radius: var(--border-radius-lg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
-  background-color: var(--white);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  height: 100%;             /* fills Bootstrap col height evenly */
+  background: var(--white);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
 }
 
 .mainMealCardContainer:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-green);
 }
 
 /* ── Image ── */
 .mealImage {
   width: 100%;
-  height: 180px;
+  height: 175px;
   object-fit: cover;
-  display: block;           /* removes inline gap below image */
+  display: block;
   flex-shrink: 0;
 }
 
 /* ── Select button wrapper ── */
 .mealButtoncontainer {
-  padding: 10px 10px 0;     /* space between image and button */
+  padding: 10px 12px 0;
   flex-shrink: 0;
 }
 
-/* ── Text data section ── */
+/* ── Text data ── */
 .mealDataSection {
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding: 8px 12px 14px;
-  flex: 1;                  /* pushes tags to bottom if card heights vary */
+  flex: 1;
 }
 
 .mealName {
-  font-size: clamp(14px, 1.5vw, 17px);
+  font-size: clamp(13px, 1.4vw, 16px);
   font-weight: 600;
   color: var(--text-main);
   line-height: 1.35;
@@ -56,7 +58,7 @@
 .mealDescription {
   font-size: var(--font-size-sm);
   color: var(--text-muted);
-  line-height: 1.4;
+  line-height: 1.45;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -68,36 +70,21 @@
 .mealTagContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--gap-sm);
-  margin-top: auto;         /* pins tags to bottom of card */
+  gap: 5px;
+  margin-top: auto;
+  padding-top: 4px;
 }
 
 .mealTag {
-  font-size: var(--font-size-sm);
-  padding: 3px 10px;
-  background-color: var(--secondary-green);
-  border-radius: var(--border-radius);
-  color: var(--text-main);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  padding: 3px 9px;
+  background: var(--secondary-green);
+  color: var(--primary-green-dark);
+  border-radius: 99px;
 }
 
 .mealTag:nth-child(even) {
-  background-color: var(--secondary-bg);
-}
-
-/* ── Meal select button ── */
-.mealButton {
-  width: 100%;
-  font-size: var(--font-size-base);
-  font-weight: 500;
-  height: 44px;
-  border: none;
-  border-radius: var(--border-radius-sm);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-/* ── Selected state ── */
-.click {
-  background: var(--text-main);
-  color: var(--white);
+  background: var(--secondary-bg);
+  color: var(--text-muted);
 }

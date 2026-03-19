@@ -1,19 +1,12 @@
-import React from 'react'
+import React from "react";
 
-function HomeButton(props) {
+function HomeButton({ icon, title }) {
   return (
-    <>
-      <div className='HomeButton'>
-    <div className="buttonIconContainer">
-        <img src={props.icon} alt="" className="buttonIcon" />
+    <div className="HomeButton">
+      <img src={icon} alt={title} className="buttonIcon" />
+      <span className="homeButtonTitle">{title}</span>
     </div>
-    <div className="buttonTextContainer">
-        <h4>{props.title}</h4>
-        {/* <p>just create now!</p> */}
-    </div>
-      </div>
-    </>
-  )
+  );
 }
 
-export default HomeButton
+export default HomeButton;

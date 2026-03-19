@@ -8,7 +8,7 @@ import "../assets/styles/button.css";
 import Button from "../components/common/Button";
 import MealList from "../components/meals/MealList";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-
+import AutoGenerateBanner from "../components/meals/AutoGenerateBanner";
 import { AppContext } from "../context/AppContext";
 
 function MealPlan() {
@@ -52,7 +52,7 @@ function MealPlan() {
           <div className="mealPlanMainContainerTitle">
             <h2>Generate Weekly Plan</h2>
           </div>
-
+<AutoGenerateBanner  />
           {/* day selectior section */}
           <section className="daySelectSection">
             <ul className="dayListContainer">

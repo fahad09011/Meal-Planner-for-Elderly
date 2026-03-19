@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+
 import './App.css'
-import { ProfileContext } from './context/ProfileContext';
 import Home from './pages/Home';
 import MealPlan from './pages/MealPlan';
 import BrowseMeal from './pages/BrowseMeal';
 import Shopping from './pages/Shopping';
-import ProfileForm from './components/profile/ProfileForm';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/common/Navbar';
 import Profile from './pages/Profile';

@@ -33,6 +33,36 @@
     --font-size-base:       1.125rem;
     --font-size-sm:         0.9rem;
     --font-size-lg:         1.25rem;
+
+      /* existing variables stay as they are, add these */
+  --shadow-sm:   0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md:   0 6px 16px rgba(0, 0, 0, 0.12);
+  --shadow-btn:  0 2px 6px rgba(103, 139, 122, 0.3);
+
+  /* AI banner accent */
+  --ai-bg:       #3d4f8a;
+  --ai-light:    #eef0f8;
+
+  /* typography */
+  --font-size-xs:   0.75rem;
+  --font-size-sm:   0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg:   1.125rem;
+  --font-size-xl:   1.25rem;  /* existing variables stay as they are, add these */
+  --shadow-sm:   0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md:   0 6px 16px rgba(0, 0, 0, 0.12);
+  --shadow-btn:  0 2px 6px rgba(103, 139, 122, 0.3);
+
+  /* AI banner accent */
+  --ai-bg:       #3d4f8a;
+  --ai-light:    #eef0f8;
+
+  /* typography */
+  --font-size-xs:   0.75rem;
+  --font-size-sm:   0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg:   1.125rem;
+  --font-size-xl:   1.25rem;
   }
   
   html, body {
@@ -40,4 +70,5 @@
     background-color: var(--main-bg);
     color: var(--text-main);
     font-size: var(--font-size-base);
+    
   }

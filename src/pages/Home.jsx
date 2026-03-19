@@ -1,42 +1,34 @@
 import React from "react";
-import Navbar from "../components/common/Navbar";
 import homeImage from "../assets/images/homeScreenMainImage.png";
 import "../assets/styles/home.css";
 import HomeButton from "../components/common/HomeButton";
-import mealButtonIcon from "../../src/assets/images/mealButtonIcon.png";
-import careButtonIcon from "../../src/assets/images/careButtonIcon.png";
-import profileButtonIcon from "../../src/assets/images/profileButtonIcon.png";
-import shoppingButtonIcon from "../../src/assets/images/shoppingButtonIcon.png";
-import ProfileForm from "../components/profile/ProfileForm";
-import { NavLink, Link } from "react-router-dom";
+import mealButtonIcon     from "../assets/images/mealButtonIcon.png";
+import careButtonIcon     from "../assets/images/careButtonIcon.png";
+import profileButtonIcon  from "../assets/images/profileButtonIcon.png";
+import shoppingButtonIcon from "../assets/images/shoppingButtonIcon.png";
+import { NavLink } from "react-router-dom";
+
+const NAV_BUTTONS = [
+  { to: "/mealPlan",     icon: mealButtonIcon,     title: "Create Meal Plan", cls: "div1" },
+  { to: "/profile",      icon: profileButtonIcon,  title: "My Profile",       cls: "div2" },
+  { to: "/shoppingList", icon: shoppingButtonIcon, title: "Shopping List",    cls: "div3" },
+  { to: "/caregiver",    icon: careButtonIcon,      title: "Care Giver",      cls: "div4" },
+];
 
 function Home() {
   return (
-    <>
-      <main className="homeMainContainer">
-        <section className="homeContentSection">
-          <div className="homeImgContianer">
-            <img src={homeImage} alt="" className="homeImage" />
-          </div>
-          <div className="homeButtonContainer">
-            {/* <div className="parent"> */}
-            <NavLink to="/mealPlan" className="div1">
-              <HomeButton icon={mealButtonIcon} title={"Create Meal Plan"} />
-            </NavLink>
-            <a className="div2">
-              <HomeButton icon={profileButtonIcon} title={"My Profile"} />
-            </a>
-            <a className="div3">
-              <HomeButton icon={shoppingButtonIcon} title={"Shopping List"} />
-            </a>
-            <a className="div4">
-              <HomeButton icon={careButtonIcon} title={"Care Giver"} />
-            </a>
-            {/* </div> */}
-          </div>
-        </section>
-      </main>
-    </>
+    <main
+      className="homeMainContainer"
+      style={{ backgroundImage: `url(${homeImage})` }}
+    >
+      <div className="homeButtonContainer">
+        {NAV_BUTTONS.map(({ to, icon, title, cls }) => (
+          <NavLink key={to} to={to} className={`homeNavLink ${cls}`}>
+            <HomeButton icon={icon} title={title} />
+          </NavLink>
+        ))}
+      </div>
+    </main>
   );
 }
 
