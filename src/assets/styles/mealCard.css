@@ -22,7 +22,8 @@
   width: 100%;
   min-height: 200px;
     display: flex;
-    flex-direction: row;
+    /* flex-direction: row; */
+    flex-direction: column;
     border: 2px solid rgb(148 148 155 / 35%);
     border-radius: 20px 20px 20px 20px;
     box-shadow: 4px 3px 9px 2px #00000040;

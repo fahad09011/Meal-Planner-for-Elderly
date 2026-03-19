@@ -1,97 +1,46 @@
-import React from "react";
-import MealCard from "./MealCard";
+import React, { useState, useEffect } from "react";
+import MealSection from "./MealSection";
 
-function MealList({
-  meals,
-  mealsCount,
-  selectMeal,
-  weeklyPlan,
-  selectedDay,
-  daySelection,
-}) {
-  function handlefiltereredMealsOnClick(meals) {
-    console.log("meal list: ", meals);
-  }
-  const breakfast = meals.filter((meal) => {
-    return meal.mealType === "breakfast";
-  });
-  const lunch = meals.filter((meal) => {
-    return meal.mealType === "lunch";
-  });
-  const dinner = meals.filter((meal) => {
-    return meal.mealType === "dinner";
-  });
+const CATEGORIES = [
+  { key: "breakfast", label: "Breakfast" },
+  { key: "lunch",     label: "Lunch"     },
+  { key: "dinner",    label: "Dinner"    },
+];
 
-  const categories = ["breakfast", "lunch", "dinner"];
+function MealList({ meals, mealsCount, selectMeal, weeklyPlan, selectedDay, daySelection }) {
+  const [isMobile, setIsMobile] = useState(
+    () => window.matchMedia("(max-width: 599px)").matches
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 599px)");
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  const grouped = CATEGORIES.reduce((acc, { key }) => {
+    acc[key] = meals.filter((m) => m.mealType === key);
+    return acc;
+  }, {});
+
   return (
-    <div className="flex row mx-0  g-4 border border-danger">
-      <h2>
-        BreakFast{" "}
-        <span className="badge bg-secondary">{mealsCount.breakfast}</span>
-      </h2>
-      {breakfast.length > 0 ? (
-        breakfast.map((meal, index) => {
-          return (
-            <div className=" col-12 col-sm-6 col-xl-4 col-xxl-3" key={index}>
-              <MealCard
-                meals={meal}
-                selectMeal={selectMeal}
-                weeklyPlan={weeklyPlan}
-                daySelection={daySelection}
-                selectedDay={selectedDay}
-              />
-            </div>
-          );
-        })
-      ) : (
-        <p>no breakfast were found</p>
-      )}
-      <hr />
-      <h2>
-        Lunch <span className="badge bg-secondary">{mealsCount.lunch}</span>
-      </h2>
-      {lunch.length > 0 ? (
-        lunch.map((meal, index) => {
-          return (
-            <div className="col-12 col-sm-6 col-xl-4 col-xxl-3" key={index}>
-              <MealCard
-                meals={meal}
-                selectMeal={selectMeal}
-                weeklyPlan={weeklyPlan}
-                daySelection={daySelection}
-                selectedDay={selectedDay}
-              />
-            </div>
-          );
-        })
-      ) : (
-        <p>no lunch were found</p>
-      )}
-      <hr />
-      <h2>
-        Dinner <span className="badge bg-secondary">{mealsCount.dinner}</span>
-      </h2>
-      {dinner.length > 0 ? (
-        dinner.map((meal, index) => {
-          return (
-            <div className="col-12 col-sm-6 col-xl-4 col-xxl-3" key={index}>
-              <MealCard
-                meals={meal}
-                selectMeal={selectMeal}
-                weeklyPlan={weeklyPlan}
-                daySelection={daySelection}
-                selectedDay={selectedDay}
-              />
-            </div>
-          );
-        })
-      ) : (
-        <p>no dinner were found</p>
-      )}
-      <hr />
-      <button type="button" onClick={() => handlefiltereredMealsOnClick(meals)}>
-        From Meal List
-      </button>
+    <div className="meal-list-container">
+      {CATEGORIES.map(({ key, label }) => (
+        <MealSection
+          key={key}
+          categoryKey={key}
+          label={label}
+          categoryMeals={grouped[key]}
+          count={mealsCount?.[key] ?? grouped[key].length}
+          isMobile={isMobile}
+          isSelected={daySelection?.[selectedDay]?.[key] != null}
+          selectMeal={selectMeal}
+          weeklyPlan={weeklyPlan}
+          selectedDay={selectedDay}
+          daySelection={daySelection}
+        />
+      ))}
     </div>
   );
 }

@@ -11,7 +11,7 @@ function MealCard({ meals, selectMeal, daySelection }) {
     daySelection[meals.mealType].id === meals.id;
   return (
     <>
-      <main className="mainMealCardContainer ">
+      <main className="mainMealCardContainer card ">
         <section className="mealImgAndButtonSection">
           <img
             src={meals.image}

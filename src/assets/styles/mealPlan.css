@@ -15,6 +15,8 @@
     --secondary-green:#E3F2EC;
     --main-back-ground-color:#FAF7F7;
     --secondary-back-ground-color:#f0eeef;
+    --white-background: #ffffff;
+    --light-parrot-green:#f0efeb;
     --text-main-color:#2E2333;
     --warning-color:#C7410C;
 
@@ -27,11 +29,13 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    padding: 10px;
+    background-color: var(--light-parrot-green);
     /* padding: 10px; */
-      background-image: url(../images/gradientbackground2.png);
+      /* background-image: url(../images/gradientbackground2.png);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: cover; */
     /* background-blend-mode: color-burn; */
 }
 
@@ -50,26 +54,41 @@
 
 /* ==================Day selection section ======================*/
 .daySelectSection{
+  background-color: var(--secondary-back-ground-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--primary-gap);
     /* border: 5px solid mediumspringgreen; */
 }
 .daySelectSection ul{
     /* border: 3px solid slateblue; */
    display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
+   flex: 0 0 70%; 
+  padding: 0;
+  margin: 0;
+    /* flex-wrap: wrap; */
+    justify-content: space-around;
     flex-direction: row;
     align-items: center;
-     width: 100%; 
+     /* width: 60%; */
      gap: var(--primary-gap);
+     /* border: 2px solid red; */
+     background-color: var(--white-background);
+     border-radius: var(--border-radius);
 }
 
 
 .daySelectSection ul li{
+  /* border-right: 1px solid rgba(20, 20, 20, 0.202); */
     text-decoration: none;
     list-style: none;
+    padding: var(--container-padding);
     /* margin: 0 auto; */
-    /* border: 2px solid red; */
-    width: fit-content;
+    border-radius:var(--border-radius);
+    /* border: 1px solid rgba(15, 15, 15, 0.13); */
+    /* width: fit-content; */
+    width: 100px;
 }
 
 
@@ -84,15 +103,22 @@
 /* day title section */
 .dayTitleSection{
     padding: 10px 0 10px 0;
-    /* border: 2px solid lawngreen; */
+    border: 2px solid lawngreen;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: var(--primary-gap);
-    width: 60%;
-    margin: 0 auto;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
+    line-height: 1.2;
+    /* gap: var(--primary-gap); */
+    width: 100%;
+    /* margin: 0 auto; */
 
+}
+.testButton{
+  width: 140px;
+  height: 50px;
+  background: var(--primary-green);
+  color: var(--white-background);
 }
 .dayTitle{
     /* border: 2px solid red; */
@@ -132,7 +158,13 @@
   transition: all 0.2s ease;
   box-shadow: inset 0px 1px 3px 3px #5e5e5e
 }
-
+.save-day-btn-top{
+  /* height: 56px; */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  flex: 0 0 30%;
+}
 .save-day-btn {
   background: var(--primary-green);
   color: white;
@@ -221,4 +253,29 @@
     flex-direction: column;
     gap: 12px;
   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.cont{
+  border: 2px solid red;
+}
+
+
+/* meal list*/
+.badge{
+  background-color: var(--primary-green);
 }

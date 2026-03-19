@@ -11,14 +11,14 @@
     --secondary-button-back-ground:#ebe1e1;
     --text-main-color:#2E2333;
     --warning-color:#C7410C;
+    --light-parrot-green:#f0efeb;
 
 }
 
 .button {
   max-height: 52px;
-  min-width: 120px;
+  /* min-width: 120px; */
     font-weight: 500;
-
   position: relative;
   cursor: pointer;
   padding: 12px 17px;
@@ -38,11 +38,9 @@
   content: "";
   width: 70%;
   height: 1px;
-
   position: absolute;
   bottom: 0;
   left: 15%;
-
   background: rgb(255, 255, 255);
   background: linear-gradient(
     90deg,
@@ -55,9 +53,15 @@
   transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
 }
 
+.dayButton:hover {
+  color: var(--text-main-color);
+  background: var(--light-parrot-green);
+  /* transform: scale(1.1) translateY(-3px); */
+}
 .button:hover {
-  color: rgb(255, 255, 255, 1);
-  transform: scale(1.1) translateY(-3px);
+  /* color: rgb(255, 255, 255, 1); */
+  /* background: var(--light-parrot-green); */
+  /* transform: scale(1.1) translateY(-3px); */
 }
 
 .button:hover::before {
@@ -69,9 +73,10 @@
   /* color: red; */
 }
 .inActive{
-  font-weight: 500;
+  /* font-weight: 500; */
   color: var(--text-main-color);
-  background: var(--secondary-button-back-ground);
+  /* background: var(--secondary-button-back-ground); */
+  background: #ffffff;
 
 }
 
@@ -84,4 +89,12 @@
 }
 .click{
   background: var(--text-main-color);
+}
+
+
+
+/* dayButton in mealPlanning page */
+.dayButton{
+  /* min-width: 72px; */
+  width: 100%;
 }
