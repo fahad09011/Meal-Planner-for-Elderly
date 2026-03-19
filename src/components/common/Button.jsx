@@ -10,7 +10,7 @@ function Button({
     const buttonBaseClass = "button";
   return (
     <>
-    <div>
+ 
     
 <button type={type}
         onClick={onClick}
@@ -19,7 +19,7 @@ function Button({
         disabled={disabled}
         >{children}</button>
 
-    </div>
+    
     </>
   )
 }

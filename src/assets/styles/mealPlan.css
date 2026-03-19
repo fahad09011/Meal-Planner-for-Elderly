@@ -1,140 +1,109 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+/* ── Page wrapper ── */
+.mainWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  padding: 10px;
+  background-color: var(--light-bg);
 }
 
-:root{
-    --border-light:2px solid #a9a1a159;
-    --border-radius: 13px 13px 13px 13px;
-    --container-padding: 5px;
-    --primary-font-size: 1.25rem;
-    --primary-gap: 10px;
-    --seconary-gap: 5px;
-    --primary-green:#678B7A;
-    --secondary-green:#E3F2EC;
-    --main-back-ground-color:#FAF7F7;
-    --secondary-back-ground-color:#f0eeef;
-    --white-background: #ffffff;
-    --light-parrot-green:#f0efeb;
-    --text-main-color:#2E2333;
-    --warning-color:#C7410C;
-
+/* ── Header container ── */
+.mealPlanMainContainer {
+  width: 100%;
+  padding: 10px;
 }
 
-
-/* ================= main wrapper ================ */
-.mainWrapper{
-    border: 2px solid black;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 10px;
-    background-color: var(--light-parrot-green);
-    /* padding: 10px; */
-      /* background-image: url(../images/gradientbackground2.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover; */
-    /* background-blend-mode: color-burn; */
+.mealPlanTitle {
+  padding-bottom: 10px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-main);
 }
 
-/* =====================main container =====================*/
-.mealPlanMainContainer{
-    width: 100%;
-    padding: 10px;
-/* border: 2px solid tomato; */
-}
-
-/*==================== main page title container ===============*/
-.mealPlanMainContainerTitle{
-    /* border: 1px solid fuchsia; */
-    padding-bottom: 10px;
-}
-
-/* ==================Day selection section ======================*/
-.daySelectSection{
-  background-color: var(--secondary-back-ground-color);
+/* ── Day selector ── */
+.daySelectSection {
+  background-color: var(--secondary-bg);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--primary-gap);
-    /* border: 5px solid mediumspringgreen; */
+  gap: var(--gap);
+  padding: 8px;
+  border-radius: var(--border-radius);
 }
-.daySelectSection ul{
-    /* border: 3px solid slateblue; */
-   display: flex;
-   flex: 0 0 70%; 
-  padding: 0;
+
+.dayListContainer {
+  display: flex;
+  flex: 0 0 70%;
+  padding: 6px;
   margin: 0;
-    /* flex-wrap: wrap; */
-    justify-content: space-around;
-    flex-direction: row;
-    align-items: center;
-     /* width: 60%; */
-     gap: var(--primary-gap);
-     /* border: 2px solid red; */
-     background-color: var(--white-background);
-     border-radius: var(--border-radius);
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap);
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  list-style: none;
 }
 
-
-.daySelectSection ul li{
-  /* border-right: 1px solid rgba(20, 20, 20, 0.202); */
-    text-decoration: none;
-    list-style: none;
-    padding: var(--container-padding);
-    /* margin: 0 auto; */
-    border-radius:var(--border-radius);
-    /* border: 1px solid rgba(15, 15, 15, 0.13); */
-    /* width: fit-content; */
-    width: 100px;
+.dayList {
+  text-decoration: none;
+  list-style: none;
+  padding: var(--container-padding);
+  border-radius: var(--border-radius);
+  width: 100px;
 }
 
-
-
-/*============ progressbar section================= */
-.progressBarSection{
-    padding: 10px 0 10px 0;
-    /* border: 2px solid red; */
-    width: 50%;
+/* ── Progress bar ── */
+.progressBarSection {
+  padding: 10px 0;
+  width: 50%;
 }
 
-/* day title section */
-.dayTitleSection{
-    padding: 10px 0 10px 0;
-    border: 2px solid lawngreen;
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
-    line-height: 1.2;
-    /* gap: var(--primary-gap); */
-    width: 100%;
-    /* margin: 0 auto; */
-
+/* ── Day title ── */
+.dayTitleSection {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+  width: 100%;
 }
-.testButton{
+
+.dayTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.dayText {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ── Temp fetch button (remove when done) ── */
+.testButton {
   width: 140px;
-  height: 50px;
+  height: 44px;
   background: var(--primary-green);
-  color: var(--white-background);
-}
-.dayTitle{
-    /* border: 2px solid red; */
-    width: 38%;
-}
-.dayText{
-    /* border: 2px solid black; */
+  color: var(--white);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  margin-top: 8px;
+  font-size: var(--font-size-sm);
 }
 
+/* ── Main content container ── */
+.cont {
+  width: 100%;
+  padding: 10px;
+}
 
-/* button section ================================ */
+/* ── Action buttons ── */
 .action-buttons-section {
-  padding: 32px 24px;
-  /* background: linear-gradient(135deg, #f8f9fa 0%, white 100%); */
-  /* border-top: 2px solid rgb(148 148 155 / 20%); */
-  margin-top: 24px;
+  padding: 24px;
+  margin-top: 16px;
 }
 
 .day-actions {
@@ -146,62 +115,10 @@
   flex-wrap: wrap;
 }
 
-.save-day-btn, .generate-plan-btn {
-  flex: 1;
-  min-width: 180px;
-  height: 56px;      /* Large touch target */
-  font-size: 18px;   /* Large text */
-  font-weight: 600;
-  border-radius: 16px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: inset 0px 1px 3px 3px #5e5e5e
-}
-.save-day-btn-top{
-  /* height: 56px; */
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  flex: 0 0 30%;
-}
-.save-day-btn {
-  background: var(--primary-green);
-  color: white;
-}
-
-.save-day-btn:hover:not(:disabled) {
-  background: #5a7d68;
-  transform: translateY(-1px);
-}
-
-.generate-plan-btn {
-  background: #6c757d;
-  color: white;
-}
-
-.generate-plan-btn:not(:disabled) {
-  background: var(--primary-green);
-}
-
-.generate-plan-btn:disabled {
-  background: #dee2e6;
-  color: #6c757d;
-  cursor: not-allowed;
-}
-.mealCompleteBadge{
-  font-size: var(--primary-font-size);
-  /* word-spacing:; */
-  padding-left: 10px;
-  /* font-weight: bolder; */
-}
-
-
-
-/* loading spinner and erro container */
+/* ── Loading & error states ── */
 .loading-container,
 .error-container {
-  min-height: 400px;  /* Same height as MealList */
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -221,61 +138,74 @@
   width: 48px;
   height: 48px;
   border: 4px solid #e5e7eb;
-  border-top: 4px solid #678B7A;
+  border-top: 4px solid var(--primary-green);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  to { transform: rotate(360deg); }
 }
 
 .error-container button {
-  background: #678B7A;
-  color: white;
+  background: var(--primary-green);
+  color: var(--white);
   border: none;
   padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
   cursor: pointer;
 }
 
 .loading-container p,
 .error-container p {
-  font-size: 1.125rem;
-  color: #374151;
+  font-size: var(--font-size-lg);
+  color: var(--text-main);
   margin: 0;
 }
 
+/* ── Meal complete badge ── */
+.mealCompleteBadge {
+  font-size: var(--font-size-base);
+  padding-left: 10px;
+}
+
+/* ── Meal section header badge ── */
+.badge {
+  background-color: var(--primary-green);
+  color: var(--white);
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: var(--font-size-sm);
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
+  .progressBarSection {
+    width: 100%;
+  }
+
+  .dayListContainer {
+    flex: 1;
+    gap: var(--gap-sm);
+  }
+
+  .dayList {
+    width: auto;
+    flex: 1;
+  }
+
   .day-actions {
     flex-direction: column;
     gap: 12px;
   }
-}
 
+  .daySelectSection {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.cont{
-  border: 2px solid red;
-}
-
-
-/* meal list*/
-.badge{
-  background-color: var(--primary-green);
+  .save-day-btn-top {
+    width: 100%;
+  }
 }

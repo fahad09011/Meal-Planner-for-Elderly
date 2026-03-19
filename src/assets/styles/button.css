@@ -1,100 +1,135 @@
-:root{
-    --border-light:2px solid #a9a1a159;
-    --border-radius: 13px 13px 13px 13px;
-    --container-padding: 5px;
-    --primary-font-size: 1.125rem;
-    --primary-gap: 10px;
-    --seconary-gap: 5px;
-    --primary-green:#455E4E;
-    --secondary-green:#E3F2EC;
-    --main-back-ground-color:#FAF7F7;
-    --secondary-button-back-ground:#ebe1e1;
-    --text-main-color:#2E2333;
-    --warning-color:#C7410C;
-    --light-parrot-green:#f0efeb;
-
-}
-
+/* ── Base shared reset — applied manually per button ── */
 .button {
-  max-height: 52px;
-  /* min-width: 120px; */
-    font-weight: 500;
-  position: relative;
+  font-weight: 500;
+  font-size: var(--font-size-base);
   cursor: pointer;
-  padding: 12px 17px;
-  border: 0;
-  border-radius: 7px;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-  background: radial-gradient(
-    ellipse at bottom,
-    var(--secondary-green) 0%,
-    var(--primary-green) 0%
-  );
-  color: var(--main-back-ground-color);
-  transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+  padding: 10px 17px;
+  border: none;
+  outline: none;
+  border-radius: var(--border-radius);
+  background: var(--primary-green);
+  color: var(--white);
+  transition: background 0.2s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
-.button::before {
-  content: "";
-  width: 70%;
-  height: 1px;
-  position: absolute;
-  bottom: 0;
-  left: 15%;
-  background: rgb(255, 255, 255);
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 1) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  opacity: 0.2;
-
-  transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+.button:hover:not(:disabled) {
+  background: var(--primary-green-hover);
 }
 
-.dayButton:hover {
-  color: var(--text-main-color);
-  background: var(--light-parrot-green);
-  /* transform: scale(1.1) translateY(-3px); */
-}
-.button:hover {
-  /* color: rgb(255, 255, 255, 1); */
-  /* background: var(--light-parrot-green); */
-  /* transform: scale(1.1) translateY(-3px); */
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.button:hover::before {
+/* ── Inactive / ghost — used on unselected day buttons ── */
+.inActive {
+  background: var(--white);
+  color: var(--text-main);
+  border: var(--border-light);
+}
+
+.inActive:hover {
+  background: var(--light-bg);
+  color: var(--text-main);
+}
+
+/* ── Day selector button ── */
+.dayButton {
+  width: 100%;
+  padding: 10px 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+/* ── Save / Generate buttons ── */
+.save-day-btn,
+.generate-plan-btn {
+  flex: 1;
+  min-width: 160px;
+  height: 52px;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  border-radius: var(--border-radius);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save-day-btn {
+  background: var(--primary-green);
+  color: var(--white);
+}
+
+.save-day-btn:hover {
+  background: var(--primary-green-hover);
+  transform: translateY(-1px);
+}
+
+/* Top save button — smaller, no flex grow */
+.save-day-btn-top {
+  flex: 0 0 auto;
+  min-width: 140px;
+  height: 44px;
+  font-size: var(--font-size-base);
+  white-space: nowrap;
+}
+
+.generate-plan-btn:not(:disabled) {
+  background: var(--primary-green);
+  color: var(--white);
+}
+
+.generate-plan-btn:not(:disabled):hover {
+  background: var(--primary-green-hover);
+  transform: translateY(-1px);
+}
+
+.generate-plan-btn:disabled {
+  background: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
   opacity: 1;
 }
 
-.activeButton{
-  background: black;
-  /* color: red; */
-}
-.inActive{
-  /* font-weight: 500; */
-  color: var(--text-main-color);
-  /* background: var(--secondary-button-back-ground); */
-  background: #ffffff;
-
-}
-
-/* meal comp button */
-.mealButton{
+/* ── Meal card select button ── */
+.mealButton {
   width: 100%;
-  font-size: 1.2rem;
-  /* height: 52px; */
+  height: 44px;
+  font-size: var(--font-size-base);
   font-weight: 500;
+  border: none;
+  outline: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-.click{
-  background: var(--text-main-color);
+
+/* ── Selected meal state ── */
+.click {
+  background: var(--text-main);
+  color: var(--white);
 }
 
-
-
-/* dayButton in mealPlanning page */
-.dayButton{
-  /* min-width: 72px; */
-  width: 100%;
+.click:hover {
+  background: #444;
 }

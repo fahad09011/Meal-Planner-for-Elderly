@@ -1,50 +1,48 @@
-import React, { useState } from "react";
-import cerealImage from "../../assets/images/cereal.jpg";
+import React from "react";
 import Button from "../common/Button";
 import "../../assets/styles/mealCard.css";
-function MealCard({ meals, selectMeal, daySelection }) {
-  let capitalizer = (string) => {
-    return string ? string[0].toUpperCase() + string.slice(1) : "";
-  };
-  const isSelect =
-    daySelection[meals.mealType] &&
-    daySelection[meals.mealType].id === meals.id;
-  return (
-    <>
-      <main className="mainMealCardContainer card ">
-        <section className="mealImgAndButtonSection">
-          <img
-            src={meals.image}
-            alt="mealimage"
-            className="mealImage card-img-top"
-          />
-          <div className="mealButtoncontainer">
-            <Button
-              className={` mealButton ${isSelect ? "click" : ""}`}
-              onClick={() => selectMeal(meals)}
-            >
-              {isSelect ? "Selected" : "Select"}
-            </Button>
-          </div>
-        </section>
 
-        <section className="mealDataSection">
-          <div className="mealNameContainer">
-            <p className="mealName">{meals.title}</p>
-          </div>
-          <div className="mealdescriptionContainer">
-            {/* <p className="mealDescription">{meals.description}</p> */}
-            <p className="mealDescription">Ise bad me dekhain gain</p>
-          </div>
-          <div className="mealTagContainer">
-            {meals.diet.map((meal, index) => (
-              <p key={index}>{capitalizer(meal)}</p>
-            ))}
-            
-          </div>
-        </section>
-      </main>
-    </>
+function MealCard({ meals, selectMeal, daySelection }) {
+  const capitalizer = (string) =>
+    string ? string[0].toUpperCase() + string.slice(1) : "";
+
+  const isSelected =
+    daySelection?.[meals.mealType]?.id === meals.id;
+
+  return (
+    <div className="mainMealCardContainer">
+
+      {/* ── Image ── */}
+      <img
+        src={meals.image}
+        alt={meals.title}
+        className="mealImage"
+      />
+
+      {/* ── Select button ── */}
+      <div className="mealButtoncontainer">
+        <Button
+          className={`mealButton ${isSelected ? "click" : "button"}`}
+          onClick={() => selectMeal(meals)}
+        >
+          {isSelected ? "✓ Selected" : "Select"}
+        </Button>
+      </div>
+
+      {/* ── Text data ── */}
+      <div className="mealDataSection">
+        <p className="mealName">{meals.title}</p>
+        <p className="mealDescription">Ise bad me dekhain gain</p>
+        <div className="mealTagContainer">
+          {meals.diet.map((tag, index) => (
+            <span key={index} className="mealTag">
+              {capitalizer(tag)}
+            </span>
+          ))}
+        </div>
+      </div>
+
+    </div>
   );
 }
 
