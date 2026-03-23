@@ -9,7 +9,7 @@ const filterByDietary = (meal, profile) => {
 
     return true;
   }
-  const mealDiet = Array.isArray(meal.diet) ? meal.diet : [];
+  const mealDiet = Array.isArray(meal.diets) ? meal.diets : [];
   return profile.dietary.every((selectedDiet)=>{
     const allowedDiets = dietCompatibilityMap[selectedDiet] || [selectedDiet];
     return allowedDiets.some((allowedDiet)=>mealDiet.includes(allowedDiet));
@@ -48,8 +48,7 @@ const filterByHealthCondition = (meal, profile) => {
           healthConditionRules[healthCondition],
         )) {
           const { ruleType, nutrientKey } = parseNutritionRuleKey(key);
-          const mealNutrient = meal.nutrition?.[nutrientKey];
-          const nutrientAmount = mealNutrient?.amount ?? 0;
+          const nutrientAmount = meal.nutrition?.[nutrientKey] ?? 0;
           const hasValue = Number.isFinite(nutrientAmount);
           if (!hasValue) continue;
           if (ruleType === "min" && nutrientAmount === 0) continue;

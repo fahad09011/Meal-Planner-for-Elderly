@@ -90,25 +90,25 @@ describe("extractNutrition", () => {
       ],
     };
     const result = extractNutrition(apiNutrition);
-    expect(result.calories).toEqual({ amount: 450, unit: "kcal" });
-    expect(result.sodium).toEqual({ amount: 350, unit: "mg" });
-    expect(result.fiber).toEqual({ amount: 8, unit: "g" });
-    expect(result.sugar).toEqual({ amount: 12, unit: "g" });
-    expect(result.saturatedFat).toEqual({ amount: 4, unit: "g" });
-    expect(result.carbs).toEqual({ amount: 55, unit: "g" });
-    expect(result.protein).toEqual({ amount: 25, unit: "g" });
+    expect(result.calories).toBe(450);
+    expect(result.sodium).toBe(350);
+    expect(result.fiber).toBe(8);
+    expect(result.sugar).toBe(12);
+    expect(result.saturatedFat).toBe(4);
+    expect(result.carbs).toBe(55);
+    expect(result.protein).toBe(25);
   });
 
   it("defaults to 0 for missing nutrients", () => {
     const result = extractNutrition({ nutrients: [] });
-    expect(result.calories.amount).toBe(0);
-    expect(result.sodium.amount).toBe(0);
-    expect(result.fiber.amount).toBe(0);
+    expect(result.calories).toBe(0);
+    expect(result.sodium).toBe(0);
+    expect(result.fiber).toBe(0);
   });
 
   it("handles undefined/null input", () => {
     const result = extractNutrition(undefined);
-    expect(result.calories.amount).toBe(0);
-    expect(result.sodium.amount).toBe(0);
+    expect(result.calories).toBe(0);
+    expect(result.sodium).toBe(0);
   });
 });

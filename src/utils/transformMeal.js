@@ -4,50 +4,43 @@
 //   image: "",
 //   readyInMinutes: 0,
 //   servings: 0,
-
-//   diet: [],
-
+//   pricePerServing: 0,
+//
+//   diets: [],
+//
 //   mealType: "",
-
+//
 //   ingredients: [
 //     {
 //       aisle: "",
 //       name: "",
 //       description: "",
-//       quantity: {
-//         amount: 0,
-//         unit: "",
-//       },
+//       quantity: { amount: 0, unit: "" },
 //     },
 //   ],
-
-//   allergens: {},
-
+//
 //   nutrition: {
-//     calories: { amount: 0, unit: "kcal" },
-//     carbs: { amount: 0, unit: "g" },
-//     protein: { amount: 0, unit: "g" },
-//     fat: { amount: 0, unit: "g" },
-//     fiber: { amount: 0, unit: "g" },
-//     sodium: { amount: 0, unit: "mg" },
-//     sugar: { amount: 0, unit: "g" },
-//     calcium: { amount: 0, unit: "mg" },
-//     iron: { amount: 0, unit: "mg" },
-//     folate: { amount: 0, unit: "µg" },
-//     phosphorus: { amount: 0, unit: "mg" },
-//     saturatedFat: { amount: 0, unit: "g" },
-//     vitaminB12: { amount: 0, unit: "µg" },
-//     vitaminC: { amount: 0, unit: "mg" },
-//     vitaminD: { amount: 0, unit: "" },
+//     calories: 0,      // kcal
+//     carbs: 0,          // g
+//     protein: 0,        // g
+//     fat: 0,            // g
+//     fiber: 0,          // g
+//     sodium: 0,         // mg
+//     sugar: 0,          // g
+//     calcium: 0,        // mg
+//     iron: 0,           // mg
+//     folate: 0,         // µg
+//     phosphorus: 0,     // mg
+//     saturatedFat: 0,   // g
+//     vitaminB12: 0,     // µg
+//     vitaminC: 0,       // mg
+//     vitaminD: 0,
 //   },
-
+//
 //   instructions: [
-//     {
-//       stepNumber: 0,
-//       description: "",
-//     },
+//     { stepNumber: 0, description: "" },
 //   ],
-
+//
 //   summary: "",
 // };
 import { dietResponseMap } from "../services/nutrition/dietMap";
@@ -77,10 +70,9 @@ export const extractNutrition = (apiNutrition) => {
     const nutrient = nutrients.find(
       (apiNut) => apiNut?.name === mapedNutrients,
     );
-    result[key] = {
-      amount: nutrient?.amount ?? 0,
-      unit: nutrient?.unit ?? "",
-    };
+    result[key] = nutrient?.amount ?? 0;
+    
+    
   });
   return result;
 };
@@ -189,7 +181,7 @@ export const transFormMeal = (apiMeal) => {
     servings: apiMeal.servings ?? 0,
     pricePerServing: Number(((apiMeal.pricePerServing ?? 0) / 100).toFixed(2)),
     nutrition: extractNutrition(apiMeal.nutrition),
-    diet: extractDiet(apiMeal.diets),
+    diets: extractDiet(apiMeal.diets),
     mealType: extractMealCategory(apiMeal.dishTypes),
     ingredients: extractIngredients(apiMeal.extendedIngredients),
     instructions: extractInstructions(apiMeal.analyzedInstructions),

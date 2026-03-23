@@ -2,7 +2,7 @@ import React from "react";
 import MealCard from "./MealCard";
 import HorizontalScroll from "./HorizontalScroll";
 
-const GRID_COLS = "col-12 col-sm-6 col-lg-4 col-xl-3";
+const GRID_COLS = "col-12 col-sm-4 col-lg-4 col-xl-3";
 
 function MealSection({
   categoryKey, label, categoryMeals, count,

@@ -13,6 +13,7 @@
   "dependencies": {
     "@ramonak/react-progress-bar": "^5.4.0",
     "@supabase/supabase-js": "^2.99.0",
+    "date-fns": "^4.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",

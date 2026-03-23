@@ -8,7 +8,7 @@ import "../assets/styles/button.css";
 import Button from "../components/common/Button";
 import MealList from "../components/meals/MealList";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-
+import AutoGenerateBanner from "../components/meals/AutoGenerateBanner";
 import { AppContext } from "../context/AppContext";
 
 function MealPlan() {
@@ -21,13 +21,28 @@ function MealPlan() {
     "Saturday",
     "Sunday",
   ];
-
-  const { weeklyPlan, setWeeklyPlan, saveWeeklyPlan, profileData } = useContext(AppContext);
+  const { weeklyPlan, setWeeklyPlan, saveWeeklyPlan, profileData,saveCurrentMealPlan, mealPlanLoading } = useContext(AppContext);
   
   const [selectedDay, SetselectedDay] = useState("Monday");
 
-  const { apiMeals, loadingMeals, mealError, fetchApiMeals,daySelection,
-    selectMeal,isDayCompleted,completedDay,handleSaveDayPlan,generateWeeklyPlan } = useMealPlan({ days, weeklyPlan, setWeeklyPlan, selectedDay, saveWeeklyPlan, profileData });
+  const { apiMeals,
+     loadingMeals,
+      mealError,
+       fetchApiMeals,
+       daySelection,
+    selectMeal,
+    isDayCompleted,
+    completedDay,
+    handleSaveDayPlan,
+    generateWeeklyPlan
+   } = useMealPlan({ 
+      days, 
+      weeklyPlan, 
+      setWeeklyPlan, 
+      selectedDay, 
+      saveWeeklyPlan, 
+      profileData,
+      saveCurrentMealPlan });
     
     const { count, filteredMeals } = useNutrition(apiMeals);
     // ise fix krna hai, at a monet local meal file se mealtype calculate kr raha hai 
@@ -52,7 +67,7 @@ function MealPlan() {
           <div className="mealPlanMainContainerTitle">
             <h2>Generate Weekly Plan</h2>
           </div>
-
+<AutoGenerateBanner  />
           {/* day selectior section */}
           <section className="daySelectSection">
             <ul className="dayListContainer">

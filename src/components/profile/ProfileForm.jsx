@@ -327,18 +327,26 @@ useEffect(()=>{
           </section>
           <hr />
           <div className="formButtonContainer">
-            {!hasProfile ? (
-              <Button type="submit">{isSubmitting ? "Saving..." : "Save Profile"}</Button>
-            ) : (
-              <>
-                <Button type="submit">{isSubmitting ? "Updating..." : "Update Profile"}</Button>
+  {!hasProfile ? (
+    <Button type="submit" className="button">
+      {isSubmitting ? "Saving..." : "Save Profile"}
+    </Button>
+  ) : (
+    <>
+      <Button type="submit" className="button">
+        {isSubmitting ? "Updating..." : "Update Profile"}
+      </Button>
 
-                <Button type="button" onClick={handleOnClearProfile}>
-                  Clear Profile
-                </Button>
-              </>
-            )}
-          </div>
+      <Button
+        type="button"
+        className="inActive button"
+        onClick={handleOnClearProfile}
+      >
+        Clear Profile
+      </Button>
+    </>
+  )}
+</div>
         </form>
       </main>
     </div>
