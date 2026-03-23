@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getProfile, createProfile, updateProfile } from "../services/profileService";
+import { saveMealPlan, getMealPlanByWeek } from "../services/mealPlanService";
 import { AppContext } from "../context/AppContext";
 
 function TestAuth() {
   const { user, authLoading, isAuthenticated, signOut, signIn } = useAuth();
-  const { saveProfile, clearProfile, profileData, hasProfile } = useContext(AppContext);
+  const { saveProfile, clearProfile, profileData, hasProfile, weeklyPlan, setWeeklyPlan, saveWeeklyPlan } = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [log, setLog] = useState([]);
@@ -91,6 +92,55 @@ function TestAuth() {
     addLog("hasProfile:", hasProfile);
   };
 
+  // ── mealPlanService (direct DB) ──
+  const handleSaveMealPlanDB = async () => {
+    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    const weekStart = "2026-03-16";
+    addLog("Saving weeklyPlan to DB...", { userId: user.id, weekStart });
+    const result = await saveMealPlan(user.id, weekStart, weeklyPlan);
+    addLog("saveMealPlan:", result);
+  };
+
+  const handleGetMealPlanByWeek = async () => {
+    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    const weekStart = "2026-03-16";
+    addLog("Getting meal plan from DB...", { userId: user.id, weekStart });
+    const result = await getMealPlanByWeek(user.id, weekStart);
+    addLog("getMealPlanByWeek:", result);
+  };
+
+  const handleSaveMealPlanAuto = async () => {
+    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    const weekStart = "2026-03-16";
+    addLog("Saving weeklyPlan (auto mode) to DB...", { userId: user.id, weekStart, mode: "auto" });
+    const result = await saveMealPlan(user.id, weekStart, weeklyPlan, "auto");
+    addLog("saveMealPlan (auto):", result);
+  };
+
+  // ── AppContext meal plan methods ──
+  const handleSaveWeeklyPlanCtx = () => {
+    saveWeeklyPlan(weeklyPlan);
+    addLog("saveWeeklyPlan (context) called", weeklyPlan);
+  };
+
+  const handleShowWeeklyPlan = () => {
+    addLog("weeklyPlan state:", weeklyPlan);
+  };
+
+  const handleClearWeeklyPlan = () => {
+    const emptyPlan = {
+      Monday: { breakfast: null, lunch: null, dinner: null },
+      Tuesday: { breakfast: null, lunch: null, dinner: null },
+      Wednesday: { breakfast: null, lunch: null, dinner: null },
+      Thursday: { breakfast: null, lunch: null, dinner: null },
+      Friday: { breakfast: null, lunch: null, dinner: null },
+      Saturday: { breakfast: null, lunch: null, dinner: null },
+      Sunday: { breakfast: null, lunch: null, dinner: null },
+    };
+    setWeeklyPlan(emptyPlan);
+    addLog("weeklyPlan cleared", {});
+  };
+
   useEffect(() => {
     if (!authLoading) {
       addLog("Auth ready. User:", user ? user.email : "none");
@@ -133,6 +183,26 @@ function TestAuth() {
           <button onClick={handleSaveProfile} disabled={!isAuthenticated} style={btnStyle}>4. saveProfile</button>
           <button onClick={handleClearProfile} style={btnStyle}>5. clearProfile</button>
           <button onClick={handleShowState} style={btnStyle}>6. Show State</button>
+        </div>
+      </div>
+
+      {/* Meal Plan DB service buttons */}
+      <div style={{ marginBottom: "0.5rem" }}>
+        <strong>mealPlanService (direct DB):</strong>
+        <div style={{ display: "flex", gap: "0.5rem", marginTop: "4px", flexWrap: "wrap" }}>
+          <button onClick={handleSaveMealPlanDB} disabled={!isAuthenticated} style={btnStyle}>7. saveMealPlan (manual)</button>
+          <button onClick={handleSaveMealPlanAuto} disabled={!isAuthenticated} style={btnStyle}>8. saveMealPlan (auto)</button>
+          <button onClick={handleGetMealPlanByWeek} disabled={!isAuthenticated} style={btnStyle}>9. getMealPlanByWeek</button>
+        </div>
+      </div>
+
+      {/* Meal Plan Context buttons */}
+      <div style={{ marginBottom: "0.5rem" }}>
+        <strong>AppContext meal plan:</strong>
+        <div style={{ display: "flex", gap: "0.5rem", marginTop: "4px", flexWrap: "wrap" }}>
+          <button onClick={handleSaveWeeklyPlanCtx} style={btnStyle}>10. saveWeeklyPlan</button>
+          <button onClick={handleShowWeeklyPlan} style={btnStyle}>11. Show WeeklyPlan</button>
+          <button onClick={handleClearWeeklyPlan} style={btnStyle}>12. Clear WeeklyPlan</button>
         </div>
       </div>
 

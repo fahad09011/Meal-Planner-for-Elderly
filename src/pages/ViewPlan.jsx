@@ -1,41 +1,64 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 import "../assets/styles/viewplan.css";
 import Button from "../components/common/Button";
 import DayPlanCard from "../components/meals/DayPlanCard";
-import { IoCalendarOutline } from "react-icons/io5";
-
+import { useNavigate } from "react-router-dom";
+import { getWeekStartDate,getWeekLastDate } from "../utils/helpers";
+import { useAuth } from "../context/AuthContext";
 const DAYS = [
   "Monday","Tuesday","Wednesday",
   "Thursday","Friday","Saturday","Sunday"
 ];
 
 function ViewPlan() {
-  const { weeklyPlan } = useContext(AppContext);
-  const [activeDay, setActiveDay] = useState("Monday");
+  const { authLoading } = useAuth();
+  const weekStartDate = getWeekStartDate();
+  const weekEndDate = getWeekLastDate();
 
-  const completedDays = DAYS.filter(
-    (day) =>
-      weeklyPlan[day]?.breakfast &&
-      weeklyPlan[day]?.lunch &&
-      weeklyPlan[day]?.dinner
+  const { weeklyPlan, loadMealPlanForWeek, mealPlanLoading } = useContext(AppContext);
+  const [activeDay, setActiveDay] = useState("Monday");
+  const navigate = useNavigate();
+
+  const completedDays = DAYS.filter((day) =>
+    weeklyPlan[day]?.breakfast &&
+    weeklyPlan[day]?.lunch &&
+    weeklyPlan[day]?.dinner
   ).length;
 
   const progress = Math.round((completedDays / 7) * 100);
 
+ 
+
+  useEffect(()=>{
+    // loadMealPlanForWeek(weekStartDate);
+    if(authLoading) return;
+    
+    const fetchSavemealPlan = async ()=>{
+      const result = await loadMealPlanForWeek(weekStartDate)
+      console.log("weeklyPlan from DB", result);
+    };
+  fetchSavemealPlan();
+  },[authLoading,weekStartDate]);
+
+  useEffect(() => {
+    console.log("weeklyPlan from context:", weeklyPlan);
+  }, [weeklyPlan]);
+
+
+  if (mealPlanLoading || authLoading) {
+    return <div>Loading saved meal plan...</div>;
+  }
   return (
+    
     <div className="viewPlanMainContainer">
 
       {/* ── Header ── */}
       <section className="viewPlanHeaderSection">
         <div className="viewplanLeftHeader">
-          <h2 className="viewplanHeading">
-            <IoCalendarOutline className="calenderIcon" />
-            My weekly meal plan
-          </h2>
-          <p className="viewPlandate">Week of 18–24 March 2026</p>
+          <h2 className="viewplanHeading">My weekly meal plan</h2>
+          <p className="viewPlandate">{`Week ${weekStartDate} To ${weekEndDate}`}</p>
         </div>
-
         <div className="viewplanRightHeader">
           <div className="viewPlanProgressWrap">
             <div className="viewPlanProgressBar">
@@ -48,8 +71,13 @@ function ViewPlan() {
               {completedDays}/7 days complete
             </span>
           </div>
-          <Button className="button">Edit plan</Button>
           <Button className="inActive button">Print PDF</Button>
+          <Button
+            className="button"
+            onClick={() => navigate("/shoppingList")}
+          >
+            Shopping list
+          </Button>
         </div>
       </section>
 
@@ -57,24 +85,19 @@ function ViewPlan() {
       <section className="dayTabSection">
         {DAYS.map((day) => {
           const d = weeklyPlan[day];
-          const done =
-            (d?.breakfast ? 1 : 0) +
-            (d?.lunch ? 1 : 0) +
-            (d?.dinner ? 1 : 0);
+          const meals = ["breakfast","lunch","dinner"];
           return (
             <button
               key={day}
               className={`dayTab ${activeDay === day ? "dayTab--active" : ""}`}
               onClick={() => setActiveDay(day)}
             >
-              <span className="dayTab__name">{day.slice(0, 3)}</span>
+              <span className="dayTab__name">{day.slice(0,3)}</span>
               <div className="dayTab__dots">
-                {["breakfast", "lunch", "dinner"].map((meal) => (
+                {meals.map((m) => (
                   <span
-                    key={meal}
-                    className={`dayTab__dot ${
-                      weeklyPlan[day]?.[meal] ? "dayTab__dot--done" : ""
-                    }`}
+                    key={m}
+                    className={`dayTab__dot ${d?.[m] ? "dayTab__dot--done" : ""}`}
                   />
                 ))}
               </div>
@@ -83,24 +106,12 @@ function ViewPlan() {
         })}
       </section>
 
-      {/* ── Day card ── */}
+      {/* ── Day cards ── */}
       <section className="mealSection">
         <DayPlanCard
           day={activeDay}
           dayPlan={weeklyPlan[activeDay]}
         />
-      </section>
-
-      {/* ── Bottom action bar ── */}
-      <section className="viewPlanActionBar">
-        <div className="viewPlanActionLeft">
-          <p className="viewPlanActionTitle">Ready to shop?</p>
-          <p className="viewPlanActionSub">
-            Generate your shopping list from this week's meals
-          </p>
-        </div>
-        <Button className="inActive button">Mark today done</Button>
-        <Button className="button">Generate shopping list</Button>
       </section>
 
     </div>

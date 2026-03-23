@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import fetchMeals from "../services/spoonacularService";
-
+import {getWeekStartDate} from "../utils/helpers";
 const useMealPlan = ({
   days,
   weeklyPlan,
@@ -8,6 +8,8 @@ const useMealPlan = ({
   selectedDay,
   saveWeeklyPlan,
   profileData,
+  saveCurrentMealPlan,
+  // weekStartDate,
 }) => {
   const defaultDaySelection = {
     breakfast: null,
@@ -30,7 +32,7 @@ const useMealPlan = ({
          servings: meal.servings,
          pricePerServing: meal.pricePerServing,
          nutrition: meal.nutrition,
-         diet: meal.diet,
+         diets: meal.diets,
          mealType: meal.mealType,
          ingredients: meal.ingredients,
          instructions: meal.instructions,
@@ -68,10 +70,16 @@ const useMealPlan = ({
   console.log("daySelection: ", daySelection);
   }
 
-  const generateWeeklyPlan=()=> {
-    saveWeeklyPlan(weeklyPlan);
-    alert("Weekly Plan is generated Successfuly");
-    // console.log("Weekly Plan is generated Successfuly", weeklyPlan);
+  const generateWeeklyPlan= async ()=> {
+    const weekStartDate = getWeekStartDate();
+    const result = await saveCurrentMealPlan(weekStartDate , "manual");
+    if (result.success) {
+alert("Weekly Plan is generated Successfuly");      
+    } else {
+      alert("Error generating weekly plan", result.error);
+      console.error("Error generating weekly plan", result.error);
+
+    }
   }
 
   useEffect(() => {
@@ -93,6 +101,8 @@ const useMealPlan = ({
             " meal: ",
             weeklyPlan,
           );
+          const weekStart = getWeekStartDate();
+          console.log("Week start date:", weekStart);
 
           // start from here
   }, [selectedDay, weeklyPlan]);

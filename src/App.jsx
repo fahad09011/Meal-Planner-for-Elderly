@@ -9,6 +9,7 @@ import Navbar from './components/common/Navbar';
 import Profile from './pages/Profile';
 import ViewPlan from './pages/ViewPlan';
 import { AppProvider } from './context/AppContext';
+import TestMealPlanSave from './components/TestMealPlanSave';
 // import TestAuth from './components/TestAauth';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
   </Routes>
     </div>
     </Router>
+    {/* <TestMealPlanSave/> */}
         {/* <TestAuth/> */}
         </AppProvider>
         {/* </ProfileContext.Provider> */}
