@@ -124,12 +124,37 @@ export const extractMealCategory = (apiMealType) => {
 
   return "others";
 };
+export const getIngredientCategory =(aisle)=>{
+  if(typeof aisle !== "string" || aisle.trim() === "" || aisle.trim() === "?") {
+    return "other";
+  }
+  const normalizedAisle = aisle.toLowerCase().trim();
+  const ingredientCategoryMap = {
+    Produce: ["produce", "vegetable", "vegetables", "fruit", "fruits", "fresh herbs", "fresh"],
+    Dairy: ["dairy", "milk", "eggs", "cheese", "yogurt", "butter"],
+    Meat: ["meat", "pork", "beef", "chicken", "turkey", "sausage", "bacon"],
+    Seafood: ["seafood", "fish", "salmon", "tuna", "shrimp"],
+    Grains: ["pasta", "rice", "cereal", "oats", "grains"],
+    Pantry: ["canned", "jarred", "pantry", "baking", "oil", "vinegar", "beans", "nuts", "seeds"],
+    Spices: ["spice", "spices", "seasoning", "seasonings", "herbs"],
+    Bakery: ["bakery", "bread", "tortillas"],
+    Frozen: ["frozen"],
+    Beverages: ["beverage", "beverages", "drink", "drinks", "juice", "tea", "coffee"],
+  };
+  for(const [category, values] of Object.entries(ingredientCategoryMap)){
+    if(values.some((value)=> normalizedAisle.includes(value))){
+      return category
+    }
+  }
+  return "Other"
+};
 export const extractIngredients = (apiIngredients) => {
   const ingredients = Array.isArray(apiIngredients) ? apiIngredients : [];
   return ingredients.map((ingredient) => {
     if (ingredient == null || typeof ingredient !== "object") {
       return {
         aisle: "",
+        category: "",
         name: "",
         description: "",
         quantity: { amount: 0, unit: "" },
@@ -137,6 +162,7 @@ export const extractIngredients = (apiIngredients) => {
     }
     return {
       aisle: ingredient.aisle ?? "",
+      category: getIngredientCategory(ingredient.aisle ?? ""),
       name: ingredient.name ?? "",
       description: ingredient.original ?? "",
       quantity: {
