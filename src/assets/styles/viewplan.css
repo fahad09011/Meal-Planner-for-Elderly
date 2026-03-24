@@ -1,5 +1,5 @@
 /* ── Page ── */
-.viewPlanMainContainer {
+.view-plan-page {
   background-color: var(--light-bg);
   min-height: calc(100vh - var(--navbar-height, 68px));
   padding: 24px 28px 48px;
@@ -8,7 +8,7 @@
 }
 
 /* ── Header ── */
-.viewPlanHeaderSection {
+.view-plan-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,33 +17,37 @@
   gap: 14px;
 }
 
-.viewplanHeading {
+.view-plan-title {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-main);
   margin: 0 0 4px;
 }
 
-.viewPlandate {
+.view-plan-date {
   font-size: var(--font-size-sm);
   color: var(--text-muted);
   margin: 0;
 }
 
-.viewplanRightHeader {
+.view-plan-header-right {
   display: flex;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-.viewPlanProgressWrap {
+.view-plan-header-left {
+  min-width: 0;
+}
+
+.view-plan-progress {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.viewPlanProgressBar {
+.view-plan-progress-track {
   width: 160px;
   height: 7px;
   background: var(--secondary-bg);
@@ -51,14 +55,14 @@
   overflow: hidden;
 }
 
-.viewPlanProgressFill {
+.view-plan-progress-fill {
   height: 100%;
   background: var(--primary-green);
   border-radius: 99px;
   transition: width 0.4s ease;
 }
 
-.viewPlanProgressLabel {
+.view-plan-progress-text {
   font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--primary-green);
@@ -66,7 +70,7 @@
 }
 
 /* ── Day tabs ── */
-.dayTabSection {
+.view-plan-day-tabs {
   display: flex;
   gap: 6px;
   background: var(--white);
@@ -76,7 +80,7 @@
   margin-bottom: 20px;
 }
 
-.dayTab {
+.view-plan-day-tab {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -90,33 +94,34 @@
   transition: background 0.15s ease;
 }
 
-.dayTab:hover { background: var(--light-bg); }
+.view-plan-day-tab:hover { background: var(--light-bg); }
 
-.dayTab--active { background: var(--primary-green); }
+.view-plan-day-tab--active { background: var(--primary-green); }
 
-.dayTab__name {
+.view-plan-day-tab-name {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-muted);
 }
 
-.dayTab--active .dayTab__name { color: var(--white); }
+.view-plan-day-tab--active .view-plan-day-tab-name { color: var(--white); }
 
-.dayTab__dots { display: flex; gap: 3px; }
+.view-plan-day-tab-dots { display: flex; gap: 3px; }
 
-.dayTab__dot {
+.view-plan-day-tab-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: #ddd;
 }
 
-.dayTab__dot--done { background: var(--primary-green); }
-.dayTab--active .dayTab__dot { background: rgba(255,255,255,0.35); }
-.dayTab--active .dayTab__dot--done { background: #fff; }
+.view-plan-day-tab-dot--planned { background: #a8d8c1; }
+.view-plan-day-tab-dot--done { background: var(--primary-green); }
+.view-plan-day-tab--active .view-plan-day-tab-dot { background: rgba(255,255,255,0.35); }
+.view-plan-day-tab--active .view-plan-day-tab-dot--done { background: #fff; }
 
 /* ── Day plan card ── */
-.dayPlanCard {
+.day-plan-card {
   background: var(--white);
   border-radius: var(--border-radius-lg);
   border: var(--border-light);
@@ -124,7 +129,7 @@
   box-shadow: var(--shadow-sm);
 }
 
-.dayPlanCard__header {
+.day-plan-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -133,20 +138,20 @@
   background: var(--white);
 }
 
-.dayPlanCard__title {
+.day-plan-card-title {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--text-main);
   margin: 0 0 3px;
 }
 
-.dayPlanCard__sub {
+.day-plan-card-subtitle {
   font-size: var(--font-size-sm);
   color: var(--text-muted);
   margin: 0;
 }
 
-.dayPlanCard__badge {
+.day-plan-card-status-badge {
   font-size: var(--font-size-sm);
   font-weight: 600;
   padding: 5px 14px;
@@ -155,13 +160,41 @@
   color: var(--primary-green);
 }
 
+.day-plan-card-status-badge--done {
+  background: #e8f6ee;
+  color: #2f7f4f;
+}
+
+.day-plan-card-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mark-all-done-btn {
+  border: 1.5px solid var(--primary-green);
+  background: var(--secondary-green);
+  color: var(--primary-green);
+  border-radius: 99px;
+  padding: 8px 14px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mark-all-done-btn:hover {
+  background: var(--primary-green);
+  color: var(--white);
+}
+
 /* ── Meal rows ── */
-.dayPlanCard__meals {
+.day-plan-meal-list {
   display: flex;
   flex-direction: column;
 }
 
-.mealRow {
+.meal-row {
   display: flex;
   align-items: center;
   gap: 0;
@@ -169,12 +202,16 @@
   min-height: 110px;
 }
 
-.mealRow:last-child { border-bottom: none; }
+.meal-row:last-child { border-bottom: none; }
 
-.mealRow--empty { opacity: 0.55; }
+.meal-row--empty { opacity: 0.55; }
+
+.meal-row--done {
+  background: #fbfefc;
+}
 
 /* Category label column */
-.mealRow__cat {
+.meal-row-category {
   width: 110px;
   flex-shrink: 0;
   align-self: stretch;
@@ -184,7 +221,7 @@
   padding: 12px 8px;
 }
 
-.mealRow__catLabel {
+.meal-row-category-label {
   font-size: var(--font-size-sm);
   font-weight: 700;
   text-transform: uppercase;
@@ -195,14 +232,14 @@
 }
 
 /* Image column */
-.mealRow__imgWrap {
+.meal-row-image-wrap {
   width: 130px;
   flex-shrink: 0;
   align-self: stretch;
   overflow: hidden;
 }
 
-.mealRow__img {
+.meal-row-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -210,7 +247,7 @@
 }
 
 /* Info column */
-.mealRow__info {
+.meal-row-content {
   flex: 1;
   padding: 14px 18px;
   display: flex;
@@ -219,7 +256,7 @@
   min-width: 0;
 }
 
-.mealRow__name {
+.meal-row-title {
   font-size: var(--font-size-lg);
   font-weight: 600;
   color: var(--text-main);
@@ -228,25 +265,25 @@
 }
 
 /* Nutrition strip */
-.mealRow__nutr {
+.meal-row-nutrition {
   display: flex;
   gap: 20px;
 }
 
-.mealRow__nutrItem {
+.meal-row-nutrition-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   min-width: 44px;
 }
 
-.mealRow__nutrVal {
+.meal-row-nutrition-value {
   font-size: var(--font-size-base);
   font-weight: 700;
   color: var(--primary-green);
 }
 
-.mealRow__nutrLabel {
+.meal-row-nutrition-label {
   font-size: var(--font-size-xs);
   color: var(--text-muted);
   text-transform: uppercase;
@@ -254,13 +291,13 @@
 }
 
 /* Tags */
-.mealRow__tags {
+.meal-row-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
 }
 
-.mealRow__tag {
+.meal-row-tag {
   font-size: var(--font-size-xs);
   font-weight: 600;
   padding: 3px 10px;
@@ -269,13 +306,42 @@
   border-radius: 99px;
 }
 
+.meal-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 18px;
+}
+
+.meal-done-check {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #c4d7cd;
+  background: var(--white);
+  color: var(--white);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.meal-done-check:hover {
+  border-color: var(--primary-green);
+}
+
+.meal-done-check--done {
+  background: var(--primary-green);
+  border-color: var(--primary-green);
+}
+
 /* View recipe button */
-.mealRow__viewBtn {
+.meal-row-view-recipe-btn {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-right: 18px;
   padding: 10px 18px;
   background: var(--secondary-green);
   color: var(--primary-green);
@@ -288,13 +354,13 @@
   white-space: nowrap;
 }
 
-.mealRow__viewBtn:hover {
+.meal-row-view-recipe-btn:hover {
   background: var(--primary-green);
   color: var(--white);
 }
 
 /* ── Empty state ── */
-.dayPlanEmpty {
+.day-plan-empty {
   background: var(--white);
   border-radius: var(--border-radius-lg);
   border: var(--border-light);
@@ -302,14 +368,14 @@
   text-align: center;
 }
 
-.dayPlanEmpty__title {
+.day-plan-empty-title {
   font-size: var(--font-size-xl);
   font-weight: 600;
   color: var(--text-main);
   margin: 0 0 8px;
 }
 
-.dayPlanEmpty__sub {
+.day-plan-empty-subtitle {
   font-size: var(--font-size-base);
   color: var(--text-muted);
   margin: 0;
@@ -317,33 +383,49 @@
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .viewPlanMainContainer { padding: 16px 16px 40px; }
+  .view-plan-page { padding: 16px 16px 40px; }
 
-  .viewPlanHeaderSection { flex-direction: column; align-items: flex-start; }
+  .view-plan-header { flex-direction: column; align-items: flex-start; }
 
-  .mealRow { flex-wrap: wrap; min-height: auto; }
+  .meal-row { flex-wrap: wrap; min-height: auto; }
 
-  .mealRow__cat {
+  .meal-row-category {
     width: 100%;
-    writing-mode: horizontal-tb;
-    transform: none;
     justify-content: flex-start;
     padding: 10px 14px 6px;
     align-self: auto;
   }
 
-  .mealRow__imgWrap {
+  .meal-row-category-label {
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    transform: none;
+    letter-spacing: 0.03em;
+  }
+
+  .meal-row-image-wrap {
     width: 100px;
     height: 80px;
     align-self: auto;
   }
 
-  .mealRow__viewBtn {
-    margin: 0 14px 14px;
-    width: calc(100% - 28px);
+  .meal-row-actions {
+    width: 100%;
+    margin: 0;
+    padding: 0 14px 14px;
+  }
+
+  .meal-row-view-recipe-btn {
+    width: 100%;
     justify-content: center;
   }
 
-  .dayTabSection { overflow-x: auto; }
-  .dayTab { flex-shrink: 0; min-width: 52px; }
+  .meal-done-check {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+  }
+
+  .view-plan-day-tabs { overflow-x: auto; }
+  .view-plan-day-tab { flex-shrink: 0; min-width: 52px; }
 }
