@@ -8,142 +8,187 @@ const SLOTS = [
   { key:"dinner",    label:"Dinner",    bg:"#FAECE7", color:"#993C1D" },
 ];
 
-// ── Mock data — swap these with real meal fields when API is ready ──
 const MOCK_NUTRIENTS = {
-  calories: "0",
-  protein:  "0",
-  carbs:    "0",
-  fat:      "0",
+  calories: "0", protein: "0", carbs: "0", fat: "0",
 };
 
-function DayPlanCard({ day, dayPlan }) {
+function DayPlanCard({
+  day,
+  dayPlan,
+  isMealDone,       // (day, mealType) => boolean — from useMealTracking
+  toggleMealDone,   // (day, mealType) => void
+  markDayDone,      // (day) => void
+  isDayComplete,    // (day) => boolean
+}) {
   const navigate = useNavigate();
 
   if (!dayPlan || Object.keys(dayPlan).length === 0) {
     return (
-      <div className="dayPlanEmpty">
-        <p className="dayPlanEmpty__title">No meals planned for {day}</p>
-        <p className="dayPlanEmpty__sub">
+      <div className="day-plan-empty">
+        <p className="day-plan-empty-title">No meals planned for {day}</p>
+        <p className="day-plan-empty-subtitle">
           Go to Meal Plan to add meals for this day.
         </p>
       </div>
     );
   }
 
-  const doneMeals = SLOTS.filter((s) => dayPlan[s.key]).length;
+  const plannedCount  = SLOTS.filter((s) => dayPlan[s.key]).length;
+  const allDayDone    = isDayComplete(day);
 
   return (
-    <div className="dayPlanCard">
+    <div className="day-plan-card">
 
       {/* ── Card header ── */}
-      <div className="dayPlanCard__header">
+      <div className="day-plan-card-header">
         <div>
-          <h3 className="dayPlanCard__title">{day}</h3>
-          <p className="dayPlanCard__sub">{doneMeals} of 3 meals planned</p>
+          <h3 className="day-plan-card-title">{day}</h3>
+          <p className="day-plan-card-subtitle">{plannedCount} of 3 meals planned</p>
         </div>
-        {doneMeals === 3 && (
-          <span className="dayPlanCard__badge">All meals planned</span>
-        )}
+
+        <div className="day-plan-card-header-actions">
+          {allDayDone ? (
+            <span className="day-plan-card-status-badge day-plan-card-status-badge--done">
+              ✓ All eaten today
+            </span>
+          ) : (
+            <button
+              className="mark-all-done-btn"
+              onClick={() => markDayDone(day)}
+            >
+              Mark all done
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* ── Meal rows — all visible, no expand ── */}
-      <div className="dayPlanCard__meals">
+      {/* ── Meal rows ── */}
+      <div className="day-plan-meal-list">
         {SLOTS.map(({ key, label, bg, color }) => {
           const meal = dayPlan[key];
+          const done = isMealDone(day, key);
 
           return (
             <div
               key={key}
-              className={`mealRow ${!meal ? "mealRow--empty" : ""}`}
+              className={`meal-row ${!meal ? "meal-row--empty" : ""} ${done ? "meal-row--done" : ""}`}
             >
               {/* Category colour column */}
-              <div className="mealRow__cat" style={{ background: bg }}>
-                <span className="mealRow__catLabel" style={{ color }}>
+              <div className="meal-row-category" style={{ background: bg }}>
+                <span className="meal-row-category-label" style={{ color }}>
                   {label}
                 </span>
               </div>
 
               {/* Image */}
-              <div className="mealRow__imgWrap">
+              <div className="meal-row-image-wrap">
                 <img
                   src={meal?.image || mealImg}
                   alt={meal?.name || label}
-                  className="mealRow__img"
+                  className="meal-row-image"
                 />
               </div>
 
-              {/* Info — always visible */}
-              <div className="mealRow__info">
-
-                {/* Meal name */}
-                <p className="mealRow__name">
+              {/* Info */}
+              <div className="meal-row-content">
+                <p className="meal-row-title">
                   {meal
-                    ? meal.name                          // real name from API
+                    ? meal.name
                     : `No ${label.toLowerCase()} selected`}
                 </p>
 
                 {meal && (
                   <>
-                    {/* Nutrition strip — uses real values, falls back to mock */}
-                    <div className="mealRow__nutr">
+                  <div className="mealDataContainer">
+                    <p className="mealname">{meal.title}</p>
+                    
+                    <div className="meal-row-nutrition">
+                     
                       {[
                         {
                           label: "Calories",
-                          // real field first, mock fallback second
-                          val: (Math.round(meal.nutrition.calories) ?? MOCK_NUTRIENTS.calories) + " kcal",
+                          val: meal.nutrition?.calories
+                            ? Math.round(meal.nutrition.calories) + " kcal"
+                            : MOCK_NUTRIENTS.calories,
                         },
                         {
                           label: "Protein",
-                          val: (Math.round(meal.nutrition.protein) ?? MOCK_NUTRIENTS.protein) + " g",
+                          val: meal.nutrition?.protein
+                            ? Math.round(meal.nutrition.protein) + "g"
+                            : MOCK_NUTRIENTS.protein,
                         },
                         {
                           label: "Carbs",
-                          val: (Math.round(meal.nutrition.carbs)
-                            ?? MOCK_NUTRIENTS.carbs) + " g",
+                          val: meal.nutrition?.carbs
+                            ? Math.round(meal.nutrition.carbs) + "g"
+                            : MOCK_NUTRIENTS.carbs,
                         },
                         {
                           label: "Fat",
-                          val: (Math.round(meal.nutrition.fat)      ?? MOCK_NUTRIENTS.fat) + "g",
+                          val: meal.nutrition?.fat
+                            ? Math.round(meal.nutrition.fat) + "g"
+                            : MOCK_NUTRIENTS.fat,
                         },
                       ].map(({ label, val }) => (
-                        <div key={label} className="mealRow__nutrItem">
-                          <span className="mealRow__nutrVal">{val}</span>
-                          <span className="mealRow__nutrLabel">{label}</span>
+                        <div key={label} className="meal-row-nutrition-item">
+                          <span className="meal-row-nutrition-value">{val}</span>
+                          <span className="meal-row-nutrition-label">{label}</span>
                         </div>
                       ))}
                     </div>
 
-                    {/* Diet tags */}
                     {meal.diet?.length > 0 && (
-                      <div className="mealRow__tags">
+                      <div className="meal-row-tags">
                         {meal.diet.map((tag, i) => (
-                          <span key={i} className="mealRow__tag">
-                            {tag}
-                          </span>
+                          <span key={i} className="meal-row-tag">{tag}</span>
                         ))}
                       </div>
                     )}
+                  </div>
                   </>
                 )}
               </div>
 
-              {/* View recipe button */}
+              {/* Right side — checkbox + view recipe */}
               {meal && (
-                <button
-                  className="mealRow__viewBtn"
-                  onClick={() => navigate(`/mealDetails/${meal.id}`)}
-                  aria-label={`View recipe for ${meal.name}`}
-                >
-                  View recipe
-                  <svg
-                    width="14" height="14" viewBox="0 0 14 14"
-                    fill="none" stroke="currentColor"
-                    strokeWidth="2" strokeLinecap="round"
-                    strokeLinejoin="round"
+                <div className="meal-row-actions">
+
+                  {/* ── Done checkbox ── */}
+                  <button
+                    className={`meal-done-check ${done ? "meal-done-check--done" : ""}`}
+                    onClick={() => toggleMealDone(day, key)}
+                    aria-label={
+                      done
+                        ? `Mark ${label} as not eaten`
+                        : `Mark ${label} as eaten`
+                    }
+                    title={done ? "Mark as not eaten" : "Mark as eaten"}
                   >
-                    <polyline points="5,3 9,7 5,11" />
-                  </svg>
-                </button>
+                    {done && (
+                      <svg width="14" height="14" viewBox="0 0 12 12"
+                        fill="none" stroke="white" strokeWidth="2.5"
+                        strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="1.5,6 4.5,9.5 10.5,2.5" />
+                      </svg>
+                    )}
+                  </button>
+
+                  {/* ── View recipe ── */}
+                  <button
+                    className="meal-row-view-recipe-btn"
+                    onClick={() => navigate(`/mealDetails/${meal.id}`)}
+                    aria-label={`View recipe for ${meal.name}`}
+                  >
+                    View recipe
+                    <svg width="14" height="14" viewBox="0 0 14 14"
+                      fill="none" stroke="currentColor"
+                      strokeWidth="2" strokeLinecap="round"
+                      strokeLinejoin="round">
+                      <polyline points="5,3 9,7 5,11" />
+                    </svg>
+                  </button>
+
+                </div>
               )}
 
             </div>

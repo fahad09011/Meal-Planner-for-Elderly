@@ -17,6 +17,7 @@ export function AppProvider({ children }) {
     healthConditions: [],
     budget: "",
   };
+  const [mealPlanId, setMealPlanId] = useState(null);
   const [profileData, setProfileData] = useState(defaultProfile);
   const hasProfile = profileData.ageGroup !== "";
 
@@ -105,9 +106,12 @@ export function AppProvider({ children }) {
         weeklyPlan,
         generationMode,
       );
-      if (!result.success) {
+      if (!result.success && !result.data) {
         console.error("Error saving meal plan", result.error);
+        return { success: false, error: result.error };
       }
+      setMealPlanId(result?.data?.id || null);
+
       return result;
     } catch (error) {
       console.error("Error saving meal plan", error);
@@ -127,6 +131,7 @@ export function AppProvider({ children }) {
       const result = await getMealPlanByWeek(user.id, weekStartDate);
       if (result.success && result.data) {
         setWeeklyPlan(result?.data?.weekly_plan || defaultWeeklyPlan);
+        setMealPlanId(result?.data?.id || null);
       }
       return result;
     } catch (error) {
@@ -154,6 +159,7 @@ export function AppProvider({ children }) {
         loadMealPlanForWeek,
         saveCurrentMealPlan,
         defaultWeeklyPlan,
+        mealPlanId,
       }}
     >
       {children}

@@ -44,6 +44,14 @@
 //   summary: "",
 // };
 import { dietResponseMap } from "../services/nutrition/dietMap";
+export const extractSummary = (apiSummary) => {
+  const summary = typeof apiSummary === "string" ? apiSummary : "";
+
+  return summary
+    .replace(/<[^>]*>/g, "")   // remove HTML tags
+    .replace(/\s+/g, " ")      // collapse multiple spaces
+    .trim();
+};
 export const extractNutrition = (apiNutrition) => {
   const nutritionMap = {
     calories: "Calories",
@@ -176,7 +184,7 @@ export const transFormMeal = (apiMeal) => {
     id: apiMeal.id ?? null,
     title: apiMeal.title ?? "",
     image: apiMeal.image ?? "",
-    summary: apiMeal.summary ?? "",
+    summary: extractSummary(apiMeal.summary),
     readyInMinutes: apiMeal.readyInMinutes ?? 0,
     servings: apiMeal.servings ?? 0,
     pricePerServing: Number(((apiMeal.pricePerServing ?? 0) / 100).toFixed(2)),
