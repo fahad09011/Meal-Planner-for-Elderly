@@ -8,13 +8,16 @@ import Button from "../components/common/Button";
 import DayPlanCard from "../components/meals/DayPlanCard";
 import { getWeekStartDate, getWeekLastDate } from "../utils/helpers";
 import { getMealCompletions } from "../services/mealCompletionService";
+import { createOrGetShoppingList, replaceShoppingListItems } from "../services/shoppingListService";
+import { buildShoppingItemsFromWeeklyPlan } from '../utils/buildShoppingItemsFromWeeklyPlan';
+
 const DAYS = [
   "Monday","Tuesday","Wednesday",
   "Thursday","Friday","Saturday","Sunday"
 ];
 
 function ViewPlan() {
-  const { authLoading } = useAuth();
+  const { authLoading, user } = useAuth();
   const { weeklyPlan, loadMealPlanForWeek, mealPlanLoading, mealPlanId	 } = useContext(AppContext);
   const [activeDay, setActiveDay] = useState("Monday");
   const navigate = useNavigate();
@@ -56,6 +59,34 @@ function ViewPlan() {
     fetch();
   }, [authLoading, weekStartDate]);
 
+  async function handleTestSaveShoppingList() {
+    if (!mealPlanId || !weeklyPlan || !user) {
+      console.log("Missing mealPlanId, weeklyPlan, or user");
+      return;
+    }
+  
+    const items = buildShoppingItemsFromWeeklyPlan(weeklyPlan);
+    console.log("Generated shopping items:", items);
+  
+    const shoppingListResult = await createOrGetShoppingList(mealPlanId);
+    console.log("Shopping list parent result:", shoppingListResult);
+  
+    if (!shoppingListResult.success) {
+      console.error("Failed to create/get shopping list");
+      return;
+    }
+  
+    const shoppingListId = shoppingListResult.data.id;
+  
+    const itemSaveResult = await replaceShoppingListItems(
+      shoppingListId,
+      items,
+      user.id
+    );
+  
+    console.log("Shopping list items save result:", itemSaveResult);
+  }
+
   if (mealPlanLoading || authLoading || trackingLoading) {
     return (
       <div className="loading-container">
@@ -69,7 +100,9 @@ function ViewPlan() {
 
   return (
     <div className="view-plan-page">
-
+<Button onClick={handleTestSaveShoppingList}>
+  Test Shopping List Create
+</Button>
       {/* ── Header ── */}
       <section className="view-plan-header">
         <div className="view-plan-header-left">

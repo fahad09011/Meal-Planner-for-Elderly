@@ -122,7 +122,176 @@ export const extractMealCategory = (apiMealType) => {
     return "lunch";
   }
 
-  return "others";
+  return "Others";
+};
+export const normalizeunit = (unit)=>{
+  if (typeof unit !== "string" || unit.trim() === "") {
+    return "Other";
+  }
+  const normalizedunit = unit.toLowerCase().trim();
+  const unitMap = {
+    tsp: "teaspoon",
+    teaspoon: "teaspoon",
+    teaspoons: "teaspoon",
+
+    tbsp: "tablespoon",
+    tablespoon: "tablespoon",
+    tablespoons: "tablespoon",
+
+    cup: "cup",
+    cups: "cup",
+
+    clove: "clove",
+    cloves: "clove",
+
+    serving: "serving",
+    servings: "serving",
+
+    oz: "ounce",
+    ozs: "ounce",
+    ounce: "ounce",
+    ounces: "ounce",
+
+    g: "gram",
+    gram: "gram",
+    grams: "gram",
+
+    kg: "kilogram",
+    kilogram: "kilogram",
+    kilograms: "kilogram",
+
+    ml: "milliliter",
+    milliliter: "milliliter",
+    milliliters: "milliliter",
+
+    l: "liter",
+    liter: "liter",
+    liters: "liter",
+
+    slices: "slice",
+    slice: "slice",
+
+    pieces: "piece",
+    piece: "piece",
+
+    cans: "can",
+    can: "can",
+
+    packages: "package",
+    package: "package",
+
+    lb: "pound",
+    lbs: "pound",
+    pound: "pound",
+    pounds: "pound",
+
+    pinch: "pinch",
+    bunch: "bunch",
+    stalks: "stalk",
+    stalk: "stalk",
+    whole: "whole",
+  };
+  return unitMap[normalizedunit] ?? normalizedunit
+};
+
+export const getIngredientCategory =(aisle)=>{
+  if(typeof aisle !== "string" || aisle.trim() === "" || aisle.trim() === "?") {
+    return "Other";
+  }
+  const normalizedAisle = aisle.toLowerCase().trim();
+  const ingredientCategoryMap = {
+    Produce: [
+      "produce",
+      "vegetable",
+      "vegetables",
+      "fruit",
+      "fruits",
+      "fresh herbs",
+      "fresh"
+    ],
+  
+    Dairy: [
+      "milk, eggs, other dairy",
+      "dairy",
+      "cheese"
+    ],
+  
+    Meat: [
+      "meat",
+      "pork",
+      "beef",
+      "chicken",
+      "turkey",
+      "sausage",
+      "bacon"
+    ],
+  
+    Seafood: [
+      "seafood",
+      "fish",
+      "salmon",
+      "tuna",
+      "shrimp"
+    ],
+  
+    Grains: [
+      "pasta",
+      "rice",
+      "cereal",
+      "oats",
+      "grains"
+    ],
+  
+    Pantry: [
+      "canned",
+      "jarred",
+      "pantry",
+      "baking",
+      "oil",
+      "vinegar",
+      "salad dressing",
+      "condiments",
+      "ethnic foods",
+      "health foods",
+      "nuts",
+      "nut butters",
+      "jams",
+      "honey"
+    ],
+  
+    Spices: [
+      "spice",
+      "spices",
+      "seasoning",
+      "seasonings",
+      "herbs"
+    ],
+  
+    Bakery: [
+      "bakery",
+      "bread",
+      "tortillas"
+    ],
+  
+    Frozen: [
+      "frozen"
+    ],
+  
+    Beverages: [
+      "beverage",
+      "beverages",
+      "tea",
+      "coffee",
+      "tea and coffee",
+      "alcoholic beverages"
+    ]
+  };
+  for(const [category, values] of Object.entries(ingredientCategoryMap)){
+    if(values.some((value)=> normalizedAisle.includes(value))){
+      return category
+    }
+  }
+  return "Other"
 };
 export const extractIngredients = (apiIngredients) => {
   const ingredients = Array.isArray(apiIngredients) ? apiIngredients : [];
@@ -130,6 +299,7 @@ export const extractIngredients = (apiIngredients) => {
     if (ingredient == null || typeof ingredient !== "object") {
       return {
         aisle: "",
+        category: "",
         name: "",
         description: "",
         quantity: { amount: 0, unit: "" },
@@ -137,11 +307,12 @@ export const extractIngredients = (apiIngredients) => {
     }
     return {
       aisle: ingredient.aisle ?? "",
+      category: getIngredientCategory(ingredient.aisle ?? ""),
       name: ingredient.name ?? "",
       description: ingredient.original ?? "",
       quantity: {
         amount: ingredient.amount ?? 0,
-        unit: ingredient.unit ?? "",
+        unit: normalizeunit(ingredient.unit ?? ""),
       },
     };
   });
@@ -195,3 +366,5 @@ export const transFormMeal = (apiMeal) => {
     instructions: extractInstructions(apiMeal.analyzedInstructions),
   };
 };
+
+// transform is done for ingredients to have a category and a aisle, and to have a description and a quantity, next working on shopping list.
