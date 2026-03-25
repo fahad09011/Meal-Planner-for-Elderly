@@ -50,6 +50,9 @@ export function AppProvider({ children }) {
 
     let cancelled = false;
     setProfileHydrated(false);
+    // Clear previous user's profile from UI immediately so we never show stale data
+    // while loading, or if the new user has no profile row yet.
+    setProfileData(defaultProfile);
 
     (async () => {
       try {

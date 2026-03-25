@@ -5,13 +5,13 @@ export const getProfile = async (userId) => {
     .from("profiles")
     .select("*")
     .eq("user_id", userId)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error("Error fetching profile: ", error);
     return { success: false, error };
   }
-  return { success: true, data };
+  return { success: true, data: data ?? null };
 };
 
 export const createProfile = async (userId, profileData) => {
