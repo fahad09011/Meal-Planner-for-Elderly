@@ -7,13 +7,30 @@
     border-radius: 50%;
   }
   
+  /* Match Bootstrap: allow wrapping so collapsible menu sits on its own row on small screens.
+     A fixed height was clipping the menu and made links paint over the page content. */
   .navbar {
-    height: var(--navbar-height, 68px);
+    min-height: var(--navbar-height, 68px);
     background-color: var(--white);
     border-bottom: var(--border-light);
     padding: 0 16px !important;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+  }
+
+  @media (max-width: 991.98px) {
+    .navbar .navbar-collapse {
+      flex-basis: 100%;
+      background-color: var(--white);
+      border-top: var(--border-light);
+      padding: 8px 0 12px;
+    }
+
+    .navbar .navbar-collapse .infoContainer {
+      padding-top: 8px;
+      flex-wrap: wrap;
+    }
   }
   
   .navbar .navbar-brand {
