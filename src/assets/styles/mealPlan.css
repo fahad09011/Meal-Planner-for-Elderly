@@ -110,6 +110,15 @@
   margin-bottom: 16px;
 }
 
+/* Sticky only on meal plan page; list must live inside same parent (mealPlanMainContainer) */
+.meal-plan-page .daySelectSection {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--white);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
 .dayListContainer {
   display: flex;
   flex: 1;

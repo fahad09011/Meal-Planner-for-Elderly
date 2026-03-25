@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import {
   createProfile,
   updateProfile,
@@ -6,39 +6,73 @@ import {
 } from "../services/profileService";
 import { saveMealPlan, getMealPlanByWeek } from "../services/mealPlanService";
 import { useAuth } from "./AuthContext";
+import { getWeekStartDate } from "../utils/helpers";
 
 export const AppContext = createContext();
+
+const defaultProfile = {
+  ageGroup: "",
+  dietary: [],
+  allergies: [],
+  healthConditions: [],
+  budget: "",
+};
+
+const defaultWeeklyPlan = {
+  Monday: { breakfast: null, lunch: null, dinner: null },
+  Tuesday: { breakfast: null, lunch: null, dinner: null },
+  Wednesday: { breakfast: null, lunch: null, dinner: null },
+  Thursday: { breakfast: null, lunch: null, dinner: null },
+  Friday: { breakfast: null, lunch: null, dinner: null },
+  Saturday: { breakfast: null, lunch: null, dinner: null },
+  Sunday: { breakfast: null, lunch: null, dinner: null },
+};
+
 export function AppProvider({ children }) {
-  const { user } = useAuth();
-  const defaultProfile = {
-    ageGroup: "",
-    dietary: [],
-    allergies: [],
-    healthConditions: [],
-    budget: "",
-  };
+  const { user, authLoading } = useAuth();
   const [mealPlanId, setMealPlanId] = useState(null);
   const [profileData, setProfileData] = useState(defaultProfile);
+  /** True after we know whether a logged-in user has Supabase profile rows (avoids meal API spam before hydration). */
+  const [profileHydrated, setProfileHydrated] = useState(false);
   const hasProfile = profileData.ageGroup !== "";
 
   useEffect(() => {
-    if (!user) {
+    if (authLoading) {
       return;
     }
-    const loadProfile = async () => {
-      const { success, data } = await getProfile(user.id);
-      if (success && data) {
-        setProfileData({
-          ageGroup: data.age_group,
-          dietary: data.dietary,
-          allergies: data.allergies,
-          healthConditions: data.health_conditions,
-          budget: data.budget,
-        });
+    if (!user?.id) {
+      setProfileData(defaultProfile);
+      setProfileHydrated(true);
+      setMealPlanId(null);
+      setWeeklyPlan(defaultWeeklyPlan);
+      return;
+    }
+
+    let cancelled = false;
+    setProfileHydrated(false);
+
+    (async () => {
+      try {
+        const { success, data } = await getProfile(user.id);
+        if (cancelled) return;
+        if (success && data) {
+          setProfileData({
+            ageGroup: data.age_group,
+            dietary: data.dietary ?? [],
+            allergies: data.allergies ?? [],
+            healthConditions: data.health_conditions ?? [],
+            budget: data.budget ?? "",
+          });
+        }
+      } finally {
+        if (!cancelled) setProfileHydrated(true);
       }
+    })();
+
+    return () => {
+      cancelled = true;
     };
-    loadProfile();
-  }, [user]);
+  }, [user?.id, authLoading]);
   const saveProfile = async (profileLoad) => {
     try {
       if (!user) {
@@ -74,15 +108,6 @@ export function AppProvider({ children }) {
   function clearProfile() {
     setProfileData(defaultProfile);
   }
-  const defaultWeeklyPlan = {
-    Monday: { breakfast: null, lunch: null, dinner: null },
-    Tuesday: { breakfast: null, lunch: null, dinner: null },
-    Wednesday: { breakfast: null, lunch: null, dinner: null },
-    Thursday: { breakfast: null, lunch: null, dinner: null },
-    Friday: { breakfast: null, lunch: null, dinner: null },
-    Saturday: { breakfast: null, lunch: null, dinner: null },
-    Sunday: { breakfast: null, lunch: null, dinner: null },
-  };
 
   const [weeklyPlan, setWeeklyPlan] = useState(defaultWeeklyPlan);
   const [mealPlanLoading, setMealPlanLoading] = useState(false);
@@ -121,27 +146,40 @@ export function AppProvider({ children }) {
     }
   };
 
-  const loadMealPlanForWeek = async (weekStartDate) => {
-    if (!user) {
-      return { success: false, error: new Error("User not authenticated") };
-    }
-    setMealPlanLoading(true);
-
-    try {
-      const result = await getMealPlanByWeek(user.id, weekStartDate);
-      if (result.success && result.data) {
-        setWeeklyPlan(result?.data?.weekly_plan || defaultWeeklyPlan);
-        setMealPlanId(result?.data?.id || null);
+  const loadMealPlanForWeek = useCallback(
+    async (weekStartDate) => {
+      if (!user) {
+        return { success: false, error: new Error("User not authenticated") };
       }
-      return result;
-    } catch (error) {
-      console.error("Error loading meal plan", error);
-      setWeeklyPlan(defaultWeeklyPlan);
-      return { success: false, error: error };
-    } finally {
-      setMealPlanLoading(false);
-    }
-  };
+      setMealPlanLoading(true);
+
+      try {
+        const result = await getMealPlanByWeek(user.id, weekStartDate);
+        if (result.success && result.data) {
+          setWeeklyPlan(result?.data?.weekly_plan || defaultWeeklyPlan);
+          setMealPlanId(result?.data?.id || null);
+        } else {
+          setWeeklyPlan(defaultWeeklyPlan);
+          setMealPlanId(null);
+        }
+        return result;
+      } catch (error) {
+        console.error("Error loading meal plan", error);
+        setWeeklyPlan(defaultWeeklyPlan);
+        setMealPlanId(null);
+        return { success: false, error: error };
+      } finally {
+        setMealPlanLoading(false);
+      }
+    },
+    [user?.id],
+  );
+
+  /** Restore meal plan id + weekly plan after full page reload (in-memory state is lost). */
+  useEffect(() => {
+    if (authLoading || !user?.id) return;
+    loadMealPlanForWeek(getWeekStartDate());
+  }, [authLoading, user?.id, loadMealPlanForWeek]);
 
   return (
     <AppContext.Provider
@@ -150,6 +188,7 @@ export function AppProvider({ children }) {
         setWeeklyPlan,
         setProfileData,
         profileData,
+        profileHydrated,
         saveProfile,
         clearProfile,
         hasProfile,

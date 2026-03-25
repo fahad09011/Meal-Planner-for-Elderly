@@ -34,10 +34,10 @@ export const getMealPlanByWeek = async (userId, weekStartDate) => {
     .select("*")
     .eq("user_id", userId)
     .eq("week_start_date", weekStartDate)
-    .single();
+    .maybeSingle();
   if (error) {
     console.error("Error getting  plan from DB: ", error);
     return { success: false, error };
   }
-  return { success: true, data };
+  return { success: true, data: data ?? null };
 };

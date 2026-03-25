@@ -3,13 +3,17 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 const mockSingle = vi.fn();
 const mockSelect = vi.fn(() => ({ single: mockSingle }));
 const mockUpsert = vi.fn(() => ({ select: mockSelect }));
-const mockFrom = vi.fn(() => ({ upsert: mockUpsert }));
+const mockGetSingle = vi.fn();
+const mockGetEq2 = vi.fn(() => ({ maybeSingle: mockGetSingle }));
+const mockGetEq1 = vi.fn(() => ({ eq: mockGetEq2 }));
+const mockGetSelect = vi.fn(() => ({ eq: mockGetEq1 }));
+const mockFrom = vi.fn(() => ({ upsert: mockUpsert, select: mockGetSelect }));
 
 vi.mock("./supabaseClient", () => ({
   supabase: { from: (...args) => mockFrom(...args) },
 }));
 
-const { saveMealPlan } = await import("./mealPlanService");
+const { saveMealPlan, getMealPlanByWeek } = await import("./mealPlanService");
 
 const userId = "user-123";
 const weekStartDate = "2026-03-16";
@@ -116,5 +120,47 @@ describe("mealPlanService: saveMealPlan", () => {
     expect(payload.weekly_plan.Monday.breakfast.title).toBe("Oatmeal");
     expect(payload.weekly_plan.Monday.lunch.nutrition.calories.amount).toBe(350);
     expect(payload.weekly_plan.Tuesday.breakfast).toBeNull();
+  });
+});
+
+describe("mealPlanService: getMealPlanByWeek", () => {
+
+  it("calls supabase.from('meal_plans')", async () => {
+    mockGetSingle.mockResolvedValue({ data: { id: "plan-1" }, error: null });
+    await getMealPlanByWeek(userId, weekStartDate);
+    expect(mockFrom).toHaveBeenCalledWith("meal_plans");
+  });
+
+  it("queries with user_id and week_start_date", async () => {
+    mockGetSingle.mockResolvedValue({ data: { id: "plan-1" }, error: null });
+    await getMealPlanByWeek(userId, weekStartDate);
+
+    expect(mockGetSelect).toHaveBeenCalledWith("*");
+    expect(mockGetEq1).toHaveBeenCalledWith("user_id", userId);
+    expect(mockGetEq2).toHaveBeenCalledWith("week_start_date", weekStartDate);
+  });
+
+  it("returns { success: true, data } on success", async () => {
+    const mockData = { id: "plan-1", weekly_plan: samplePlan };
+    mockGetSingle.mockResolvedValue({ data: mockData, error: null });
+
+    const result = await getMealPlanByWeek(userId, weekStartDate);
+    expect(result.success).toBe(true);
+    expect(result.data.weekly_plan).toEqual(samplePlan);
+  });
+
+  it("returns { success: true, data: null } when no row found (maybeSingle)", async () => {
+    mockGetSingle.mockResolvedValue({ data: null, error: null });
+
+    const result = await getMealPlanByWeek(userId, weekStartDate);
+    expect(result.success).toBe(true);
+    expect(result.data).toBeNull();
+  });
+
+  it("returns { success: false, error } on DB error", async () => {
+    mockGetSingle.mockResolvedValue({ data: null, error: { message: "DB down" } });
+
+    const result = await getMealPlanByWeek(userId, weekStartDate);
+    expect(result.success).toBe(false);
   });
 });

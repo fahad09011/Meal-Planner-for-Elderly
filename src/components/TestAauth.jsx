@@ -2,11 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getProfile, createProfile, updateProfile } from "../services/profileService";
 import { saveMealPlan, getMealPlanByWeek } from "../services/mealPlanService";
+import { setMealCompletion, getMealCompletions } from "../services/mealCompletionService";
+import { createOrGetShoppingList, replaceShoppingListItems, getShoppingListItems, updateShoppingListItemChecked } from "../services/shoppingListService";
+import { buildShoppingItemsFromWeeklyPlan } from "../utils/buildShoppingItemsFromWeeklyPlan";
 import { AppContext } from "../context/AppContext";
 
 function TestAuth() {
   const { user, authLoading, isAuthenticated, signOut, signIn } = useAuth();
-  const { saveProfile, clearProfile, profileData, hasProfile, weeklyPlan, setWeeklyPlan, saveWeeklyPlan } = useContext(AppContext);
+  const { saveProfile, clearProfile, profileData, hasProfile, weeklyPlan, setWeeklyPlan, saveWeeklyPlan, mealPlanId } = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [log, setLog] = useState([]);
@@ -141,6 +144,78 @@ function TestAuth() {
     addLog("weeklyPlan cleared", {});
   };
 
+  // ── mealCompletionService (direct DB) ──
+  const handleSetMealCompletion = async () => {
+    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId — save a meal plan first"); return; }
+    addLog("Setting Monday breakfast as completed...", { mealPlanId });
+    const result = await setMealCompletion(mealPlanId, "Monday", "breakfast", true, user.id);
+    addLog("setMealCompletion:", result);
+  };
+
+  const handleUnsetMealCompletion = async () => {
+    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId"); return; }
+    addLog("Unsetting Monday breakfast...", { mealPlanId });
+    const result = await setMealCompletion(mealPlanId, "Monday", "breakfast", false, user.id);
+    addLog("setMealCompletion (undo):", result);
+  };
+
+  const handleGetMealCompletions = async () => {
+    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId — save a meal plan first"); return; }
+    addLog("Getting all meal completions...", { mealPlanId });
+    const result = await getMealCompletions(mealPlanId);
+    addLog("getMealCompletions:", result);
+  };
+
+  // ── shoppingListService (direct DB) ──
+  const handleCreateOrGetShoppingList = async () => {
+    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId — save a meal plan first"); return; }
+    addLog("Creating/getting shopping list...", { mealPlanId });
+    const result = await createOrGetShoppingList(mealPlanId);
+    addLog("createOrGetShoppingList:", result);
+  };
+
+  const handleBuildAndSaveShoppingItems = async () => {
+    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId"); return; }
+    const items = buildShoppingItemsFromWeeklyPlan(weeklyPlan);
+    addLog("Built shopping items from weeklyPlan:", { count: items.length, items });
+    if (items.length === 0) { addLog("WARN:", "No ingredients found in weeklyPlan"); return; }
+
+    const listResult = await createOrGetShoppingList(mealPlanId);
+    if (!listResult.success) { addLog("ERROR:", listResult.error); return; }
+    const shoppingListId = listResult.data.id;
+
+    addLog("Replacing shopping list items...", { shoppingListId, itemCount: items.length });
+    const result = await replaceShoppingListItems(shoppingListId, items, user.id);
+    addLog("replaceShoppingListItems:", result);
+  };
+
+  const handleGetShoppingListItems = async () => {
+    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId"); return; }
+    addLog("Getting shopping list items...", { mealPlanId });
+    const result = await getShoppingListItems(mealPlanId);
+    addLog("getShoppingListItems:", result);
+  };
+
+  const handleCheckFirstItem = async () => {
+    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId"); return; }
+    const listResult = await getShoppingListItems(mealPlanId);
+    if (!listResult.success || !listResult.data?.length) {
+      addLog("ERROR:", "No shopping items found to check"); return;
+    }
+    const firstItem = listResult.data[0];
+    const newChecked = !firstItem.checked;
+    addLog(`Toggling item "${firstItem.ingredient_name}" checked → ${newChecked}...`, { id: firstItem.id });
+    const result = await updateShoppingListItemChecked(firstItem.id, newChecked);
+    addLog("updateShoppingListItemChecked:", result);
+  };
+
+  const handleShowMealPlanId = () => {
+    addLog("Current mealPlanId:", mealPlanId || "null (no plan saved yet)");
+  };
+
   useEffect(() => {
     if (!authLoading) {
       addLog("Auth ready. User:", user ? user.email : "none");
@@ -203,6 +278,35 @@ function TestAuth() {
           <button onClick={handleSaveWeeklyPlanCtx} style={btnStyle}>10. saveWeeklyPlan</button>
           <button onClick={handleShowWeeklyPlan} style={btnStyle}>11. Show WeeklyPlan</button>
           <button onClick={handleClearWeeklyPlan} style={btnStyle}>12. Clear WeeklyPlan</button>
+        </div>
+      </div>
+
+      {/* Meal Completion service buttons */}
+      <div style={{ marginBottom: "0.5rem" }}>
+        <strong>mealCompletionService (direct DB):</strong>
+        <div style={{ display: "flex", gap: "0.5rem", marginTop: "4px", flexWrap: "wrap" }}>
+          <button onClick={handleSetMealCompletion} disabled={!isAuthenticated} style={btnStyle}>13. Mark Mon Breakfast Done</button>
+          <button onClick={handleUnsetMealCompletion} disabled={!isAuthenticated} style={btnStyle}>14. Undo Mon Breakfast</button>
+          <button onClick={handleGetMealCompletions} disabled={!isAuthenticated} style={btnStyle}>15. Get All Completions</button>
+        </div>
+      </div>
+
+      {/* Shopping List service buttons */}
+      <div style={{ marginBottom: "0.5rem" }}>
+        <strong>shoppingListService (direct DB):</strong>
+        <div style={{ display: "flex", gap: "0.5rem", marginTop: "4px", flexWrap: "wrap" }}>
+          <button onClick={handleCreateOrGetShoppingList} disabled={!isAuthenticated} style={btnStyle}>16. Create/Get Shopping List</button>
+          <button onClick={handleBuildAndSaveShoppingItems} disabled={!isAuthenticated} style={btnStyle}>17. Build + Save Items</button>
+          <button onClick={handleGetShoppingListItems} disabled={!isAuthenticated} style={btnStyle}>18. Get Shopping Items</button>
+          <button onClick={handleCheckFirstItem} disabled={!isAuthenticated} style={btnStyle}>19. Toggle First Item Checked</button>
+        </div>
+      </div>
+
+      {/* Debug helpers */}
+      <div style={{ marginBottom: "0.5rem" }}>
+        <strong>Debug:</strong>
+        <div style={{ display: "flex", gap: "0.5rem", marginTop: "4px", flexWrap: "wrap" }}>
+          <button onClick={handleShowMealPlanId} style={btnStyle}>20. Show mealPlanId</button>
         </div>
       </div>
 
