@@ -10,6 +10,7 @@ import MealList from "../components/meals/MealList";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import AutoGenerateBanner from "../components/meals/AutoGenerateBanner";
 import { AppContext } from "../context/AppContext";
+import { useAuth } from "../context/AuthContext";
 
 function MealPlan() {
   const days = [
@@ -21,7 +22,17 @@ function MealPlan() {
     "Saturday",
     "Sunday",
   ];
-  const { weeklyPlan, setWeeklyPlan, saveWeeklyPlan, profileData,saveCurrentMealPlan, mealPlanLoading } = useContext(AppContext);
+  const {
+    weeklyPlan,
+    setWeeklyPlan,
+    saveWeeklyPlan,
+    profileData,
+    profileHydrated,
+    saveCurrentMealPlan,
+    mealPlanLoading,
+  } = useContext(AppContext);
+  const { authLoading } = useAuth();
+  const mealsFetchReady = !authLoading && profileHydrated;
   
   const [selectedDay, SetselectedDay] = useState("Monday");
 
@@ -40,8 +51,10 @@ function MealPlan() {
       weeklyPlan, 
       setWeeklyPlan, 
       selectedDay, 
+      setSelectedDay: SetselectedDay,
       saveWeeklyPlan, 
       profileData,
+      mealsFetchReady,
       saveCurrentMealPlan });
     
     const { count, filteredMeals } = useNutrition(apiMeals);
@@ -59,17 +72,17 @@ function MealPlan() {
   return (
     <>
       
-      {/* main  wrapper*/}
-      <main className="mainWrapper ">
-        {/* main  container*/}
-        <main className="mealPlanMainContainer">
-          {/* title container */}
+      {/* main  wrapper — meal-plan-page wraps layout so day strip can stick while scrolling meals */}
+      <main className="mainWrapper meal-plan-page">
+        <div className="mealPlanMainContainer">
           <div className="mealPlanMainContainerTitle">
             <h2>Generate Weekly Plan</h2>
           </div>
-<AutoGenerateBanner  />
-          {/* day selectior section */}
-          <section className="daySelectSection">
+          <AutoGenerateBanner
+            completedDay={completedDay}
+            onGenerate={generateWeeklyPlan}
+          />
+          <section className="daySelectSection" aria-label="Choose day of week">
             <ul className="dayListContainer">
               {days.map((day) => (
                 <li key={day} className="dayList">
@@ -93,7 +106,6 @@ function MealPlan() {
             </Button>
           </section>
 
-          {/* progress bar section */}
           <section className="progressBarSection">
             <ProgressBar
               bgColor="#678B7A"
@@ -104,71 +116,55 @@ function MealPlan() {
               maxCompleted={100}
             />
           </section>
-          {/* day title section */}
           <section className="dayTitleSection">
             <h2 className="dayTitle">{`Day ${days.indexOf(selectedDay) + 1} - ${selectedDay}`}</h2>
             <p className="dayText">Choose one meal per category</p>
-            <button type="button" className="testButton" onClick={fetchApiMeals}>
+            {/* Meals load automatically when this page opens (see useMealPlan). Manual fetch removed for simpler UX. */}
+            {/* <button type="button" className="testButton" onClick={fetchApiMeals}>
               From Meal Plan
-            </button>
+            </button> */}
           </section>
 
-        </main>
-              {/* {mealError && <p>{mealError}</p>} */}
-              {loadingMeals ? (
-                
-                
-                <section className="loading-container">
-                <div className="spinner-wrapper">
-                  <div className="spinner"></div>
-                  <p>Loading your meals...</p>
+          {loadingMeals ? (
+            <section className="loading-container">
+              <div className="spinner-wrapper">
+                <div className="spinner"></div>
+                <p>Loading your meals...</p>
+              </div>
+            </section>
+          ) : mealError ? (
+            <section className="error-container">
+              <p>{mealError}</p>
+              <button type="button" onClick={fetchApiMeals}>Try Again</button>
+            </section>
+          ) : (
+            <div className="cont">
+              <MealList
+                meals={filteredMeals}
+                mealsCount={mealsCount}
+                selectMeal={selectMeal}
+                weeklyPlan={weeklyPlan}
+                daySelection={daySelection}
+                selectedDay={selectedDay}
+              />
+              <section className="action-buttons-section">
+                <div className="day-actions">
+                  <Button className="save-day-btn" onClick={handleSaveDayPlan}>
+                    💾 Save for {selectedDay}
+                  </Button>
+
+                  <Button
+                    className="generate-plan-btn"
+                    disabled={completedDay === 7 ? false : true}
+                    onClick={generateWeeklyPlan}
+                  >
+                    ✅ Generate Weekly Plan
+                  </Button>
                 </div>
               </section>
-                
-                ) :  mealError ? (
-                  /* ERROR SCREEN - Full replacement */
-                  <section className="error-container">
-                    <p>{mealError}</p>
-                    <button onClick={fetchApiMeals}>Try Again</button>
-                  </section>
-                ) :
-                (
-<>
-<div className="cont">
-
-
-<MealList
-meals={filteredMeals}
-mealsCount={mealsCount}
-selectMeal={selectMeal}
-weeklyPlan={weeklyPlan}
-daySelection={daySelection}
-selectedDay={selectedDay}
-/>
-{/* button section */}
-<section className="action-buttons-section">
-          <div className="day-actions">
-            <Button className="save-day-btn" onClick={handleSaveDayPlan}>
-              💾 Save for {selectedDay}
-            </Button>
-
-            <Button
-              className="generate-plan-btn"
-              disabled={completedDay === 7 ? false : true}
-              onClick={generateWeeklyPlan}
-            >
-              ✅ Generate Weekly Plan
-            </Button>
-          </div>
-          
-        </section>
-
+            </div>
+          )}
         </div>
-</>
-              )}
-        
-
-        
       </main>
     </>
   );

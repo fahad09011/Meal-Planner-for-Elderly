@@ -11,17 +11,14 @@ export default async function fetchMeals(profileData) {
     if (!API_KEY) {
         throw new Error("Check API key or add in .env / .env.local");
     }
-    console.log("Incoming Profile:", profileData);
-
     const params = buildMealQueryParams(profileData);
-  
-    console.log("Generated Params:", params);
-  
+
     const queryString = new URLSearchParams(params).toString();
-  
-    console.log("Query String:", queryString);
     const url = `https://api.spoonacular.com/recipes/complexSearch?${queryString}&apiKey=${API_KEY}`;
-    console.log("Final API URL:", url);
+
+    if (import.meta.env.DEV) {
+      console.log("[Spoonacular] complexSearch params:", params);
+    }
 
     const response = await fetch(url);
     let data = null;

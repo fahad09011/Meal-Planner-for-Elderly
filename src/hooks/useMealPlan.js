@@ -6,9 +6,12 @@ const useMealPlan = ({
   weeklyPlan,
   setWeeklyPlan,
   selectedDay,
+  setSelectedDay,
   saveWeeklyPlan,
   profileData,
   saveCurrentMealPlan,
+  /** Wait for auth + Supabase profile load so we don’t hit Spoonacular with empty profile or race in-flight requests. */
+  mealsFetchReady = true,
   // weekStartDate,
 }) => {
   const defaultDaySelection = {
@@ -17,7 +20,7 @@ const useMealPlan = ({
     dinner: null,
   };
   const [apiMeals, setApiMeals] = useState([]);
-  const [loadingMeals, setLoadingMeals] = useState(false);
+  const [internalLoading, setInternalLoading] = useState(false);
   const [mealError, setMealError] = useState("");
   const [daySelection, setDaySelection] = useState(defaultDaySelection);
   const selectMeal = (meal) => {
@@ -52,7 +55,7 @@ const useMealPlan = ({
     isDayCompleted(safeWeeklyPlan[day]),
   ).length;
 
-  const handleSaveDayPlan =()=> {
+  const handleSaveDayPlan = () => {
     const isNoMealSelected = Object.values(daySelection).some(
       (value) => value === null,
     );
@@ -65,10 +68,13 @@ const useMealPlan = ({
         ...prevState,
         [selectedDay]: daySelection,
       };
+    });
+    const idx = days.indexOf(selectedDay);
+    if (setSelectedDay && idx >= 0 && idx < days.length - 1) {
+      setSelectedDay(days[idx + 1]);
     }
-  )
-  console.log("daySelection: ", daySelection);
-  }
+    console.log("daySelection: ", daySelection);
+  };
 
   const generateWeeklyPlan= async ()=> {
     const weekStartDate = getWeekStartDate();
@@ -95,34 +101,55 @@ alert("Weekly Plan is generated Successfuly");
     } else {
       setDaySelection(savedMeals);
     }
-    console.log(
-            "user select meal for day: ",
-            selectedDay,
-            " meal: ",
-            weeklyPlan,
-          );
-          const weekStart = getWeekStartDate();
-          console.log("Week start date:", weekStart);
-
-          // start from here
   }, [selectedDay, weeklyPlan]);
 
-  const fetchApiMeals = async () => {
+  /** Manual retry (e.g. “Try again”). Same steps as the effect below, without cancellation. */
+  async function fetchApiMeals() {
+    if (!mealsFetchReady) return;
     try {
-      setLoadingMeals(true);
+      setInternalLoading(true);
       setMealError("");
-
       const data = await fetchMeals(profileData);
       setApiMeals(data);
-
-      console.log("API meal in useMealPlan hook  ", data);
     } catch (error) {
       console.error("Spoonacular API:", error.message);
       setMealError(error.message || "Failed to load API meals");
     } finally {
-      setLoadingMeals(false);
+      setInternalLoading(false);
     }
-  };
+  }
+
+  /**
+   * One in-flight request: cleanup marks stale so overlapping fetches don’t all apply results.
+   * Runs when Meal Plan should fetch (auth + profile ready) or profile edits after that.
+   */
+  useEffect(() => {
+    if (!mealsFetchReady) return;
+
+    let cancelled = false;
+
+    (async () => {
+      try {
+        setInternalLoading(true);
+        setMealError("");
+        const data = await fetchMeals(profileData);
+        if (!cancelled) setApiMeals(data);
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Spoonacular API:", error.message);
+          setMealError(error.message || "Failed to load API meals");
+        }
+      } finally {
+        if (!cancelled) setInternalLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [mealsFetchReady, profileData]);
+
+  const loadingMeals = internalLoading || !mealsFetchReady;
 
   return {
     apiMeals,
