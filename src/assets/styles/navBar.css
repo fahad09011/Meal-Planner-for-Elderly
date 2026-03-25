@@ -54,4 +54,25 @@
     font-size: var(--font-size-base);
     font-weight: 500;
     color: var(--text-main);
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .navSignOut {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--primary-green);
+    background: transparent;
+    border: 1px solid var(--primary-green);
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .navSignOut:hover {
+    background: var(--secondary-green);
+    color: var(--primary-green);
   }

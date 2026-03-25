@@ -1,10 +1,21 @@
-
 import icon from '../../assets/icons/userIcon.png';
 import logo from '../../assets/icons/logo.png';
 import '../../assets/styles/navBar.css';
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function Navbar() {
+  const { user, authLoading, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const displayLabel =
+    user?.user_metadata?.full_name?.trim() || user?.email || "";
+
+  async function handleSignOut() {
+    await signOut();
+    navigate("/login");
+  }
+
   return (
     <div>
         <nav className="navbar navbar-expand-lg navbar-light pt-0 pb-0">
@@ -33,12 +44,26 @@ function Navbar() {
         <li className="nav-item">
           <NavLink className="nav-link" to="/profile">Profile</NavLink>
         </li>
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/login">
+            {user ? "Account" : "Log in"}
+          </NavLink>
+        </li>
       </ul>
       <div className="infoContainer">
-        <img src={icon} alt="icon" className="userIcon" />
- <span className="navbar-text">
-        {`Muhamad Fahad`}
-      </span>
+        <img src={icon} alt="" className="userIcon" />
+        <span className="navbar-text" title={displayLabel || undefined}>
+          {authLoading ? "…" : displayLabel || "Not signed in"}
+        </span>
+        {user ? (
+          <button
+            type="button"
+            className="navSignOut"
+            onClick={handleSignOut}
+          >
+            Sign out
+          </button>
+        ) : null}
       </div>
      
     </div>

@@ -60,6 +60,18 @@ export function AuthProvider({ children }) {
     return { data, error };
   }
 
+  async function signUp(email, password, userMetadata = {}) {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: userMetadata,
+      },
+    });
+
+    return { data, error };
+  }
+
   async function signOut() {
     const { error } = await supabase.auth.signOut();
     return { error };
@@ -70,6 +82,7 @@ export function AuthProvider({ children }) {
     user,
     authLoading,
     signIn,
+    signUp,
     signOut,
     isAuthenticated: !!user,
   };

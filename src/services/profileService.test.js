@@ -2,8 +2,13 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { getProfile, createProfile, updateProfile } from "./profileService";
 
 const mockSingle = vi.fn();
+const mockMaybeSingle = vi.fn();
 const mockSelect = vi.fn(() => ({ single: mockSingle }));
-const mockEq = vi.fn(() => ({ single: mockSingle, select: mockSelect }));
+const mockEq = vi.fn(() => ({
+  single: mockSingle,
+  maybeSingle: mockMaybeSingle,
+  select: mockSelect,
+}));
 const mockInsert = vi.fn(() => ({ select: mockSelect }));
 const mockUpdate = vi.fn(() => ({ eq: mockEq }));
 const mockFrom = vi.fn(() => ({
@@ -41,7 +46,7 @@ beforeEach(() => {
 // ===================== getProfile =====================
 describe("getProfile", () => {
   it("returns success and data when profile exists", async () => {
-    mockSingle.mockResolvedValue({ data: dbRow, error: null });
+    mockMaybeSingle.mockResolvedValue({ data: dbRow, error: null });
     const result = await getProfile(testUserId);
 
     expect(result.success).toBe(true);
@@ -49,18 +54,17 @@ describe("getProfile", () => {
     expect(mockFrom).toHaveBeenCalledWith("profiles");
   });
 
-  it("returns success:false when profile does not exist", async () => {
-    const notFoundError = { code: "PGRST116", message: "Row not found" };
-    mockSingle.mockResolvedValue({ data: null, error: notFoundError });
+  it("returns success:true and data:null when profile does not exist", async () => {
+    mockMaybeSingle.mockResolvedValue({ data: null, error: null });
     const result = await getProfile("non-existent-user");
 
-    expect(result.success).toBe(false);
-    expect(result.error).toEqual(notFoundError);
+    expect(result.success).toBe(true);
+    expect(result.data).toBeNull();
   });
 
   it("returns success:false on generic DB error", async () => {
     const dbError = { code: "500", message: "Internal server error" };
-    mockSingle.mockResolvedValue({ data: null, error: dbError });
+    mockMaybeSingle.mockResolvedValue({ data: null, error: dbError });
     const result = await getProfile(testUserId);
 
     expect(result.success).toBe(false);
