@@ -46,9 +46,11 @@ function Navbar() {
         <li className="nav-item">
           <NavLink className="nav-link" to="/mealPlan">Meal Plan</NavLink>
         </li>
+        {/* Iteration 2 — Browse Meals not implemented yet
         <li className="nav-item">
           <NavLink className="nav-link" to="/browseMeals">Browse Meals </NavLink>
         </li>
+        */}
         <li className="nav-item">
           <NavLink className="nav-link" to="/viewPlan">View Meal Plan </NavLink>
         </li>

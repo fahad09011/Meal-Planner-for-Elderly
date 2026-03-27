@@ -40,7 +40,7 @@ function AutoGenerateBanner({ completedDay, onGenerate, onAutoWeeklyPlan }) {
           type="button"
           className="auto-generate-banner__btn"
           onClick={onAutoWeeklyPlan}
-          aria-label="Fill all seven days using suggested recipes. Load recipe ideas first."
+          aria-label="Fill all seven days using suggested recipes from the list below."
         >
           Suggest whole week
         </Button>
