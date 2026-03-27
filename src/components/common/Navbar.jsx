@@ -27,7 +27,7 @@ function Navbar() {
     <div>
         <nav className="navbar navbar-expand-lg navbar-light pt-0 pb-0">
   <div className="container-fluid">
-    <NavLink className="navbar-brand" to="/home"><img src={logo} alt="lopgo" className="logo" /> MealCare</NavLink>
+    <NavLink className="navbar-brand" to="/home"><img src={logo} alt="MealCare logo" className="logo" /> MealCare</NavLink>
     <button
       className="navbar-toggler"
       type="button"
