@@ -79,6 +79,7 @@ const intoleranceMap={
 //       maxSugar: 17.5
 //     }
 //   };
+// fix call rate
   
 function buildMealQueryParams(profileData) {
     const params = {
