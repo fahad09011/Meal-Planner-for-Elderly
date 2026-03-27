@@ -79,6 +79,7 @@ const intoleranceMap={
 //       maxSugar: 17.5
 //     }
 //   };
+// fix call rate
   
 function buildMealQueryParams(profileData) {
     const params = {
@@ -87,7 +88,7 @@ function buildMealQueryParams(profileData) {
       addRecipeInstructions: true,
       fillIngredients: true,
       type: "breakfast,lunch,dinner",
-      number: 20,
+      number: 30,
     };
 
     const dietValues=[];
