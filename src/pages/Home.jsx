@@ -1,5 +1,4 @@
 import React from "react";
-import homeImage from "../assets/images/homeScreenMainImage.png";
 import "../assets/styles/home.css";
 import HomeButton from "../components/common/HomeButton";
 import mealButtonIcon     from "../assets/images/mealButtonIcon.png";
@@ -9,21 +8,21 @@ import shoppingButtonIcon from "../assets/images/shoppingButtonIcon.png";
 import { NavLink } from "react-router-dom";
 
 const NAV_BUTTONS = [
-  { to: "/mealPlan",     icon: mealButtonIcon,     title: "Create Meal Plan", cls: "div1" },
-  { to: "/profile",      icon: profileButtonIcon,  title: "My Profile",       cls: "div2" },
-  { to: "/shoppingList", icon: shoppingButtonIcon, title: "Shopping List",    cls: "div3" },
-  { to: "/caregiver",    icon: careButtonIcon,      title: "Care Giver",      cls: "div4" },
+  { to: "/mealPlan", icon: mealButtonIcon, title: "Create meal plan", cls: "div1" },
+  { to: "/profile", icon: profileButtonIcon, title: "My profile", cls: "div2" },
+  { to: "/shopping", icon: shoppingButtonIcon, title: "Shopping list", cls: "div3" },
+  { to: "/viewPlan", icon: careButtonIcon, title: "View weekly plan", cls: "div4" },
 ];
 
 function Home() {
   return (
     <main
       className="homeMainContainer"
-      style={{ backgroundImage: `url(${homeImage})` }}
+      aria-label="Home — choose where to go"
     >
-      <div className="homeButtonContainer">
+      <div className="homeButtonContainer" role="navigation" aria-label="Main shortcuts">
         {NAV_BUTTONS.map(({ to, icon, title, cls }) => (
-          <NavLink key={to} to={to} className={`homeNavLink ${cls}`}>
+          <NavLink key={to} to={to} className={`homeNavLink ${cls}`} aria-label={title}>
             <HomeButton icon={icon} title={title} />
           </NavLink>
         ))}

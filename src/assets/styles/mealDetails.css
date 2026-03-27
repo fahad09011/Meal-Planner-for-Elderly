@@ -1,0 +1,242 @@
+/* ── Page ── */
+.meal-details-page {
+  background: transparent;
+  min-height: calc(100vh - var(--navbar-height, 68px));
+  padding: 20px 24px 48px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.meal-details-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  min-height: 48px;
+  padding: 12px 18px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--primary-green-dark);
+  background: var(--white);
+  border: var(--border-light);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.meal-details-back:hover {
+  background: var(--secondary-green);
+}
+
+.meal-details-back:focus-visible {
+  outline: 3px solid var(--primary-green-dark);
+  outline-offset: 2px;
+}
+
+.meal-details-hero {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background: var(--white);
+  border: var(--border-light);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+}
+
+.meal-details-hero-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.meal-details-hero-body {
+  padding: 18px 20px 20px;
+}
+
+.meal-details-title {
+  font-size: clamp(1.45rem, 3vw, 1.75rem);
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.25;
+  margin: 0 0 14px;
+}
+
+.meal-details-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.meal-details-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-main);
+  background: var(--secondary-green);
+  border-radius: 99px;
+}
+
+.meal-details-section {
+  background: var(--white);
+  border: var(--border-light);
+  border-radius: var(--border-radius);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.meal-details-section-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 12px;
+}
+
+.meal-details-summary {
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.meal-details-nutrition {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (min-width: 500px) {
+  .meal-details-nutrition {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.meal-details-nutrition-item {
+  text-align: center;
+  padding: 12px 8px;
+  background: var(--light-bg);
+  border-radius: var(--border-radius-sm);
+}
+
+.meal-details-nutrition-value {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary-green-dark);
+}
+
+.meal-details-nutrition-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: 4px;
+  display: block;
+}
+
+.meal-details-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.meal-details-tag {
+  padding: 5px 11px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--primary-green-dark);
+  background: var(--secondary-green);
+  border-radius: 99px;
+}
+
+.meal-details-ingredient-group {
+  margin-bottom: 16px;
+}
+
+.meal-details-ingredient-group:last-child {
+  margin-bottom: 0;
+}
+
+.meal-details-ingredient-group-title {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 8px;
+}
+
+.meal-details-ingredient-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.meal-details-ingredient-list li {
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(169, 161, 161, 0.2);
+}
+
+.meal-details-ingredient-list li:last-child {
+  border-bottom: none;
+}
+
+.meal-details-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: step;
+}
+
+.meal-details-steps li {
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(169, 161, 161, 0.2);
+  counter-increment: step;
+}
+
+.meal-details-steps li:last-child {
+  border-bottom: none;
+}
+
+.meal-details-steps li::before {
+  content: counter(step);
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  color: var(--white);
+  background: var(--primary-green);
+  border-radius: 50%;
+}
+
+.meal-details-step-text {
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--text-main);
+  padding-top: 4px;
+}
+
+.meal-details-empty,
+.meal-details-loading {
+  text-align: center;
+  padding: 48px 20px;
+  font-size: var(--font-size-lg);
+  color: var(--text-muted);
+}
+
+.meal-details-empty p {
+  margin: 0 0 20px;
+  color: var(--text-main);
+}
+
+.meal-details-empty .meal-details-back {
+  margin-bottom: 0;
+}

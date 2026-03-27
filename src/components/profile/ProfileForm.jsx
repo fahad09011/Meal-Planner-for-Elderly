@@ -58,7 +58,10 @@ useEffect(()=>{
       <main className="profileMainContainer">
         <form action="" onSubmit={handleOnSubmit} className="profileForm">
           <div className="formTitleContainer">
-            <h2 className="formTitle">Profile Settings</h2>
+            <h1 className="formTitle">Your profile</h1>
+            <p className="profile-page-lede">
+              Choose what applies to you. We use this to suggest meals that fit your age, diet and health needs.
+            </p>
             <hr />
           </div>
           {/* age g */}

@@ -1,12 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../common/Button";
 import "../../assets/styles/mealCard.css";
 
 function MealCard({ meals, selectMeal, daySelection }) {
+  const navigate = useNavigate();
   const capitalizer = (string) =>
     string ? string[0].toUpperCase() + string.slice(1) : "";
 
   const isSelected = daySelection?.[meals.mealType]?.id === meals.id;
+  const summaryTeaser =
+    typeof meals.summary === "string" && meals.summary.trim() !== ""
+      ? meals.summary.trim()
+      : null;
 
   return (
     <div className="mainMealCardContainer">
@@ -21,9 +27,11 @@ function MealCard({ meals, selectMeal, daySelection }) {
       {/* ── Text data ── */}
       <div className="mealDataSection">
         <p className="mealName">{meals.title}</p>
-        <p className="mealDescription">Ise bad me dekhain gain</p>
+        {summaryTeaser ? (
+          <p className="mealDescription mealDescription--teaser">{summaryTeaser}</p>
+        ) : null}
         <div className="mealTagContainer">
-          {meals.diets.map((tag, index) => (
+          {(meals.diets ?? []).map((tag, index) => (
             <span key={index} className="mealTag">
               {capitalizer(tag)}
             </span>
@@ -41,7 +49,13 @@ function MealCard({ meals, selectMeal, daySelection }) {
           {isSelected ? "✓ Selected" : "Select for plan"}
         </Button>
 
-        <button className="mealViewBtn">
+        <button
+          type="button"
+          className="mealViewBtn"
+          onClick={() =>
+            navigate(`/mealDetails/${meals.id}`, { state: { meal: meals } })
+          }
+        >
           <svg
             width="14" height="14" viewBox="0 0 14 14"
             fill="none" stroke="currentColor"

@@ -1,6 +1,6 @@
 /* ── Page ── */
 .view-plan-page {
-  background-color: var(--light-bg);
+  background: transparent;
   min-height: calc(100vh - var(--navbar-height, 68px));
   padding: 24px 28px 48px;
   max-width: 1200px;
@@ -389,6 +389,12 @@
 
   .meal-row { flex-wrap: wrap; min-height: auto; }
 
+  .meal-row-nutrition {
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    justify-content: flex-start;
+  }
+
   .meal-row-category {
     width: 100%;
     justify-content: flex-start;
@@ -409,15 +415,36 @@
     align-self: auto;
   }
 
-  .meal-row-actions {
-    width: 100%;
-    margin: 0;
-    padding: 0 14px 14px;
+  .day-plan-card {
+    overflow-x: hidden;
+    max-width: 100%;
   }
 
-  .meal-row-view-recipe-btn {
+  .meal-row {
+    overflow-x: hidden;
+  }
+
+  .meal-row-actions {
+    flex: 1 1 100%;
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* fill space next to checkbox; avoid width:100% + sibling overflow */
+  .meal-row-view-recipe-btn {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
     justify-content: center;
+    padding: 10px 12px;
   }
 
   .meal-done-check {
@@ -426,6 +453,101 @@
     flex-shrink: 0;
   }
 
-  .view-plan-day-tabs { overflow-x: auto; }
+  .view-plan-day-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .view-plan-day-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
   .view-plan-day-tab { flex-shrink: 0; min-width: 52px; }
+}
+
+/* ── Elderly-friendly: clearer hierarchy, larger taps (view plan) ── */
+.view-plan-page-intro {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: var(--border-light);
+}
+
+.view-plan-title--page {
+  font-size: clamp(1.45rem, 3vw, 1.85rem);
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+
+.view-plan-lede {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  max-width: 42rem;
+}
+
+.view-plan-date--emphasis {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.view-plan-progress-track {
+  width: min(200px, 42vw);
+  height: 10px;
+}
+
+.view-plan-progress-text {
+  font-size: 1rem;
+}
+
+.view-plan-header-btn.button {
+  min-height: 48px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+
+.view-plan-day-tab {
+  min-height: 56px;
+  padding: 12px 10px;
+}
+
+.view-plan-day-tab:focus-visible {
+  outline: 3px solid var(--primary-green-dark);
+  outline-offset: 2px;
+}
+
+.view-plan-day-tab-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.view-plan-day-tab-dots {
+  gap: 5px;
+}
+
+.view-plan-day-tab-dot {
+  width: 8px;
+  height: 8px;
+}
+
+.mark-all-done-btn {
+  min-height: 44px;
+  padding: 10px 18px;
+  font-size: 1rem;
+}
+
+.mark-all-done-btn:focus-visible {
+  outline: 3px solid var(--primary-green-dark);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .view-plan-progress-fill {
+    transition: none;
+  }
 }

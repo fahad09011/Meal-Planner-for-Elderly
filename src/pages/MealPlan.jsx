@@ -1,13 +1,13 @@
-// with list
 import React, { useContext, useState } from "react";
+import { generateAutoWeeklyPlan } from "../utils/generateAutoWeeklyPlan";
 import ProgressBar from "@ramonak/react-progress-bar";
 import useNutrition from "../hooks/useNutrition";
 import useMealPlan from "../hooks/useMealPlan";
 import "../assets/styles/mealPlan.css";
+import "../assets/styles/viewplan.css";
 import "../assets/styles/button.css";
 import Button from "../components/common/Button";
 import MealList from "../components/meals/MealList";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import AutoGenerateBanner from "../components/meals/AutoGenerateBanner";
 import { AppContext } from "../context/AppContext";
 import { useAuth } from "../context/AuthContext";
@@ -22,120 +22,207 @@ function MealPlan() {
     "Saturday",
     "Sunday",
   ];
+
   const {
-    weeklyPlan,
-    setWeeklyPlan,
-    saveWeeklyPlan,
+    mealPlanDraft,
+    setMealPlanDraft,
     profileData,
     profileHydrated,
     saveCurrentMealPlan,
-    mealPlanLoading,
   } = useContext(AppContext);
-  const { authLoading } = useAuth();
-  const mealsFetchReady = !authLoading && profileHydrated;
-  
-  const [selectedDay, SetselectedDay] = useState("Monday");
 
-  const { apiMeals,
-     loadingMeals,
-      mealError,
-       fetchApiMeals,
-       daySelection,
+  const { authLoading, user } = useAuth();
+  const mealsFetchReady = !authLoading && profileHydrated;
+
+  const [selectedDay, SetselectedDay] = useState("Monday");
+  const [generationMode, setGenerationMode] = useState("manual");
+
+  const {
+    apiMeals,
+    loadingMeals,
+    mealsRequested,
+    mealError,
+    fetchApiMeals,
+    daySelection,
     selectMeal,
     isDayCompleted,
     completedDay,
     handleSaveDayPlan,
-    generateWeeklyPlan
-   } = useMealPlan({ 
-      days, 
-      weeklyPlan, 
-      setWeeklyPlan, 
-      selectedDay, 
-      setSelectedDay: SetselectedDay,
-      saveWeeklyPlan, 
-      profileData,
-      mealsFetchReady,
-      saveCurrentMealPlan });
-    
-    const { count, filteredMeals } = useNutrition(apiMeals);
-    // ise fix krna hai, at a monet local meal file se mealtype calculate kr raha hai 
-    const mealsCount = count;
+    generateWeeklyPlan,
+  } = useMealPlan({
+    days,
+    mealPlanDraft,
+    setMealPlanDraft,
+    selectedDay,
+    setSelectedDay: SetselectedDay,
+    profileData,
+    mealsFetchReady,
+    saveCurrentMealPlan,
+    user,
+  });
+
+  const { count, filteredMeals } = useNutrition(apiMeals);
+  const mealsCount = count;
+
+  function handleAutoGenerateWeeklyPlan() {
+    if (!mealsRequested) {
+      alert("Tap “Load recipe ideas” first, then try filling the whole week again.");
+      return;
+    }
+
+    if (!filteredMeals.length) {
+      alert("There are no recipes to use yet. Try loading ideas again, or check your filters.");
+      return;
+    }
+
+    const generatedPlan = generateAutoWeeklyPlan(filteredMeals);
+    setMealPlanDraft(generatedPlan);
+    setGenerationMode("auto");
+    SetselectedDay("Monday");
+  }
+
+  function handleManualSaveDayPlan() {
+    handleSaveDayPlan();
+    setGenerationMode("manual");
+  }
+
+  async function handleFinalGenerateWeeklyPlan() {
+    await generateWeeklyPlan(generationMode);
+  }
 
   const progress = Math.round((completedDay / 7) * 100);
-  
+
   function handleSelectedDayOnclick(day) {
     SetselectedDay(day);
-    console.log("filtered meals from nutrition service: ",filteredMeals)
-    // console.log("from meal plan filter meals",filterMeals)
   }
 
   return (
     <>
-      
-      {/* main  wrapper — meal-plan-page wraps layout so day strip can stick while scrolling meals */}
-      <main className="mainWrapper meal-plan-page">
+      <main className="mainWrapper meal-plan-page" id="meal-plan-main">
         <div className="mealPlanMainContainer">
-          <div className="mealPlanMainContainerTitle">
-            <h2>Generate Weekly Plan</h2>
-          </div>
+          <header className="meal-plan-page-header">
+            <h1 className="meal-plan-page-title">Your weekly meals</h1>
+            <p className="meal-plan-page-lede">
+              Pick a day below, choose breakfast, lunch and dinner, then save. Or use the shortcuts at
+              the top to fill the week or save your plan when you are done.
+            </p>
+          </header>
+
           <AutoGenerateBanner
             completedDay={completedDay}
-            onGenerate={generateWeeklyPlan}
+            onAutoWeeklyPlan={handleAutoGenerateWeeklyPlan}
+            onGenerate={handleFinalGenerateWeeklyPlan}
           />
-          <section className="daySelectSection" aria-label="Choose day of week">
-            <ul className="dayListContainer">
-              {days.map((day) => (
-                <li key={day} className="dayList">
-                  <Button
-                    type="button"
-                    className={`dayButton ${selectedDay === day ? "button " : "inActive"}`}
-                    onClick={() => handleSelectedDayOnclick(day)}
-                  >
-                    {day.slice(0,3)}
-                    {isDayCompleted(weeklyPlan[day]) && (
-                      <span className="mealCompleteBadge">
-                        <IoMdCheckmarkCircleOutline />
-                      </span>
-                    )}
-                  </Button>
-                </li>
-              ))}
-            </ul>
-            <Button className="save-day-btn save-day-btn-top " onClick={handleSaveDayPlan}>
-              💾 Save for {selectedDay}
+
+          <section className="daySelectSection" aria-label="Step 1: choose a day of the week">
+            <div className="daySelectSection-tabsWrap">
+              <div className="view-plan-day-tabs meal-plan-day-tabs" role="tablist">
+                {days.map((day) => {
+                  const dayPlan = mealPlanDraft[day];
+                  const dayComplete = isDayCompleted(dayPlan);
+
+                  return (
+                    <button
+                      key={day}
+                      type="button"
+                      role="tab"
+                      aria-selected={selectedDay === day}
+                      className={`view-plan-day-tab ${
+                        selectedDay === day ? "view-plan-day-tab--active" : ""
+                      }`}
+                      onClick={() => handleSelectedDayOnclick(day)}
+                    >
+                      <span className="view-plan-day-tab-name">{day.slice(0, 3)}</span>
+                      <div className="view-plan-day-tab-dots">
+                        {["breakfast", "lunch", "dinner"].map((mealSlot) => (
+                          <span
+                            key={mealSlot}
+                            className={`view-plan-day-tab-dot ${
+                              dayPlan?.[mealSlot] ? "view-plan-day-tab-dot--planned" : ""
+                            } ${
+                              dayComplete && dayPlan?.[mealSlot]
+                                ? "view-plan-day-tab-dot--done"
+                                : ""
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <Button
+              className="save-day-btn save-day-btn-top"
+              onClick={handleManualSaveDayPlan}
+              aria-label={`Save breakfast, lunch and dinner for ${selectedDay}`}
+            >
+              Save this day
             </Button>
           </section>
 
           <section className="progressBarSection">
             <ProgressBar
-              bgColor="#678B7A"
-              height="40px"
+              bgColor="#5a7d68"
+              height="48px"
               completed={progress}
               labelAlignment="center"
-              customLabel={`${completedDay}/7 completed`}
+              customLabel={` Week progress: ${completedDay} of 7 days `}
               maxCompleted={100}
             />
           </section>
-          <section className="dayTitleSection">
-            <h2 className="dayTitle">{`Day ${days.indexOf(selectedDay) + 1} - ${selectedDay}`}</h2>
-            <p className="dayText">Choose one meal per category</p>
-            {/* Meals load automatically when this page opens (see useMealPlan). Manual fetch removed for simpler UX. */}
-            {/* <button type="button" className="testButton" onClick={fetchApiMeals}>
-              From Meal Plan
-            </button> */}
+
+          <section className="dayTitleSection" aria-labelledby="meal-plan-day-heading">
+            <h2 id="meal-plan-day-heading" className="dayTitle">
+              {selectedDay} · day {days.indexOf(selectedDay) + 1} of 7
+            </h2>
+            <p className="dayText">
+              Tap one meal for breakfast, one for lunch, and one for dinner. Large cards below—take
+              your time.
+            </p>
+
+            <div className="meal-plan-load-row">
+              <button
+                type="button"
+                className="meal-plan-load-btn"
+                onClick={() => fetchApiMeals()}
+                disabled={!mealsFetchReady || loadingMeals}
+              >
+                {loadingMeals ? "Loading recipes…" : "Load recipe ideas"}
+              </button>
+              {!mealsFetchReady ? (
+                <p className="meal-plan-fetch-hint" role="status">
+                  Your profile is still loading. Please wait a moment.
+                </p>
+              ) : (
+                <p className="meal-plan-fetch-hint meal-plan-fetch-hint--muted">
+                  Load when you are ready. This saves recipe lookups until you tap.
+                </p>
+              )}
+            </div>
           </section>
 
           {loadingMeals ? (
-            <section className="loading-container">
+            <section className="loading-container" aria-busy="true" aria-live="polite">
               <div className="spinner-wrapper">
                 <div className="spinner"></div>
-                <p>Loading your meals...</p>
+                <p>Loading recipe ideas…</p>
               </div>
             </section>
           ) : mealError ? (
-            <section className="error-container">
-              <p>{mealError}</p>
-              <button type="button" onClick={fetchApiMeals}>Try Again</button>
+            <section className="error-container" role="alert">
+              <p className="error-container__message">{mealError}</p>
+              <button type="button" className="meal-plan-retry-btn" onClick={() => fetchApiMeals()}>
+                Try again
+              </button>
+            </section>
+          ) : !mealsRequested ? (
+            <section className="meal-plan-prompt-placeholder" aria-live="polite">
+              <p className="meal-plan-prompt-placeholder__text">
+                When you are ready, tap <strong>Load recipe ideas</strong> above. Nothing loads until
+                you choose to.
+              </p>
             </section>
           ) : (
             <div className="cont">
@@ -143,22 +230,28 @@ function MealPlan() {
                 meals={filteredMeals}
                 mealsCount={mealsCount}
                 selectMeal={selectMeal}
-                weeklyPlan={weeklyPlan}
+                weeklyPlan={mealPlanDraft}
                 daySelection={daySelection}
                 selectedDay={selectedDay}
               />
-              <section className="action-buttons-section">
+
+              <section className="action-buttons-section" aria-label="Save day or whole plan">
                 <div className="day-actions">
-                  <Button className="save-day-btn" onClick={handleSaveDayPlan}>
-                    💾 Save for {selectedDay}
+                  <Button
+                    className="save-day-btn"
+                    onClick={handleManualSaveDayPlan}
+                    aria-label={`Save meals for ${selectedDay}`}
+                  >
+                    Save this day
                   </Button>
 
                   <Button
                     className="generate-plan-btn"
-                    disabled={completedDay === 7 ? false : true}
-                    onClick={generateWeeklyPlan}
+                    disabled={completedDay < 7}
+                    onClick={handleFinalGenerateWeeklyPlan}
+                    aria-label="Save the full week to your account. Available when all seven days are filled."
                   >
-                    ✅ Generate Weekly Plan
+                    Save plan to account
                   </Button>
                 </div>
               </section>

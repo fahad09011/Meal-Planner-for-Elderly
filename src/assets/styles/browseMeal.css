@@ -1,0 +1,24 @@
+/* Placeholder browse screen — readable, consistent with app */
+
+.browse-meal-page {
+  min-height: calc(100vh - var(--navbar-height, 68px));
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 1.5rem clamp(16px, 3vw, 28px) 2.5rem;
+  background: transparent;
+}
+
+.browse-meal-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.45rem, 3vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-main);
+}
+
+.browse-meal-lede {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}

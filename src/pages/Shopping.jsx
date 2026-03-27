@@ -178,9 +178,14 @@ function Shopping() {
 
           <section className="content shopping-page__column shopping-page__column--center" aria-labelledby="shopping-main-title">
             <div className="content-header shopping-content-header">
-              <h1 id="shopping-main-title" className="title shopping-content-header__title">
-                Shopping list
-              </h1>
+              <div className="shopping-content-header__intro">
+                <h1 id="shopping-main-title" className="title shopping-content-header__title">
+                  Shopping list
+                </h1>
+                <p className="shopping-content-header__lede">
+                  Tap a box to tick an item as you add it to your basket.
+                </p>
+              </div>
               <div className="options shopping-content-header__meta" aria-live="polite">
                 {mealPlanId ? `${counts.total} item${counts.total === 1 ? "" : "s"}` : "No plan loaded"}
               </div>

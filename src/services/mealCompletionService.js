@@ -39,3 +39,19 @@ export const getMealCompletions = async (
       }
       return { success: true, data };
 };
+
+/** Clears all completion rows when the weekly plan is replaced (new generate / save). */
+export const deleteMealCompletionsForMealPlan = async (mealPlanId) => {
+  if (!mealPlanId) {
+    return { success: true, data: null };
+  }
+  const { error } = await supabase
+    .from("meal_completions")
+    .delete()
+    .eq("meal_plan_id", mealPlanId);
+  if (error) {
+    console.error("Error deleting meal completions:", error);
+    return { success: false, error };
+  }
+  return { success: true, data: null };
+};
