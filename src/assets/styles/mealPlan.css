@@ -4,7 +4,7 @@
   flex-direction: column;
   width: 100%;
   min-height: 100vh;
-  background-color: var(--light-bg);
+  background: transparent;
 }
 
 /* ── Header container ── */
@@ -50,10 +50,10 @@
 }
 
 .auto-generate-banner__icon {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.14);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,36 +65,56 @@
 }
 
 .auto-generate-banner__title {
-  font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-size: clamp(1.125rem, 2vw, 1.35rem);
+  font-weight: 700;
   color: #fff;
-  margin: 0 0 4px;
+  margin: 0 0 8px;
+  line-height: 1.25;
 }
 
 .auto-generate-banner__sub {
-  font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.92);
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.55;
+  max-width: 40rem;
+}
+
+.auto-generate-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 .auto-generate-banner__btn {
   flex-shrink: 0;
-  height: 44px;
-  padding: 0 20px;
+  min-height: 48px;
+  padding: 12px 20px;
   background: #fff;
   color: var(--ai-bg);
   border: none;
   border-radius: 10px;
-  font-size: var(--font-size-base);
+  font-size: 1.0625rem;
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.15s ease;
-  white-space: nowrap;
+  line-height: 1.25;
 }
 
-.auto-generate-banner__btn:hover {
-  opacity: 0.9;
+.auto-generate-banner__btn:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.auto-generate-banner__btn:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.auto-generate-banner__btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 /* ── Day selector ── */
@@ -117,6 +137,20 @@
   z-index: 100;
   background: var(--white);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* Reuse View plan day tabs inside meal plan bar (single outer card, no double border) */
+.daySelectSection-tabsWrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.daySelectSection .meal-plan-day-tabs {
+  margin-bottom: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
 }
 
 .dayListContainer {
@@ -171,17 +205,71 @@
   margin: 4px 0 0;
 }
 
-/* ── Temp fetch button ── */
-.testButton {
-  width: 140px;
-  height: 40px;
+/* ── Load recipe ideas (manual fetch) — large tap target ── */
+.meal-plan-load-row {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 36rem;
+}
+
+.meal-plan-load-btn {
+  width: 100%;
+  max-width: 22rem;
+  min-height: 48px;
+  padding: 12px 22px;
   background: var(--primary-green);
   color: var(--white);
-  border: none;
+  border: 2px solid transparent;
   border-radius: var(--border-radius-sm);
   cursor: pointer;
-  margin-top: 10px;
-  font-size: var(--font-size-sm);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  box-shadow: var(--shadow-btn);
+}
+
+.meal-plan-load-btn:hover:not(:disabled) {
+  background: var(--primary-green-hover);
+}
+
+.meal-plan-load-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.meal-plan-load-btn:focus-visible {
+  outline: 3px solid var(--primary-green-dark);
+  outline-offset: 3px;
+}
+
+.meal-plan-fetch-hint {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--text-main);
+}
+
+.meal-plan-fetch-hint--muted {
+  color: var(--text-muted);
+}
+
+.meal-plan-prompt-placeholder {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  text-align: center;
+}
+
+.meal-plan-prompt-placeholder__text {
+  margin: 0;
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  line-height: 1.5;
 }
 
 /* ── Main content container ── */
@@ -283,6 +371,124 @@
   margin: 0;
 }
 
+/* ── Meal plan page: clearer hierarchy, larger taps, focus rings (older-adult friendly) ── */
+.meal-plan-page-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: var(--border-light);
+}
+
+.meal-plan-page-title {
+  font-size: clamp(1.5rem, 3vw, 1.85rem);
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.meal-plan-page-lede {
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 44rem;
+}
+
+.meal-plan-page .progressBarSection {
+  width: 100%;
+  padding: 16px 0;
+}
+
+.meal-plan-page .dayTitle {
+  font-size: clamp(1.2rem, 2.5vw, 1.45rem);
+}
+
+.meal-plan-page .dayTitleSection .dayText {
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  max-width: 42rem;
+}
+
+.meal-plan-page .view-plan-day-tab {
+  min-height: 56px;
+  min-width: 3.75rem;
+  padding: 12px 10px;
+}
+
+.meal-plan-page .view-plan-day-tab-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.meal-plan-page .view-plan-day-tab-dots {
+  gap: 5px;
+}
+
+.meal-plan-page .view-plan-day-tab-dot {
+  width: 8px;
+  height: 8px;
+}
+
+.meal-plan-page .save-day-btn-top {
+  min-height: 48px;
+  padding: 0 20px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+
+.meal-plan-page :is(.save-day-btn, .generate-plan-btn).button:focus-visible {
+  outline: 3px solid var(--primary-green-dark);
+  outline-offset: 3px;
+}
+
+.meal-plan-page .error-container__message {
+  text-align: center;
+  max-width: 32rem;
+  line-height: 1.55;
+  font-size: 1.0625rem;
+}
+
+.meal-plan-page .meal-plan-retry-btn {
+  min-height: 48px;
+  padding: 12px 28px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  border-radius: var(--border-radius-sm);
+  background: var(--primary-green);
+  color: var(--white);
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.meal-plan-page .meal-plan-retry-btn:hover {
+  background: var(--primary-green-hover);
+}
+
+.meal-plan-page .meal-plan-retry-btn:focus-visible {
+  outline: 3px solid var(--primary-green-dark);
+  outline-offset: 3px;
+}
+
+.meal-plan-page .meal-plan-prompt-placeholder__text {
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meal-plan-page .spinner {
+    animation: none;
+    border-top-color: var(--primary-green);
+  }
+
+  .meal-plan-page .save-day-btn:hover,
+  .meal-plan-page .generate-plan-btn:not(:disabled):hover {
+    transform: none;
+  }
+}
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .mealPlanMainContainer,
@@ -298,6 +504,22 @@
     flex-direction: column;
     align-items: stretch;
     gap: 8px;
+  }
+
+  .daySelectSection .meal-plan-day-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .daySelectSection .meal-plan-day-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .daySelectSection .view-plan-day-tab {
+    flex-shrink: 0;
+    min-width: 52px;
   }
 
   .dayListContainer {
@@ -318,6 +540,11 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
+  }
+
+  .auto-generate-banner__actions {
+    width: 100%;
+    flex-direction: column;
   }
 
   .auto-generate-banner__btn {

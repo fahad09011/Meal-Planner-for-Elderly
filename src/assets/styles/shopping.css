@@ -4,7 +4,7 @@
   min-height: calc(100vh - 56px);
   display: flex;
   flex-direction: column;
-  background: var(--main-bg);
+  background: transparent;
 }
 
 .shopping-layout.layout {
@@ -265,11 +265,24 @@
   box-shadow: var(--shadow-sm);
 }
 
+.shopping-content-header__intro {
+  flex: 1;
+  min-width: min(100%, 220px);
+}
+
 .shopping-content-header__title {
   margin: 0;
   font-size: clamp(1.35rem, 2.5vw, 1.6rem);
   font-weight: 700;
   color: var(--text-main);
+}
+
+.shopping-content-header__lede {
+  margin: 0.4rem 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  max-width: 36rem;
 }
 
 .shopping-content-header__meta {

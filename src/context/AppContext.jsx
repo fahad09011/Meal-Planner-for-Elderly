@@ -5,6 +5,7 @@ import {
   getProfile,
 } from "../services/profileService";
 import { saveMealPlan, getMealPlanByWeek } from "../services/mealPlanService";
+import { deleteMealCompletionsForMealPlan } from "../services/mealCompletionService";
 import { useAuth } from "./AuthContext";
 import { getWeekStartDate } from "../utils/helpers";
 
@@ -28,6 +29,10 @@ const defaultWeeklyPlan = {
   Sunday: { breakfast: null, lunch: null, dinner: null },
 };
 
+function emptyWeeklyPlanClone() {
+  return JSON.parse(JSON.stringify(defaultWeeklyPlan));
+}
+
 export function AppProvider({ children }) {
   const { user, authLoading } = useAuth();
   const [mealPlanId, setMealPlanId] = useState(null);
@@ -45,6 +50,8 @@ export function AppProvider({ children }) {
       setProfileHydrated(true);
       setMealPlanId(null);
       setWeeklyPlan(defaultWeeklyPlan);
+      setMealPlanDraft(emptyWeeklyPlanClone());
+      setMealPlanTrackingEpoch(0);
       return;
     }
 
@@ -113,6 +120,10 @@ export function AppProvider({ children }) {
   }
 
   const [weeklyPlan, setWeeklyPlan] = useState(defaultWeeklyPlan);
+  /** Local builder only; not loaded from DB. Saved plan lives in `weeklyPlan` after generate. */
+  const [mealPlanDraft, setMealPlanDraft] = useState(emptyWeeklyPlanClone);
+  /** Bumps when completions are cleared so View Plan refetches tracking without changing mealPlanId. */
+  const [mealPlanTrackingEpoch, setMealPlanTrackingEpoch] = useState(0);
   const [mealPlanLoading, setMealPlanLoading] = useState(false);
 
   function saveWeeklyPlan(plan) {
@@ -131,14 +142,28 @@ export function AppProvider({ children }) {
       const result = await saveMealPlan(
         user.id,
         weekStartDate,
-        weeklyPlan,
+        mealPlanDraft,
         generationMode,
       );
-      if (!result.success && !result.data) {
+      if (!result.success) {
         console.error("Error saving meal plan", result.error);
         return { success: false, error: result.error };
       }
-      setMealPlanId(result?.data?.id || null);
+
+      const savedRow = result.data;
+      if (savedRow?.weekly_plan) {
+        setWeeklyPlan(savedRow.weekly_plan);
+      }
+      setMealPlanId(savedRow?.id || null);
+
+      if (savedRow?.id) {
+        const cleared = await deleteMealCompletionsForMealPlan(savedRow.id);
+        if (!cleared.success) {
+          console.error("Saved plan but failed to reset tracking", cleared.error);
+        }
+      }
+      setMealPlanDraft(emptyWeeklyPlanClone());
+      setMealPlanTrackingEpoch((epoch) => epoch + 1);
 
       return result;
     } catch (error) {
@@ -184,11 +209,20 @@ export function AppProvider({ children }) {
     loadMealPlanForWeek(getWeekStartDate());
   }, [authLoading, user?.id, loadMealPlanForWeek]);
 
+  /** Builder always starts empty for this user; saved week stays in `weeklyPlan` from DB. */
+  useEffect(() => {
+    if (!user?.id) return;
+    setMealPlanDraft(emptyWeeklyPlanClone());
+  }, [user?.id]);
+
   return (
     <AppContext.Provider
       value={{
         weeklyPlan,
         setWeeklyPlan,
+        mealPlanDraft,
+        setMealPlanDraft,
+        mealPlanTrackingEpoch,
         setProfileData,
         profileData,
         profileHydrated,

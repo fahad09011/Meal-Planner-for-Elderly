@@ -1,36 +1,59 @@
 import React from "react";
 import Button from "../common/Button";
 
-function AutoGenerateBanner({ completedDay, onGenerate }) {
-  // Only show when all 7 days are planned
-  if (completedDay < 7) return null;
-
+/** Shortcuts for building and saving the week — written in plain language for clarity. */
+function AutoGenerateBanner({ completedDay, onGenerate, onAutoWeeklyPlan }) {
   return (
-    <section className="auto-generate-banner">
-      <div className="auto-generate-banner__icon">
-        {/* star svg */}
-        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
-          stroke="white" strokeWidth="1.6"
-          strokeLinecap="round" strokeLinejoin="round">
-          <path d="M13 2l2.5 7H23l-6 4.5 2.5 7L13 17l-6.5 4.5 2.5-7L3 9h7.5L13 2z"/>
+    <section
+      className="auto-generate-banner"
+      data-completed-days={completedDay}
+      aria-labelledby="auto-banner-title"
+      aria-describedby="auto-banner-desc"
+    >
+      <div className="auto-generate-banner__icon" aria-hidden="true">
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 26 26"
+          fill="none"
+          stroke="white"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M13 2l2.5 7H23l-6 4.5 2.5 7L13 17l-6.5 4.5 2.5-7L3 9h7.5L13 2z" />
         </svg>
       </div>
 
       <div className="auto-generate-banner__text">
-        <p className="auto-generate-banner__title">
-          Ready to generate your full week
+        <p id="auto-banner-title" className="auto-generate-banner__title">
+          Quick actions
         </p>
-        <p className="auto-generate-banner__sub">
-          All 7 days planned. Generate your weekly plan now.
+        <p id="auto-banner-desc" className="auto-generate-banner__sub">
+          Let the app suggest all seven days for you, or save your plan when every day has three
+          meals ({completedDay} of 7 ready).
         </p>
       </div>
 
-      <Button
-        className="auto-generate-banner__btn"
-        onClick={onGenerate}
-      >
-        ✅ Generate Weekly Plan
-      </Button>
+      <div className="auto-generate-banner__actions">
+        <Button
+          type="button"
+          className="auto-generate-banner__btn"
+          onClick={onAutoWeeklyPlan}
+          aria-label="Fill all seven days using suggested recipes. Load recipe ideas first."
+        >
+          Suggest whole week
+        </Button>
+        <Button
+          type="button"
+          className="auto-generate-banner__btn"
+          onClick={onGenerate}
+          aria-label="Save this meal plan to your account. Needs all seven days filled."
+          disabled={completedDay < 7}
+        >
+          Save plan to account
+        </Button>
+      </div>
     </section>
   );
 }

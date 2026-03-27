@@ -19,10 +19,10 @@
   border-color: var(--primary-green);
 }
 
-/* ── Image ── */
+/* ── Image (~3/4 of previous 175px) ── */
 .mealImage {
   width: 100%;
-  height: 175px;
+  height: 132px;
   object-fit: cover;
   display: block;
   flex-shrink: 0;
@@ -30,7 +30,7 @@
 
 /* ── Select button wrapper ── */
 .mealButtoncontainer {
-  padding: 10px 12px 0;
+  padding: 8px 10px 0;
   flex-shrink: 0;
 }
 
@@ -38,13 +38,13 @@
 .mealDataSection {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 8px 12px 14px;
+  gap: 4px;
+  padding: 6px 10px 10px;
   flex: 1;
 }
 
 .mealName {
-  font-size: clamp(13px, 1.4vw, 16px);
+  font-size: clamp(15px, 1.6vw, 17px);
   font-weight: 600;
   color: var(--text-main);
   line-height: 1.35;
@@ -58,7 +58,7 @@
 .mealDescription {
   font-size: var(--font-size-sm);
   color: var(--text-muted);
-  line-height: 1.45;
+  line-height: 1.4;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -66,19 +66,24 @@
   overflow: hidden;
 }
 
+/* One-line teaser on cards; full copy stays on Meal details */
+.mealDescription--teaser {
+  -webkit-line-clamp: 1;
+}
+
 /* ── Tags ── */
 .mealTagContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 4px;
   margin-top: auto;
-  padding-top: 4px;
+  padding-top: 2px;
 }
 
 .mealTag {
   font-size: var(--font-size-xs);
   font-weight: 500;
-  padding: 3px 9px;
+  padding: 2px 8px;
   background: var(--secondary-green);
   color: var(--primary-green-dark);
   border-radius: 99px;
@@ -94,15 +99,17 @@
 .mealCardActions {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 0 12px 14px;
+  gap: 6px;
+  padding: 0 10px 10px;
   margin-top: auto;      /* pins to bottom of card */
 }
 
 /* ── View recipe button ── */
 .mealViewBtn {
   width: 100%;
-  height: 38px;
+  min-height: 46px;
+  padding: 10px 14px;
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -111,7 +118,7 @@
   color: var(--primary-green);
   border: 1.5px solid var(--primary-green);
   border-radius: var(--border-radius-sm);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -126,4 +133,63 @@
 .mealButtoncontainer,
 .mealViewBtnContainer {
   display: none;   /* replaced by mealCardActions */
+}
+
+/* ── Narrow / mobile: shorter card, still readable ── */
+@media (max-width: 599px) {
+  /* Diet chips hidden on small screens — saves vertical space; details still on recipe page */
+  .mealTagContainer {
+    display: none;
+  }
+
+  .mealImage {
+    height: 120px;
+  }
+
+  .mealDataSection {
+    gap: 3px;
+    padding: 5px 8px 8px;
+  }
+
+  .mealName {
+    font-size: clamp(14px, 3.8vw, 15px);
+    -webkit-line-clamp: 2;
+  }
+
+  .mealDescription--teaser,
+  .mealDescription {
+    -webkit-line-clamp: 1;
+    line-height: 1.35;
+  }
+
+  .mealCardActions {
+    padding: 0 8px 10px;
+    gap: 6px;
+  }
+
+  .mealViewBtn {
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: var(--font-size-base);
+  }
+
+  .mealCardActions .mealButton {
+    min-height: 44px;
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+@media (min-width: 600px) {
+  .mealCardActions .mealButton {
+    min-height: 46px;
+    height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mainMealCardContainer:hover {
+    transform: none;
+  }
 }

@@ -22,7 +22,7 @@ const createEmptyTracking = () => {
 };
 
 
-function useMealTracking( mealPlanId) {
+function useMealTracking(mealPlanId, trackingEpoch = 0) {
   const { user } = useAuth();
   const [mealTracking, setMealTracking] = useState(createEmptyTracking());
   const [trackingLoading, setTrackingLoading] = useState(false);
@@ -65,7 +65,7 @@ function useMealTracking( mealPlanId) {
     }
 
     fetchTracking();
-  }, [mealPlanId]);
+  }, [mealPlanId, trackingEpoch]);
 
   // ── Toggle one meal done/undone ──
   async function toggleMealDone(day, mealType) {

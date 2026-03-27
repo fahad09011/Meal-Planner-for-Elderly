@@ -176,8 +176,10 @@ function DayPlanCard({
                   {/* ── View recipe ── */}
                   <button
                     className="meal-row-view-recipe-btn"
-                    onClick={() => navigate(`/mealDetails/${meal.id}`)}
-                    aria-label={`View recipe for ${meal.name}`}
+                    onClick={() =>
+                      navigate(`/mealDetails/${meal.id}`, { state: { meal } })
+                    }
+                    aria-label={`View recipe for ${meal.name || meal.title}`}
                   >
                     View recipe
                     <svg width="14" height="14" viewBox="0 0 14 14"

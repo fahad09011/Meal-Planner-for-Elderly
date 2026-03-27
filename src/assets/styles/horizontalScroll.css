@@ -2,12 +2,14 @@
 
 .meal-hscroll {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     overflow-x: auto;
     overflow-y: visible;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     padding: 4px 16px 12px;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
     margin: 0 -16px;
   
     /* hide scrollbar — dots handle the position cue */
@@ -21,7 +23,8 @@
   
   .meal-hscroll__card {
     flex-shrink: 0;
-    width: 188px;
+    width: min(168px, 76vw);
+    max-width: 188px;
     scroll-snap-align: start;
     scroll-snap-stop: always;
   }

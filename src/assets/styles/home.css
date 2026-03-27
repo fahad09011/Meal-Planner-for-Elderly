@@ -2,7 +2,7 @@
   --navbar-height: 68px;
 }
 
-/* ── Page wrapper — image fills entire area ── */
+/* ── Page wrapper — uses global html gradient; frosted tiles sit on top ── */
 .homeMainContainer {
   width: 100vw;
   height: calc(100vh - var(--navbar-height));
@@ -10,10 +10,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-
-  background-position: center 55%;  /* ← push image up by 60px */
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: transparent;
 }
 
 /* ── Button grid — pinned to bottom ── */
@@ -35,6 +32,13 @@
   display: block;
   border-radius: var(--border-radius);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border: 2px solid transparent;
+}
+
+.homeNavLink:focus-visible {
+  outline: none;
+  border-color: var(--primary-green-dark);
+  box-shadow: 0 0 0 3px rgba(103, 139, 122, 0.35);
 }
 
 .homeNavLink:hover {
@@ -58,10 +62,11 @@
   justify-content: flex-start;
   align-items: center;
   gap: 20px;
-  height: 72px;
+  min-height: 80px;
+  height: auto;
   width: 100%;
 
-  /* frosted glass — lets the image show through */
+  /* frosted glass — lets the page gradient show through */
   background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -90,10 +95,11 @@
 }
 
 .homeButtonTitle {
-  font-size: var(--font-size-xl);
-  font-weight: 600;
+  font-size: clamp(1.125rem, 2.5vw, 1.35rem);
+  font-weight: 700;
   color: var(--text-main);
   transition: color 0.2s ease;
+  line-height: 1.25;
 }
 
 /* ── Responsive ── */
@@ -104,20 +110,16 @@
 @media (max-width: 768px) {
   .homeButtonContainer {
     padding: 16px 20px 28px;
-    gap: 10px;
+    gap: 12px;
   }
 
   .HomeButton {
-    height: 62px;
-  }
-
-  .homeButtonTitle {
-    font-size: var(--font-size-lg);
+    min-height: 72px;
   }
 
   .buttonIcon {
-    height: 36px;
-    width: 36px;
+    height: 40px;
+    width: 40px;
   }
 }
 
@@ -134,5 +136,14 @@
   .div3 { grid-column: 1; grid-row: 3; }
   .div4 { grid-column: 1; grid-row: 4; }
 
-  .HomeButton { height: 56px; }
+  .HomeButton {
+    min-height: 64px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeNavLink:hover,
+  .homeNavLink:active {
+    transform: none;
+  }
 }
