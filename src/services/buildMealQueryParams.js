@@ -87,7 +87,7 @@ function buildMealQueryParams(profileData) {
       addRecipeInstructions: true,
       fillIngredients: true,
       type: "breakfast,lunch,dinner",
-      number: 20,
+      number: 30,
     };
 
     const dietValues=[];
