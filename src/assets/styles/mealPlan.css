@@ -205,46 +205,8 @@
   margin: 4px 0 0;
 }
 
-/* ── Load recipe ideas (manual fetch) — large tap target ── */
-.meal-plan-load-row {
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  max-width: 36rem;
-}
-
-.meal-plan-load-btn {
-  width: 100%;
-  max-width: 22rem;
-  min-height: 48px;
-  padding: 12px 22px;
-  background: var(--primary-green);
-  color: var(--white);
-  border: 2px solid transparent;
-  border-radius: var(--border-radius-sm);
-  cursor: pointer;
-  font-size: 1.0625rem;
-  font-weight: 600;
-  line-height: 1.3;
-  text-align: center;
-  box-shadow: var(--shadow-btn);
-}
-
-.meal-plan-load-btn:hover:not(:disabled) {
-  background: var(--primary-green-hover);
-}
-
-.meal-plan-load-btn:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.meal-plan-load-btn:focus-visible {
-  outline: 3px solid var(--primary-green-dark);
-  outline-offset: 3px;
+.meal-plan-fetch-hint--below-day {
+  margin-top: 14px;
 }
 
 .meal-plan-fetch-hint {

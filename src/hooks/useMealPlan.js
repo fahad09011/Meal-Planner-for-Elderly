@@ -111,6 +111,33 @@ const useMealPlan = ({
     }
   }, [selectedDay, mealPlanDraft]);
 
+  useEffect(() => {
+    if (!mealsFetchReady) return;
+
+    let cancelled = false;
+
+    (async () => {
+      setMealsRequested(true);
+      try {
+        setInternalLoading(true);
+        setMealError("");
+        const data = await fetchMeals(profileData);
+        if (!cancelled) setApiMeals(data);
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Spoonacular API:", error.message);
+          setMealError(error.message || "Failed to load API meals");
+        }
+      } finally {
+        if (!cancelled) setInternalLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [mealsFetchReady, profileData]);
+
   async function fetchApiMeals() {
     if (!mealsFetchReady) return;
 

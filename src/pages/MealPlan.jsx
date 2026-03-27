@@ -65,13 +65,10 @@ function MealPlan() {
   const mealsCount = count;
 
   function handleAutoGenerateWeeklyPlan() {
-    if (!mealsRequested) {
-      alert("Tap “Load recipe ideas” first, then try filling the whole week again.");
-      return;
-    }
-
     if (!filteredMeals.length) {
-      alert("There are no recipes to use yet. Try loading ideas again, or check your filters.");
+      alert(
+        "There are no recipes to use yet. Wait for the list to finish loading, or check your filters."
+      );
       return;
     }
 
@@ -179,28 +176,14 @@ function MealPlan() {
             </h2>
             <p className="dayText">
               Tap one meal for breakfast, one for lunch, and one for dinner. Large cards below—take
-              your time.
+              your time. Recipe ideas load automatically when this page opens.
             </p>
 
-            <div className="meal-plan-load-row">
-              <button
-                type="button"
-                className="meal-plan-load-btn"
-                onClick={() => fetchApiMeals()}
-                disabled={!mealsFetchReady || loadingMeals}
-              >
-                {loadingMeals ? "Loading recipes…" : "Load recipe ideas"}
-              </button>
-              {!mealsFetchReady ? (
-                <p className="meal-plan-fetch-hint" role="status">
-                  Your profile is still loading. Please wait a moment.
-                </p>
-              ) : (
-                <p className="meal-plan-fetch-hint meal-plan-fetch-hint--muted">
-                  Load when you are ready. This saves recipe lookups until you tap.
-                </p>
-              )}
-            </div>
+            {!mealsFetchReady ? (
+              <p className="meal-plan-fetch-hint meal-plan-fetch-hint--below-day" role="status">
+                Your profile is still loading. Please wait a moment.
+              </p>
+            ) : null}
           </section>
 
           {loadingMeals ? (
@@ -219,10 +202,7 @@ function MealPlan() {
             </section>
           ) : !mealsRequested ? (
             <section className="meal-plan-prompt-placeholder" aria-live="polite">
-              <p className="meal-plan-prompt-placeholder__text">
-                When you are ready, tap <strong>Load recipe ideas</strong> above. Nothing loads until
-                you choose to.
-              </p>
+              <p className="meal-plan-prompt-placeholder__text">Getting recipe ideas ready…</p>
             </section>
           ) : (
             <div className="cont">
