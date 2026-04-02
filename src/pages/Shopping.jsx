@@ -7,7 +7,8 @@ import {
   getShoppingListItems,
   syncShoppingListFromWeeklyPlan,
   updateShoppingListItemChecked,
-} from "../services/shoppingListService";
+} from "../services/database/shoppingListService";
+import BarcodeScannerModal from "../components/shopping/BarcodeScannerModal";
 import ShoppingList from "../components/shopping/ShoppingList";
 import ShoppingAisleFilter from "../components/shopping/ShoppingAisleFilter";
 import ShoppingFilters from "../components/shopping/ShoppingFilters";
@@ -41,14 +42,15 @@ function Shopping() {
   const { user, authLoading } = useAuth();
   const { mealPlanId, mealPlanLoading, weeklyPlan } = useContext(AppContext);
   /** Meal plan is loaded from DB on app init; avoid flashing “no plan” while id is still null. */
-  const waitingForMealPlan =
-    Boolean(user && !authLoading && mealPlanLoading && !mealPlanId);
+  const waitingForMealPlan = Boolean(
+    user && !authLoading && mealPlanLoading && !mealPlanId,
+  );
   const [shoppingItems, setShoppingItems] = useState([]);
   const [shoppingLoading, setShoppingLoading] = useState(false);
   const [fetchError, setFetchError] = useState(null);
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
-
+  const [showBarcodeModal, setShowBarcodeModal] = useState(false);
   useEffect(() => {
     if (!mealPlanId) {
       setShoppingItems([]);
@@ -67,17 +69,15 @@ function Shopping() {
       if (!result.success) {
         console.error("Failed to fetch shopping items", result.error);
         setShoppingItems([]);
-        setFetchError("We could not load your list. Please try again in a moment.");
+        setFetchError(
+          "We could not load your list. Please try again in a moment.",
+        );
         setShoppingLoading(false);
         return;
       }
 
       let rows = result.data || [];
-      if (
-        rows.length === 0 &&
-        user?.id &&
-        weeklyPlanHasMeals(weeklyPlan)
-      ) {
+      if (rows.length === 0 && user?.id && weeklyPlanHasMeals(weeklyPlan)) {
         const sync = await syncShoppingListFromWeeklyPlan(
           mealPlanId,
           weeklyPlan,
@@ -113,7 +113,7 @@ function Shopping() {
   }, [categoryFilter, shoppingItems]);
 
   const total = shoppingItems.length;
-  const done = shoppingItems.filter((i) => i.checked).length;
+  const done = shoppingItems.filter((item) => item.checked).length;
   const counts = { total, pending: total - done, done };
 
   async function handleToggleChecked(itemId, checked) {
@@ -130,7 +130,9 @@ function Shopping() {
     }
     if (result.data) {
       setShoppingItems((list) =>
-        list.map((row) => (row.id === itemId ? { ...row, ...result.data } : row)),
+        list.map((row) =>
+          row.id === itemId ? { ...row, ...result.data } : row,
+        ),
       );
     }
   }
@@ -138,10 +140,16 @@ function Shopping() {
   return (
     <div className="shopping-page page">
       {shoppingLoading || waitingForMealPlan ? (
-        <section className="shopping-loading loading-container" aria-busy="true" aria-live="polite">
+        <section
+          className="shopping-loading loading-container"
+          aria-busy="true"
+          aria-live="polite"
+        >
           <div className="spinner-wrapper">
             <div className="spinner" />
-            <p className="shopping-loading__text">Loading your shopping list…</p>
+            <p className="shopping-loading__text">
+              Loading your shopping list…
+            </p>
           </div>
         </section>
       ) : (
@@ -151,11 +159,13 @@ function Shopping() {
               <h2 className="shopping-panel__title">Your list</h2>
               {!mealPlanId ? (
                 <p className="shopping-info-box__text">
-                  Open your meal plan for this week first. Your shopping list is built from the meals you save.
+                  Open your meal plan for this week first. Your shopping list is
+                  built from the meals you save.
                 </p>
               ) : (
                 <p className="shopping-info-box__text">
-                  This list comes from your saved meal plan. Tick items as you shop so you can see what is left to buy.
+                  This list comes from your saved meal plan. Tick items as you
+                  shop so you can see what is left to buy.
                 </p>
               )}
               {!mealPlanId ? (
@@ -172,22 +182,37 @@ function Shopping() {
               />
             ) : null}
             {mealPlanId ? (
-              <ShoppingFilters value={statusFilter} onChange={setStatusFilter} counts={counts} />
+              <ShoppingFilters
+                value={statusFilter}
+                onChange={setStatusFilter}
+                counts={counts}
+              />
             ) : null}
           </aside>
 
-          <section className="content shopping-page__column shopping-page__column--center" aria-labelledby="shopping-main-title">
+          <section
+            className="content shopping-page__column shopping-page__column--center"
+            aria-labelledby="shopping-main-title"
+          >
             <div className="content-header shopping-content-header">
               <div className="shopping-content-header__intro">
-                <h1 id="shopping-main-title" className="title shopping-content-header__title">
+                <h1
+                  id="shopping-main-title"
+                  className="title shopping-content-header__title"
+                >
                   Shopping list
                 </h1>
                 <p className="shopping-content-header__lede">
                   Tap a box to tick an item as you add it to your basket.
                 </p>
               </div>
-              <div className="options shopping-content-header__meta" aria-live="polite">
-                {mealPlanId ? `${counts.total} item${counts.total === 1 ? "" : "s"}` : "No plan loaded"}
+              <div
+                className="options shopping-content-header__meta"
+                aria-live="polite"
+              >
+                {mealPlanId
+                  ? `${counts.total} item${counts.total === 1 ? "" : "s"}`
+                  : "No plan loaded"}
               </div>
             </div>
 
@@ -199,12 +224,15 @@ function Shopping() {
               ) : null}
 
               {!mealPlanId ? (
-                <p className="shopping-empty">Load a meal plan to see your shopping list here.</p>
+                <p className="shopping-empty">
+                  Load a meal plan to see your shopping list here.
+                </p>
               ) : !shoppingItems.length ? (
                 <div className="shopping-empty shopping-empty--card">
                   <p className="shopping-empty__title">No items yet</p>
                   <p className="shopping-empty__text">
-                    Save your meal plan for this week. We will fill this list with ingredients from your meals.
+                    Save your meal plan for this week. We will fill this list
+                    with ingredients from your meals.
                   </p>
                   <Link className="shopping-empty__link" to="/viewPlan">
                     View meal plan
@@ -222,7 +250,25 @@ function Shopping() {
           </section>
 
           <aside className="side shopping-page__column shopping-page__column--right">
-            {mealPlanId ? <ShoppingProgress total={counts.total} completed={counts.done} /> : null}
+            {mealPlanId ? (
+              <ShoppingProgress total={counts.total} completed={counts.done} />
+            ) : null}
+            {mealPlanId ? (
+              <BarcodeScannerModal
+                onClose={() => setShowBarcodeModal(false)}
+                show={showBarcodeModal}
+                mealPlanId={mealPlanId}
+                shoppingItems={shoppingItems}
+                onMarkMatchedItemBought={handleToggleChecked}
+                />
+            ) : null}
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => setShowBarcodeModal(true)}
+            >
+              Scan Barcode button to open the modal
+            </button>
             <ShoppingTips />
           </aside>
         </main>

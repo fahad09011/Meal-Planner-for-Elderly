@@ -1,7 +1,6 @@
-import healthConditionRules from "./nutrition/healthConditionRules";
-// meal filter consts section ===============================
+import healthConditionRules from "./healthConditionRules";
 
-import { dietCompatibilityMap } from "./nutrition/dietMap";
+import { dietCompatibilityMap } from "./dietMap";
 const filterByDietary = (meal, profile) => {
   
   if (!profile.dietary || profile.dietary.length === 0) {
@@ -81,7 +80,7 @@ const filterByBudget = (meal, profile) => {
     return true;
   }
 
-  const { low, medium, flexible } = budgetRule;
+  const { low, medium } = budgetRule;
   if (profile.budget === "low" && pricePerServing <= low) return true;
   if (profile.budget === "medium" && pricePerServing <= medium) return true;
   if (profile.budget === "flexible") return true;

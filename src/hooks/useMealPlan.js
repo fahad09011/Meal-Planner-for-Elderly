@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import fetchMeals from "../services/spoonacularService";
+import fetchMeals from "../services/recipes/spoonacularService";
 import { getWeekStartDate } from "../utils/helpers";
 
 const GUEST_SAVE_MESSAGE =

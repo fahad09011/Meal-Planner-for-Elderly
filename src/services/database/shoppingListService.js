@@ -1,5 +1,5 @@
 import { supabase } from "./supabaseClient";
-import { buildShoppingItemsFromWeeklyPlan } from "../utils/buildShoppingItemsFromWeeklyPlan";
+import { buildShoppingItemsFromWeeklyPlan } from "../../utils/buildShoppingItemsFromWeeklyPlan";
 
 export const createOrGetShoppingList = async (mealPlanId) => {
   if (!mealPlanId) {

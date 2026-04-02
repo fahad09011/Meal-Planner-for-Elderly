@@ -3,9 +3,9 @@ import {
   createProfile,
   updateProfile,
   getProfile,
-} from "../services/profileService";
-import { saveMealPlan, getMealPlanByWeek } from "../services/mealPlanService";
-import { deleteMealCompletionsForMealPlan } from "../services/mealCompletionService";
+} from "../services/database/profileService";
+import { saveMealPlan, getMealPlanByWeek } from "../services/database/mealPlanService";
+import { deleteMealCompletionsForMealPlan } from "../services/database/mealCompletionService";
 import { useAuth } from "./AuthContext";
 import { getWeekStartDate } from "../utils/helpers";
 

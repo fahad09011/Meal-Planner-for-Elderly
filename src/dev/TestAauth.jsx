@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { getProfile, createProfile, updateProfile } from "../services/profileService";
-import { saveMealPlan, getMealPlanByWeek } from "../services/mealPlanService";
-import { setMealCompletion, getMealCompletions } from "../services/mealCompletionService";
-import { createOrGetShoppingList, replaceShoppingListItems, getShoppingListItems, updateShoppingListItemChecked } from "../services/shoppingListService";
+import { getProfile, createProfile, updateProfile } from "../services/database/profileService";
+import { saveMealPlan, getMealPlanByWeek } from "../services/database/mealPlanService";
+import { setMealCompletion, getMealCompletions } from "../services/database/mealCompletionService";
+import { createOrGetShoppingList, replaceShoppingListItems, getShoppingListItems, updateShoppingListItemChecked } from "../services/database/shoppingListService";
 import { buildShoppingItemsFromWeeklyPlan } from "../utils/buildShoppingItemsFromWeeklyPlan";
 import { AppContext } from "../context/AppContext";
 
