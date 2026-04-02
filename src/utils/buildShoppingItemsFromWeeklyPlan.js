@@ -1,7 +1,7 @@
 import {
   groupShoppingItemByName,
   normalizeShoppingItemName,
-} from "./groupShoppingItemByname";
+} from "./groupShoppingItemByName";
 import { normalizeUnit } from "./transformMeal";
 const DAYS = [
   "Monday",
