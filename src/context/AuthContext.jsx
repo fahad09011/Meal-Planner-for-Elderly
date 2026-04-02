@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "../services/supabaseClient";
+import { supabase } from "../services/database/supabaseClient";
 
 const AuthContext = createContext(null);
 

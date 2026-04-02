@@ -6,7 +6,7 @@ const mockUpsert = vi.fn(() => ({ select: mockSelect }));
 const mockEq2 = vi.fn(() => ({ data: [], error: null }));
 const mockEq1 = vi.fn(() => ({ eq: mockEq2 }));
 const mockSelectAll = vi.fn(() => ({ eq: mockEq1 }));
-const mockFrom = vi.fn((table) => ({
+const mockFrom = vi.fn(() => ({
   upsert: mockUpsert,
   select: mockSelectAll,
 }));

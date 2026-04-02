@@ -13,7 +13,7 @@ describe("Layer 1: buildMealQueryParams", () => {
       expect(params.addRecipeInstructions).toBe(true);
       expect(params.fillIngredients).toBe(true);
       expect(params.type).toBe("breakfast,lunch,dinner");
-      expect(params.number).toBe(20);
+      expect(params.number).toBe(30);
     });
 
     it("does not include diet, intolerances, or nutrition params for empty profile", () => {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getMealCompletions, setMealCompletion } from "../services/mealCompletionService";
+import { getMealCompletions, setMealCompletion } from "../services/database/mealCompletionService";
 import { useAuth } from "../context/AuthContext";
 
 const DAYS = [

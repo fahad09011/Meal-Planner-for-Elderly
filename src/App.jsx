@@ -11,22 +11,13 @@ import ViewPlan from './pages/ViewPlan';
 import LoginForm from './pages/LoginForm';
 import MealDetails from './pages/MealDetails';
 import { AppProvider } from './context/AppContext';
-import TestMealPlanSave from './components/TestMealPlanSave';
-// import TestAuth from './components/TestAauth';
+// import TestMealPlanSave from './dev/TestMealPlanSave';
+// import TestAuth from './dev/TestAauth';
 
 function App() {
-  const defaultProfile = {
-  ageGroup: "",
-  dietary: [],
-  allergies: [],
-  healthConditions: [],
-  budget: ""
-};
   return (
     <>
     <AppProvider>
-    {/* <ProfileContext.Provider value={{profileData, setProfileData, saveProfile, clearProfile, hasProfile
-    }}> */}
       <Router>
 
     <div className="mainAppContainer">
@@ -45,10 +36,9 @@ function App() {
   </Routes>
     </div>
     </Router>
-    {/* <TestMealPlanSave/> */}
+    {/* <TestMealPlanSave /> — import from ./dev/TestMealPlanSave when debugging */}
         {/* <TestAuth/> */}
         </AppProvider>
-        {/* </ProfileContext.Provider> */}
     </>
   )
 }

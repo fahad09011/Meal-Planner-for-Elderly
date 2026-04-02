@@ -25,15 +25,45 @@ function groupIngredientsByCategory(ingredients) {
   return ingredientsByCategory;
 }
 
+function formatFractionForDisplay(amount) {
+  const numericAmount = Number(amount);
+  if (!Number.isFinite(numericAmount) || numericAmount <= 0) return "";
+
+  const fractionCandidates = [
+    { value: 0.25, label: "1/4" },
+    { value: 0.33, label: "1/3" },
+    { value: 0.5, label: "1/2" },
+    { value: 0.67, label: "2/3" },
+    { value: 0.75, label: "3/4" },
+  ];
+  if (numericAmount < 1) {
+    const closeFraction = fractionCandidates.find(
+      (candidate) => Math.abs(numericAmount - candidate.value) <= 0.03,
+    );
+    if (closeFraction) return closeFraction.label;
+  }
+
+  const rounded = Number(numericAmount.toFixed(2));
+  return Number.isInteger(rounded) ? String(rounded) : String(rounded);
+}
+
 function formatIngredientLine(ingredient) {
   const amount = ingredient.quantity?.amount;
-  const unit = ingredient.quantity?.unit ? String(ingredient.quantity.unit) : "";
-  const name = ingredient.name ? String(ingredient.name) : "";
+  const unit = ingredient.quantity?.unit ? String(ingredient.quantity.unit).trim() : "";
+  const name = ingredient.name ? String(ingredient.name).trim() : "";
+  const description = ingredient.displayName ? String(ingredient.displayName).trim() : "";
+  const unitLower = unit.toLowerCase();
+  // Spoonacular often leaves unit empty or uses "serving" while the human text is in `description` (original).
+  const useReadableOriginal =
+    Boolean(description) &&
+    (!unit || unitLower === "other" || unitLower === "serving");
+  if (useReadableOriginal) {
+    return description;
+  }
   const hasAmount = amount !== undefined && amount !== null && Number(amount) > 0;
-  const prefix = hasAmount
-    ? `${amount}${unit ? ` ${unit}` : ""}`.trim()
-    : "";
-  return [prefix, name].filter(Boolean).join(" · ") || name || "—";
+  const formattedAmount = hasAmount ? formatFractionForDisplay(amount) : "";
+  const prefix = hasAmount ? `${formattedAmount}${unit ? ` ${unit}` : ""}`.trim() : "";
+  return [prefix, name].filter(Boolean).join(" · ") || name || description || "—";
 }
 
 function MealDetails() {

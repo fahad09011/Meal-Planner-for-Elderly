@@ -74,9 +74,9 @@ export const extractNutrition = (apiNutrition) => {
   const nutrients = Array.isArray(apiNutrition?.nutrients)
     ? apiNutrition.nutrients
     : [];
-  Object.entries(nutritionMap).forEach(([key, mapedNutrients]) => {
+  Object.entries(nutritionMap).forEach(([key, mappedNutrients]) => {
     const nutrient = nutrients.find(
-      (apiNut) => apiNut?.name === mapedNutrients,
+      (apiNut) => apiNut?.name === mappedNutrients,
     );
     result[key] = nutrient?.amount ?? 0;
     
@@ -85,7 +85,6 @@ export const extractNutrition = (apiNutrition) => {
   return result;
 };
 
-const breakFastConditions = ["breakfast"];
 const dinnerConditions = ["main course", "main dish"];
 const lunchConditions = ["salad", "side dish", "appetizer", "soup"];
 export const extractMealCategory = (apiMealType) => {
@@ -124,19 +123,23 @@ export const extractMealCategory = (apiMealType) => {
 
   return "Others";
 };
-export const normalizeunit = (unit)=>{
+export const normalizeUnit = (unit)=>{
   if (typeof unit !== "string" || unit.trim() === "") {
-    return "Other";
+    return "";
   }
   const normalizedunit = unit.toLowerCase().trim();
   const unitMap = {
     tsp: "teaspoon",
+    tsps: "teaspoon",
+    teaspoom: "teaspoon",
     teaspoon: "teaspoon",
     teaspoons: "teaspoon",
 
     tbsp: "tablespoon",
+    tbsps: "tablespoon",
     tablespoon: "tablespoon",
     tablespoons: "tablespoon",
+    tbs: "tablespoon",
 
     cup: "cup",
     cups: "cup",
@@ -187,6 +190,8 @@ export const normalizeunit = (unit)=>{
 
     pinch: "pinch",
     bunch: "bunch",
+    handful: "handful",
+    handfuls: "handful",
     stalks: "stalk",
     stalk: "stalk",
     whole: "whole",
@@ -293,27 +298,59 @@ export const getIngredientCategory =(aisle)=>{
   }
   return "Other"
 };
+export const cleanIngredientName = (name) => {
+  if (typeof name !== "string") return "";
+
+  return name
+    .trim()
+    .replace(/^(additional toppings:|optional:|for garnish:)\s*/i, "")
+    .replace(/^to\s+\d+\s+/i, "")
+    .replace(/\*\d+$/i, "")
+    .replace(/\s+/g, " ")
+    .replace(/^[,.:;)\](\s]+|[,.:;)\](\s]+$/g, "")
+    .trim();
+};
 export const extractIngredients = (apiIngredients) => {
   const ingredients = Array.isArray(apiIngredients) ? apiIngredients : [];
   return ingredients.map((ingredient) => {
     if (ingredient == null || typeof ingredient !== "object") {
       return {
-        aisle: "",
-        category: "",
+        id: null,
         name: "",
-        description: "",
+        displayName: "",
+        aisle: "",
+        category: "Other",
         quantity: { amount: 0, unit: "" },
+        shoppingQuantity: { amount: 0, unit: "" },
+        meta: []
       };
     }
+    const metricAmount = ingredient?.measures?.metric?.amount;
+    const metricUnit =
+      ingredient?.measures?.metric?.unitShort ??
+      ingredient?.measures?.metric?.unitLong ??
+      "";
     return {
+      id: ingredient.id ?? null,
+      name: cleanIngredientName(
+        ingredient.nameClean || ingredient.name || ingredient.originalName || ""
+      ),
+      displayName: 
+      ingredient.original || 
+      ingredient.originalName ||
+      ingredient.nameClean || 
+      ingredient.name || "",
       aisle: ingredient.aisle ?? "",
       category: getIngredientCategory(ingredient.aisle ?? ""),
-      name: ingredient.name ?? "",
-      description: ingredient.original ?? "",
       quantity: {
         amount: ingredient.amount ?? 0,
-        unit: normalizeunit(ingredient.unit ?? ""),
+        unit: normalizeUnit(ingredient.unit ?? ""),
       },
+      shoppingQuantity: {
+        amount: metricAmount ?? ingredient.amount ?? 0,
+        unit: normalizeUnit(metricUnit || ingredient.unit || ""),
+      },
+      meta: Array.isArray(ingredient.meta) ? ingredient.meta : [],
     };
   });
 };
@@ -367,4 +404,3 @@ export const transFormMeal = (apiMeal) => {
   };
 };
 
-// transform is done for ingredients to have a category and a aisle, and to have a description and a quantity, next working on shopping list.
