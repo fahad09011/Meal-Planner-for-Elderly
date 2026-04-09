@@ -12,12 +12,33 @@ import { getWeekStartDate } from "../utils/helpers";
 export const AppContext = createContext();
 
 const defaultProfile = {
-  ageGroup: "",
+  age: "",
+  weightKg: "",
+  heightCm: "",
+  gender: "",
+  activityLevel: "",
   dietary: [],
   allergies: [],
   healthConditions: [],
   budget: "",
 };
+
+function isProfileComplete(profile) {
+  const ageYears = Number(profile.age);
+  const weightKg = Number(profile.weightKg);
+  const heightCm = Number(profile.heightCm);
+  return (
+    Number.isFinite(ageYears) &&
+    ageYears >= 18 &&
+    ageYears <= 120 &&
+    Number.isFinite(weightKg) &&
+    weightKg > 0 &&
+    Number.isFinite(heightCm) &&
+    heightCm > 0 &&
+    profile.gender !== "" &&
+    profile.activityLevel !== ""
+  );
+}
 
 const defaultWeeklyPlan = {
   Monday: { breakfast: null, lunch: null, dinner: null },
@@ -39,7 +60,7 @@ export function AppProvider({ children }) {
   const [profileData, setProfileData] = useState(defaultProfile);
   /** True after we know whether a logged-in user has Supabase profile rows (avoids meal API spam before hydration). */
   const [profileHydrated, setProfileHydrated] = useState(false);
-  const hasProfile = profileData.ageGroup !== "";
+  const hasProfile = isProfileComplete(profileData);
 
   useEffect(() => {
     if (authLoading) {
@@ -67,7 +88,21 @@ export function AppProvider({ children }) {
         if (cancelled) return;
         if (success && data) {
           setProfileData({
-            ageGroup: data.age_group,
+            age: data.age != null ? String(data.age) : "",
+            weightKg:
+              data.weight != null
+                ? String(data.weight)
+                : data.weight_kg != null
+                  ? String(data.weight_kg)
+                  : "",
+            heightCm:
+              data.height != null
+                ? String(data.height)
+                : data.height_cm != null
+                  ? String(data.height_cm)
+                  : "",
+            gender: data.gender ?? "",
+            activityLevel: data.activity_level ?? "",
             dietary: data.dietary ?? [],
             allergies: data.allergies ?? [],
             healthConditions: data.health_conditions ?? [],

@@ -47,5 +47,14 @@ describe("helpers", () => {
       const result = getWeekLastDate();
       expect(result).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     });
+
+    it("returns Sunday when the week is Monday–Sunday", async () => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date("2026-03-18T12:00:00")); // Wednesday
+      const { getWeekStartDate, getWeekLastDate } = await import("./helpers");
+      expect(getWeekStartDate()).toBe("2026-03-16");
+      expect(getWeekLastDate()).toBe("2026-03-22");
+      vi.useRealTimers();
+    });
   });
 });

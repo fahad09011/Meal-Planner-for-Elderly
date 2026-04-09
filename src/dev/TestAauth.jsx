@@ -39,7 +39,11 @@ function TestAuth() {
   const handleCreate = async () => {
     if (!user) { addLog("ERROR:", "Sign in first"); return; }
     const testData = {
-      ageGroup: "65-74",
+      age: "68",
+      weightKg: "72",
+      heightCm: "165",
+      gender: "female",
+      activityLevel: "lightly_active",
       dietary: ["vegetarian"],
       allergies: ["gluten"],
       healthConditions: ["diabetes", "hypertension"],
@@ -59,7 +63,11 @@ function TestAuth() {
   const handleUpdate = async () => {
     if (!user) { addLog("ERROR:", "Sign in first"); return; }
     const updatedData = {
-      ageGroup: "75-84",
+      age: "76",
+      weightKg: "70",
+      heightCm: "170",
+      gender: "male",
+      activityLevel: "sedentary",
       dietary: ["vegan"],
       allergies: ["dairy", "peanut"],
       healthConditions: ["heartDisease"],
@@ -74,7 +82,11 @@ function TestAuth() {
   const handleSaveProfile = async () => {
     if (!user) { addLog("ERROR:", "Sign in first"); return; }
     const contextData = {
-      ageGroup: "65-74",
+      age: "65",
+      weightKg: "75",
+      heightCm: "168",
+      gender: "female",
+      activityLevel: "moderately_active",
       dietary: ["pescetarian"],
       allergies: ["soy"],
       healthConditions: ["highCholesterol"],

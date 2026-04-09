@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import buildMealQueryParams from "./buildMealQueryParams";
+import { getRestingAndDailyCaloriesFromProfile, getMaxCaloriesPerMeal } from "../../utils/bmr";
 
 const emptyProfile = { dietary: [], allergies: [], healthConditions: [], budget: "" };
 
@@ -22,6 +23,7 @@ describe("Layer 1: buildMealQueryParams", () => {
       expect(params.intolerances).toBeUndefined();
       expect(params.maxCarbs).toBeUndefined();
       expect(params.maxSodium).toBeUndefined();
+      expect(params.maxCalories).toBeUndefined();
     });
   });
 
@@ -123,6 +125,46 @@ describe("Layer 1: buildMealQueryParams", () => {
       expect(params.intolerances).toBe("dairy,peanut");
       expect(params.maxCarbs).toBe(60);
       expect(params.maxSugar).toBe(12);
+    });
+  });
+
+  describe("TDEE / per-meal calories (maxCalories)", () => {
+    it("sets maxCalories from weight management when body metrics are missing", () => {
+      const params = buildMealQueryParams({
+        ...emptyProfile,
+        healthConditions: ["weightManagement"],
+      });
+      expect(params.maxCalories).toBe(550);
+    });
+
+    it("sets maxCalories from TDEE ÷ 3 when body metrics are complete", () => {
+      const profile = {
+        ...emptyProfile,
+        age: "70",
+        weightKg: "60",
+        heightCm: "160",
+        gender: "female",
+        activityLevel: "sedentary",
+      };
+      const params = buildMealQueryParams(profile);
+      const expected = getMaxCaloriesPerMeal(profile);
+      expect(expected).not.toBeNull();
+      expect(params.maxCalories).toBe(expected);
+    });
+
+    it("uses stricter of TDEE per-meal and weight-management cap", () => {
+      const profile = {
+        ...emptyProfile,
+        age: "70",
+        weightKg: "60",
+        heightCm: "160",
+        gender: "female",
+        activityLevel: "sedentary",
+        healthConditions: ["weightManagement"],
+      };
+      const params = buildMealQueryParams(profile);
+      const { dailyCalories } = getRestingAndDailyCaloriesFromProfile(profile);
+      expect(params.maxCalories).toBe(Math.min(Math.round(dailyCalories / 3), 550));
     });
   });
 });

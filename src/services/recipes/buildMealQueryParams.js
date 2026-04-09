@@ -1,5 +1,6 @@
 import healthConditionRules from "../nutrition/healthConditionRules";
 import { dietRequestMap } from "../nutrition/dietMap";
+import { getMaxCaloriesPerMeal } from "../../utils/bmr";
 
 const intoleranceMap={
     dairy: "dairy",
@@ -56,10 +57,18 @@ function buildMealQueryParams(profileData) {
     if (healthConditions.length > 0) {
         healthConditions.forEach((healthCondition) => {
             if (healthConditionRules[healthCondition]) {
-                Object.assign(params, healthConditionRules[healthCondition]);
+                const rules = { ...healthConditionRules[healthCondition] };
+                delete rules.maxCalories;
+                Object.assign(params, rules);
             }
         });
     }
+
+    const maxCaloriesPerMeal = getMaxCaloriesPerMeal(profileData);
+    if (maxCaloriesPerMeal != null) {
+        params.maxCalories = maxCaloriesPerMeal;
+    }
+
     return params;
   }
 

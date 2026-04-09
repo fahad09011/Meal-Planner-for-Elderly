@@ -1,11 +1,10 @@
 import healthConditionRules from "./healthConditionRules";
 
 import { dietCompatibilityMap } from "./dietMap";
+import { getMaxCaloriesPerMeal } from "../../utils/bmr";
 const filterByDietary = (meal, profile) => {
   
   if (!profile.dietary || profile.dietary.length === 0) {
-    console.log("No dietary preferences, returning true");
-
     return true;
   }
   const mealDiet = Array.isArray(meal.diets) ? meal.diets : [];
@@ -46,6 +45,7 @@ const filterByHealthCondition = (meal, profile) => {
         for (const [key, value] of Object.entries(
           healthConditionRules[healthCondition],
         )) {
+          if (key === "maxCalories") continue;
           const { ruleType, nutrientKey } = parseNutritionRuleKey(key);
           const nutrientAmount = meal.nutrition?.[nutrientKey] ?? 0;
           const hasValue = Number.isFinite(nutrientAmount);
@@ -87,6 +87,14 @@ const filterByBudget = (meal, profile) => {
   return false;
 };
 
+const mealFitsCalorieLimit = (meal, profile) => {
+  const maxCalories = getMaxCaloriesPerMeal(profile);
+  if (maxCalories == null) return true;
+  const mealCalories = meal.nutrition?.calories;
+  if (!Number.isFinite(mealCalories) || mealCalories === 0) return true;
+  return mealCalories <= maxCalories;
+};
+
 // meal type dinner , lunch , dinner count consts section ====================
 export const mealCountByCategory = (filterMeal) => {
   const breakFast = filterMeal.filter((meal) => {
@@ -111,6 +119,7 @@ const filterMeals = (meals, profile) => {
       filterByDietary(meal, profile) &&
       // filterByAllergens(meal, profile) &&
       filterByHealthCondition(meal, profile) &&
+      mealFitsCalorieLimit(meal, profile) &&
       filterByBudget(meal, profile)
     );
   });

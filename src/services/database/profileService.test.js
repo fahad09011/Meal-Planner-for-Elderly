@@ -23,7 +23,11 @@ vi.mock("./supabaseClient", () => ({
 
 const testUserId = "user-abc-123";
 const testProfile = {
-  ageGroup: "65-74",
+  age: "68",
+  weightKg: "72",
+  heightCm: "165",
+  gender: "female",
+  activityLevel: "lightly_active",
   dietary: ["vegetarian"],
   allergies: ["gluten"],
   healthConditions: ["diabetes", "hypertension"],
@@ -32,7 +36,11 @@ const testProfile = {
 const dbRow = {
   id: 1,
   user_id: testUserId,
-  age_group: "65-74",
+  age: 68,
+  weight: 72,
+  height: 165,
+  gender: "female",
+  activity_level: "lightly_active",
   dietary: ["vegetarian"],
   allergies: ["gluten"],
   health_conditions: ["diabetes", "hypertension"],
@@ -84,7 +92,11 @@ describe("createProfile", () => {
     expect(mockInsert).toHaveBeenCalledWith([
       {
         user_id: testUserId,
-        age_group: testProfile.ageGroup,
+        age: 68,
+        weight: 72,
+        height: 165,
+        gender: "female",
+        activity_level: "lightly_active",
         dietary: testProfile.dietary,
         allergies: testProfile.allergies,
         health_conditions: testProfile.healthConditions,
@@ -111,18 +123,23 @@ describe("createProfile", () => {
 
     const payload = mockInsert.mock.calls[0][0][0];
     expect(payload).toHaveProperty("user_id", testUserId);
-    expect(payload).toHaveProperty("age_group", "65-74");
+    expect(payload).toHaveProperty("age", 68);
+    expect(payload).toHaveProperty("weight", 72);
+    expect(payload).toHaveProperty("height", 165);
+    expect(payload).toHaveProperty("gender", "female");
+    expect(payload).toHaveProperty("activity_level", "lightly_active");
     expect(payload).toHaveProperty("dietary", ["vegetarian"]);
-    expect(payload).toHaveProperty("allergies", ["gluten"]);
-    expect(payload).toHaveProperty("health_conditions", ["diabetes", "hypertension"]);
-    expect(payload).toHaveProperty("budget", "medium");
     expect(payload).not.toHaveProperty("ageGroup");
     expect(payload).not.toHaveProperty("healthConditions");
   });
 
   it("handles empty arrays in profile data", async () => {
     const emptyProfile = {
-      ageGroup: "75-84",
+      age: "70",
+      weightKg: "80",
+      heightCm: "170",
+      gender: "male",
+      activityLevel: "sedentary",
       dietary: [],
       allergies: [],
       healthConditions: [],
@@ -142,13 +159,13 @@ describe("createProfile", () => {
 // ===================== updateProfile =====================
 describe("updateProfile", () => {
   it("returns success and data on successful update", async () => {
-    const updatedRow = { ...dbRow, age_group: "75-84", budget: "low" };
+    const updatedRow = { ...dbRow, age: 76, budget: "low" };
     mockSingle.mockResolvedValue({ data: updatedRow, error: null });
-    const updatedProfile = { ...testProfile, ageGroup: "75-84", budget: "low" };
+    const updatedProfile = { ...testProfile, age: "76", budget: "low" };
     const result = await updateProfile(testUserId, updatedProfile);
 
     expect(result.success).toBe(true);
-    expect(result.data.age_group).toBe("75-84");
+    expect(result.data.age).toBe(76);
     expect(result.data.budget).toBe("low");
     expect(mockFrom).toHaveBeenCalledWith("profiles");
   });
@@ -171,7 +188,8 @@ describe("updateProfile", () => {
 
     const payload = mockUpdate.mock.calls[0][0];
     expect(payload).toHaveProperty("user_id", testUserId);
-    expect(payload).toHaveProperty("age_group", "65-74");
+    expect(payload).toHaveProperty("age", 68);
+    expect(payload).toHaveProperty("activity_level", "lightly_active");
     expect(payload).toHaveProperty("health_conditions", ["diabetes", "hypertension"]);
     expect(payload).not.toHaveProperty("ageGroup");
   });
@@ -185,7 +203,11 @@ describe("updateProfile", () => {
 
   it("handles updating with multiple health conditions", async () => {
     const complexProfile = {
-      ageGroup: "85+",
+      age: "80",
+      weightKg: "65",
+      heightCm: "160",
+      gender: "female",
+      activityLevel: "extra_active",
       dietary: ["vegan", "gluten_free"],
       allergies: ["dairy", "peanut", "soy"],
       healthConditions: ["diabetes", "heartDisease", "osteoporosis"],
