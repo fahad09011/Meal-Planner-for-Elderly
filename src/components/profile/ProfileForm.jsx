@@ -1,8 +1,9 @@
-import React, { useContext,useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "../../assets/styles/profile.css";
 import Button from "../common/Button";
 import { AppContext } from "../../context/AppContext";
-import { useEffect } from "react";
+import { ACTIVITY_LEVEL_OPTIONS } from "../../constants/activityLevels";
+import { getRestingAndDailyCaloriesFromProfile } from "../../utils/bmr";
 
 function ProfileForm() {
  
@@ -13,6 +14,10 @@ const[isSubmitting, setIsSubmitting] = useState(false);
 useEffect(()=>{
   setFormData(profileData)
 },[profileData]);
+
+  const { restingCalories, dailyCalories } =
+    getRestingAndDailyCaloriesFromProfile(formData);
+
   function handleOnChange(event) {
     const { name, value, type, checked } = event.target;
     if (type === "checkbox") {
@@ -37,13 +42,13 @@ useEffect(()=>{
     form.preventDefault();
     setIsSubmitting(true);
     const result = await saveProfile(formData);
-    
-    console.log("Profile successfuly saved");
-      alert("Profile successfuly saved");
     setIsSubmitting(false);
-    if(!result.success){
-      console.log("Profile Saved Failed");
-      alert("Profile Saved Failed");
+    if (result.success) {
+      alert("Profile saved successfully.");
+    } else {
+      const msg = result.error?.message ?? "Something went wrong saving your profile.";
+      console.error("Profile save failed:", result.error);
+      alert(`Profile not saved: ${msg}`);
     }
   };
 
@@ -60,94 +65,149 @@ useEffect(()=>{
           <div className="formTitleContainer">
             <h1 className="formTitle">Your profile</h1>
             <p className="profile-page-lede">
-              Choose what applies to you. We use this to suggest meals that fit your age, diet and health needs.
+              Tell us about yourself. We use your age, size, and activity level to estimate daily energy needs (BMR / TDEE) for meal suggestions. Diet and health choices apply on top of that.
             </p>
             <hr />
           </div>
-          {/* age g */}
-          <section className="ageGroupMainSection">
-            <p className="title">Age Group</p>
 
-            <div className="ageGroupMainContainer">
-              <div className="ageGroupContainer one">
+          <section className="profileMetricsSection">
+            <p className="title">Age, size &amp; activity</p>
+            <p className="profile-section-hint">Weights and heights use metric units (kg and cm).</p>
+
+            <div className="profileMetricsGrid">
+              <label className="profileFieldLabel" htmlFor="profile-age">
+                Age (years)
                 <input
+                  id="profile-age"
+                  className="profileTextInput"
+                  type="number"
+                  name="age"
+                  min={18}
+                  max={120}
                   required
-                  className="check"
-                  type="radio"
-                  name="ageGroup"
-                  id="one"
+                  inputMode="numeric"
+                  value={formData.age}
                   onChange={handleOnChange}
-                  checked={formData.ageGroup === "50-55"}
-                  value="50-55"
+                  placeholder="e.g. 72"
                 />
-                <label htmlFor="one">50-55</label>
-              </div>
-
-              <div className="ageGroupContainer two">
+              </label>
+              <label className="profileFieldLabel" htmlFor="profile-weight">
+                Weight (kg)
                 <input
-                  className="check"
-                  type="radio"
-                  name="ageGroup"
-                  id="two"
+                  id="profile-weight"
+                  className="profileTextInput"
+                  type="number"
+                  name="weightKg"
+                  min={1}
+                  max={400}
+                  step="0.1"
+                  required
+                  inputMode="decimal"
+                  value={formData.weightKg}
                   onChange={handleOnChange}
-                  checked={formData.ageGroup === "56-60"}
-                  value="56-60"
+                  placeholder="e.g. 70"
                 />
-                <label htmlFor="two">56-60</label>
-              </div>
-
-              <div className="ageGroupContainer three">
+              </label>
+              <label className="profileFieldLabel" htmlFor="profile-height">
+                Height (cm)
                 <input
-                  className="check"
-                  type="radio"
-                  name="ageGroup"
-                  id="three"
+                  id="profile-height"
+                  className="profileTextInput"
+                  type="number"
+                  name="heightCm"
+                  min={100}
+                  max={250}
+                  required
+                  inputMode="numeric"
+                  value={formData.heightCm}
                   onChange={handleOnChange}
-                  checked={formData.ageGroup === "61-65"}
-                  value="61-65"
+                  placeholder="e.g. 165"
                 />
-                <label htmlFor="three">61-65</label>
-              </div>
-
-              <div className="ageGroupContainer four">
-                <input
-                  className="check"
-                  type="radio"
-                  name="ageGroup"
-                  id="four"
-                  onChange={handleOnChange}
-                  checked={formData.ageGroup === "66-70"}
-                  value="66-70"
-                />
-                <label htmlFor="four">66-70</label>
-              </div>
-
-              <div className="ageGroupContainer five">
-                <input
-                  className="check"
-                  type="radio"
-                  name="ageGroup"
-                  id="five"
-                  onChange={handleOnChange}
-                  checked={formData.ageGroup === "71-75"}
-                  value="71-75"
-                />
-                <label htmlFor="five">71-75</label>
-              </div>
-
-              <div className="ageGroupContainer six">
-                <input
-                  className="check"
-                  type="radio"
-                  name="ageGroup"
-                  id="six"
-                  onChange={handleOnChange}
-                  checked={formData.ageGroup === "80+"}
-                  value="80+"
-                />
-                <label htmlFor="six">80+</label>
-              </div>
+              </label>
             </div>
+
+            <p className="profileSubTitle">Gender</p>
+            <p className="profile-section-hint">Used in the standard BMR formula (Mifflin–St Jeor).</p>
+            <div className="genderRow">
+              {[
+                { id: "gender-male", value: "male", label: "Male" },
+                { id: "gender-female", value: "female", label: "Female" },
+              ].map(({ id, value, label }, i) => (
+                <div className="ageGroupContainer" key={value}>
+                  <input
+                    required={i === 0}
+                    className="check"
+                    type="radio"
+                    name="gender"
+                    id={id}
+                    onChange={handleOnChange}
+                    checked={formData.gender === value}
+                    value={value}
+                  />
+                  <label htmlFor={id}>{label}</label>
+                </div>
+              ))}
+            </div>
+
+            <p className="profileSubTitle">Activity level</p>
+            <p className="profile-section-hint">Pick the line that best matches your usual week. The number is the TDEE multiplier we will use with BMR.</p>
+            <div className="activityLevelList">
+              {ACTIVITY_LEVEL_OPTIONS.map((opt, i) => (
+                <label
+                  key={opt.id}
+                  className={`activityLevelCard ${formData.activityLevel === opt.id ? "activityLevelCard--selected" : ""}`}
+                  htmlFor={`activity-${opt.id}`}
+                >
+                  <input
+                    className="check"
+                    type="radio"
+                    name="activityLevel"
+                    id={`activity-${opt.id}`}
+                    value={opt.id}
+                    checked={formData.activityLevel === opt.id}
+                    onChange={handleOnChange}
+                    required={i === 0}
+                  />
+                  <span className="activityLevelCardBody">
+                    <span className="activityLevelTitle">
+                      {opt.label} ({opt.multiplier})
+                    </span>
+                    <span className="activityLevelDesc">{opt.description}</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+
+            {restingCalories != null && (
+              <div className="profileEnergySummary" role="status" aria-live="polite">
+                <p className="profileSubTitle">Your estimated energy</p>
+                <p className="profile-section-hint">
+                  Resting calories use the Mifflin–St Jeor formula (what your body burns at rest).
+                </p>
+                <div className="profileEnergySummaryGrid">
+                  <div className="profileEnergyCard">
+                    <span className="profileEnergyLabel">Resting (BMR)</span>
+                    <span className="profileEnergyValue">{restingCalories}</span>
+                    <span className="profileEnergyUnit">kcal / day</span>
+                    <span className="profileEnergyHelp">At rest</span>
+                  </div>
+                  {dailyCalories != null && (
+                    <div className="profileEnergyCard profileEnergyCard--accent">
+                      <span className="profileEnergyLabel">Daily with activity</span>
+                      <span className="profileEnergyValue">{dailyCalories}</span>
+                      <span className="profileEnergyUnit">kcal / day</span>
+                      <span className="profileEnergyHelp">Resting × activity level</span>
+                    </div>
+                  )}
+                </div>
+                {dailyCalories != null && (
+                  <p className="profile-section-hint profileEnergyFootnote">
+                    Meal planning uses about one-third of your daily total per main meal (and the
+                    weight-management limit if you selected it). Search and filters both follow this.
+                  </p>
+                )}
+              </div>
+            )}
           </section>
           <hr />
 

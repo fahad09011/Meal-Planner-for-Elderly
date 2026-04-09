@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import filterMeals, { mealCountByCategory } from "./nutritionService";
+import { getMaxCaloriesPerMeal } from "../../utils/bmr";
 
 // ──── helpers ────
 const makeMeal = (overrides = {}) => ({
@@ -174,6 +175,51 @@ describe("Layer 2: filterByHealthCondition", () => {
   it("passes when meal.nutrition is missing entirely", () => {
     const meals = [makeMeal({ nutrition: undefined })];
     const result = filterMeals(meals, { ...emptyProfile, healthConditions: ["hypertension"] });
+    expect(result).toHaveLength(1);
+  });
+});
+
+// ═══════════════════════════════════════════════════════
+// Layer 2: filterByCalorieTarget (TDEE / weight management)
+// ═══════════════════════════════════════════════════════
+describe("Layer 2: meal calorie limit per profile", () => {
+  it("does not filter when no calorie cap applies", () => {
+    const meals = [makeMeal({ nutrition: { ...makeMeal().nutrition, calories: 2000 } })];
+    const result = filterMeals(meals, emptyProfile);
+    expect(result).toHaveLength(1);
+  });
+
+  it("rejects meal above weight-management per-meal calories", () => {
+    const high = makeMeal({
+      nutrition: { ...makeMeal().nutrition, calories: 800 },
+    });
+    const ok = makeMeal({
+      nutrition: { ...makeMeal().nutrition, calories: 500 },
+    });
+    const profile = {
+      ...emptyProfile,
+      healthConditions: ["weightManagement"],
+    };
+    const result = filterMeals([high, ok], profile);
+    expect(result).toHaveLength(1);
+    expect(result[0].title).toBe(ok.title);
+  });
+
+  it("passes meal within TDEE-based per-meal cap", () => {
+    const profile = {
+      ...emptyProfile,
+      age: "70",
+      weightKg: "60",
+      heightCm: "160",
+      gender: "female",
+      activityLevel: "sedentary",
+    };
+    const maxCalories = getMaxCaloriesPerMeal(profile);
+    expect(maxCalories).not.toBeNull();
+    const meal = makeMeal({
+      nutrition: { ...makeMeal().nutrition, calories: maxCalories - 1 },
+    });
+    const result = filterMeals([meal], profile);
     expect(result).toHaveLength(1);
   });
 });
