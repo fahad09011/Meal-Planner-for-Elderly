@@ -1,19 +1,31 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import "../../assets/styles/profile.css";
 import Button from "../common/Button";
+import ProfileHowItWorksModal from "./ProfileHowItWorksModal";
 import { AppContext } from "../../context/AppContext";
+import { useAuth } from "../../context/AuthContext";
 import { ACTIVITY_LEVEL_OPTIONS } from "../../constants/activityLevels";
 import { getRestingAndDailyCaloriesFromProfile } from "../../utils/bmr";
 
 function ProfileForm() {
- 
-  const { profileData, setProfileData, saveProfile, clearProfile, hasProfile,defaultProfile } =
-    useContext(AppContext);
-const [formData, setFormData] = useState(profileData);
-const[isSubmitting, setIsSubmitting] = useState(false);
-useEffect(()=>{
-  setFormData(profileData)
-},[profileData]);
+  const { user } = useAuth();
+  const {
+    profileData,
+    setProfileData,
+    saveProfile,
+    clearProfile,
+    hasProfile,
+    defaultProfile,
+    activeDataUserId,
+    viewingOwnProfile,
+  } = useContext(AppContext);
+  const [formData, setFormData] = useState(profileData);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showHowItWorks, setShowHowItWorks] = useState(false);
+  const howItWorksBtnRef = useRef(null);
+  useEffect(() => {
+    setFormData(profileData);
+  }, [profileData]);
 
   const { restingCalories, dailyCalories } =
     getRestingAndDailyCaloriesFromProfile(formData);
@@ -58,21 +70,73 @@ useEffect(()=>{
     console.log("Profile successfuly cleared");
       alert("Profile successfuly cleared");
   }
+
+  async function copyUserId() {
+    if (!activeDataUserId) return;
+    try {
+      await navigator.clipboard.writeText(activeDataUserId);
+      alert("User ID copied. You can paste it for a caregiver on the Caregiving page.");
+    } catch {
+      alert("Could not copy automatically. Please select and copy the ID text.");
+    }
+  }
+
   return (
     <div>
       <main className="profileMainContainer">
         <form action="" onSubmit={handleOnSubmit} className="profileForm">
           <div className="formTitleContainer">
-            <h1 className="formTitle">Your profile</h1>
-            <p className="profile-page-lede">
-              Tell us about yourself. We use your age, size, and activity level to estimate daily energy needs (BMR / TDEE) for meal suggestions. Diet and health choices apply on top of that.
+            <div className="formTitleHeaderRow">
+              <h1 className="formTitle">
+                {viewingOwnProfile ? "Your profile" : "Care recipient profile"}
+              </h1>
+              <button
+                ref={howItWorksBtnRef}
+                type="button"
+                className="button inActive profile-how-it-works-btn"
+                onClick={() => setShowHowItWorks(true)}
+              >
+                How it works
+              </button>
+            </div>
+            <p className="profile-page-lede profile-page-lede--short">
+              Expand a section below to change your details. Use “How it works” anytime for a full
+              explanation.
             </p>
+            {user && activeDataUserId ? (
+              <div className="profile-user-id-box">
+                <p>
+                  <strong>User ID</strong> (for caregivers to link this account)
+                </p>
+                <div className="profile-user-id-row">
+                  <code className="profile-user-id-code">{activeDataUserId}</code>
+                  <Button type="button" className="button" onClick={copyUserId}>
+                    Copy
+                  </Button>
+                </div>
+              </div>
+            ) : null}
+            {!viewingOwnProfile ? (
+              <p className="profile-readonly-banner" role="status">
+                You are viewing someone else&apos;s profile. Meal planning uses their details; only they
+                can change this form when signed in to their own account.
+              </p>
+            ) : null}
             <hr />
           </div>
 
-          <section className="profileMetricsSection">
-            <p className="title">Age, size &amp; activity</p>
-            <p className="profile-section-hint">Weights and heights use metric units (kg and cm).</p>
+          <fieldset className="profile-fieldset-reset" disabled={!viewingOwnProfile}>
+          <details className="profileFold" open>
+            <summary className="profileFold__summary">
+              <span className="profileFold__summaryText">
+                <span className="profileFold__title">Your body &amp; activity</span>
+                <span className="profileFold__subtitle">Age, weight, height, gender, activity, energy estimate</span>
+              </span>
+            </summary>
+          <section className="profileFold__body profileMetricsSection">
+            <p className="profile-section-hint profile-section-hint--compact">
+              Metric units: kg and cm.
+            </p>
 
             <div className="profileMetricsGrid">
               <label className="profileFieldLabel" htmlFor="profile-age">
@@ -127,7 +191,6 @@ useEffect(()=>{
             </div>
 
             <p className="profileSubTitle">Gender</p>
-            <p className="profile-section-hint">Used in the standard BMR formula (Mifflin–St Jeor).</p>
             <div className="genderRow">
               {[
                 { id: "gender-male", value: "male", label: "Male" },
@@ -150,7 +213,6 @@ useEffect(()=>{
             </div>
 
             <p className="profileSubTitle">Activity level</p>
-            <p className="profile-section-hint">Pick the line that best matches your usual week. The number is the TDEE multiplier we will use with BMR.</p>
             <div className="activityLevelList">
               {ACTIVITY_LEVEL_OPTIONS.map((opt, i) => (
                 <label
@@ -172,7 +234,9 @@ useEffect(()=>{
                     <span className="activityLevelTitle">
                       {opt.label} ({opt.multiplier})
                     </span>
-                    <span className="activityLevelDesc">{opt.description}</span>
+                    {formData.activityLevel === opt.id ? (
+                      <span className="activityLevelDesc">{opt.description}</span>
+                    ) : null}
                   </span>
                 </label>
               ))}
@@ -180,10 +244,7 @@ useEffect(()=>{
 
             {restingCalories != null && (
               <div className="profileEnergySummary" role="status" aria-live="polite">
-                <p className="profileSubTitle">Your estimated energy</p>
-                <p className="profile-section-hint">
-                  Resting calories use the Mifflin–St Jeor formula (what your body burns at rest).
-                </p>
+                <p className="profileSubTitle">Estimated energy</p>
                 <div className="profileEnergySummaryGrid">
                   <div className="profileEnergyCard">
                     <span className="profileEnergyLabel">Resting (BMR)</span>
@@ -200,21 +261,20 @@ useEffect(()=>{
                     </div>
                   )}
                 </div>
-                {dailyCalories != null && (
-                  <p className="profile-section-hint profileEnergyFootnote">
-                    Meal planning uses about one-third of your daily total per main meal (and the
-                    weight-management limit if you selected it). Search and filters both follow this.
-                  </p>
-                )}
               </div>
             )}
           </section>
-          <hr />
+          </details>
 
-          {/* Dietary Preference  */}
-          <section className="dietaryMainSection">
-            <p className="title">Dietary Preference</p>
-
+          <details className="profileFold" open>
+            <summary className="profileFold__summary">
+              <span className="profileFold__summaryText">
+                <span className="profileFold__title">Food preferences</span>
+                <span className="profileFold__subtitle">Diet style and ingredients to avoid</span>
+              </span>
+            </summary>
+          <section className="profileFold__body profileFoodSection">
+            <p className="profileSubTitle">Diet</p>
             <div className="dietaryGroupMainContainer">
               <div className="dietaryGroupContainer vegetarian">
                 <input
@@ -242,13 +302,8 @@ useEffect(()=>{
                 <label htmlFor="glutenfree">Gluten Free</label>
               </div>
             </div>
-          </section>
-          <hr />
 
-          {/* allergies Preference  */}
-          <section className="allergiesMainSection">
-            <p className="title">Allergies Preference</p>
-
+            <p className="profileSubTitle profileSubTitle--spaced">Allergies</p>
             <div className="allergiesGroupMainContainer">
               <div className="allergiesGroupContainer nuts">
                 <input
@@ -277,12 +332,17 @@ useEffect(()=>{
               </div>
             </div>
           </section>
-          <hr />
+          </details>
 
-          {/* healthConsideration Preference  */}
-          <section className="healthConsiderationMainSection">
-            <p className="title">Health Consideration</p>
-
+          <details className="profileFold" open>
+            <summary className="profileFold__summary">
+              <span className="profileFold__summaryText">
+                <span className="profileFold__title">Health &amp; budget</span>
+                <span className="profileFold__subtitle">Conditions we filter for, and meal cost level</span>
+              </span>
+            </summary>
+          <section className="profileFold__body profileHealthBudgetSection">
+            <p className="profileSubTitle">Health conditions</p>
             <div className="healthConsiderationGroupMainContainer">
               <div className="healthConsiderationGroupContainer bloodPressure">
                 <input
@@ -342,13 +402,8 @@ useEffect(()=>{
 
 
             </div>
-          </section>
-          <hr />
 
-          {/* budget  */}
-          <section className="budgetMainSection">
-            <p className="title">Budget Preference</p>
-
+            <p className="profileSubTitle profileSubTitle--spaced">Budget for recipes</p>
             <div className="budgetGroupMainContainer">
               <div className="budgetGroupContainer low">
                 <input
@@ -388,30 +443,40 @@ useEffect(()=>{
               </div>
             </div>
           </section>
-          <hr />
+          </details>
           <div className="formButtonContainer">
-  {!hasProfile ? (
-    <Button type="submit" className="button">
-      {isSubmitting ? "Saving..." : "Save Profile"}
-    </Button>
-  ) : (
-    <>
+  {viewingOwnProfile ? (
+    !hasProfile ? (
       <Button type="submit" className="button">
-        {isSubmitting ? "Updating..." : "Update Profile"}
+        {isSubmitting ? "Saving..." : "Save Profile"}
       </Button>
+    ) : (
+      <>
+        <Button type="submit" className="button">
+          {isSubmitting ? "Updating..." : "Update Profile"}
+        </Button>
 
-      <Button
-        type="button"
-        className="inActive button"
-        onClick={handleOnClearProfile}
-      >
-        Clear Profile
-      </Button>
-    </>
-  )}
+        <Button
+          type="button"
+          className="inActive button"
+          onClick={handleOnClearProfile}
+        >
+          Clear Profile
+        </Button>
+      </>
+    )
+  ) : null}
 </div>
+          </fieldset>
         </form>
       </main>
+      <ProfileHowItWorksModal
+        show={showHowItWorks}
+        onClose={() => {
+          setShowHowItWorks(false);
+          requestAnimationFrame(() => howItWorksBtnRef.current?.focus());
+        }}
+      />
     </div>
   );
 }

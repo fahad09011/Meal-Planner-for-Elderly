@@ -161,7 +161,7 @@ function MealPlan() {
 
           <section className="progressBarSection">
             <ProgressBar
-              bgColor="#5a7d68"
+              bgColor="#5f826f"
               height="48px"
               completed={progress}
               labelAlignment="center"

@@ -1,9 +1,9 @@
 import React from "react";
 import "../assets/styles/home.css";
 import HomeButton from "../components/common/HomeButton";
-import mealButtonIcon     from "../assets/images/mealButtonIcon.png";
-import careButtonIcon     from "../assets/images/careButtonIcon.png";
-import profileButtonIcon  from "../assets/images/profileButtonIcon.png";
+import mealButtonIcon from "../assets/images/mealButtonIcon.png";
+import careButtonIcon from "../assets/images/careButtonIcon.png";
+import profileButtonIcon from "../assets/images/profileButtonIcon.png";
 import shoppingButtonIcon from "../assets/images/shoppingButtonIcon.png";
 import { NavLink } from "react-router-dom";
 
@@ -16,10 +16,16 @@ const NAV_BUTTONS = [
 
 function Home() {
   return (
-    <main
-      className="homeMainContainer"
-      aria-label="Home — choose where to go"
-    >
+    <main className="homeMainContainer" aria-label="Home — choose where to go">
+      <header className="homeHero">
+        <p className="homeHero__eyebrow">MealCare</p>
+        <h1 className="homeHero__title">Plan nourishing meals with confidence</h1>
+        <p className="homeHero__lede">
+          Build your week, stay on budget, and keep shopping lists in sync — tailored to your
+          profile and dietary needs.
+        </p>
+      </header>
+
       <div className="homeButtonContainer" role="navigation" aria-label="Main shortcuts">
         {NAV_BUTTONS.map(({ to, icon, title, cls }) => (
           <NavLink key={to} to={to} className={`homeNavLink ${cls}`} aria-label={title}>

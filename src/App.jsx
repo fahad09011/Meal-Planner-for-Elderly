@@ -9,6 +9,7 @@ import Navbar from './components/common/Navbar';
 import Profile from './pages/Profile';
 import ViewPlan from './pages/ViewPlan';
 import LoginForm from './pages/LoginForm';
+import Caregiving from './pages/Caregiving';
 import MealDetails from './pages/MealDetails';
 import { AppProvider } from './context/AppContext';
 // import TestMealPlanSave from './dev/TestMealPlanSave';
@@ -31,6 +32,7 @@ function App() {
       <Route path="/mealDetails/:mealId" element={<MealDetails/>}/>
       <Route path="/shopping" element={<Shopping/>}/>
       <Route path="/profile" element={<Profile/>}/>
+      <Route path="/caregiving" element={<Caregiving/>}/>
       <Route path="/login" element={<LoginForm/>}/>
    
   </Routes>

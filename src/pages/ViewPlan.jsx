@@ -46,7 +46,7 @@ function ViewPlan() {
   useEffect(() => {
     if (authLoading) return;
     loadMealPlanForWeek(weekStartDate);
-  }, [authLoading, weekStartDate]);
+  }, [authLoading, weekStartDate, loadMealPlanForWeek]);
 
   if (mealPlanLoading || authLoading || trackingLoading) {
     return (

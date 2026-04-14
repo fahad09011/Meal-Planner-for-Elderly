@@ -32,6 +32,7 @@ const testProfile = {
   allergies: ["gluten"],
   healthConditions: ["diabetes", "hypertension"],
   budget: "medium",
+  appRole: "elderly",
 };
 const dbRow = {
   id: 1,
@@ -45,6 +46,7 @@ const dbRow = {
   allergies: ["gluten"],
   health_conditions: ["diabetes", "hypertension"],
   budget: "medium",
+  app_role: "elderly",
 };
 
 beforeEach(() => {
@@ -101,6 +103,7 @@ describe("createProfile", () => {
         allergies: testProfile.allergies,
         health_conditions: testProfile.healthConditions,
         budget: testProfile.budget,
+        app_role: "elderly",
       },
     ]);
   });
@@ -129,6 +132,7 @@ describe("createProfile", () => {
     expect(payload).toHaveProperty("gender", "female");
     expect(payload).toHaveProperty("activity_level", "lightly_active");
     expect(payload).toHaveProperty("dietary", ["vegetarian"]);
+    expect(payload).toHaveProperty("app_role", "elderly");
     expect(payload).not.toHaveProperty("ageGroup");
     expect(payload).not.toHaveProperty("healthConditions");
   });
@@ -144,6 +148,7 @@ describe("createProfile", () => {
       allergies: [],
       healthConditions: [],
       budget: "low",
+      appRole: "caregiver",
     };
     mockSingle.mockResolvedValue({ data: {}, error: null });
     const result = await createProfile(testUserId, emptyProfile);
@@ -153,6 +158,7 @@ describe("createProfile", () => {
     expect(payload.dietary).toEqual([]);
     expect(payload.allergies).toEqual([]);
     expect(payload.health_conditions).toEqual([]);
+    expect(payload.app_role).toBe("caregiver");
   });
 });
 
@@ -191,6 +197,7 @@ describe("updateProfile", () => {
     expect(payload).toHaveProperty("age", 68);
     expect(payload).toHaveProperty("activity_level", "lightly_active");
     expect(payload).toHaveProperty("health_conditions", ["diabetes", "hypertension"]);
+    expect(payload).toHaveProperty("app_role", "elderly");
     expect(payload).not.toHaveProperty("ageGroup");
   });
 
@@ -212,6 +219,7 @@ describe("updateProfile", () => {
       allergies: ["dairy", "peanut", "soy"],
       healthConditions: ["diabetes", "heartDisease", "osteoporosis"],
       budget: "flexible",
+      appRole: "both",
     };
     mockSingle.mockResolvedValue({ data: {}, error: null });
     const result = await updateProfile(testUserId, complexProfile);
@@ -221,5 +229,6 @@ describe("updateProfile", () => {
     expect(payload.dietary).toEqual(["vegan", "gluten_free"]);
     expect(payload.allergies).toEqual(["dairy", "peanut", "soy"]);
     expect(payload.health_conditions).toEqual(["diabetes", "heartDisease", "osteoporosis"]);
+    expect(payload.app_role).toBe("both");
   });
 });

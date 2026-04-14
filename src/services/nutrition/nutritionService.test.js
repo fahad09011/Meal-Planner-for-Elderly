@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import filterMeals, { mealCountByCategory } from "./nutritionService";
-import { getMaxCaloriesPerMeal } from "../../utils/bmr";
+import { getMaxCaloriesPerMeal, getMinCaloriesPerMeal } from "../../utils/bmr";
 
 // ──── helpers ────
 const makeMeal = (overrides = {}) => ({
@@ -215,12 +215,42 @@ describe("Layer 2: meal calorie limit per profile", () => {
       activityLevel: "sedentary",
     };
     const maxCalories = getMaxCaloriesPerMeal(profile);
+    const minCalories = getMinCaloriesPerMeal(profile);
     expect(maxCalories).not.toBeNull();
+    expect(minCalories).not.toBeNull();
     const meal = makeMeal({
       nutrition: { ...makeMeal().nutrition, calories: maxCalories - 1 },
     });
     const result = filterMeals([meal], profile);
     expect(result).toHaveLength(1);
+  });
+
+  it("rejects meal below per-meal minimum when a calorie band applies", () => {
+    const profile = {
+      ...emptyProfile,
+      healthConditions: ["weightManagement"],
+    };
+    const minCalories = getMinCaloriesPerMeal(profile);
+    expect(minCalories).not.toBeNull();
+    const tooLight = makeMeal({
+      title: "Snack",
+      nutrition: { ...makeMeal().nutrition, calories: Math.max(1, minCalories - 50) },
+    });
+    const result = filterMeals([tooLight], profile);
+    expect(result).toHaveLength(0);
+  });
+
+  it("rejects meal with missing or zero calories when a calorie cap applies", () => {
+    const profile = {
+      ...emptyProfile,
+      healthConditions: ["weightManagement"],
+    };
+    const noCals = makeMeal({
+      nutrition: { ...makeMeal().nutrition, calories: 0 },
+    });
+    const missing = makeMeal({ nutrition: undefined });
+    expect(filterMeals([noCals], profile)).toHaveLength(0);
+    expect(filterMeals([missing], profile)).toHaveLength(0);
   });
 });
 

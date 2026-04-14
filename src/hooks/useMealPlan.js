@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import fetchMeals from "../services/recipes/spoonacularService";
+import { getRecipeSearchCacheKey } from "../services/recipes/buildMealQueryParams";
+import { AppContext } from "../context/AppContext";
 import { getWeekStartDate } from "../utils/helpers";
 
 const GUEST_SAVE_MESSAGE =
@@ -16,6 +18,9 @@ const useMealPlan = ({
   mealsFetchReady = true,
   user = null,
 }) => {
+  const { activeDataUserId, recipeSearchCache, setRecipeSearchCache } =
+    useContext(AppContext);
+
   const defaultDaySelection = {
     breakfast: null,
     lunch: null,
@@ -115,6 +120,19 @@ const useMealPlan = ({
     if (!mealsFetchReady) return;
 
     let cancelled = false;
+    const currentKey = getRecipeSearchCacheKey(activeDataUserId, profileData);
+    const cached = recipeSearchCache;
+    if (
+      cached.key === currentKey &&
+      Array.isArray(cached.meals) &&
+      cached.meals.length > 0
+    ) {
+      setMealsRequested(true);
+      setMealError("");
+      setApiMeals(cached.meals);
+      setInternalLoading(false);
+      return;
+    }
 
     (async () => {
       setMealsRequested(true);
@@ -122,7 +140,10 @@ const useMealPlan = ({
         setInternalLoading(true);
         setMealError("");
         const data = await fetchMeals(profileData);
-        if (!cancelled) setApiMeals(data);
+        if (!cancelled) {
+          setApiMeals(data);
+          setRecipeSearchCache({ key: currentKey, meals: data });
+        }
       } catch (error) {
         if (!cancelled) {
           console.error("Spoonacular API:", error.message);
@@ -136,18 +157,26 @@ const useMealPlan = ({
     return () => {
       cancelled = true;
     };
-  }, [mealsFetchReady, profileData]);
+  }, [
+    mealsFetchReady,
+    profileData,
+    activeDataUserId,
+    recipeSearchCache.key,
+    setRecipeSearchCache,
+  ]);
 
   async function fetchApiMeals() {
     if (!mealsFetchReady) return;
 
     setMealsRequested(true);
+    const currentKey = getRecipeSearchCacheKey(activeDataUserId, profileData);
 
     try {
       setInternalLoading(true);
       setMealError("");
       const data = await fetchMeals(profileData);
       setApiMeals(data);
+      setRecipeSearchCache({ key: currentKey, meals: data });
     } catch (error) {
       console.error("Spoonacular API:", error.message);
       setMealError(error.message || "Failed to load API meals");

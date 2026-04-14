@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { BiBarcode } from "react-icons/bi";
 
 import { AppContext } from "../context/AppContext";
 import { useAuth } from "../context/AuthContext";
@@ -9,11 +10,11 @@ import {
   updateShoppingListItemChecked,
 } from "../services/database/shoppingListService";
 import BarcodeScannerModal from "../components/shopping/BarcodeScannerModal";
+import ShoppingHowItWorksModal from "../components/shopping/ShoppingHowItWorksModal";
 import ShoppingList from "../components/shopping/ShoppingList";
 import ShoppingAisleFilter from "../components/shopping/ShoppingAisleFilter";
 import ShoppingFilters from "../components/shopping/ShoppingFilters";
 import ShoppingProgress from "../components/shopping/ShoppingProgress";
-import ShoppingTips from "../components/shopping/ShoppingTips";
 import { aisleLabel } from "../utils/shoppingAisle";
 
 const WEEK_DAYS = [
@@ -40,7 +41,13 @@ function weeklyPlanHasMeals(plan) {
 
 function Shopping() {
   const { user, authLoading } = useAuth();
-  const { mealPlanId, mealPlanLoading, weeklyPlan } = useContext(AppContext);
+  const {
+    mealPlanId,
+    mealPlanLoading,
+    weeklyPlan,
+    shoppingListSessionCache,
+    setShoppingListSessionCache,
+  } = useContext(AppContext);
   /** Meal plan is loaded from DB on app init; avoid flashing “no plan” while id is still null. */
   const waitingForMealPlan = Boolean(
     user && !authLoading && mealPlanLoading && !mealPlanId,
@@ -51,10 +58,27 @@ function Shopping() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [showBarcodeModal, setShowBarcodeModal] = useState(false);
+  const [showHowItWorks, setShowHowItWorks] = useState(false);
+  const howItWorksBtnRef = useRef(null);
+  const shoppingCacheRef = useRef(shoppingListSessionCache);
+  shoppingCacheRef.current = shoppingListSessionCache;
+
   useEffect(() => {
     if (!mealPlanId) {
       setShoppingItems([]);
       setFetchError(null);
+      return;
+    }
+
+    const cached = shoppingCacheRef.current;
+    if (
+      cached.mealPlanId === mealPlanId &&
+      Array.isArray(cached.items) &&
+      cached.items.length > 0
+    ) {
+      setShoppingItems(cached.items);
+      setFetchError(null);
+      setShoppingLoading(false);
       return;
     }
 
@@ -91,7 +115,10 @@ function Shopping() {
         }
       }
 
-      setShoppingItems(rows);
+      if (!cancelled) {
+        setShoppingItems(rows);
+        setShoppingListSessionCache({ mealPlanId, items: rows });
+      }
       setShoppingLoading(false);
     };
 
@@ -99,7 +126,7 @@ function Shopping() {
     return () => {
       cancelled = true;
     };
-  }, [mealPlanId, user?.id, weeklyPlan]);
+  }, [mealPlanId, user?.id, weeklyPlan, setShoppingListSessionCache]);
 
   useEffect(() => {
     if (categoryFilter === "all") return;
@@ -129,11 +156,21 @@ function Shopping() {
       return;
     }
     if (result.data) {
-      setShoppingItems((list) =>
-        list.map((row) =>
+      setShoppingItems((list) => {
+        const next = list.map((row) =>
           row.id === itemId ? { ...row, ...result.data } : row,
-        ),
-      );
+        );
+        setShoppingListSessionCache({ mealPlanId, items: next });
+        return next;
+      });
+    } else {
+      setShoppingItems((list) => {
+        const next = list.map((row) =>
+          row.id === itemId ? { ...row, checked } : row,
+        );
+        setShoppingListSessionCache({ mealPlanId, items: next });
+        return next;
+      });
     }
   }
 
@@ -164,8 +201,8 @@ function Shopping() {
                 </p>
               ) : (
                 <p className="shopping-info-box__text">
-                  This list comes from your saved meal plan. Tick items as you
-                  shop so you can see what is left to buy.
+                  Ingredients from your saved meal plan. Use How it works (above
+                  the list) for filters, aisles, and barcode help.
                 </p>
               )}
               {!mealPlanId ? (
@@ -196,23 +233,53 @@ function Shopping() {
           >
             <div className="content-header shopping-content-header">
               <div className="shopping-content-header__intro">
-                <h1
-                  id="shopping-main-title"
-                  className="title shopping-content-header__title"
-                >
-                  Shopping list
-                </h1>
+                <div className="shopping-content-header__titleRow">
+                  <h1
+                    id="shopping-main-title"
+                    className="title shopping-content-header__title"
+                  >
+                    Shopping list
+                  </h1>
+                  <button
+                    ref={howItWorksBtnRef}
+                    type="button"
+                    className="btn btn-outline-secondary shopping-how-it-works-btn"
+                    onClick={() => setShowHowItWorks(true)}
+                    aria-haspopup="dialog"
+                    aria-expanded={showHowItWorks}
+                  >
+                    How it works
+                  </button>
+                </div>
                 <p className="shopping-content-header__lede">
-                  Tap a box to tick an item as you add it to your basket.
+                  Tick each item as you buy it. How it works explains filters,
+                  shop-by-aisle, and the barcode tool.
                 </p>
               </div>
-              <div
-                className="options shopping-content-header__meta"
-                aria-live="polite"
-              >
-                {mealPlanId
-                  ? `${counts.total} item${counts.total === 1 ? "" : "s"}`
-                  : "No plan loaded"}
+              <div className="shopping-content-header__end">
+                {mealPlanId ? (
+                  <button
+                    type="button"
+                    className="shopping-barcode-btn btn btn-primary"
+                    onClick={() => setShowBarcodeModal(true)}
+                    aria-haspopup="dialog"
+                    aria-expanded={showBarcodeModal}
+                  >
+                    <BiBarcode
+                      className="shopping-barcode-btn__icon"
+                      aria-hidden
+                    />
+                    <span>Scan barcode</span>
+                  </button>
+                ) : null}
+                <div
+                  className="options shopping-content-header__meta"
+                  aria-live="polite"
+                >
+                  {mealPlanId
+                    ? `${counts.total} item${counts.total === 1 ? "" : "s"}`
+                    : "No plan loaded"}
+                </div>
               </div>
             </div>
 
@@ -262,17 +329,16 @@ function Shopping() {
                 onMarkMatchedItemBought={handleToggleChecked}
                 />
             ) : null}
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => setShowBarcodeModal(true)}
-            >
-              Scan Barcode button to open the modal
-            </button>
-            <ShoppingTips />
           </aside>
         </main>
       )}
+      <ShoppingHowItWorksModal
+        show={showHowItWorks}
+        onClose={() => {
+          setShowHowItWorks(false);
+          requestAnimationFrame(() => howItWorksBtnRef.current?.focus());
+        }}
+      />
     </div>
   );
 }

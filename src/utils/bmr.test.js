@@ -4,6 +4,7 @@ import {
   calculateDailyCaloriesAfterActivity,
   getRestingAndDailyCaloriesFromProfile,
   getMaxCaloriesPerMeal,
+  getMinCaloriesPerMeal,
 } from "./bmr";
 
 describe("calculateRestingDailyCalories", () => {
@@ -125,5 +126,32 @@ describe("getMaxCaloriesPerMeal", () => {
     expect(getMaxCaloriesPerMeal(profile)).toBe(
       Math.min(Math.round(dailyCalories / 3), 550),
     );
+  });
+});
+
+describe("getMinCaloriesPerMeal", () => {
+  it("returns null when there is no per-meal max", () => {
+    expect(
+      getMinCaloriesPerMeal({
+        dietary: [],
+        allergies: [],
+        healthConditions: [],
+        budget: "",
+      }),
+    ).toBeNull();
+  });
+
+  it("is ~45% of max, capped below max (weight management only)", () => {
+    const profile = {
+      dietary: [],
+      allergies: [],
+      healthConditions: ["weightManagement"],
+      budget: "",
+    };
+    const max = getMaxCaloriesPerMeal(profile);
+    const min = getMinCaloriesPerMeal(profile);
+    expect(max).toBe(550);
+    expect(min).toBe(Math.min(Math.round(max * 0.45), max - 1));
+    expect(min).toBeLessThan(max);
   });
 });

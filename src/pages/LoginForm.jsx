@@ -4,6 +4,7 @@ import "../assets/styles/login.css";
 import { BiCalendar, BiLineChart, BiBasket } from "react-icons/bi";
 import { FaLeaf } from "react-icons/fa6";
 import { useAuth } from "../context/AuthContext";
+import { APP_ROLES, APP_ROLE_SIGNUP_OPTIONS } from "../constants/appRoles";
 
 const FEATURES = [
   {
@@ -41,11 +42,15 @@ function LoginForm() {
   const [formError, setFormError] = useState("");
   const [formSuccess, setFormSuccess] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [signUpAppRole, setSignUpAppRole] = useState(APP_ROLES.elderly);
 
   function switchMode(mode) {
     setAuthMode(mode);
     setFormError("");
     setFormSuccess("");
+    if (mode === "signup") {
+      setSignUpAppRole(APP_ROLES.elderly);
+    }
   }
 
   async function handleSignIn(e) {
@@ -98,6 +103,7 @@ function LoginForm() {
     setIsSubmitting(true);
     const { data, error } = await signUp(email, password, {
       full_name: fullName || undefined,
+      app_role: signUpAppRole,
     });
     setIsSubmitting(false);
 
@@ -278,6 +284,30 @@ function LoginForm() {
                       disabled={isSubmitting}
                     />
                   </div>
+                  <fieldset className="loginRoleFieldset">
+                    <legend className="loginRoleLegend">How will you use MealCare?</legend>
+                    <p className="loginFieldHint loginRoleLegendHint">
+                      You can change this later in your profile.
+                    </p>
+                    <div className="loginRoleList" role="radiogroup" aria-label="Account type">
+                      {APP_ROLE_SIGNUP_OPTIONS.map((opt) => (
+                        <label key={opt.value} className="loginRoleCard">
+                          <input
+                            type="radio"
+                            name="appRole"
+                            value={opt.value}
+                            checked={signUpAppRole === opt.value}
+                            onChange={() => setSignUpAppRole(opt.value)}
+                            disabled={isSubmitting}
+                          />
+                          <span className="loginRoleCardBody">
+                            <span className="loginRoleCardTitle">{opt.label}</span>
+                            <span className="loginRoleCardHint">{opt.hint}</span>
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
                   <div className="loginField">
                     <label htmlFor="signup-email">Email address</label>
                     <input

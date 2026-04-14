@@ -30,11 +30,13 @@
   }
   
   .formTitle {
+    font-family: var(--font-display);
     font-size: clamp(1.45rem, 2.8vw, 1.75rem);
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.2;
     color: var(--text-main);
     margin-bottom: 12px;
+    letter-spacing: -0.03em;
   }
   
   hr {
@@ -480,4 +482,294 @@ input[type="radio"].check::before {
   .check:checked {
     animation: none;
   }
+}
+
+.profile-user-id-box {
+  background: var(--secondary-green, #f0f7f4);
+  border: var(--border-light);
+  border-radius: var(--border-radius-lg, 12px);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+
+.profile-user-id-box p {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.profile-user-id-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.profile-user-id-code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  word-break: break-all;
+  flex: 1 1 200px;
+}
+
+.profile-readonly-banner {
+  background: #fff8e6;
+  border: 1px solid #e6d4a8;
+  border-radius: var(--border-radius-lg, 12px);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.profile-fieldset-reset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+/* ── Profile: less wall-of-text — intro + collapsible blocks ── */
+.profile-page-lede--short {
+  margin-bottom: 0.75rem;
+  max-width: 36rem;
+}
+
+.profile-intro-details {
+  margin: 0 0 1rem;
+  padding: 0;
+  border: var(--border-light);
+  border-radius: var(--border-radius);
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.profile-intro-details__summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--primary-green-dark);
+}
+
+.profile-intro-details__summary::-webkit-details-marker {
+  display: none;
+}
+
+.profile-intro-details__body {
+  padding: 0 1rem 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.profile-intro-details__body p {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* Major sections (body / food / health) */
+.profileFold {
+  margin-bottom: 1rem;
+  border: var(--border-light);
+  border-radius: var(--border-radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.profileFold__summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 1rem 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 1rem;
+  color: var(--text-main);
+  transition: background 0.15s ease;
+}
+
+.profileFold__summary::-webkit-details-marker {
+  display: none;
+}
+
+.profileFold__summary::after {
+  content: "";
+  flex-shrink: 0;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.profileFold[open] > .profileFold__summary::after {
+  transform: rotate(-135deg);
+  margin-top: 0.25rem;
+}
+
+.profileFold__summary:hover {
+  background: var(--secondary-green);
+}
+
+.profileFold__summary:focus-visible {
+  outline: 3px solid var(--primary-green);
+  outline-offset: -2px;
+}
+
+.profileFold__summaryText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  min-width: 0;
+  text-align: left;
+}
+
+.profileFold__title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+}
+
+.profileFold__subtitle {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.profileFold__body {
+  padding: 0 1.15rem 1.15rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.profileFold__body.profileMetricsSection,
+.profileFold__body.profileFoodSection,
+.profileFold__body.profileHealthBudgetSection {
+  padding-top: 0.75rem;
+}
+
+.profile-section-hint--compact {
+  margin-bottom: 0.75rem;
+  font-size: var(--font-size-sm);
+}
+
+.profileSubTitle--spaced {
+  margin-top: 1.25rem;
+}
+
+.profile-mini-details {
+  margin: 0 0 0.75rem;
+  border-radius: var(--border-radius-sm);
+}
+
+.profile-mini-details__summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--primary-green-dark);
+  padding: 0.35rem 0;
+}
+
+.profile-mini-details__summary::-webkit-details-marker {
+  display: none;
+}
+
+.profile-mini-details__text {
+  margin: 0.35rem 0 0;
+  padding-left: 0.65rem;
+  border-left: 3px solid var(--secondary-green);
+}
+
+.profileEnergyFootnoteWrap {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profileFold__summary::after {
+    transition: none;
+  }
+}
+
+/* ── “How it works” modal (profile) ── */
+.formTitleHeaderRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.formTitleHeaderRow .formTitle {
+  margin-bottom: 0;
+  flex: 1 1 auto;
+  min-width: min(100%, 10rem);
+}
+
+.profile-how-it-works-btn {
+  flex-shrink: 0;
+}
+
+.profile-help-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+.profile-help-modal.modal.show {
+  z-index: 1055;
+  pointer-events: none;
+}
+
+.profile-help-modal .modal-dialog {
+  pointer-events: auto;
+}
+
+.profile-help-dialog {
+  max-width: min(560px, calc(100vw - 2rem));
+}
+
+.profile-help-body {
+  font-size: var(--font-size-base, 1rem);
+  line-height: 1.55;
+  color: var(--text-main);
+}
+
+.profile-help-section {
+  margin-bottom: 1.25rem;
+}
+
+.profile-help-section:last-child {
+  margin-bottom: 0;
+}
+
+.profile-help-heading {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--text-main);
+}
+
+.profile-help-muted {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+.profile-help-body p {
+  margin: 0 0 0.65rem;
+}
+
+.profile-help-body p:last-child {
+  margin-bottom: 0;
 }

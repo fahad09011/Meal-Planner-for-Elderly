@@ -133,9 +133,10 @@
 }
 
 .loginHeroTitle {
+  font-family: var(--font-display);
   margin: 0 0 1rem;
   font-size: clamp(1.65rem, 4vw, 2.05rem);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.15;
   letter-spacing: -0.03em;
 }
@@ -497,6 +498,73 @@
 .loginFooterDot {
   color: #c5ccc8;
   user-select: none;
+}
+
+.loginRoleFieldset {
+  border: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  min-width: 0;
+}
+
+.loginRoleLegend {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2a332e;
+  padding: 0;
+  margin-bottom: 0.25rem;
+}
+
+.loginRoleLegendHint {
+  margin-top: 0;
+  margin-bottom: 0.65rem;
+}
+
+.loginRoleList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.loginRoleCard {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8e4;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.loginRoleCard:has(input:checked) {
+  border-color: var(--login-green);
+  background: #f4faf6;
+}
+
+.loginRoleCard input {
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.loginRoleCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.loginRoleCardTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2a332e;
+}
+
+.loginRoleCardHint {
+  font-size: 0.8rem;
+  color: #6b756f;
+  line-height: 1.35;
 }
 
 @media (max-width: 768px) {
