@@ -86,3 +86,16 @@ export function getMaxCaloriesPerMeal(profile) {
   if (limits.length === 0) return null;
   return Math.min(...limits);
 }
+
+/**
+ * Lower bound per recipe (per serving), paired with {@link getMaxCaloriesPerMeal}.
+ * Uses ~45% of the effective per-meal max so results sit in a plausible band (not only "under X kcal").
+ * Returns null when there is no max or the range would be degenerate.
+ */
+export function getMinCaloriesPerMeal(profile) {
+  const maxCalories = getMaxCaloriesPerMeal(profile);
+  if (maxCalories == null || maxCalories < 2) return null;
+  const raw = Math.max(1, Math.round(maxCalories * 0.45));
+  const min = Math.min(raw, maxCalories - 1);
+  return min >= 1 && min < maxCalories ? min : null;
+}

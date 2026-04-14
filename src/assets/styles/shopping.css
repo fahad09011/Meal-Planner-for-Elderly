@@ -40,17 +40,46 @@
   line-height: 1.5;
 }
 
-/* Info box */
-.shopping-info-box,
+/* Sidebar cards */
 .shopping-filters,
 .shopping-progress,
-.shopping-tips,
 .shopping-aisle-filter {
   background: var(--white);
   border: var(--border-light);
   border-radius: var(--border-radius);
   padding: 1rem 1.125rem;
   box-shadow: var(--shadow-sm);
+}
+
+.shopping-info-box {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffffff 0%, #f9fcf9 100%);
+  border: 1px solid rgba(95, 130, 111, 0.14);
+  border-radius: var(--border-radius);
+  padding: 1.2rem 1.2rem 1.1rem;
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.shopping-info-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-green) 0%,
+    var(--primary-green-hover) 50%,
+    rgba(232, 242, 236, 0.95) 100%
+  );
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.shopping-info-box .shopping-panel__title {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
 /* Filter by aisle — below "Your list" */
@@ -270,11 +299,33 @@
   min-width: min(100%, 220px);
 }
 
+.shopping-content-header__titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.65rem 1rem;
+}
+
+.shopping-content-header__titleRow .shopping-content-header__title {
+  flex: 1 1 auto;
+  min-width: min(100%, 12rem);
+}
+
+.shopping-how-it-works-btn {
+  flex-shrink: 0;
+  min-height: 48px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .shopping-content-header__title {
+  font-family: var(--font-display);
   margin: 0;
   font-size: clamp(1.35rem, 2.5vw, 1.6rem);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-main);
+  letter-spacing: -0.02em;
 }
 
 .shopping-content-header__lede {
@@ -283,6 +334,31 @@
   line-height: 1.5;
   color: var(--text-muted);
   max-width: 36rem;
+}
+
+.shopping-content-header__end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.shopping-barcode-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.5rem 1rem;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.shopping-barcode-btn__icon {
+  flex-shrink: 0;
+  font-size: 1.35rem;
 }
 
 .shopping-content-header__meta {
@@ -533,23 +609,6 @@
   color: var(--text-muted);
 }
 
-/* Tips */
-.shopping-tips__list {
-  margin: 0;
-  padding-left: 1.25rem;
-  font-size: var(--font-size-base);
-  line-height: 1.55;
-  color: var(--text-main);
-}
-
-.shopping-tips__list li {
-  margin-bottom: 0.6rem;
-}
-
-.shopping-tips__list li:last-child {
-  margin-bottom: 0;
-}
-
 /* Loading */
 .shopping-loading.loading-container {
   min-height: 50vh;
@@ -623,6 +682,16 @@
     align-items: flex-start;
   }
 
+  .shopping-content-header__end {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .shopping-barcode-btn {
+    flex: 1;
+    min-width: min(100%, 200px);
+  }
+
   .shopping-item {
     flex-wrap: wrap;
   }
@@ -632,4 +701,68 @@
     text-align: left;
     padding-left: calc(48px + 0.75rem);
   }
+}
+
+/* ── “How it works” modal (shopping) ── */
+.shopping-help-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+.shopping-help-modal.modal.show {
+  z-index: 1055;
+  pointer-events: none;
+}
+
+.shopping-help-modal .modal-dialog {
+  pointer-events: auto;
+}
+
+.shopping-help-dialog {
+  max-width: min(560px, calc(100vw - 2rem));
+}
+
+.shopping-help-body {
+  font-size: var(--font-size-base, 1rem);
+  line-height: 1.55;
+  color: var(--text-main);
+}
+
+.shopping-help-section {
+  margin-bottom: 1.25rem;
+}
+
+.shopping-help-section:last-child {
+  margin-bottom: 0;
+}
+
+.shopping-help-heading {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--text-main);
+}
+
+.shopping-help-body p {
+  margin: 0 0 0.65rem;
+}
+
+.shopping-help-body p:last-child {
+  margin-bottom: 0;
+}
+
+.shopping-help-tips-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.55;
+}
+
+.shopping-help-tips-list li {
+  margin-bottom: 0.5rem;
+}
+
+.shopping-help-tips-list li:last-child {
+  margin-bottom: 0;
 }

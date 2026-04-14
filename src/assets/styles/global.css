@@ -1,92 +1,97 @@
-*, *::before, *::after {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-  }
-  
-  :root {
-    /* colours */
-    --primary-green:        #678B7A;
-    --primary-green-dark:   #4a6e5f;
-    --primary-green-hover:  #5a7d68;
-    --secondary-green:      #E3F2EC;
-    --main-bg:              #FAF7F7;
-    --secondary-bg:         #f0eeef;
-    --white:                #ffffff;
-    --light-bg:             #f0efeb;
-    /* Full-page shell — used on html so all routes share the same backdrop */
-    --app-shell-gradient: linear-gradient(
-      165deg,
-      var(--secondary-green) 0%,
-      var(--main-bg) 42%,
-      var(--light-bg) 100%
-    );
-    --text-main:            #2E2333;
-    --text-muted:           #6c757d;
-    --warning-color:        #C7410C;
-  
-    /* borders */
-    --border-light:         1px solid rgba(169, 161, 161, 0.35);
-    --border-radius:        13px;
-    --border-radius-sm:     8px;
-    --border-radius-lg:     20px;
-  
-    /* spacing */
-    --container-padding:    5px;
-    --gap:                  10px;
-    --gap-sm:               5px;
-  
-    /* typography */
-    --font-size-base:       1.125rem;
-    --font-size-sm:         0.9rem;
-    --font-size-lg:         1.25rem;
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 
-      /* existing variables stay as they are, add these */
-  --shadow-sm:   0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-md:   0 6px 16px rgba(0, 0, 0, 0.12);
-  --shadow-btn:  0 2px 6px rgba(103, 139, 122, 0.3);
+:root {
+  --navbar-height: 68px;
 
-  /* AI banner accent */
-  --ai-bg:       #3d4f8a;
-  --ai-light:    #eef0f8;
+  /* Brand — sage / warm neutrals */
+  --primary-green: #5f826f;
+  --primary-green-dark: #4a6b5c;
+  --primary-green-hover: #6d9484;
+  --secondary-green: #e8f2ec;
+  --main-bg: #faf8f6;
+  --secondary-bg: #f0ebe8;
+  --white: #ffffff;
+  --light-bg: #f4f1ed;
 
-  /* typography */
-  --font-size-xs:   0.75rem;
-  --font-size-sm:   0.875rem;
+  --text-main: #2a2428;
+  --text-muted: #6b6568;
+  --warning-color: #c45c1a;
+
+  --app-shell-gradient: linear-gradient(
+    165deg,
+    #dceee4 0%,
+    var(--main-bg) 38%,
+    #f5f0ea 100%
+  );
+
+  --border-light: 1px solid rgba(90, 82, 88, 0.12);
+  --border-radius: 14px;
+  --border-radius-sm: 8px;
+  --border-radius-lg: 22px;
+
+  --container-padding: 8px;
+  --gap: 12px;
+  --gap-sm: 6px;
+
+  --shadow-sm: 0 2px 10px rgba(42, 36, 40, 0.06);
+  --shadow-md: 0 8px 28px rgba(42, 36, 40, 0.1);
+  --shadow-lg: 0 16px 48px rgba(42, 36, 40, 0.12);
+  --shadow-btn: 0 3px 12px rgba(95, 130, 111, 0.28);
+
+  --ai-bg: #3a4d7a;
+  --ai-light: #eef1f9;
+
+  --font-sans: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
-  --font-size-lg:   1.125rem;
-  --font-size-xl:   1.25rem;  /* existing variables stay as they are, add these */
-  --shadow-sm:   0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-md:   0 6px 16px rgba(0, 0, 0, 0.12);
-  --shadow-btn:  0 2px 6px rgba(103, 139, 122, 0.3);
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.35rem;
+  --font-size-2xl: clamp(1.5rem, 3vw, 2rem);
+}
 
-  /* AI banner accent */
-  --ai-bg:       #3d4f8a;
-  --ai-light:    #eef0f8;
+html {
+  min-height: 100%;
+  background-color: var(--main-bg);
+  background-image: var(--app-shell-gradient);
+  background-attachment: fixed;
+}
 
-  /* typography */
-  --font-size-xs:   0.75rem;
-  --font-size-sm:   0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg:   1.125rem;
-  --font-size-xl:   1.25rem;
-  }
-  
-  html {
-    min-height: 100%;
-    background-color: var(--main-bg);
-    background-image: var(--app-shell-gradient);
-  }
+body {
+  min-height: 100%;
+  font-family: var(--font-sans);
+  background: transparent;
+  color: var(--text-main);
+  font-size: var(--font-size-base);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
 
-  body {
-    min-height: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: transparent;
-    color: var(--text-main);
-    font-size: var(--font-size-base);
-  }
+#root {
+  min-height: 100%;
+  background: transparent;
+}
 
-  #root {
-    min-height: 100%;
-    background: transparent;
-  }
+::selection {
+  background: var(--secondary-green);
+  color: var(--text-main);
+}
+
+/* Shared heading style — use with class or pages can set locally */
+.app-heading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--text-main);
+}

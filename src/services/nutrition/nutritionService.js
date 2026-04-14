@@ -1,7 +1,7 @@
 import healthConditionRules from "./healthConditionRules";
 
 import { dietCompatibilityMap } from "./dietMap";
-import { getMaxCaloriesPerMeal } from "../../utils/bmr";
+import { getMaxCaloriesPerMeal, getMinCaloriesPerMeal } from "../../utils/bmr";
 const filterByDietary = (meal, profile) => {
   
   if (!profile.dietary || profile.dietary.length === 0) {
@@ -89,10 +89,13 @@ const filterByBudget = (meal, profile) => {
 
 const mealFitsCalorieLimit = (meal, profile) => {
   const maxCalories = getMaxCaloriesPerMeal(profile);
+  const minCalories = getMinCaloriesPerMeal(profile);
   if (maxCalories == null) return true;
   const mealCalories = meal.nutrition?.calories;
-  if (!Number.isFinite(mealCalories) || mealCalories === 0) return true;
-  return mealCalories <= maxCalories;
+  if (!Number.isFinite(mealCalories) || mealCalories <= 0) return false;
+  if (mealCalories > maxCalories) return false;
+  if (minCalories != null && mealCalories < minCalories) return false;
+  return true;
 };
 
 // meal type dinner , lunch , dinner count consts section ====================

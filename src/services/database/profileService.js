@@ -1,6 +1,7 @@
 import { supabase } from "./supabaseClient";
+import { normalizeAppRole } from "../../constants/appRoles";
 
-/** Maps to `profiles`: age, weight, height, gender, activity_level (Supabase column names). */
+/** Maps to `profiles`: age, weight, height, gender, activity_level, app_role (Supabase column names). */
 
 function toNumOrNull(value) {
   if (value === "" || value == null) return null;
@@ -22,6 +23,24 @@ export const getProfile = async (userId) => {
   return { success: true, data: data ?? null };
 };
 
+/** Lightweight read for navbar / gating (own user only in practice). */
+export const getAppRoleForUser = async (userId) => {
+  if (!userId) {
+    return { success: false, error: new Error("User id required"), data: null };
+  }
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("app_role")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error) {
+    console.error("getAppRoleForUser:", error);
+    return { success: false, error, data: null };
+  }
+  return { success: true, data: data?.app_role ?? null };
+};
+
 export const createProfile = async (userId, profileData) => {
   const dbPayload = {
     user_id: userId,
@@ -34,6 +53,7 @@ export const createProfile = async (userId, profileData) => {
     allergies: profileData.allergies,
     health_conditions: profileData.healthConditions,
     budget: profileData.budget,
+    app_role: normalizeAppRole(profileData.appRole),
   };
 
   const { data, error } = await supabase
@@ -62,6 +82,7 @@ export const updateProfile = async (userId , profileData)=>{
         allergies: profileData.allergies,
         health_conditions: profileData.healthConditions,
         budget: profileData.budget,
+        app_role: normalizeAppRole(profileData.appRole),
       };
       const {data , error} = await supabase.from("profiles")
       .update(dbPayload)

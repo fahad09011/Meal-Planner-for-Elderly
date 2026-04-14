@@ -18,10 +18,13 @@
 }
 
 .view-plan-title {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.8vw, 1.75rem);
+  font-weight: 600;
   color: var(--text-main);
   margin: 0 0 4px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .view-plan-date {
@@ -475,9 +478,12 @@
 }
 
 .view-plan-title--page {
+  font-family: var(--font-display);
   font-size: clamp(1.45rem, 3vw, 1.85rem);
+  font-weight: 600;
   margin: 0 0 0.5rem;
   line-height: 1.2;
+  letter-spacing: -0.03em;
 }
 
 .view-plan-lede {

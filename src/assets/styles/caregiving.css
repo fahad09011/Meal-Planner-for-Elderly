@@ -1,0 +1,106 @@
+.caregiving-page .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.caregiving-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 2rem;
+}
+
+.caregiving-page h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.5vw, 1.6rem);
+  font-weight: 600;
+  color: var(--text-main, #1a1a1a);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.caregiving-lede {
+  color: var(--text-muted, #555);
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.caregiving-card {
+  background: var(--white, #fff);
+  border: var(--border-light, 1px solid #e5e5e5);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1.25rem;
+}
+
+.caregiving-card h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.caregiving-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.caregiving-input {
+  flex: 1 1 220px;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.caregiving-hint {
+  font-size: 0.9rem;
+  color: var(--text-muted, #555);
+  margin-top: 0.5rem;
+}
+
+.caregiving-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.caregiving-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.caregiving-list li:last-child {
+  border-bottom: none;
+}
+
+.caregiving-id {
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  word-break: break-all;
+}
+
+.caregiving-error {
+  color: #b00020;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.caregiving-success {
+  color: var(--primary-green, #2d6a4f);
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}

@@ -1,6 +1,10 @@
 import { describe, it, expect } from "vitest";
-import buildMealQueryParams from "./buildMealQueryParams";
-import { getRestingAndDailyCaloriesFromProfile, getMaxCaloriesPerMeal } from "../../utils/bmr";
+import buildMealQueryParams, { getRecipeSearchCacheKey } from "./buildMealQueryParams";
+import {
+  getRestingAndDailyCaloriesFromProfile,
+  getMaxCaloriesPerMeal,
+  getMinCaloriesPerMeal,
+} from "../../utils/bmr";
 
 const emptyProfile = { dietary: [], allergies: [], healthConditions: [], budget: "" };
 
@@ -24,6 +28,7 @@ describe("Layer 1: buildMealQueryParams", () => {
       expect(params.maxCarbs).toBeUndefined();
       expect(params.maxSodium).toBeUndefined();
       expect(params.maxCalories).toBeUndefined();
+      expect(params.minCalories).toBeUndefined();
     });
   });
 
@@ -135,6 +140,10 @@ describe("Layer 1: buildMealQueryParams", () => {
         healthConditions: ["weightManagement"],
       });
       expect(params.maxCalories).toBe(550);
+      expect(params.minCalories).toBe(getMinCaloriesPerMeal({
+        ...emptyProfile,
+        healthConditions: ["weightManagement"],
+      }));
     });
 
     it("sets maxCalories from TDEE ÷ 3 when body metrics are complete", () => {
@@ -150,6 +159,7 @@ describe("Layer 1: buildMealQueryParams", () => {
       const expected = getMaxCaloriesPerMeal(profile);
       expect(expected).not.toBeNull();
       expect(params.maxCalories).toBe(expected);
+      expect(params.minCalories).toBe(getMinCaloriesPerMeal(profile));
     });
 
     it("uses stricter of TDEE per-meal and weight-management cap", () => {
@@ -165,6 +175,22 @@ describe("Layer 1: buildMealQueryParams", () => {
       const params = buildMealQueryParams(profile);
       const { dailyCalories } = getRestingAndDailyCaloriesFromProfile(profile);
       expect(params.maxCalories).toBe(Math.min(Math.round(dailyCalories / 3), 550));
+      expect(params.minCalories).toBe(getMinCaloriesPerMeal(profile));
+    });
+  });
+
+  describe("getRecipeSearchCacheKey", () => {
+    it("changes when activeDataUserId changes for same profile", () => {
+      const profile = { ...emptyProfile, dietary: ["vegetarian"] };
+      const a = getRecipeSearchCacheKey("user-a", profile);
+      const b = getRecipeSearchCacheKey("user-b", profile);
+      expect(a).not.toBe(b);
+    });
+
+    it("changes when profile fields that affect params change", () => {
+      const k1 = getRecipeSearchCacheKey("u1", { ...emptyProfile, dietary: ["vegetarian"] });
+      const k2 = getRecipeSearchCacheKey("u1", { ...emptyProfile, dietary: ["vegan"] });
+      expect(k1).not.toBe(k2);
     });
   });
 });

@@ -1,6 +1,6 @@
 import healthConditionRules from "../nutrition/healthConditionRules";
 import { dietRequestMap } from "../nutrition/dietMap";
-import { getMaxCaloriesPerMeal } from "../../utils/bmr";
+import { getMaxCaloriesPerMeal, getMinCaloriesPerMeal } from "../../utils/bmr";
 
 const intoleranceMap={
     dairy: "dairy",
@@ -65,12 +65,24 @@ function buildMealQueryParams(profileData) {
     }
 
     const maxCaloriesPerMeal = getMaxCaloriesPerMeal(profileData);
+    const minCaloriesPerMeal = getMinCaloriesPerMeal(profileData);
     if (maxCaloriesPerMeal != null) {
         params.maxCalories = maxCaloriesPerMeal;
+    }
+    if (minCaloriesPerMeal != null) {
+        params.minCalories = minCaloriesPerMeal;
     }
 
     return params;
   }
 
-  
+/**
+ * Stable string for caching Spoonacular `complexSearch` results: same key ⇒ same query params.
+ * Includes `activeDataUserId` so caregiver switches / different clients never reuse another user’s cache.
+ */
+export function getRecipeSearchCacheKey(activeDataUserId, profileData) {
+  const params = buildMealQueryParams(profileData);
+  return JSON.stringify({ userId: activeDataUserId ?? null, params });
+}
+
   export default buildMealQueryParams;
