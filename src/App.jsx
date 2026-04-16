@@ -11,7 +11,7 @@ import ViewPlan from './pages/ViewPlan';
 import LoginForm from './pages/LoginForm';
 import Caregiving from './pages/Caregiving';
 import MealDetails from './pages/MealDetails';
-import { AppProvider } from './context/AppContext';
+import { AppProvider } from './hooks/AppContext';
 // import TestMealPlanSave from './dev/TestMealPlanSave';
 // import TestAuth from './dev/TestAauth';
 

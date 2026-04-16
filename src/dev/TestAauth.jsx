@@ -5,7 +5,7 @@ import { saveMealPlan, getMealPlanByWeek } from "../services/database/mealPlanSe
 import { setMealCompletion, getMealCompletions } from "../services/database/mealCompletionService";
 import { createOrGetShoppingList, replaceShoppingListItems, getShoppingListItems, updateShoppingListItemChecked } from "../services/database/shoppingListService";
 import { buildShoppingItemsFromWeeklyPlan } from "../utils/buildShoppingItemsFromWeeklyPlan";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../hooks/AppContext";
 
 function TestAuth() {
   const { user, authLoading, isAuthenticated, signOut, signIn } = useAuth();

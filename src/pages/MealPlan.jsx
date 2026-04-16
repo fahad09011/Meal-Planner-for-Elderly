@@ -9,7 +9,7 @@ import "../assets/styles/button.css";
 import Button from "../components/common/Button";
 import MealList from "../components/meals/MealList";
 import AutoGenerateBanner from "../components/meals/AutoGenerateBanner";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../hooks/AppContext";
 import { useAuth } from "../context/AuthContext";
 
 function MealPlan() {

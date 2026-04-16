@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import "../../assets/styles/profile.css";
 import Button from "../common/Button";
 import ProfileHowItWorksModal from "./ProfileHowItWorksModal";
-import { AppContext } from "../../context/AppContext";
+import { AppContext } from "../../hooks/AppContext";
 import { useAuth } from "../../context/AuthContext";
 import { ACTIVITY_LEVEL_OPTIONS } from "../../constants/activityLevels";
 import { getRestingAndDailyCaloriesFromProfile } from "../../utils/bmr";

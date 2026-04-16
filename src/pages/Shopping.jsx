@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { BiBarcode } from "react-icons/bi";
 
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../hooks/AppContext";
 import { useAuth } from "../context/AuthContext";
 import {
   getShoppingListItems,

@@ -13,7 +13,7 @@ import {
 } from "../services/database/caregiverService";
 import { saveMealPlan, getMealPlanByWeek } from "../services/database/mealPlanService";
 import { deleteMealCompletionsForMealPlan } from "../services/database/mealCompletionService";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { getWeekStartDate } from "../utils/helpers";
 
 export const AppContext = createContext();

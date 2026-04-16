@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../hooks/AppContext";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import useMealTracking from "../hooks/useMealTracking";
