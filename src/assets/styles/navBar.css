@@ -13,11 +13,11 @@
   flex-shrink: 0;
 }
 
-.navbar {
+.app-navbar.navbar {
   position: sticky;
   top: 0;
   z-index: 1030;
-  min-height: var(--navbar-height, 68px);
+  min-height: var(--navbar-height, 128px);
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(14px) saturate(1.2);
   -webkit-backdrop-filter: blur(14px) saturate(1.2);
@@ -25,12 +25,73 @@
   box-shadow: 0 4px 24px rgba(42, 36, 40, 0.06);
   padding: 0 18px !important;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
 }
 
-.navbar .navbar-collapse.show {
+.app-navbar__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+  padding-bottom: 10px;
+}
+
+.app-navbar__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  width: 100%;
+}
+
+.app-navbar__top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 0 0 auto;
+  margin-left: auto;
+  justify-content: flex-end;
+  max-width: 100%;
+}
+
+.app-navbar__nav {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px 6px;
+  width: 100%;
+  margin: 0;
+  padding: 4px 0 0;
+  list-style: none;
+}
+
+.app-navbar__nav .nav-item {
+  margin: 0;
+}
+
+.app-navbar__links {
+  width: 100%;
+  display: none;
+}
+
+.app-navbar__links--open {
+  display: block;
   animation: navbar-collapse-in 0.22s ease-out;
+}
+
+@media (min-width: 992px) {
+  .app-navbar__links {
+    display: block;
+  }
+
+  .app-navbar__links--open {
+    animation: none;
+  }
 }
 
 @keyframes navbar-collapse-in {
@@ -45,14 +106,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .navbar .navbar-collapse.show {
+  .app-navbar__links--open {
     animation: none;
   }
 }
 
 @media (max-width: 991.98px) {
-  .navbar .navbar-collapse {
-    flex-basis: 100%;
+  .app-navbar__links--open {
     background: rgba(255, 255, 255, 0.98);
     border-top: 1px solid rgba(95, 130, 111, 0.1);
     padding: 12px 0 16px;
@@ -60,19 +120,14 @@
     border-radius: 0 0 var(--border-radius) var(--border-radius);
     box-shadow: 0 12px 32px rgba(42, 36, 40, 0.08);
   }
-
-  .navbar .navbar-collapse .infoContainer {
-    margin-top: 4px;
-    width: 100%;
-  }
 }
 
-.navbar .container-fluid {
+.app-navbar .container-fluid {
   max-width: 1320px;
   margin: 0 auto;
 }
 
-.navbar .navbar-brand {
+.app-navbar .navbar-brand {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -83,11 +138,11 @@
   color: var(--primary-green-dark);
 }
 
-.navbar .navbar-brand:hover {
+.app-navbar .navbar-brand:hover {
   color: var(--primary-green);
 }
 
-.navbar .nav-link {
+.app-navbar .nav-link {
   font-size: var(--font-size-base);
   font-weight: 500;
   color: var(--text-main);
@@ -101,17 +156,17 @@
     color 0.18s ease;
 }
 
-.navbar .nav-link:focus-visible {
+.app-navbar .nav-link:focus-visible {
   outline: 3px solid var(--primary-green);
   outline-offset: 2px;
 }
 
-.navbar .nav-link:hover {
+.app-navbar .nav-link:hover {
   background: var(--secondary-green);
   color: var(--primary-green-dark);
 }
 
-.navbar .nav-link.active {
+.app-navbar .nav-link.active {
   color: var(--primary-green-dark);
   font-weight: 600;
   background: linear-gradient(
@@ -136,12 +191,6 @@
   border: 1px solid rgba(95, 130, 111, 0.18);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.85);
-}
-
-@media (min-width: 992px) {
-  .infoContainer {
-    margin-left: auto;
-  }
 }
 
 .navbar-care-wrap {
@@ -218,7 +267,7 @@
   align-items: center;
   gap: 0.6rem;
   min-width: 0;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
 }
 
 @media (min-width: 992px) {
@@ -259,6 +308,18 @@
     transform 0.12s ease;
 }
 
+a.navSignOut.navSignOut--link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--white);
+}
+
+a.navSignOut.navSignOut--link:hover {
+  color: var(--white);
+}
+
 .navSignOut:focus-visible {
   outline: 2px solid var(--white);
   outline-offset: 2px;
@@ -282,13 +343,19 @@
   }
 }
 
-.navbar-toggler {
+.app-navbar .navbar-toggler {
   border: 1px solid rgba(95, 130, 111, 0.2);
   border-radius: var(--border-radius-sm);
   padding: 0.45rem 0.6rem;
   box-shadow: 0 1px 4px rgba(42, 36, 40, 0.06);
 }
 
-.navbar-toggler:focus {
+.app-navbar .navbar-toggler:focus {
   box-shadow: 0 0 0 3px rgba(95, 130, 111, 0.25);
+}
+
+@media (min-width: 992px) {
+  .app-navbar__nav {
+    justify-content: center;
+  }
 }

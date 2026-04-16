@@ -13,15 +13,16 @@ function MealList({ meals, mealsCount, selectMeal, weeklyPlan, selectedDay, dayS
   );
 
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 599px)");
-    const handler = (e) => setIsMobile(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
+    const narrowScreenQuery = window.matchMedia("(max-width: 599px)");
+    const onViewportChange = (event) => setIsMobile(event.matches);
+    narrowScreenQuery.addEventListener("change", onViewportChange);
+    return () =>
+      narrowScreenQuery.removeEventListener("change", onViewportChange);
   }, []);
 
-  const grouped = CATEGORIES.reduce((acc, { key }) => {
-    acc[key] = meals.filter((m) => m.mealType === key);
-    return acc;
+  const mealsByMealType = CATEGORIES.reduce((accumulator, { key }) => {
+    accumulator[key] = meals.filter((meal) => meal.mealType === key);
+    return accumulator;
   }, {});
 
   return (
@@ -31,8 +32,8 @@ function MealList({ meals, mealsCount, selectMeal, weeklyPlan, selectedDay, dayS
           key={key}
           categoryKey={key}
           label={label}
-          categoryMeals={grouped[key]}
-          count={mealsCount?.[key] ?? grouped[key].length}
+          categoryMeals={mealsByMealType[key]}
+          count={mealsCount?.[key] ?? mealsByMealType[key].length}
           isMobile={isMobile}
           isSelected={daySelection?.[selectedDay]?.[key] != null}
           selectMeal={selectMeal}

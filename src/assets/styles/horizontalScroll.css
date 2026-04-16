@@ -1,4 +1,4 @@
-/* src/assets/styles/horizontalScroll.css */
+
 
 .meal-hscroll {
     display: flex;
@@ -12,7 +12,7 @@
     padding-right: max(16px, env(safe-area-inset-right));
     margin: 0 -16px;
   
-    /* hide scrollbar — dots handle the position cue */
+    
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
@@ -54,7 +54,7 @@
     transform: scale(1.4);
   }
   
-  /* Arrow buttons */
+  
   .scroll-arrow {
     position: absolute;
     top: 50%;
@@ -82,7 +82,7 @@
   .scroll-arrow--left  { left: 4px; }
   .scroll-arrow--right { right: 4px; }
   
-  /* Kill all mobile scroll styles on desktop */
+  
   @media (min-width: 600px) {
     .meal-hscroll,
     .meal-hscroll__dots,

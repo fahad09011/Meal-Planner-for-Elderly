@@ -1,4 +1,4 @@
-/** Stored in `profiles.app_role` and mirrored in auth `user_metadata.app_role` at signup. */
+
 export const APP_ROLES = {
   elderly: "elderly",
   caregiver: "caregiver",

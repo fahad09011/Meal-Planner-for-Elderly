@@ -34,7 +34,7 @@ function MealPlan() {
   const { authLoading, user } = useAuth();
   const mealsFetchReady = !authLoading && profileHydrated;
 
-  const [selectedDay, SetselectedDay] = useState("Monday");
+  const [selectedDay, setSelectedDay] = useState("Monday");
   const [generationMode, setGenerationMode] = useState("manual");
 
   const {
@@ -54,7 +54,7 @@ function MealPlan() {
     mealPlanDraft,
     setMealPlanDraft,
     selectedDay,
-    setSelectedDay: SetselectedDay,
+    setSelectedDay,
     profileData,
     mealsFetchReady,
     saveCurrentMealPlan,
@@ -75,7 +75,7 @@ function MealPlan() {
     const generatedPlan = generateAutoWeeklyPlan(filteredMeals);
     setMealPlanDraft(generatedPlan);
     setGenerationMode("auto");
-    SetselectedDay("Monday");
+    setSelectedDay("Monday");
   }
 
   function handleManualSaveDayPlan() {
@@ -89,8 +89,8 @@ function MealPlan() {
 
   const progress = Math.round((completedDay / 7) * 100);
 
-  function handleSelectedDayOnclick(day) {
-    SetselectedDay(day);
+  function handleDayTabClick(day) {
+    setSelectedDay(day);
   }
 
   return (
@@ -127,7 +127,7 @@ function MealPlan() {
                       className={`view-plan-day-tab ${
                         selectedDay === day ? "view-plan-day-tab--active" : ""
                       }`}
-                      onClick={() => handleSelectedDayOnclick(day)}
+                      onClick={() => handleDayTabClick(day)}
                     >
                       <span className="view-plan-day-tab-name">{day.slice(0, 3)}</span>
                       <div className="view-plan-day-tab-dots">

@@ -1,8 +1,6 @@
 import { supabase } from "./supabaseClient";
 import { normalizeAppRole } from "../../constants/appRoles";
 
-/** Maps to `profiles`: age, weight, height, gender, activity_level, app_role (Supabase column names). */
-
 function toNumOrNull(value) {
   if (value === "" || value == null) return null;
   const num = Number(value);
@@ -23,7 +21,6 @@ export const getProfile = async (userId) => {
   return { success: true, data: data ?? null };
 };
 
-/** Lightweight read for navbar / gating (own user only in practice). */
 export const getAppRoleForUser = async (userId) => {
   if (!userId) {
     return { success: false, error: new Error("User id required"), data: null };
@@ -69,31 +66,31 @@ export const createProfile = async (userId, profileData) => {
   return { success: true, data };
 };
 
+export const updateProfile = async (userId, profileData) => {
+  const dbPayload = {
+    user_id: userId,
+    age: toNumOrNull(profileData.age),
+    weight: toNumOrNull(profileData.weightKg),
+    height: toNumOrNull(profileData.heightCm),
+    gender: profileData.gender || null,
+    activity_level: profileData.activityLevel || null,
+    dietary: profileData.dietary,
+    allergies: profileData.allergies,
+    health_conditions: profileData.healthConditions,
+    budget: profileData.budget,
+    app_role: normalizeAppRole(profileData.appRole),
+  };
 
-export const updateProfile = async (userId , profileData)=>{
-    const dbPayload = {
-        user_id: userId,
-        age: toNumOrNull(profileData.age),
-        weight: toNumOrNull(profileData.weightKg),
-        height: toNumOrNull(profileData.heightCm),
-        gender: profileData.gender || null,
-        activity_level: profileData.activityLevel || null,
-        dietary: profileData.dietary,
-        allergies: profileData.allergies,
-        health_conditions: profileData.healthConditions,
-        budget: profileData.budget,
-        app_role: normalizeAppRole(profileData.appRole),
-      };
-      const {data , error} = await supabase.from("profiles")
-      .update(dbPayload)
-      .eq("user_id", userId)
-      .select()
-      .single();
+  const { data, error } = await supabase
+    .from("profiles")
+    .update(dbPayload)
+    .eq("user_id", userId)
+    .select()
+    .single();
 
-      if(error){
-        console.error("Error updating profile in DB: ",error);
-        return{success: false, error};
-      }
-      return{success: true, data};
-
-}
+  if (error) {
+    console.error("Error updating profile in DB:", error);
+    return { success: false, error };
+  }
+  return { success: true, data };
+};

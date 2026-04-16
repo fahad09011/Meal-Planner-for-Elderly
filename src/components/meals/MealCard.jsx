@@ -17,14 +17,12 @@ function MealCard({ meals, selectMeal, daySelection }) {
   return (
     <div className="mainMealCardContainer">
 
-      {/* ── Image ── */}
       <img
         src={meals.image}
         alt={meals.title}
         className="mealImage"
       />
 
-      {/* ── Text data ── */}
       <div className="mealDataSection">
         <p className="mealName">{meals.title}</p>
         {summaryTeaser ? (
@@ -39,7 +37,6 @@ function MealCard({ meals, selectMeal, daySelection }) {
         </div>
       </div>
 
-      {/* ── Actions — pinned to bottom ── */}
       <div className="mealCardActions">
 
         <Button

@@ -7,10 +7,10 @@ function ShoppingList({ items, statusFilter, categoryFilter, onToggleChecked }) 
   if (items?.length) {
     let list = items;
     if (categoryFilter && categoryFilter !== "all") {
-      list = list.filter((i) => aisleLabel(i) === categoryFilter);
+      list = list.filter((row) => aisleLabel(row) === categoryFilter);
     }
-    if (statusFilter === "pending") list = list.filter((i) => !i.checked);
-    else if (statusFilter === "done") list = list.filter((i) => i.checked);
+    if (statusFilter === "pending") list = list.filter((row) => !row.checked);
+    else if (statusFilter === "done") list = list.filter((row) => row.checked);
     filtered = list;
   }
 

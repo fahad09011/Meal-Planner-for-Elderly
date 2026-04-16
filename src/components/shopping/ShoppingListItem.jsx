@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { normalizeUnit } from "../../utils/transformMeal";
+import { formatUnitForDisplay } from "../../utils/formatIngredientUnit";
 
 function formatQuantity(item) {
   const amount = item.amount;
-  const unit = (item.unit || "").trim();
-  if (amount == null || amount === "") return unit || "—";
-  if (!unit) return String(amount);
-  return `${amount} ${unit}`;
+  const raw = (item.unit || "").trim();
+  const normalized = raw ? normalizeUnit(raw) : "";
+  const unitShort = normalized ? formatUnitForDisplay(normalized) || normalized : raw;
+  if (amount == null || amount === "") return unitShort || "—";
+  if (!raw) return String(amount);
+  return `${amount} ${unitShort}`;
 }
 
 function ShoppingListItem({ item, onToggleChecked }) {
@@ -22,9 +26,9 @@ function ShoppingListItem({ item, onToggleChecked }) {
     }
   }
 
-  const onKeyDown = (e) => {
-    if (e.key === " " || e.key === "Enter") {
-      e.preventDefault();
+  const onKeyDown = (event) => {
+    if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
       handleToggle();
     }
   };

@@ -15,16 +15,16 @@ describe("helpers", () => {
 
     it("returns a Monday (weekStartsOn:1)", async () => {
       vi.useFakeTimers();
-      vi.setSystemTime(new Date("2026-03-18T12:00:00")); // Wednesday
+      vi.setSystemTime(new Date("2026-03-18T12:00:00")); 
       const { getWeekStartDate } = await import("./helpers");
       const result = getWeekStartDate();
-      expect(result).toBe("2026-03-16"); // Monday
+      expect(result).toBe("2026-03-16"); 
       vi.useRealTimers();
     });
 
     it("returns same day when today IS Monday", async () => {
       vi.useFakeTimers();
-      vi.setSystemTime(new Date("2026-03-16T12:00:00")); // Monday
+      vi.setSystemTime(new Date("2026-03-16T12:00:00")); 
       const { getWeekStartDate } = await import("./helpers");
       const result = getWeekStartDate();
       expect(result).toBe("2026-03-16");
@@ -33,7 +33,7 @@ describe("helpers", () => {
 
     it("returns previous Monday when today is Sunday", async () => {
       vi.useFakeTimers();
-      vi.setSystemTime(new Date("2026-03-22T12:00:00")); // Sunday
+      vi.setSystemTime(new Date("2026-03-22T12:00:00")); 
       const { getWeekStartDate } = await import("./helpers");
       const result = getWeekStartDate();
       expect(result).toBe("2026-03-16");
@@ -50,7 +50,7 @@ describe("helpers", () => {
 
     it("returns Sunday when the week is Monday–Sunday", async () => {
       vi.useFakeTimers();
-      vi.setSystemTime(new Date("2026-03-18T12:00:00")); // Wednesday
+      vi.setSystemTime(new Date("2026-03-18T12:00:00")); 
       const { getWeekStartDate, getWeekLastDate } = await import("./helpers");
       expect(getWeekStartDate()).toBe("2026-03-16");
       expect(getWeekLastDate()).toBe("2026-03-22");

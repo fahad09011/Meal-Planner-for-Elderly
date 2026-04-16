@@ -1,4 +1,4 @@
-/* ── Page wrapper ── */
+
 .mainWrapper {
   display: flex;
   flex-direction: column;
@@ -7,7 +7,7 @@
   background: transparent;
 }
 
-/* ── Header container ── */
+
 .mealPlanMainContainer {
   width: 100%;
   max-width: 1200px;
@@ -15,7 +15,7 @@
   padding: 24px 24px 0;
 }
 
-/* ── Page title ── */
+
 .mealPlanTitle {
   font-family: var(--font-display);
   font-size: clamp(1.5rem, 3vw, 1.85rem);
@@ -26,7 +26,7 @@
   line-height: 1.2;
 }
 
-/* ── Auto generate banner ── */
+
 .auto-generate-banner {
   background: var(--ai-bg);
   border-radius: 16px;
@@ -119,7 +119,7 @@
   cursor: not-allowed;
 }
 
-/* ── Day selector ── */
+
 .daySelectSection {
   display: flex;
   justify-content: space-between;
@@ -132,7 +132,7 @@
   margin-bottom: 16px;
 }
 
-/* Sticky only on meal plan page; list must live inside same parent (mealPlanMainContainer) */
+
 .meal-plan-page .daySelectSection {
   position: sticky;
   top: 0;
@@ -141,7 +141,7 @@
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
-/* Reuse View plan day tabs inside meal plan bar (single outer card, no double border) */
+
 .daySelectSection-tabsWrap {
   flex: 1;
   min-width: 0;
@@ -174,7 +174,7 @@
   padding: 0;
 }
 
-/* ── Progress bar ── */
+
 .progressBarSection {
   padding: 12px 0;
   width: 55%;
@@ -186,7 +186,7 @@
   right: 0 !important;
 }
 
-/* ── Day title ── */
+
 .dayTitleSection {
   padding: 12px 0 8px;
   display: flex;
@@ -236,7 +236,7 @@
   line-height: 1.5;
 }
 
-/* ── Main content container ── */
+
 .cont {
   width: 100%;
   max-width: 1200px;
@@ -244,17 +244,17 @@
   padding: 0 24px;
 }
 
-/* ── Meal list container ── */
+
 .meal-list-container {
   padding: 8px 0;
 }
 
-/* ── Meal section header ── */
+
 .meal-section {
   margin-bottom: 36px;
 }
 
-/* ── Section badge ── */
+
 .badge {
   background-color: var(--secondary-green);
   color: var(--primary-green-dark);
@@ -264,14 +264,14 @@
   font-weight: 600;
 }
 
-/* ── Meal complete badge ── */
+
 .mealCompleteBadge {
   font-size: var(--font-size-base);
   padding-left: 8px;
   color: var(--primary-green);
 }
 
-/* ── Action buttons ── */
+
 .action-buttons-section {
   padding: 24px;
   margin-top: 8px;
@@ -286,7 +286,7 @@
   flex-wrap: wrap;
 }
 
-/* ── Loading & error states ── */
+
 .loading-container,
 .error-container {
   min-height: 400px;
@@ -335,7 +335,7 @@
   margin: 0;
 }
 
-/* ── Meal plan page: clearer hierarchy, larger taps, focus rings (older-adult friendly) ── */
+
 .meal-plan-page-header {
   margin-bottom: 20px;
   padding-bottom: 16px;
@@ -457,7 +457,7 @@
   }
 }
 
-/* ── Responsive ── */
+
 @media (max-width: 768px) {
   .mealPlanMainContainer,
   .cont {

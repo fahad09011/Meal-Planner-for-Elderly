@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { extractDiet, extractNutrition } from "./transformMeal";
 
-// ═══════════════════════════════════════════════════════
-// extractDiet: API response → normalized system diet tags
-// ═══════════════════════════════════════════════════════
+
+
+
 describe("extractDiet (API → normalized diet tags)", () => {
   it("normalizes 'Lacto-Ovo-Vegetarian' → 'lacto_ovo_vegetarian'", () => {
     expect(extractDiet(["Lacto-Ovo-Vegetarian"])).toContain("lacto_ovo_vegetarian");
@@ -73,9 +73,9 @@ describe("extractDiet (API → normalized diet tags)", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════
-// extractNutrition: API nutrition → system nutrition object
-// ═══════════════════════════════════════════════════════
+
+
+
 describe("extractNutrition", () => {
   it("extracts nutrients from API nutrients array", () => {
     const apiNutrition = {

@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "../common/Button";
 
-/** Shortcuts for building and saving the week — written in plain language for clarity. */
 function AutoGenerateBanner({ completedDay, onGenerate, onAutoWeeklyPlan }) {
   return (
     <section

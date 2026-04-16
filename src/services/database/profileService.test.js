@@ -53,7 +53,6 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-// ===================== getProfile =====================
 describe("getProfile", () => {
   it("returns success and data when profile exists", async () => {
     mockMaybeSingle.mockResolvedValue({ data: dbRow, error: null });
@@ -82,7 +81,6 @@ describe("getProfile", () => {
   });
 });
 
-// ===================== createProfile =====================
 describe("createProfile", () => {
   it("returns success and data on successful insert", async () => {
     mockSingle.mockResolvedValue({ data: dbRow, error: null });
@@ -162,7 +160,6 @@ describe("createProfile", () => {
   });
 });
 
-// ===================== updateProfile =====================
 describe("updateProfile", () => {
   it("returns success and data on successful update", async () => {
     const updatedRow = { ...dbRow, age: 76, budget: "low" };

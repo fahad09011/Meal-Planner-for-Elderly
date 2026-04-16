@@ -1,4 +1,4 @@
-/* ── Home — hero + shortcut grid ── */
+
 .homeMainContainer {
   width: 100%;
   min-height: calc(100vh - var(--navbar-height));
@@ -10,7 +10,7 @@
   padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
-/* ── Hero ── */
+
 .homeHero {
   flex: 1;
   display: flex;
@@ -51,7 +51,7 @@
   max-width: 32rem;
 }
 
-/* ── Button grid ── */
+
 .homeButtonContainer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -157,7 +157,7 @@
 
 @media (max-width: 992px) {
   :root {
-    --navbar-height: 56px;
+    --navbar-height: 112px;
   }
 }
 

@@ -12,7 +12,7 @@
   flex-direction: column;
 }
 
-/* Route content sits below navbar with comfortable horizontal padding on large screens */
+
 .mainAppContainer > *:last-child {
   flex: 1;
   width: 100%;

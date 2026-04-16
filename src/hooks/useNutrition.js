@@ -13,5 +13,4 @@ import { AppContext } from "./AppContext";
   return { filteredMeals, count};
 }
 
-
 export default useNutrition;

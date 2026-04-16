@@ -6,7 +6,7 @@ export const getWeekStartDate = () => {
   return format(weekStart, "yyyy-MM-dd");
 };
 
-/** Last day of the current ISO-style week (Mon–Sun): Sunday. */
+
 export const getWeekLastDate = () => {
   const today = new Date();
   const weekEnd = endOfWeek(today, { weekStartsOn: 1 });

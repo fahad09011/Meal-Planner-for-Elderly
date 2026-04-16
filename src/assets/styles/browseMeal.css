@@ -1,7 +1,7 @@
-/* Placeholder browse screen — readable, consistent with app */
+
 
 .browse-meal-page {
-  min-height: calc(100vh - var(--navbar-height, 68px));
+  min-height: calc(100vh - var(--navbar-height, 128px));
   max-width: 40rem;
   margin: 0 auto;
   padding: 1.5rem clamp(16px, 3vw, 28px) 2.5rem;

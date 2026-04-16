@@ -1,57 +1,13 @@
-// const templateMeal = {
-//   id: null,
-//   title: "",
-//   image: "",
-//   readyInMinutes: 0,
-//   servings: 0,
-//   pricePerServing: 0,
-//
-//   diets: [],
-//
-//   mealType: "",
-//
-//   ingredients: [
-//     {
-//       aisle: "",
-//       name: "",
-//       description: "",
-//       quantity: { amount: 0, unit: "" },
-//     },
-//   ],
-//
-//   nutrition: {
-//     calories: 0,      // kcal
-//     carbs: 0,          // g
-//     protein: 0,        // g
-//     fat: 0,            // g
-//     fiber: 0,          // g
-//     sodium: 0,         // mg
-//     sugar: 0,          // g
-//     calcium: 0,        // mg
-//     iron: 0,           // mg
-//     folate: 0,         // µg
-//     phosphorus: 0,     // mg
-//     saturatedFat: 0,   // g
-//     vitaminB12: 0,     // µg
-//     vitaminC: 0,       // mg
-//     vitaminD: 0,
-//   },
-//
-//   instructions: [
-//     { stepNumber: 0, description: "" },
-//   ],
-//
-//   summary: "",
-// };
 import { dietResponseMap } from "../services/nutrition/dietMap";
 export const extractSummary = (apiSummary) => {
   const summary = typeof apiSummary === "string" ? apiSummary : "";
 
   return summary
-    .replace(/<[^>]*>/g, "")   // remove HTML tags
-    .replace(/\s+/g, " ")      // collapse multiple spaces
+    .replace(/<[^>]*>/g, "")
+    .replace(/\s+/g, " ")
     .trim();
 };
+
 export const extractNutrition = (apiNutrition) => {
   const nutritionMap = {
     calories: "Calories",
@@ -370,9 +326,6 @@ export const extractInstructions = (apiInstructions) => {
   });
 };
 
-
-
-
 export const extractDiet = (apiDiets) => {
   
   const diets = Array.isArray(apiDiets) ? apiDiets : [];
@@ -382,7 +335,6 @@ export const extractDiet = (apiDiets) => {
 .filter(Boolean);
 return[...new Set(normalizedDiets)];  
 };
-
 
 export const transFormMeal = (apiMeal) => {
   if (apiMeal == null || typeof apiMeal !== "object") {

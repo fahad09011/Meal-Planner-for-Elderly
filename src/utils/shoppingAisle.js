@@ -1,4 +1,3 @@
-/** Category / aisle label used for grouping and filtering (matches DB fields). */
 export function aisleLabel(item) {
   const name = String(
     item?.ingredient_name ?? item?.name ?? "",
@@ -32,8 +31,12 @@ export function aisleLabel(item) {
     );
   };
 
-  const looksDairyFromText =
-    isEggWord(name) || isDairyMilkWord(name) || isOtherDairyWord(name);
+  // Eggs: store shelves often put them with dairy, but they are not dairy foods — own filter bucket.
+  if (isEggWord(name)) {
+    return "Eggs";
+  }
+
+  const looksDairyFromText = isDairyMilkWord(name) || isOtherDairyWord(name);
 
   const looksDairyFromAisle =
     aisle.includes("milk, eggs") ||

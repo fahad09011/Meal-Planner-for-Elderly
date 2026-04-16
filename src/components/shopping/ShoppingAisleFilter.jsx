@@ -13,9 +13,6 @@ function colorForAisle(name, index) {
   return fallback[index % fallback.length];
 }
 
-/**
- * @param {'all' | string} selected — 'all' or aisle label
- */
 function ShoppingAisleFilter({ items, selected, onSelect }) {
   const total = items?.length ?? 0;
   const counts = new Map();

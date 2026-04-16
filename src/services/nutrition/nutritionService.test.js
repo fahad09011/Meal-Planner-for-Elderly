@@ -2,7 +2,6 @@ import { describe, it, expect } from "vitest";
 import filterMeals, { mealCountByCategory } from "./nutritionService";
 import { getMaxCaloriesPerMeal, getMinCaloriesPerMeal } from "../../utils/bmr";
 
-// ──── helpers ────
 const makeMeal = (overrides = {}) => ({
   title: "Test Meal",
   diets: [],
@@ -30,9 +29,6 @@ const makeMeal = (overrides = {}) => ({
 
 const emptyProfile = { dietary: [], allergies: [], healthConditions: [], budget: "" };
 
-// ═══════════════════════════════════════════════════════
-// Layer 2: filterByDietary
-// ═══════════════════════════════════════════════════════
 describe("Layer 2: filterByDietary", () => {
   it("passes all meals when no dietary preference is set", () => {
     const meals = [makeMeal({ title: "A" }), makeMeal({ title: "B" })];
@@ -94,9 +90,6 @@ describe("Layer 2: filterByDietary", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════
-// Layer 2: filterByHealthCondition
-// ═══════════════════════════════════════════════════════
 describe("Layer 2: filterByHealthCondition", () => {
   it("passes all meals when no health conditions set", () => {
     const meals = [makeMeal()];
@@ -179,9 +172,6 @@ describe("Layer 2: filterByHealthCondition", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════
-// Layer 2: filterByCalorieTarget (TDEE / weight management)
-// ═══════════════════════════════════════════════════════
 describe("Layer 2: meal calorie limit per profile", () => {
   it("does not filter when no calorie cap applies", () => {
     const meals = [makeMeal({ nutrition: { ...makeMeal().nutrition, calories: 2000 } })];
@@ -254,9 +244,6 @@ describe("Layer 2: meal calorie limit per profile", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════
-// Layer 2: filterByBudget
-// ═══════════════════════════════════════════════════════
 describe("Layer 2: filterByBudget", () => {
   it("passes all meals when no budget set", () => {
     const meals = [makeMeal({ pricePerServing: 100 })];
@@ -301,9 +288,6 @@ describe("Layer 2: filterByBudget", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════
-// Layer 2: filterMeals (combined) + mealCountByCategory
-// ═══════════════════════════════════════════════════════
 describe("Layer 2: filterMeals combined", () => {
   it("applies dietary + health + budget filters together", () => {
     const goodMeal = makeMeal({

@@ -1,4 +1,4 @@
-/* Shopping list page — layout + elderly-friendly UI (large type, targets, contrast) */
+
 
 .shopping-page.page {
   min-height: calc(100vh - 56px);
@@ -40,7 +40,7 @@
   line-height: 1.5;
 }
 
-/* Sidebar cards */
+
 .shopping-filters,
 .shopping-progress,
 .shopping-aisle-filter {
@@ -82,7 +82,6 @@
   letter-spacing: -0.02em;
 }
 
-/* Filter by aisle — below "Your list" */
 .shopping-aisle-filter {
   padding: 0.85rem 0.65rem 0.85rem 0.85rem;
 }
@@ -212,7 +211,7 @@
   outline-offset: 2px;
 }
 
-/* Filters — large tap targets */
+
 .shopping-filters__options {
   display: flex;
   flex-direction: column;
@@ -270,7 +269,7 @@
   border-color: var(--primary-green);
 }
 
-/* Center column */
+
 .shopping-layout .content {
   display: flex;
   flex-direction: column;
@@ -425,7 +424,7 @@
   margin-right: auto;
 }
 
-/* Grouped list */
+
 .shopping-list__section {
   margin-bottom: 1.5rem;
 }
@@ -465,7 +464,7 @@
   color: var(--text-muted);
 }
 
-/* Row item — min 48px row height, readable type */
+
 .shopping-item {
   display: flex;
   align-items: stretch;
@@ -482,7 +481,7 @@
   background: var(--secondary-green);
 }
 
-/* Checkbox — large touch target (WCAG 2.5.5) */
+
 .shopping-page .shopping-item .meal-done-check {
   width: 48px;
   height: 48px;
@@ -572,7 +571,7 @@
   cursor: wait;
 }
 
-/* Progress */
+
 .shopping-progress__summary {
   margin: 0 0 0.75rem;
   font-size: var(--font-size-base);
@@ -609,7 +608,7 @@
   color: var(--text-muted);
 }
 
-/* Loading */
+
 .shopping-loading.loading-container {
   min-height: 50vh;
   display: flex;
@@ -659,7 +658,7 @@
   }
 }
 
-/* Responsive: stack on narrow screens */
+
 @media (max-width: 1024px) {
   .shopping-layout.layout {
     grid-template-columns: 1fr;
@@ -703,7 +702,7 @@
   }
 }
 
-/* ── “How it works” modal (shopping) ── */
+
 .shopping-help-backdrop {
   position: fixed;
   inset: 0;

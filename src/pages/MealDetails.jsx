@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { AppContext } from "../hooks/AppContext";
 import { findMealInWeeklyPlan } from "../utils/findMealInWeeklyPlan";
+import { normalizeUnit } from "../utils/transformMeal";
+import { formatUnitForDisplay } from "../utils/formatIngredientUnit";
 import "../assets/styles/mealDetails.css";
 import fallbackImg from "../assets/images/cereal.jpg";
 
@@ -53,7 +55,6 @@ function formatIngredientLine(ingredient) {
   const name = ingredient.name ? String(ingredient.name).trim() : "";
   const description = ingredient.displayName ? String(ingredient.displayName).trim() : "";
   const unitLower = unit.toLowerCase();
-  // Spoonacular often leaves unit empty or uses "serving" while the human text is in `description` (original).
   const useReadableOriginal =
     Boolean(description) &&
     (!unit || unitLower === "other" || unitLower === "serving");
@@ -62,7 +63,11 @@ function formatIngredientLine(ingredient) {
   }
   const hasAmount = amount !== undefined && amount !== null && Number(amount) > 0;
   const formattedAmount = hasAmount ? formatFractionForDisplay(amount) : "";
-  const prefix = hasAmount ? `${formattedAmount}${unit ? ` ${unit}` : ""}`.trim() : "";
+  const normalizedUnit = unit ? normalizeUnit(unit) : "";
+  const unitDisplay = normalizedUnit ? formatUnitForDisplay(normalizedUnit) || normalizedUnit : "";
+  const prefix = hasAmount
+    ? `${formattedAmount}${unitDisplay ? ` ${unitDisplay}` : ""}`.trim()
+    : "";
   return [prefix, name].filter(Boolean).join(" · ") || name || description || "—";
 }
 

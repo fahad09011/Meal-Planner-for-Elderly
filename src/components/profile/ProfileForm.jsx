@@ -50,25 +50,25 @@ function ProfileForm() {
     }
   }
 
-  const handleOnSubmit = async (form) => {
-    form.preventDefault();
+  const handleOnSubmit = async (submitEvent) => {
+    submitEvent.preventDefault();
     setIsSubmitting(true);
     const result = await saveProfile(formData);
     setIsSubmitting(false);
     if (result.success) {
       alert("Profile saved successfully.");
     } else {
-      const msg = result.error?.message ?? "Something went wrong saving your profile.";
+      const errorMessage =
+        result.error?.message ?? "Something went wrong saving your profile.";
       console.error("Profile save failed:", result.error);
-      alert(`Profile not saved: ${msg}`);
+      alert(`Profile not saved: ${errorMessage}`);
     }
   };
 
-  const handleOnClearProfile = () =>{
+  function handleClearProfile() {
     clearProfile();
     setFormData(defaultProfile);
-    console.log("Profile successfuly cleared");
-      alert("Profile successfuly cleared");
+    alert("Profile cleared.");
   }
 
   async function copyUserId() {
@@ -84,7 +84,7 @@ function ProfileForm() {
   return (
     <div>
       <main className="profileMainContainer">
-        <form action="" onSubmit={handleOnSubmit} className="profileForm">
+        <form id="profile-form" name="profile" action="" onSubmit={handleOnSubmit} className="profileForm">
           <div className="formTitleContainer">
             <div className="formTitleHeaderRow">
               <h1 className="formTitle">
@@ -372,7 +372,6 @@ function ProfileForm() {
                 <label htmlFor="diabetes">Diabetes</label>
               </div>
 
-
               <div className="healthConsiderationGroupContainer diabetes">
                 <input
                   className="check"
@@ -386,7 +385,6 @@ function ProfileForm() {
                 <label htmlFor="kidneyDisease">Kidney Disease</label>
               </div>
 
-
               <div className="healthConsiderationGroupContainer diabetes">
                 <input
                   className="check"
@@ -399,7 +397,6 @@ function ProfileForm() {
                 />
                 <label htmlFor="highCholesterol">High Cholesterol</label>
               </div>
-
 
             </div>
 
@@ -459,7 +456,7 @@ function ProfileForm() {
         <Button
           type="button"
           className="inActive button"
-          onClick={handleOnClearProfile}
+          onClick={handleClearProfile}
         >
           Clear Profile
         </Button>
