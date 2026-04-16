@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { saveMealPlan } from "../services/database/mealPlanService";
 import { useContext } from "react";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../hooks/AppContext";
 import { getMealPlanByWeek } from "../services/database/mealPlanService";
 function TestMealPlanSave() {
     const { weeklyPlan } = useContext(AppContext);

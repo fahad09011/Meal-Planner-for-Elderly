@@ -4,7 +4,7 @@ import logo from '../../assets/icons/logo.png';
 import '../../assets/styles/navBar.css';
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { AppContext } from "../../context/AppContext";
+import { AppContext } from "../../hooks/AppContext";
 
 function Navbar() {
   const { user, authLoading, signOut } = useAuth();

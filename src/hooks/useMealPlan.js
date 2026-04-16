@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import fetchMeals from "../services/recipes/spoonacularService";
 import { getRecipeSearchCacheKey } from "../services/recipes/buildMealQueryParams";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "./AppContext";
 import { getWeekStartDate } from "../utils/helpers";
 
 const GUEST_SAVE_MESSAGE =

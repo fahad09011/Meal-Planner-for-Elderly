@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../hooks/AppContext";
 import { findMealInWeeklyPlan } from "../utils/findMealInWeeklyPlan";
 import "../assets/styles/mealDetails.css";
 import fallbackImg from "../assets/images/cereal.jpg";
