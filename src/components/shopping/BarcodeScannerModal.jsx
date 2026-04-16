@@ -33,6 +33,20 @@ function findMatchedListItem(product, items) {
   );
 }
 
+async function stopScannerSafely(scanner) {
+  if (!scanner) return;
+  try {
+    await scanner.stop();
+  } catch (_) {
+    // Ignore when scanner is already stopped/not yet started.
+  }
+  try {
+    await scanner.clear();
+  } catch (_) {
+    // Ignore cleanup errors; scanner container may already be gone.
+  }
+}
+
 /* ---------------- COMPONENT ---------------- */
 
 function BarcodeScannerModal({
@@ -46,12 +60,14 @@ function BarcodeScannerModal({
   const [productResult, setProductResult] = useState(null);
 
   const scannerRef = useRef(null);
+  const mountedRef = useRef(true);
 
   const matchedItem = findMatchedListItem(productResult, shoppingItems);
 
   /* ---------------- CAMERA LIFECYCLE ---------------- */
 
   useEffect(() => {
+    mountedRef.current = true;
     if (!show) return;
 
     const scanner = new Html5Qrcode("reader");
@@ -63,8 +79,8 @@ function BarcodeScannerModal({
         { fps: 10, qrbox: { width: 250, height: 150 } },
         (decodedText) => {
           console.log("📦 Scanned barcode:", decodedText);
-
-          scanner.stop().then(() => {
+          stopScannerSafely(scanner).then(() => {
+            if (!mountedRef.current) return;
             setBarcodeValue(decodedText);
             handleAutoLookup(decodedText);
           });
@@ -76,15 +92,10 @@ function BarcodeScannerModal({
       });
 
     return () => {
-      if (scannerRef.current) {
-        scannerRef.current
-          .stop()
-          .catch(() => {})
-          .finally(() => {
-            scannerRef.current.clear();
-            scannerRef.current = null;
-          });
-      }
+      mountedRef.current = false;
+      const currentScanner = scannerRef.current;
+      scannerRef.current = null;
+      stopScannerSafely(currentScanner);
     };
   }, [show]);
 
