@@ -398,6 +398,30 @@ describe("buildShoppingItemsFromWeeklyPlan", () => {
     expect(result[0].amount).toBe(8);
   });
 
+  it("does not merge eggs in milk/eggs dairy aisle into milliliters", () => {
+    const plan = {
+      ...emptyWeek,
+      Monday: {
+        breakfast: makeMeal([
+          {
+            name: "Eggs",
+            category: "Dairy",
+            aisle: "Milk, Eggs, Other Dairy",
+            quantity: { amount: 2, unit: "" },
+          },
+        ]),
+        lunch: null,
+        dinner: null,
+      },
+    };
+
+    const result = buildShoppingItemsFromWeeklyPlan(plan);
+    expect(result).toHaveLength(1);
+    expect(result[0].unit).not.toBe("milliliter");
+    expect(result[0].unit).toBe("");
+    expect(result[0].amount).toBe(2);
+  });
+
   it("forces oil items into milliliter", () => {
     const plan = {
       ...emptyWeek,

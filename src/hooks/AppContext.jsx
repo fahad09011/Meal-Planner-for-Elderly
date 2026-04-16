@@ -9,6 +9,7 @@ import { normalizeAppRole, canProvideCare } from "../constants/appRoles";
 import {
   createCaregiverLink,
   deleteCaregiverLink,
+  getRecipientNamesByUserIds,
   listOutgoingCaregiverLinks,
 } from "../services/database/caregiverService";
 import { saveMealPlan, getMealPlanByWeek } from "../services/database/mealPlanService";
@@ -68,29 +69,28 @@ export function AppProvider({ children }) {
   const [careRecipients, setCareRecipients] = useState([]);
   const [selectedClientUserId, setSelectedClientUserIdState] = useState(null);
   const [careLinksLoaded, setCareLinksLoaded] = useState(false);
-  /** Logged-in user's `profiles.app_role` (for caregiving UI, independent of "viewing as"). */
   const [ownAppRole, setOwnAppRole] = useState("elderly");
 
-  /** Whose meal plan, shopping, and profile data we load (self or linked elderly). */
+  
   const activeDataUserId = user?.id ? (selectedClientUserId ?? user.id) : null;
   const viewingOwnProfile = Boolean(user?.id && activeDataUserId === user.id);
 
   const [mealPlanId, setMealPlanId] = useState(null);
-  /** Cached Spoonacular meal list for Meal Plan: refetch only when key changes or user forces retry. */
+  
   const [recipeSearchCache, setRecipeSearchCache] = useState({
     key: null,
     meals: [],
   });
   const [profileData, setProfileData] = useState(defaultProfile);
-  /** True after we know whether a logged-in user has Supabase profile rows (avoids meal API spam before hydration). */
+  
   const [profileHydrated, setProfileHydrated] = useState(false);
   const hasProfile = isProfileComplete(profileData);
 
-  /** Skip redundant `getMealPlanByWeek` when the same week is already loaded (e.g. View Plan + App init). */
+  
   const lastMealPlanLoadKeyRef = useRef(null);
   const mealPlanLoadInflightRef = useRef(null);
 
-  /** Shopping list rows for the current meal plan — reused when navigating away/back until plan changes. */
+  
   const [shoppingListSessionCache, setShoppingListSessionCache] = useState({
     mealPlanId: null,
     items: [],
@@ -112,7 +112,23 @@ export function AppProvider({ children }) {
     (async () => {
       const res = await listOutgoingCaregiverLinks(user.id);
       if (cancelled) return;
-      setCareRecipients(res.success ? res.data : []);
+      if (!res.success) {
+        setCareRecipients([]);
+        setCareLinksLoaded(true);
+        return;
+      }
+      const links = res.data ?? [];
+      const nameRes = await getRecipientNamesByUserIds(
+        links.map((l) => l.elderly_user_id),
+      );
+      if (cancelled) return;
+      const nameMap = nameRes.success ? nameRes.data : {};
+      setCareRecipients(
+        links.map((row) => ({
+          ...row,
+          elderly_name: nameMap[row.elderly_user_id] || "",
+        })),
+      );
       setCareLinksLoaded(true);
     })();
     return () => {
@@ -196,7 +212,21 @@ export function AppProvider({ children }) {
       const result = await createCaregiverLink(user.id, elderlyUserId);
       if (!result.success) return result;
       const resList = await listOutgoingCaregiverLinks(user.id);
-      setCareRecipients(resList.success ? resList.data : []);
+      if (resList.success) {
+        const links = resList.data ?? [];
+        const nameRes = await getRecipientNamesByUserIds(
+          links.map((l) => l.elderly_user_id),
+        );
+        const nameMap = nameRes.success ? nameRes.data : {};
+        setCareRecipients(
+          links.map((row) => ({
+            ...row,
+            elderly_name: nameMap[row.elderly_user_id] || "",
+          })),
+        );
+      } else {
+        setCareRecipients([]);
+      }
       if (result.data?.elderly_user_id) {
         setSelectedClientUserIdState(result.data.elderly_user_id);
         localStorage.setItem(
@@ -218,7 +248,21 @@ export function AppProvider({ children }) {
       const result = await deleteCaregiverLink(linkId);
       if (!result.success) return result;
       const resList = await listOutgoingCaregiverLinks(user.id);
-      setCareRecipients(resList.success ? resList.data : []);
+      if (resList.success) {
+        const links = resList.data ?? [];
+        const nameRes = await getRecipientNamesByUserIds(
+          links.map((l) => l.elderly_user_id),
+        );
+        const nameMap = nameRes.success ? nameRes.data : {};
+        setCareRecipients(
+          links.map((row) => ({
+            ...row,
+            elderly_name: nameMap[row.elderly_user_id] || "",
+          })),
+        );
+      } else {
+        setCareRecipients([]);
+      }
       if (removed && selectedClientUserId === removed.elderly_user_id) {
         setSelectedClientUserIdState(null);
         localStorage.setItem(`mealcare-selected-client-${user.id}`, "self");
@@ -244,8 +288,8 @@ export function AppProvider({ children }) {
 
     let cancelled = false;
     setProfileHydrated(false);
-    // Clear previous user's profile from UI immediately so we never show stale data
-    // while loading, or if the new user has no profile row yet.
+    
+    
     setProfileData(defaultProfile);
 
     (async () => {
@@ -336,9 +380,9 @@ export function AppProvider({ children }) {
   }
 
   const [weeklyPlan, setWeeklyPlan] = useState(defaultWeeklyPlan);
-  /** Local builder only; not loaded from DB. Saved plan lives in `weeklyPlan` after generate. */
+  
   const [mealPlanDraft, setMealPlanDraft] = useState(emptyWeeklyPlanClone);
-  /** Bumps when completions are cleared so View Plan refetches tracking without changing mealPlanId. */
+  
   const [mealPlanTrackingEpoch, setMealPlanTrackingEpoch] = useState(0);
   const [mealPlanLoading, setMealPlanLoading] = useState(false);
 
@@ -435,13 +479,13 @@ export function AppProvider({ children }) {
     [user?.id, activeDataUserId],
   );
 
-  /** Restore meal plan id + weekly plan after full page reload (in-memory state is lost). */
+  
   useEffect(() => {
     if (authLoading || !user?.id || !activeDataUserId) return;
     loadMealPlanForWeek(getWeekStartDate());
   }, [authLoading, user?.id, activeDataUserId, loadMealPlanForWeek]);
 
-  /** Builder always starts empty for this user; saved week stays in `weeklyPlan` from DB. */
+  
   useEffect(() => {
     if (!activeDataUserId) return;
     setMealPlanDraft(emptyWeeklyPlanClone());

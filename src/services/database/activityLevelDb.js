@@ -1,6 +1,5 @@
 import { ACTIVITY_MULTIPLIER_BY_ID } from "../../constants/activityLevels";
 
-/** DB values that may exist from older schemas or manual edits. */
 const DB_TO_APP = {
   sedentary: "sedentary",
   light: "lightly_active",
@@ -12,7 +11,6 @@ const DB_TO_APP = {
   extra_active: "extra_active",
 };
 
-/** Prefer canonical app ids in the DB so new rows stay consistent with ACTIVITY_LEVEL_OPTIONS. */
 const APP_TO_DB = {
   sedentary: "sedentary",
   lightly_active: "lightly_active",

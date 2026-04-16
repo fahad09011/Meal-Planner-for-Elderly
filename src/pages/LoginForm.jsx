@@ -53,13 +53,13 @@ function LoginForm() {
     }
   }
 
-  async function handleSignIn(e) {
-    e.preventDefault();
+  async function handleSignIn(event) {
+    event.preventDefault();
     setFormError("");
     setFormSuccess("");
-    const fd = new FormData(e.target);
-    const email = String(fd.get("email") ?? "").trim();
-    const password = String(fd.get("password") ?? "");
+    const fields = new FormData(event.target);
+    const email = String(fields.get("email") ?? "").trim();
+    const password = String(fields.get("password") ?? "");
 
     if (!email || !password) {
       setFormError("Please enter your email and password.");
@@ -77,15 +77,15 @@ function LoginForm() {
     navigate("/home");
   }
 
-  async function handleSignUp(e) {
-    e.preventDefault();
+  async function handleSignUp(event) {
+    event.preventDefault();
     setFormError("");
     setFormSuccess("");
-    const fd = new FormData(e.target);
-    const fullName = String(fd.get("fullName") ?? "").trim();
-    const email = String(fd.get("email") ?? "").trim();
-    const password = String(fd.get("password") ?? "");
-    const confirm = String(fd.get("confirmPassword") ?? "");
+    const fields = new FormData(event.target);
+    const fullName = String(fields.get("fullName") ?? "").trim();
+    const email = String(fields.get("email") ?? "").trim();
+    const password = String(fields.get("password") ?? "");
+    const confirm = String(fields.get("confirmPassword") ?? "");
 
     if (!email || !password) {
       setFormError("Please enter your email and a password.");
@@ -116,7 +116,7 @@ function LoginForm() {
       setFormSuccess(
         "Account created. If email confirmation is turned on, check your inbox to finish signing up."
       );
-      e.target.reset();
+      event.target.reset();
       return;
     }
 
@@ -205,7 +205,7 @@ function LoginForm() {
                 <h2 className="loginSubtitle">Welcome back</h2>
                 <p className="loginFormHint">Sign in with the email you used to register.</p>
 
-                <form className="loginForm" onSubmit={handleSignIn} noValidate>
+                <form id="login-signin-form" name="signIn" className="loginForm" onSubmit={handleSignIn} noValidate>
                   {formError ? (
                     <p className="loginFormMessage loginFormMessageError" role="alert">
                       {formError}
@@ -261,7 +261,7 @@ function LoginForm() {
                   Enter your details below. You can add more in your profile later.
                 </p>
 
-                <form className="loginForm" onSubmit={handleSignUp} noValidate>
+                <form id="login-signup-form" name="signUp" className="loginForm" onSubmit={handleSignUp} noValidate>
                   {formError ? (
                     <p className="loginFormMessage loginFormMessageError" role="alert">
                       {formError}
@@ -293,6 +293,7 @@ function LoginForm() {
                       {APP_ROLE_SIGNUP_OPTIONS.map((opt) => (
                         <label key={opt.value} className="loginRoleCard">
                           <input
+                            id={`signup-app-role-${opt.value}`}
                             type="radio"
                             name="appRole"
                             value={opt.value}

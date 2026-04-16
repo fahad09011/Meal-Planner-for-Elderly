@@ -32,101 +32,121 @@ function Navbar() {
   }
 
   return (
-    <div>
-        <nav className="navbar navbar-expand-lg navbar-light pt-0 pb-0">
-  <div className="container-fluid">
-    <NavLink className="navbar-brand" to="/home"><img src={logo} alt="MealCare logo" className="logo" /> MealCare</NavLink>
-    <button
-      className="navbar-toggler"
-      type="button"
-      onClick={() => setNavOpen((open) => !open)}
-      aria-controls="navbarText"
-      aria-expanded={navOpen}
-      aria-label="Toggle navigation"
-    >
-      <span className="navbar-toggler-icon"></span>
-    </button>
-    <div className={`collapse navbar-collapse${navOpen ? " show" : ""}`} id="navbarText">
-      <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/home">Home</NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/mealPlan">Meal Plan</NavLink>
-        </li>
-        {/* Iteration 2 — Browse Meals not implemented yet
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/browseMeals">Browse Meals </NavLink>
-        </li>
-        */}
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/viewPlan">
-            View meal plan
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/shopping">Shopping List</NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/profile">Profile</NavLink>
-        </li>
-        {user && canActAsCaregiver ? (
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/caregiving">Caregiving</NavLink>
-          </li>
-        ) : null}
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/login">
-            {user ? "Account" : "Log in"}
-          </NavLink>
-        </li>
-      </ul>
-      <div className="infoContainer">
-        {user && canActAsCaregiver && careLinksLoaded && careRecipients.length > 0 ? (
-          <div className="navbar-care-wrap">
-            <label className="navbar-care-label" htmlFor="navbar-care-select">
-              Viewing
-            </label>
-            <select
-              id="navbar-care-select"
-              className="navbar-care-select"
-              value={selectedClientUserId ?? ""}
-              onChange={(e) => {
-                const v = e.target.value;
-                setSelectedClientUserId(v === "" ? null : v);
-              }}
-              aria-label="Whose meal plan and lists to show"
-            >
-              <option value="">Myself</option>
-              {careRecipients.map((row) => (
-                <option key={row.id} value={row.elderly_user_id}>
-                  Care recipient…{row.elderly_user_id.slice(0, 8)}
-                </option>
-              ))}
-            </select>
+    <nav className="navbar navbar-light app-navbar pt-0 pb-0" aria-label="Site header">
+        <div className="container-fluid app-navbar__inner">
+          <div className="app-navbar__top">
+            <NavLink className="navbar-brand" to="/home">
+              <img src={logo} alt="MealCare logo" className="logo" /> MealCare
+            </NavLink>
+
+            <div className="app-navbar__top-actions">
+              <button
+                className="navbar-toggler d-lg-none"
+                type="button"
+                onClick={() => setNavOpen((open) => !open)}
+                aria-controls="app-navbar-links"
+                aria-expanded={navOpen}
+                aria-label="Open menu"
+              >
+                <span className="navbar-toggler-icon" />
+              </button>
+
+              <div className="infoContainer">
+                {user &&
+                canActAsCaregiver &&
+                careLinksLoaded &&
+                careRecipients.length > 0 ? (
+                  <div className="navbar-care-wrap">
+                    <label className="navbar-care-label" htmlFor="navbar-care-select">
+                      Viewing
+                    </label>
+                    <select
+                      id="navbar-care-select"
+                      name="viewingClientUserId"
+                      className="navbar-care-select"
+                      value={selectedClientUserId ?? ""}
+                      onChange={(event) => {
+                        const value = event.target.value;
+                        setSelectedClientUserId(value === "" ? null : value);
+                      }}
+                      aria-label="Whose meal plan and lists to show"
+                    >
+                      <option value="">Myself</option>
+                      {careRecipients.map((row) => (
+                        <option key={row.id} value={row.elderly_user_id}>
+                          {row.elderly_name?.trim()
+                            ? row.elderly_name
+                            : `Care recipient…${row.elderly_user_id.slice(0, 8)}`}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : null}
+                <div className="navbar-userIdentity">
+                  <img src={icon} alt="" className="userIcon" width={36} height={36} />
+                  <span className="navbar-text" title={displayLabel || undefined}>
+                    {authLoading ? "…" : displayLabel || "Not signed in"}
+                  </span>
+                </div>
+                {user ? (
+                  <button type="button" className="navSignOut" onClick={handleSignOut}>
+                    Sign out
+                  </button>
+                ) : (
+                  <NavLink className="navSignOut navSignOut--link" to="/login">
+                    Log in
+                  </NavLink>
+                )}
+              </div>
+            </div>
           </div>
-        ) : null}
-        <div className="navbar-userIdentity">
-          <img src={icon} alt="" className="userIcon" width={36} height={36} />
-          <span className="navbar-text" title={displayLabel || undefined}>
-            {authLoading ? "…" : displayLabel || "Not signed in"}
-          </span>
-        </div>
-        {user ? (
-          <button
-            type="button"
-            className="navSignOut"
-            onClick={handleSignOut}
+
+          <div
+            id="app-navbar-links"
+            className={`app-navbar__links${navOpen ? " app-navbar__links--open" : ""}`}
           >
-            Sign out
-          </button>
-        ) : null}
-      </div>
-     
-    </div>
-  </div>
-</nav>
-    </div>
+            <ul className="navbar-nav app-navbar__nav">
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/home">
+                  Home
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/mealPlan">
+                  Meal Plan
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/viewPlan">
+                  View meal plan
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/shopping">
+                  Shopping List
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/profile">
+                  Profile
+                </NavLink>
+              </li>
+              {user && canActAsCaregiver ? (
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/caregiving">
+                    Caregiving
+                  </NavLink>
+                </li>
+              ) : null}
+              <li className="nav-item">
+                <NavLink className="nav-link" to={user ? "/profile" : "/login"}>
+                  {user ? "Account" : "Log in"}
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
   )
 }
 

@@ -17,8 +17,6 @@ const intoleranceMap={
     wheat: "wheat",
 };
 
-
-// fix call rate
   
 function buildMealQueryParams(profileData) {
     const params = {
@@ -76,10 +74,6 @@ function buildMealQueryParams(profileData) {
     return params;
   }
 
-/**
- * Stable string for caching Spoonacular `complexSearch` results: same key ⇒ same query params.
- * Includes `activeDataUserId` so caregiver switches / different clients never reuse another user’s cache.
- */
 export function getRecipeSearchCacheKey(activeDataUserId, profileData) {
   const params = buildMealQueryParams(profileData);
   return JSON.stringify({ userId: activeDataUserId ?? null, params });

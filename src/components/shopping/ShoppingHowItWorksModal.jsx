@@ -1,15 +1,12 @@
 import { useEffect, useRef } from "react";
 
-/**
- * One place for shopping guidance — keeps the page calm and matches the profile help pattern.
- */
 export default function ShoppingHowItWorksModal({ show, onClose }) {
   const closeBtnRef = useRef(null);
 
   useEffect(() => {
     if (!show) return;
-    const onKey = (e) => {
-      if (e.key === "Escape") onClose();
+    const onKey = (event) => {
+      if (event.key === "Escape") onClose();
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);

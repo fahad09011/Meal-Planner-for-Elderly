@@ -7,6 +7,7 @@
     "dev": "vite --host 0.0.0.0 --port 5173",
     "build": "vite build",
     "lint": "eslint .",
+    "strip-comments": "node scripts/strip-src-comments.mjs",
     "preview": "vite preview",
     "tailwind:init": "tailwindcss init -p"
   },
@@ -30,6 +31,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "strip-comments": "^2.0.1",
     "vite": "^7.3.1"
   }
 }

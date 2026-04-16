@@ -1,9 +1,6 @@
 import { ACTIVITY_MULTIPLIER_BY_ID } from "../constants/activityLevels";
 import healthConditionRules from "../services/nutrition/healthConditionRules";
 
-/**
- * Resting daily calories (BMR) using the Mifflin–St Jeor formula (kcal/day).
- */
 export function calculateRestingDailyCalories({ age, weightKg, heightCm, gender }) {
   const weightKgNum = Number(weightKg);
   const heightCmNum = Number(heightCm);
@@ -35,9 +32,6 @@ export function calculateRestingDailyCalories({ age, weightKg, heightCm, gender 
   return Math.round(restingCalories);
 }
 
-/**
- * Daily calories after activity (TDEE): resting calories × activity multiplier.
- */
 export function calculateDailyCaloriesAfterActivity(restingCalories, activityLevelId) {
   if (!Number.isFinite(restingCalories) || restingCalories <= 0) return null;
   const activityMultiplier = ACTIVITY_MULTIPLIER_BY_ID[activityLevelId];
@@ -45,10 +39,6 @@ export function calculateDailyCaloriesAfterActivity(restingCalories, activityLev
   return Math.round(restingCalories * activityMultiplier);
 }
 
-/**
- * Reads age, weight, height, gender, activity from profile (same shape as AppContext).
- * @returns {{ restingCalories: number|null, dailyCalories: number|null }}
- */
 export function getRestingAndDailyCaloriesFromProfile(profile) {
   const restingCalories = calculateRestingDailyCalories({
     age: profile.age,
@@ -63,10 +53,6 @@ export function getRestingAndDailyCaloriesFromProfile(profile) {
   return { restingCalories, dailyCalories };
 }
 
-/**
- * Max calories we allow per recipe/meal: one third of daily total (three main meals),
- * and if "weight management" is ticked, we also respect that rule’s calorie cap (whichever is lower).
- */
 export function getMaxCaloriesPerMeal(profile) {
   const { dailyCalories } = getRestingAndDailyCaloriesFromProfile(profile);
   const caloriesFromDailyBudget =
@@ -87,11 +73,6 @@ export function getMaxCaloriesPerMeal(profile) {
   return Math.min(...limits);
 }
 
-/**
- * Lower bound per recipe (per serving), paired with {@link getMaxCaloriesPerMeal}.
- * Uses ~45% of the effective per-meal max so results sit in a plausible band (not only "under X kcal").
- * Returns null when there is no max or the range would be degenerate.
- */
 export function getMinCaloriesPerMeal(profile) {
   const maxCalories = getMaxCaloriesPerMeal(profile);
   if (maxCalories == null || maxCalories < 2) return null;

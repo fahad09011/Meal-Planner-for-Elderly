@@ -1,35 +1,36 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 import { fetchProductByBarcode } from "../../services/barcodeService";
 
-/* ---------------- MATCHING LOGIC (unchanged - GOOD) ---------------- */
-
-function escapeRegExp(s) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function escapeRegexSpecialChars(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function phraseBoundedInHaystack(needle, haystack) {
-  const n = needle?.trim().toLowerCase();
-  const h = haystack?.trim().toLowerCase();
-  if (!n || !h) return false;
-  const re = new RegExp(`(^|[^a-z0-9])${escapeRegExp(n)}([^a-z0-9]|$)`, "i");
-  return re.test(h);
+function isPhraseWholeWordInText(phrase, fullText) {
+  const normalizedPhrase = phrase?.trim().toLowerCase();
+  const normalizedText = fullText?.trim().toLowerCase();
+  if (!normalizedPhrase || !normalizedText) return false;
+  const pattern = new RegExp(
+    `(^|[^a-z0-9])${escapeRegexSpecialChars(normalizedPhrase)}([^a-z0-9]|$)`,
+    "i",
+  );
+  return pattern.test(normalizedText);
 }
 
 function ingredientMatchesProductName(ingredientName, productName) {
-  const ing = ingredientName?.trim();
-  const prod = productName?.trim();
-  if (!ing || !prod) return false;
+  const ingredient = ingredientName?.trim();
+  const product = productName?.trim();
+  if (!ingredient || !product) return false;
   return (
-    phraseBoundedInHaystack(ing, prod) ||
-    phraseBoundedInHaystack(prod, ing)
+    isPhraseWholeWordInText(ingredient, product) ||
+    isPhraseWholeWordInText(product, ingredient)
   );
 }
 
-function findMatchedListItem(product, items) {
+function findShoppingListItemForProduct(product, shoppingListRows) {
   if (!product?.name) return undefined;
-  return items.find((item) =>
-    ingredientMatchesProductName(item.ingredient_name, product.name)
+  return shoppingListRows.find((row) =>
+    ingredientMatchesProductName(row.ingredient_name, product.name),
   );
 }
 
@@ -37,34 +38,64 @@ async function stopScannerSafely(scanner) {
   if (!scanner) return;
   try {
     await scanner.stop();
-  } catch (_) {
-    // Ignore when scanner is already stopped/not yet started.
+  } catch {
+    void 0;
   }
   try {
     await scanner.clear();
-  } catch (_) {
-    // Ignore cleanup errors; scanner container may already be gone.
+  } catch {
+    void 0;
   }
 }
-
-/* ---------------- COMPONENT ---------------- */
 
 function BarcodeScannerModal({
   show,
   onClose,
+  mealPlanId,
   shoppingItems,
-  onMarkMatchedItemBought
+  onMarkMatchedItemBought,
+  onAddProductToShoppingList,
 }) {
   const [barcodeValue, setBarcodeValue] = useState("");
   const [scanStatus, setScanStatus] = useState("idle");
   const [productResult, setProductResult] = useState(null);
+  const [addBusy, setAddBusy] = useState(false);
+  const [addError, setAddError] = useState(null);
+  const [listAddNotice, setListAddNotice] = useState(null);
+  /** Bumped after a successful add (or reset) so the camera useEffect tears down and starts again. */
+  const [scannerSession, setScannerSession] = useState(0);
 
   const scannerRef = useRef(null);
   const mountedRef = useRef(true);
+  const noticeClearRef = useRef(null);
 
-  const matchedItem = findMatchedListItem(productResult, shoppingItems);
+  const matchedShoppingItem = findShoppingListItemForProduct(
+    productResult,
+    shoppingItems,
+  );
 
-  /* ---------------- CAMERA LIFECYCLE ---------------- */
+  const lookupBarcodeAndSetProduct = useCallback(
+    async (barcode) => {
+      if (!barcode) return;
+
+      setScanStatus("loading");
+      setAddError(null);
+
+      const result = await fetchProductByBarcode(barcode);
+
+      if (!result.success) {
+        setScanStatus("error");
+        setProductResult(null);
+        return;
+      }
+
+      const productFromApi = result.data;
+
+      setProductResult(productFromApi);
+      setScanStatus("found");
+    },
+    [],
+  );
 
   useEffect(() => {
     mountedRef.current = true;
@@ -77,69 +108,83 @@ function BarcodeScannerModal({
       .start(
         { facingMode: "environment" },
         { fps: 10, qrbox: { width: 250, height: 150 } },
-        (decodedText) => {
-          console.log("📦 Scanned barcode:", decodedText);
+        (scannedBarcode) => {
           stopScannerSafely(scanner).then(() => {
             if (!mountedRef.current) return;
-            setBarcodeValue(decodedText);
-            handleAutoLookup(decodedText);
+            setBarcodeValue(scannedBarcode);
+            lookupBarcodeAndSetProduct(scannedBarcode);
           });
         },
-        () => {}
+        () => {},
       )
-      .catch((err) => {
-        console.error("Camera start error:", err);
+      .catch((error) => {
+        console.error("Camera start error:", error);
       });
 
     return () => {
       mountedRef.current = false;
-      const currentScanner = scannerRef.current;
+      const activeScanner = scannerRef.current;
       scannerRef.current = null;
-      stopScannerSafely(currentScanner);
+      stopScannerSafely(activeScanner);
     };
-  }, [show]);
+  }, [show, lookupBarcodeAndSetProduct, scannerSession]);
 
-  /* ---------------- LOOKUP ---------------- */
-
-  async function handleAutoLookup(barcode) {
-    if (!barcode) return;
-
-    setScanStatus("loading");
-
-    const result = await fetchProductByBarcode(barcode);
-
-    if (!result.success) {
-      setScanStatus("error");
-      setProductResult(null);
-      return;
-    }
-
-    const apiProduct = result.data;
-    const matched = findMatchedListItem(apiProduct, shoppingItems);
-
-    console.log("🔍 API PRODUCT:", apiProduct);
-    console.log("🛒 MATCHED ITEM:", matched ?? null);
-
-    setProductResult(apiProduct);
-    setScanStatus("found");
-  }
-
-  async function handleTestLookup() {
+  async function handleManualBarcodeLookup() {
     if (!barcodeValue.trim()) return;
-    handleAutoLookup(barcodeValue);
+    lookupBarcodeAndSetProduct(barcodeValue);
   }
 
   async function handleMarkAsBought() {
-    if (!matchedItem) return;
+    if (!matchedShoppingItem) return;
 
-    await onMarkMatchedItemBought(matchedItem.id, true);
+    await onMarkMatchedItemBought(matchedShoppingItem.id, true);
     handleCloseModal();
   }
 
+  async function handleAddToShoppingList() {
+    if (!productResult?.name || !onAddProductToShoppingList) return;
+    setAddError(null);
+    setListAddNotice(null);
+    if (noticeClearRef.current) {
+      clearTimeout(noticeClearRef.current);
+      noticeClearRef.current = null;
+    }
+    setAddBusy(true);
+    try {
+      const result = await onAddProductToShoppingList(productResult);
+      if (!result?.success) {
+        setAddError(
+          result?.error?.message ||
+            "Could not add this item. Check your connection and try again.",
+        );
+        return;
+      }
+      const label = String(productResult.name).trim();
+      setListAddNotice(`“${label}” was added to your shopping list.`);
+      setBarcodeValue("");
+      setScanStatus("idle");
+      setProductResult(null);
+      setScannerSession((n) => n + 1);
+      noticeClearRef.current = setTimeout(() => {
+        if (mountedRef.current) setListAddNotice(null);
+        noticeClearRef.current = null;
+      }, 4500);
+    } finally {
+      setAddBusy(false);
+    }
+  }
+
   function handleCloseModal() {
+    if (noticeClearRef.current) {
+      clearTimeout(noticeClearRef.current);
+      noticeClearRef.current = null;
+    }
     setBarcodeValue("");
     setScanStatus("idle");
     setProductResult(null);
+    setAddError(null);
+    setAddBusy(false);
+    setListAddNotice(null);
     onClose();
   }
 
@@ -150,33 +195,39 @@ function BarcodeScannerModal({
       <div className="modal show d-block" tabIndex={-1}>
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
-
-            {/* HEADER */}
             <div className="modal-header">
               <h5 className="modal-title">Scan barcode</h5>
               <button className="btn-close" onClick={handleCloseModal}></button>
             </div>
 
-            {/* BODY */}
             <div className="modal-body">
-
-              {/* CAMERA */}
               <div id="reader" style={{ width: "100%", marginBottom: "15px" }} />
 
-              {/* MANUAL INPUT (fallback) */}
+              {listAddNotice ? (
+                <div className="alert alert-success py-2 mb-3" role="status" aria-live="polite">
+                  {listAddNotice}
+                </div>
+              ) : null}
+
               <input
+                id="barcode-manual-input"
+                name="barcode"
                 type="text"
                 className="form-control mb-2"
                 placeholder="Enter barcode manually"
+                aria-label="Barcode (manual entry)"
                 value={barcodeValue}
-                onChange={(e) => setBarcodeValue(e.target.value)}
+                onChange={(event) => setBarcodeValue(event.target.value)}
+                autoComplete="off"
               />
 
-              <button className="btn btn-primary mb-3" onClick={handleTestLookup}>
+              <button
+                className="btn btn-primary mb-3"
+                onClick={handleManualBarcodeLookup}
+              >
                 Test Lookup
               </button>
 
-              {/* STATES */}
               {scanStatus === "loading" && <p>Looking up product...</p>}
 
               {scanStatus === "error" && (
@@ -185,43 +236,65 @@ function BarcodeScannerModal({
 
               {scanStatus === "found" && productResult && (
                 <div>
-                  <p><strong>Product:</strong> {productResult.name}</p>
+                  <p>
+                    <strong>Product:</strong> {productResult.name}
+                  </p>
                 </div>
               )}
 
-              {/* MATCH FOUND */}
-              {scanStatus === "found" && matchedItem && (
+              {scanStatus === "found" && matchedShoppingItem && (
                 <div className="mt-2">
                   <p className="text-success">
-                    Item found in your shopping list
+                    A matching line is already on your list — you can mark it bought or add
+                    this scan as a separate line.
                   </p>
-                  <button className="btn btn-success" onClick={handleMarkAsBought}>
+                  <button
+                    type="button"
+                    className="btn btn-success me-2 mb-2"
+                    onClick={handleMarkAsBought}
+                  >
                     Mark as bought
                   </button>
                 </div>
               )}
 
-              {/* NOT FOUND */}
-              {scanStatus === "found" && !matchedItem && (
+              {scanStatus === "found" && productResult && (
                 <div className="mt-2">
-                  <p className="text-warning">
-                    Not in your shopping list
-                  </p>
-                  <button className="btn btn-outline-primary">
-                    Add to shopping list
+                  {!matchedShoppingItem ? (
+                    <p className="text-warning">Not in your shopping list</p>
+                  ) : null}
+                  {!mealPlanId ? (
+                    <p className="text-muted small mb-2">
+                      Save a meal plan for this week first so a shopping list exists.
+                    </p>
+                  ) : null}
+                  {addError ? (
+                    <p className="text-danger small" role="alert">
+                      {addError}
+                    </p>
+                  ) : null}
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    disabled={
+                      addBusy ||
+                      !mealPlanId ||
+                      !onAddProductToShoppingList ||
+                      !productResult?.name?.trim()
+                    }
+                    onClick={handleAddToShoppingList}
+                  >
+                    {addBusy ? "Adding…" : "Add to shopping list"}
                   </button>
                 </div>
               )}
-
             </div>
 
-            {/* FOOTER */}
             <div className="modal-footer">
               <button className="btn btn-secondary" onClick={handleCloseModal}>
                 Close
               </button>
             </div>
-
           </div>
         </div>
       </div>

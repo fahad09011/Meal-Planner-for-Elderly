@@ -1,7 +1,7 @@
 import {
   groupShoppingItemByName,
   normalizeShoppingItemName,
-} from "./groupShoppingItemByName";
+} from "./shoppingGroupByName";
 import { normalizeUnit } from "./transformMeal";
 const DAYS = [
   "Monday",
@@ -13,13 +13,6 @@ const DAYS = [
   "Sunday",
 ];
 const MEAL_TYPES = ["breakfast", "lunch", "dinner"];
-// { final shape
-//     name: "bay leaf",
-//     category: "Spices",
-//     aisle: "Spices and Seasonings",
-//     amount: 1,
-//     unit: ""
-//   }
 
 const normalizeText = (value) => {
   if (typeof value !== "string" || value.trim() === "") return "";
@@ -129,7 +122,7 @@ const convertAmountToTarget = (amount, sourceUnit, targetUnit, family) => {
   }
 
   if (family === "count") {
-    // Treat generic count-like units as interchangeable counts for shopping.
+    
     if (GENERIC_COUNT_UNITS.has(sourceUnit) && GENERIC_COUNT_UNITS.has(targetUnit)) {
       return numericAmount;
     }
@@ -167,7 +160,14 @@ const isLikelyLiquidSpice = (item) => {
   );
 };
 
+const isEggIngredient = (item) => {
+  const name = String(item?.name ?? "").toLowerCase();
+  if (/\beggplant\b/.test(name) || /\begg\s*roll\b/.test(name)) return false;
+  return /\b(eggs?)\b/.test(name);
+};
+
 const isLiquidItem = (item) => {
+  if (isEggIngredient(item)) return false;
   const name = String(item?.name ?? "").toLowerCase();
   const aisle = String(item?.aisle ?? "").toLowerCase();
   const category = String(item?.category ?? "").toLowerCase();
@@ -333,12 +333,12 @@ export const buildShoppingItemsFromWeeklyPlan = (weeklyPlan) => {
   const accumulator = {};
   DAYS.forEach((day) => {
     const dayPlan = weeklyPlan?.[day];
-    // console.log(day, ": Day plan:", dayPlan);
+    
     if (!dayPlan) return;
 
     MEAL_TYPES.forEach((mealType) => {
       const meal = dayPlan?.[mealType];
-    //   console.log(day, ": ", mealType, ":", meal);
+    
       if (!dayPlan) return;
 
       const ingredients = Array.isArray(meal?.ingredients)

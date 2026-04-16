@@ -12,14 +12,14 @@ describe("aisleLabel", () => {
     ).toBe("Dairy");
   });
 
-  it("groups eggs under Dairy when Spoonacular aisle is milk/eggs dairy", () => {
+  it("groups eggs under Eggs (not dairy) when Spoonacular aisle is milk/eggs dairy", () => {
     expect(
       aisleLabel({
         ingredient_name: "Eggs",
         category: "Dairy",
         aisle: "Milk, Eggs, Other Dairy",
       }),
-    ).toBe("Dairy");
+    ).toBe("Eggs");
   });
 
   it("does not treat eggplant as eggs", () => {

@@ -1,7 +1,7 @@
-/* ── Page ── */
+
 .meal-details-page {
   background: transparent;
-  min-height: calc(100vh - var(--navbar-height, 68px));
+  min-height: calc(100vh - var(--navbar-height, 128px));
   padding: 20px 24px 48px;
   max-width: 720px;
   margin: 0 auto;

@@ -9,7 +9,7 @@ function TestSupabase() {
        const{data: signInData, error: signInError} = await supabase.auth.signInWithPassword({
             email:"elderly@test.com",
             password:"test12345"
-            // from password
+            
         });
         console.log("Sign in data:", signInData);
         console.log("Sign in error:", signInError);

@@ -14,7 +14,6 @@ function MealSection({
   return (
     <section className="meal-section mb-5">
 
-      {/* Header */}
       <div className="d-flex align-items-center gap-2 mb-3 px-2 px-sm-0">
         <h2 className="h5 mb-0 fw-semibold">{label}</h2>
 
@@ -33,7 +32,6 @@ function MealSection({
         )}
       </div>
 
-      {/* Body */}
       {categoryMeals.length === 0 ? (
         <p className="text-muted fst-italic px-2">
           No {label.toLowerCase()} options found.

@@ -1,4 +1,4 @@
-/** Stored in profile as `activityLevel`; multiplier used for TDEE = BMR × factor. */
+
 export const ACTIVITY_LEVEL_OPTIONS = [
   {
     id: "sedentary",

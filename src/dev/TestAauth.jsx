@@ -21,7 +21,6 @@ function TestAuth() {
     setLog((prev) => [...prev, entry]);
   };
 
-  // ── Auth ──
   const handleSignIn = async () => {
     if (!email || !password) { addLog("ERROR:", "Enter email and password"); return; }
     const { data, error } = await signIn(email, password);
@@ -35,7 +34,7 @@ function TestAuth() {
     else addLog("Sign-out OK", {});
   };
 
-  // ── profileService (direct DB calls) ──
+  
   const handleCreate = async () => {
     if (!user) { addLog("ERROR:", "Sign in first"); return; }
     const testData = {
@@ -78,7 +77,7 @@ function TestAuth() {
     addLog("updateProfile:", result);
   };
 
-  // ── AppContext methods ──
+  
   const handleSaveProfile = async () => {
     if (!user) { addLog("ERROR:", "Sign in first"); return; }
     const contextData = {
@@ -107,7 +106,7 @@ function TestAuth() {
     addLog("hasProfile:", hasProfile);
   };
 
-  // ── mealPlanService (direct DB) ──
+  
   const handleSaveMealPlanDB = async () => {
     if (!user) { addLog("ERROR:", "Sign in first"); return; }
     const weekStart = "2026-03-16";
@@ -132,7 +131,7 @@ function TestAuth() {
     addLog("saveMealPlan (auto):", result);
   };
 
-  // ── AppContext meal plan methods ──
+  
   const handleSaveWeeklyPlanCtx = () => {
     saveWeeklyPlan(weeklyPlan);
     addLog("saveWeeklyPlan (context) called", weeklyPlan);
@@ -156,7 +155,7 @@ function TestAuth() {
     addLog("weeklyPlan cleared", {});
   };
 
-  // ── mealCompletionService (direct DB) ──
+  
   const handleSetMealCompletion = async () => {
     if (!user) { addLog("ERROR:", "Sign in first"); return; }
     if (!mealPlanId) { addLog("ERROR:", "No mealPlanId — save a meal plan first"); return; }
@@ -180,7 +179,7 @@ function TestAuth() {
     addLog("getMealCompletions:", result);
   };
 
-  // ── shoppingListService (direct DB) ──
+  
   const handleCreateOrGetShoppingList = async () => {
     if (!mealPlanId) { addLog("ERROR:", "No mealPlanId — save a meal plan first"); return; }
     addLog("Creating/getting shopping list...", { mealPlanId });
@@ -242,7 +241,6 @@ function TestAuth() {
     <div style={{ padding: "1rem", border: "2px dashed red", margin: "1rem", fontFamily: "monospace", fontSize: "13px" }}>
       <h3 style={{ margin: "0 0 0.5rem" }}>Test Panel</h3>
 
-      {/* Auth section */}
       <div style={{ marginBottom: "0.5rem", display: "flex", gap: "0.5rem", alignItems: "center", flexWrap: "wrap" }}>
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email" style={{ padding: "4px" }} />
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="password" style={{ padding: "4px" }} />
@@ -253,7 +251,6 @@ function TestAuth() {
         </span>
       </div>
 
-      {/* DB service buttons */}
       <div style={{ marginBottom: "0.5rem" }}>
         <strong>profileService (direct DB):</strong>
         <div style={{ display: "flex", gap: "0.5rem", marginTop: "4px", flexWrap: "wrap" }}>
@@ -263,7 +260,6 @@ function TestAuth() {
         </div>
       </div>
 
-      {/* Context buttons */}
       <div style={{ marginBottom: "0.5rem" }}>
         <strong>AppContext methods:</strong>
         <div style={{ display: "flex", gap: "0.5rem", marginTop: "4px", flexWrap: "wrap" }}>
@@ -273,7 +269,6 @@ function TestAuth() {
         </div>
       </div>
 
-      {/* Meal Plan DB service buttons */}
       <div style={{ marginBottom: "0.5rem" }}>
         <strong>mealPlanService (direct DB):</strong>
         <div style={{ display: "flex", gap: "0.5rem", marginTop: "4px", flexWrap: "wrap" }}>
@@ -283,7 +278,6 @@ function TestAuth() {
         </div>
       </div>
 
-      {/* Meal Plan Context buttons */}
       <div style={{ marginBottom: "0.5rem" }}>
         <strong>AppContext meal plan:</strong>
         <div style={{ display: "flex", gap: "0.5rem", marginTop: "4px", flexWrap: "wrap" }}>
@@ -293,7 +287,6 @@ function TestAuth() {
         </div>
       </div>
 
-      {/* Meal Completion service buttons */}
       <div style={{ marginBottom: "0.5rem" }}>
         <strong>mealCompletionService (direct DB):</strong>
         <div style={{ display: "flex", gap: "0.5rem", marginTop: "4px", flexWrap: "wrap" }}>
@@ -303,7 +296,6 @@ function TestAuth() {
         </div>
       </div>
 
-      {/* Shopping List service buttons */}
       <div style={{ marginBottom: "0.5rem" }}>
         <strong>shoppingListService (direct DB):</strong>
         <div style={{ display: "flex", gap: "0.5rem", marginTop: "4px", flexWrap: "wrap" }}>
@@ -314,7 +306,6 @@ function TestAuth() {
         </div>
       </div>
 
-      {/* Debug helpers */}
       <div style={{ marginBottom: "0.5rem" }}>
         <strong>Debug:</strong>
         <div style={{ display: "flex", gap: "0.5rem", marginTop: "4px", flexWrap: "wrap" }}>
@@ -322,7 +313,6 @@ function TestAuth() {
         </div>
       </div>
 
-      {/* Log */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <strong>Log:</strong>
         <button onClick={() => setLog([])} style={{ ...btnStyle, fontSize: "11px" }}>Clear Log</button>

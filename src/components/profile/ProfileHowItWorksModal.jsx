@@ -1,15 +1,12 @@
 import { useEffect, useRef } from "react";
 
-/**
- * Full profile help in one place — keeps the form scannable.
- */
 export default function ProfileHowItWorksModal({ show, onClose }) {
   const closeBtnRef = useRef(null);
 
   useEffect(() => {
     if (!show) return;
-    const onKey = (e) => {
-      if (e.key === "Escape") onClose();
+    const onKey = (event) => {
+      if (event.key === "Escape") onClose();
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);

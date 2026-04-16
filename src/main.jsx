@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client'
-import "./assets/styles/global.css"   // ← first, always
+import "./assets/styles/global.css"   
 import "./assets/styles/accessibility-app.css"
 import "./assets/styles/button.css"
 import "./assets/styles/mealCard.css"

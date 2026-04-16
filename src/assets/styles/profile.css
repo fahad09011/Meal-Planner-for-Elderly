@@ -1,7 +1,7 @@
-/* ── Page wrapper (calm fill; matches app --main-bg, no full-bleed photo) ── */
+
 .profileMainContainer {
     width: 100%;
-    min-height: calc(100vh - var(--navbar-height, 68px));
+    min-height: calc(100vh - var(--navbar-height, 128px));
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,7 +10,7 @@
     background: transparent;
   }
   
-  /* ── Form card ── */
+  
   .profileForm {
     width: 100%;
     max-width: 700px;
@@ -24,7 +24,7 @@
     gap: 0;
   }
   
-  /* ── Form title ── */
+  
   .formTitleContainer {
     margin-bottom: 8px;
   }
@@ -45,7 +45,7 @@
     margin: 16px 0;
   }
   
-  /* ── Each section ── */
+  
   .ageGroupMainSection,
   .profileMetricsSection,
   .dietaryMainSection,
@@ -244,14 +244,14 @@
     max-width: 40rem;
   }
   
-  /* ── Section title ── */
+  
   .title {
     font-size: var(--font-size-lg);
     font-weight: 600;
     color: var(--text-main);
   }
   
-  /* ── Option groups — flex wrap row ── */
+  
   .ageGroupMainContainer,
   .dietaryGroupMainContainer,
   .allergiesGroupMainContainer,
@@ -263,7 +263,7 @@
     gap: var(--gap);
   }
   
-  /* ── Individual option pill ── */
+  
   .ageGroupContainer,
   .dietaryGroupContainer,
   .allergiesGroupContainer,
@@ -285,7 +285,7 @@
     user-select: none;
   }
   
-  /* ── Checked state ── */
+  
   .ageGroupContainer:has(input:checked),
   .dietaryGroupContainer:has(input:checked),
   .allergiesGroupContainer:has(input:checked),
@@ -295,7 +295,7 @@
     border-color: var(--primary-green);
   }
   
-  /* ── Label ── */
+  
   .ageGroupContainer label,
   .dietaryGroupContainer label,
   .allergiesGroupContainer label,
@@ -307,7 +307,7 @@
     line-height: 1;
   }
   
-  /* ── Custom checkbox ── */
+  
   .check {
     position: relative;
     flex-shrink: 0;
@@ -321,7 +321,7 @@
     transition: background 0.2s ease, transform 0.15s ease;
   }
   
-  /* ── Custom radio — round ── */
+  
   input[type="radio"].check {
     border-radius: 50%;
   }
@@ -343,7 +343,7 @@
     transform-origin: center center;
   }
   
-  /* ── Radio dot instead of tick ── */
+  
   input[type="radio"].check::before {
     width: 8px;
     height: 8px;
@@ -377,7 +377,7 @@
     100% { transform: scale(1); }
   }
   
-  /* ── Form buttons ── */
+  
   .formButtonContainer {
     display: flex;
     flex-direction: row;
@@ -388,7 +388,7 @@
     flex-wrap: wrap;
   }
   
-  /* ── Responsive ── */
+  
   @media (max-width: 768px) {
     .profileForm {
       padding: 20px 16px;
@@ -413,7 +413,7 @@
     }
   }
 
-/* ── Elderly-friendly: larger type, taps, controls ── */
+
 .profile-page-lede {
   margin: 0 0 1rem;
   font-size: 1.0625rem;
@@ -529,7 +529,7 @@ input[type="radio"].check::before {
   min-width: 0;
 }
 
-/* ── Profile: less wall-of-text — intro + collapsible blocks ── */
+
 .profile-page-lede--short {
   margin-bottom: 0.75rem;
   max-width: 36rem;
@@ -568,7 +568,7 @@ input[type="radio"].check::before {
   color: var(--text-muted);
 }
 
-/* Major sections (body / food / health) */
+
 .profileFold {
   margin-bottom: 1rem;
   border: var(--border-light);
@@ -699,7 +699,7 @@ input[type="radio"].check::before {
   }
 }
 
-/* ── “How it works” modal (profile) ── */
+
 .formTitleHeaderRow {
   display: flex;
   flex-wrap: wrap;

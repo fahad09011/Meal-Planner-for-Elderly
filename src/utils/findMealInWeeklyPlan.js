@@ -10,9 +10,8 @@ const DAYS = [
 
 const MEAL_TYPES = ["breakfast", "lunch", "dinner"];
 
-/**
- * Finds a meal in context weeklyPlan by Spoonacular id (string or number).
- */
+
+
 export function findMealInWeeklyPlan(weeklyPlan, mealId) {
   if (weeklyPlan == null || mealId == null || mealId === "") {
     return null;

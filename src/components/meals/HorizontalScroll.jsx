@@ -11,34 +11,39 @@ function HorizontalScroll({ meals, selectMeal, weeklyPlan, selectedDay, daySelec
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [activeIndex,    setActiveIndex]    = useState(0);
 
-  function updateState() {
-    const el = scrollRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 8);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 8);
+  function syncScrollControls() {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+    setCanScrollLeft(scrollContainer.scrollLeft > 8);
+    setCanScrollRight(
+      scrollContainer.scrollLeft <
+        scrollContainer.scrollWidth - scrollContainer.clientWidth - 8,
+    );
     setActiveIndex(
       Math.min(
-        Math.round(el.scrollLeft / (CARD_WIDTH + CARD_GAP)),
-        meals.length - 1
-      )
+        Math.round(scrollContainer.scrollLeft / (CARD_WIDTH + CARD_GAP)),
+        meals.length - 1,
+      ),
     );
   }
 
   useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    updateState();
-    el.addEventListener("scroll", updateState, { passive: true });
-    window.addEventListener("resize", updateState, { passive: true });
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+    syncScrollControls();
+    scrollContainer.addEventListener("scroll", syncScrollControls, {
+      passive: true,
+    });
+    window.addEventListener("resize", syncScrollControls, { passive: true });
     return () => {
-      el.removeEventListener("scroll", updateState);
-      window.removeEventListener("resize", updateState);
+      scrollContainer.removeEventListener("scroll", syncScrollControls);
+      window.removeEventListener("resize", syncScrollControls);
     };
   }, [meals]);
 
-  function scrollBy(direction) {
+  function nudgeScroll(directionSign) {
     scrollRef.current?.scrollBy({
-      left: direction * (CARD_WIDTH + CARD_GAP),
+      left: directionSign * (CARD_WIDTH + CARD_GAP),
       behavior: "smooth",
     });
   }
@@ -49,7 +54,7 @@ function HorizontalScroll({ meals, selectMeal, weeklyPlan, selectedDay, daySelec
       {canScrollLeft && (
         <button
           className="scroll-arrow scroll-arrow--left"
-          onClick={() => scrollBy(-1)}
+          onClick={() => nudgeScroll(-1)}
           aria-label="Scroll left"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
@@ -62,7 +67,7 @@ function HorizontalScroll({ meals, selectMeal, weeklyPlan, selectedDay, daySelec
       {canScrollRight && (
         <button
           className="scroll-arrow scroll-arrow--right"
-          onClick={() => scrollBy(1)}
+          onClick={() => nudgeScroll(1)}
           aria-label="Scroll right"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
@@ -72,7 +77,6 @@ function HorizontalScroll({ meals, selectMeal, weeklyPlan, selectedDay, daySelec
         </button>
       )}
 
-      {/* Scroll row */}
       <div ref={scrollRef} className="meal-hscroll">
         {meals.map((meal) => (
           <div
@@ -91,17 +95,19 @@ function HorizontalScroll({ meals, selectMeal, weeklyPlan, selectedDay, daySelec
         <div className="meal-hscroll__spacer" aria-hidden="true" />
       </div>
 
-      {/* Dot indicators */}
       {meals.length > 1 && (
         <div className="meal-hscroll__dots" aria-hidden="true">
-          {Array.from({ length: Math.min(meals.length, 7) }).map((_, i) => (
-            <span
-              key={i}
-              className={`meal-hscroll__dot ${
-                i === activeIndex ? "meal-hscroll__dot--active" : ""
-              }`}
-            />
-          ))}
+          {Array.from(
+            { length: Math.min(meals.length, 7) },
+            (_ignored, dotIndex) => (
+              <span
+                key={dotIndex}
+                className={`meal-hscroll__dot ${
+                  dotIndex === activeIndex ? "meal-hscroll__dot--active" : ""
+                }`}
+              />
+            ),
+          )}
         </div>
       )}
 

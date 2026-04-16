@@ -1,9 +1,5 @@
 import React from "react";
 
-/**
- * Large, clear filter controls for list visibility (elderly-friendly).
- * @param {'all' | 'pending' | 'done'} value
- */
 function ShoppingFilters({ value, onChange, counts }) {
   const { total = 0, pending = 0, done = 0 } = counts || {};
 

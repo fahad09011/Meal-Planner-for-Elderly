@@ -12,14 +12,8 @@ const filterByDietary = (meal, profile) => {
     const allowedDiets = dietCompatibilityMap[selectedDiet] || [selectedDiet];
     return allowedDiets.some((allowedDiet)=>mealDiet.includes(allowedDiet));
   })
-// const result = profile.dietary.every((dt) => meal.diet.includes(dt));
-// console.log("filterByDietary result:", result);
 
-//   return result
 };
-
-
-
 
 const parseNutritionRuleKey = (ruleKey) => {
   let ruleType = "";
@@ -55,8 +49,8 @@ const filterByHealthCondition = (meal, profile) => {
           if (ruleType === "min" && nutrientAmount < value) return false;
         }
 
-        // console.log("healthCondition",healthCondition,healthConditionRules[healthCondition],
-        // );
+        
+        
       }
     }
   }
@@ -98,7 +92,6 @@ const mealFitsCalorieLimit = (meal, profile) => {
   return true;
 };
 
-// meal type dinner , lunch , dinner count consts section ====================
 export const mealCountByCategory = (filterMeal) => {
   const breakFast = filterMeal.filter((meal) => {
     return meal.mealType === "breakfast";
@@ -120,14 +113,14 @@ const filterMeals = (meals, profile) => {
   let filteredMeal = meals.filter((meal) => {
     return (
       filterByDietary(meal, profile) &&
-      // filterByAllergens(meal, profile) &&
+      
       filterByHealthCondition(meal, profile) &&
       mealFitsCalorieLimit(meal, profile) &&
       filterByBudget(meal, profile)
     );
   });
-  // console.log("from services", filteredMeal);
-  // console.log("Total filtered meals: ", filteredMeal.length);
+  
+  
   return filteredMeal;
 };
 export default filterMeals;

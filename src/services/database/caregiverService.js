@@ -24,6 +24,63 @@ export async function listOutgoingCaregiverLinks(caregiverUserId) {
   return { success: true, data: data ?? [] };
 }
 
+export async function getRecipientNamesByUserIds(userIds) {
+  const ids = Array.isArray(userIds) ? [...new Set(userIds.filter(Boolean))] : [];
+  if (ids.length === 0) {
+    return { success: true, data: {} };
+  }
+
+  const idSet = new Set(ids.map((id) => String(id)));
+  const map = {};
+
+  const { data: rpcRows, error: rpcError } = await supabase.rpc(
+    "get_care_recipient_display_names_for_caregiver",
+  );
+  if (!rpcError && Array.isArray(rpcRows)) {
+    rpcRows.forEach((row) => {
+      const id = row?.elderly_user_id != null ? String(row.elderly_user_id) : "";
+      if (!id || !idSet.has(id)) return;
+      const name =
+        typeof row?.display_name === "string" ? row.display_name.trim() : "";
+      if (name) map[id] = name;
+    });
+  } else if (rpcError) {
+    const msg = String(rpcError.message ?? "").toLowerCase();
+    const missingFn =
+      rpcError.code === "42883" || msg.includes("could not find the function");
+    if (!missingFn) {
+      console.error("get_care_recipient_display_names_for_caregiver:", rpcError);
+    }
+  }
+
+  const missingForProfile = ids.map(String).filter((id) => !map[id]);
+  if (missingForProfile.length === 0) {
+    return { success: true, data: map };
+  }
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("user_id, full_name")
+    .in("user_id", missingForProfile);
+
+  if (error) {
+    const msg = String(error.message ?? "").toLowerCase();
+    const missingCol = msg.includes("full_name") && (msg.includes("does not exist") || msg.includes("schema cache"));
+    if (!missingCol) {
+      console.error("getRecipientNamesByUserIds (profiles):", error);
+    }
+    return { success: true, data: map };
+  }
+
+  (data ?? []).forEach((row) => {
+    const id = row?.user_id != null ? String(row.user_id) : "";
+    if (!id || !idSet.has(id)) return;
+    const name = typeof row?.full_name === "string" ? row.full_name.trim() : "";
+    if (name && !map[id]) map[id] = name;
+  });
+  return { success: true, data: map };
+}
+
 export async function createCaregiverLink(caregiverUserId, elderlyUserId) {
   if (!caregiverUserId) {
     return { success: false, error: new Error("You must be signed in.") };
@@ -36,8 +93,6 @@ export async function createCaregiverLink(caregiverUserId, elderlyUserId) {
     return { success: false, error: new Error("You cannot add your own account as a care recipient.") };
   }
 
-  // Uses SECURITY DEFINER RPC so RLS can verify the elderly user has a profile row
-  // (direct INSERT + EXISTS on profiles fails: caregivers cannot read others' profiles until linked).
   const { data, error } = await supabase.rpc("create_caregiver_link", {
     p_elderly_user_id: elderly,
   });

@@ -1,4 +1,4 @@
-/* MealPlanner login — forest green hero + form */
+
 .loginPage {
   --login-green: #4a6759;
   --login-green-deep: #3d5648;
@@ -28,7 +28,7 @@
   background: #fff;
 }
 
-/* —— Hero (replaces stock photo) —— */
+
 .loginHero {
   position: relative;
   background: linear-gradient(160deg, var(--login-green) 0%, var(--login-green-deep) 55%, #354a3f 100%);
@@ -224,7 +224,7 @@
   color: rgba(255, 255, 255, 0.88);
 }
 
-/* Staggered entrance */
+
 .loginHeroReveal {
   opacity: 0;
   animation: loginHeroIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -255,7 +255,7 @@
   }
 }
 
-/* —— Form column —— */
+
 .loginCardBody {
   display: flex;
   flex-direction: column;

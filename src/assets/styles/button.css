@@ -1,4 +1,4 @@
-/* ── Primary green button ── */
+
 .button {
   font-weight: 500;
   font-size: var(--font-size-base);
@@ -30,7 +30,7 @@
   cursor: not-allowed;
 }
 
-/* ── Ghost / inactive ── */
+
 .inActive {
   background: var(--white);
   color: var(--text-main);
@@ -41,7 +41,7 @@
   background: var(--light-bg);
 }
 
-/* ── Day selector button ── */
+
 .dayButton {
   width: 100%;
   padding: 9px 6px;
@@ -59,7 +59,7 @@
   line-height: 1;
 }
 
-/* ── Save for day / Generate plan ── */
+
 .save-day-btn,
 .generate-plan-btn {
   flex: 1;
@@ -94,7 +94,7 @@
   transform: scale(0.98);
 }
 
-/* Top save button — compact version */
+
 .save-day-btn-top {
   flex: 0 0 auto;
   min-width: 0;
@@ -124,7 +124,7 @@
   box-shadow: none;
 }
 
-/* ── Meal card select button ── */
+
 .mealButton {
   width: 100%;
   height: 40px;
@@ -148,7 +148,7 @@
   color: var(--white);
 }
 
-/* ── Selected meal state ── */
+
 .click {
   background: var(--primary-green);
   color: var(--white);

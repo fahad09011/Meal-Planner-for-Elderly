@@ -7,9 +7,9 @@
 }
 
 :root {
-  --navbar-height: 68px;
+  --navbar-height: 128px;
 
-  /* Brand — sage / warm neutrals */
+  
   --primary-green: #5f826f;
   --primary-green-dark: #4a6b5c;
   --primary-green-hover: #6d9484;
@@ -87,7 +87,7 @@ body {
   color: var(--text-main);
 }
 
-/* Shared heading style — use with class or pages can set locally */
+
 .app-heading {
   font-family: var(--font-display);
   font-weight: 600;

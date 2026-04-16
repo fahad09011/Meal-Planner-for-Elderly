@@ -8,6 +8,7 @@ import {
   getShoppingListItems,
   syncShoppingListFromWeeklyPlan,
   updateShoppingListItemChecked,
+  addShoppingListItemFromBarcodeProduct,
 } from "../services/database/shoppingListService";
 import BarcodeScannerModal from "../components/shopping/BarcodeScannerModal";
 import ShoppingHowItWorksModal from "../components/shopping/ShoppingHowItWorksModal";
@@ -48,7 +49,7 @@ function Shopping() {
     shoppingListSessionCache,
     setShoppingListSessionCache,
   } = useContext(AppContext);
-  /** Meal plan is loaded from DB on app init; avoid flashing “no plan” while id is still null. */
+  
   const waitingForMealPlan = Boolean(
     user && !authLoading && mealPlanLoading && !mealPlanId,
   );
@@ -142,6 +143,28 @@ function Shopping() {
   const total = shoppingItems.length;
   const done = shoppingItems.filter((item) => item.checked).length;
   const counts = { total, pending: total - done, done };
+
+  async function handleAddBarcodeProductToList(product) {
+    if (!mealPlanId || !user?.id) {
+      return {
+        success: false,
+        error: new Error("Sign in and load a meal plan before adding items."),
+      };
+    }
+    const result = await addShoppingListItemFromBarcodeProduct(
+      mealPlanId,
+      user.id,
+      product,
+    );
+    if (!result.success) return result;
+
+    setShoppingItems((list) => {
+      const next = [...list, result.data];
+      setShoppingListSessionCache({ mealPlanId, items: next });
+      return next;
+    });
+    return result;
+  }
 
   async function handleToggleChecked(itemId, checked) {
     let snapshot;
@@ -327,7 +350,8 @@ function Shopping() {
                 mealPlanId={mealPlanId}
                 shoppingItems={shoppingItems}
                 onMarkMatchedItemBought={handleToggleChecked}
-                />
+                onAddProductToShoppingList={handleAddBarcodeProductToList}
+              />
             ) : null}
           </aside>
         </main>

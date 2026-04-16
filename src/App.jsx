@@ -2,7 +2,7 @@
 import './App.css'
 import Home from './pages/Home';
 import MealPlan from './pages/MealPlan';
-// import BrowseMeal from './pages/BrowseMeal'; // Iteration 2 — browse not implemented yet
+
 import Shopping from './pages/Shopping';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/common/Navbar';
@@ -12,8 +12,6 @@ import LoginForm from './pages/LoginForm';
 import Caregiving from './pages/Caregiving';
 import MealDetails from './pages/MealDetails';
 import { AppProvider } from './hooks/AppContext';
-// import TestMealPlanSave from './dev/TestMealPlanSave';
-// import TestAuth from './dev/TestAauth';
 
 function App() {
   return (
@@ -27,7 +25,7 @@ function App() {
       <Route path="/" element={<Home/>}/>
       <Route path="/home" element={<Home/>}/>
       <Route path="/mealPlan" element={<MealPlan/>}/>
-      {/* <Route path="/browseMeals" element={<BrowseMeal/>}/> — Iteration 2 */}
+
       <Route path="/viewPlan" element={<ViewPlan/>}/>
       <Route path="/mealDetails/:mealId" element={<MealDetails/>}/>
       <Route path="/shopping" element={<Shopping/>}/>
@@ -38,8 +36,7 @@ function App() {
   </Routes>
     </div>
     </Router>
-    {/* <TestMealPlanSave /> — import from ./dev/TestMealPlanSave when debugging */}
-        {/* <TestAuth/> */}
+
         </AppProvider>
     </>
   )

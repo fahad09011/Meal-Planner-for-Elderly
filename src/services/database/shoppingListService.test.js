@@ -1,11 +1,20 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-/* ── Build a chainable mock that mirrors the Supabase query-builder ── */
 let resolvedValue = { data: null, error: null };
+
+function createInsertSelectBuilder(res) {
+  const promise = Promise.resolve(res);
+  return {
+    single: () => promise,
+    then: (onFulfilled, onRejected) => promise.then(onFulfilled, onRejected),
+    catch: (onRejected) => promise.catch(onRejected),
+  };
+}
 
 const mockSingle = vi.fn(() => resolvedValue);
 const mockMaybeSingle = vi.fn(() => resolvedValue);
-const mockSelectAfterInsert = vi.fn(() => resolvedValue);
+/** Supports `await insert().select()` and `await insert().select().single()`. */
+const mockSelectAfterInsert = vi.fn(() => createInsertSelectBuilder(resolvedValue));
 const mockSelectAfterUpsert = vi.fn(() => ({ single: mockSingle }));
 const mockInsert = vi.fn(() => ({ select: mockSelectAfterInsert }));
 const mockUpsert = vi.fn(() => ({ select: mockSelectAfterUpsert }));
@@ -36,16 +45,18 @@ const {
   replaceShoppingListItems,
   getShoppingListItems,
   updateShoppingListItemChecked,
+  addShoppingListItemFromBarcodeProduct,
 } = await import("./shoppingListService");
 
 beforeEach(() => {
   vi.clearAllMocks();
   resolvedValue = { data: null, error: null };
+  mockSelectAfterInsert.mockImplementation(() => createInsertSelectBuilder(resolvedValue));
 });
 
 describe("shoppingListService", () => {
 
-  // ─── createOrGetShoppingList ───
+  
   describe("createOrGetShoppingList", () => {
     it("returns error when mealPlanId is falsy", async () => {
       const result = await createOrGetShoppingList(null);
@@ -77,7 +88,7 @@ describe("shoppingListService", () => {
     });
   });
 
-  // ─── replaceShoppingListItems ───
+  
   describe("replaceShoppingListItems", () => {
     it("returns error when shoppingListId is falsy", async () => {
       const result = await replaceShoppingListItems(null, [], "user-1");
@@ -105,7 +116,9 @@ describe("shoppingListService", () => {
       const items = [
         { name: "Milk", category: "Dairy", aisle: "Dairy Aisle", amount: 500, unit: "ml" },
       ];
-      mockSelectAfterInsert.mockReturnValue({ data: [{ id: "item-1" }], error: null });
+      mockSelectAfterInsert.mockImplementation(() =>
+        createInsertSelectBuilder({ data: [{ id: "item-1" }], error: null }),
+      );
 
       const result = await replaceShoppingListItems("sl-1", items, "user-1");
       expect(result.success).toBe(true);
@@ -128,13 +141,15 @@ describe("shoppingListService", () => {
 
     it("returns error when insert fails", async () => {
       mockDeleteEq.mockReturnValue({ error: null });
-      mockSelectAfterInsert.mockReturnValue({ data: null, error: { message: "insert fail" } });
+      mockSelectAfterInsert.mockImplementation(() =>
+        createInsertSelectBuilder({ data: null, error: { message: "insert fail" } }),
+      );
       const result = await replaceShoppingListItems("sl-1", [{ name: "Milk" }], "user-1");
       expect(result.success).toBe(false);
     });
   });
 
-  // ─── getShoppingListItems ───
+  
   describe("getShoppingListItems", () => {
     it("returns error when mealPlanId is falsy", async () => {
       const result = await getShoppingListItems(null);
@@ -150,13 +165,13 @@ describe("shoppingListService", () => {
     });
 
     it("queries items by shopping_list_id when list exists", async () => {
-      // First call: shopping_lists → .select("*").eq("meal_plan_id", ...).maybeSingle()
-      // Second call: shopping_list_items → .select("*").eq("shopping_list_id", ...)
+      
+      
       mockMaybeSingle.mockReturnValueOnce({ data: { id: "sl-1" }, error: null });
-      // After maybeSingle resolves, the service calls from("shopping_list_items").select("*").eq(...)
-      // mockSelectEq1 is called with "shopping_list_id", and returns { eq: mockSelectEq2 }
-      // but for this second query there's no second eq — it ends at eq1 level.
-      // The chain is: from → select("*") → eq("shopping_list_id", sl.id) → returns data
+      
+      
+      
+      
       mockSelectEq1.mockReturnValueOnce({ eq: mockSelectEq2, maybeSingle: mockMaybeSingle })
                     .mockReturnValueOnce({ data: [{ id: "item-1", ingredient_name: "Egg" }], error: null });
 
@@ -172,7 +187,7 @@ describe("shoppingListService", () => {
     });
   });
 
-  // ─── updateShoppingListItemChecked ───
+  
   describe("updateShoppingListItemChecked", () => {
     it("returns error when itemId is falsy", async () => {
       const result = await updateShoppingListItemChecked(null, true);
@@ -194,6 +209,47 @@ describe("shoppingListService", () => {
       mockUpdateSelectSingle.mockReturnValue({ data: null, error: { message: "fail" } });
       const result = await updateShoppingListItemChecked("item-1", true);
       expect(result.success).toBe(false);
+    });
+  });
+
+  describe("addShoppingListItemFromBarcodeProduct", () => {
+    it("returns error when mealPlanId or userId is missing", async () => {
+      const r1 = await addShoppingListItemFromBarcodeProduct(null, "u1", { name: "Milk" });
+      expect(r1.success).toBe(false);
+      const r2 = await addShoppingListItemFromBarcodeProduct("p1", null, { name: "Milk" });
+      expect(r2.success).toBe(false);
+    });
+
+    it("returns error when product name is empty", async () => {
+      const result = await addShoppingListItemFromBarcodeProduct("p1", "u1", { name: "  " });
+      expect(result.success).toBe(false);
+    });
+
+    it("upserts list then inserts item with added_by_barcode true", async () => {
+      mockSingle.mockReturnValueOnce({ data: { id: "sl-1" }, error: null });
+      resolvedValue = {
+        data: {
+          id: "item-new",
+          ingredient_name: "Test Product",
+          added_by_barcode: true,
+        },
+        error: null,
+      };
+
+      const result = await addShoppingListItemFromBarcodeProduct("plan-1", "user-1", {
+        name: "Test Product",
+        barcode: "123",
+      });
+
+      expect(result.success).toBe(true);
+      expect(result.data.id).toBe("item-new");
+      expect(mockFrom).toHaveBeenCalledWith("shopping_lists");
+      expect(mockFrom).toHaveBeenCalledWith("shopping_list_items");
+      const insertArg = mockInsert.mock.calls[mockInsert.mock.calls.length - 1][0][0];
+      expect(insertArg.ingredient_name).toBe("Test Product");
+      expect(insertArg.added_by_barcode).toBe(true);
+      expect(insertArg.shopping_list_id).toBe("sl-1");
+      expect(insertArg.updated_by).toBe("user-1");
     });
   });
 });

@@ -19,8 +19,8 @@ function Caregiving() {
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
 
-  async function handleAdd(e) {
-    e.preventDefault();
+  async function handleAdd(event) {
+    event.preventDefault();
     setError(null);
     setMessage(null);
     if (!user) return;
@@ -31,11 +31,11 @@ function Caregiving() {
       setMessage("Care recipient added. Their meal plan and shopping data will load when you select them above.");
       setElderlyIdInput("");
     } else {
-      const msg =
+      const errorMessage =
         result.error?.message ||
         result.error?.details ||
         "Could not add this user. They need an account and a saved profile first.";
-      setError(msg);
+      setError(errorMessage);
     }
   }
 
@@ -98,13 +98,14 @@ function Caregiving() {
 
       <div className="caregiving-card">
         <h2>Add care recipient</h2>
-        <form onSubmit={handleAdd}>
+        <form id="caregiving-add-recipient-form" name="addCareRecipient" onSubmit={handleAdd}>
           <div className="caregiving-form-row">
             <label className="visually-hidden" htmlFor="care-elderly-id">
               Elderly user ID
             </label>
             <input
               id="care-elderly-id"
+              name="elderlyUserId"
               className="caregiving-input"
               type="text"
               placeholder="e.g. 3fa85f64-5717-4562-b3fc-2c963f66afa6"
@@ -135,7 +136,12 @@ function Caregiving() {
           <ul className="caregiving-list">
             {careRecipients.map((row) => (
               <li key={row.id}>
-                <span className="caregiving-id">{row.elderly_user_id}</span>
+                <span className="caregiving-id">
+                  {row.elderly_name?.trim() || "Unnamed recipient"}
+                  <small style={{ display: "block", opacity: 0.75 }}>
+                    {row.elderly_user_id}
+                  </small>
+                </span>
                 <Button
                   type="button"
                   className="inActive button"

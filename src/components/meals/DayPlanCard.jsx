@@ -15,10 +15,10 @@ const MOCK_NUTRIENTS = {
 function DayPlanCard({
   day,
   dayPlan,
-  isMealDone,       // (day, mealType) => boolean — from useMealTracking
-  toggleMealDone,   // (day, mealType) => void
-  markDayDone,      // (day) => void
-  isDayComplete,    // (day) => boolean
+  isMealDone,       
+  toggleMealDone,   
+  markDayDone,      
+  isDayComplete,    
 }) {
   const navigate = useNavigate();
 
@@ -38,8 +38,6 @@ function DayPlanCard({
 
   return (
     <div className="day-plan-card">
-
-      {/* ── Card header ── */}
       <div className="day-plan-card-header">
         <div>
           <h3 className="day-plan-card-title">{day}</h3>
@@ -61,8 +59,6 @@ function DayPlanCard({
           )}
         </div>
       </div>
-
-      {/* ── Meal rows ── */}
       <div className="day-plan-meal-list">
         {SLOTS.map(({ key, label, bg, color }) => {
           const meal = dayPlan[key];
@@ -73,14 +69,11 @@ function DayPlanCard({
               key={key}
               className={`meal-row ${!meal ? "meal-row--empty" : ""} ${done ? "meal-row--done" : ""}`}
             >
-              {/* Category colour column */}
               <div className="meal-row-category" style={{ background: bg }}>
                 <span className="meal-row-category-label" style={{ color }}>
                   {label}
                 </span>
               </div>
-
-              {/* Image */}
               <div className="meal-row-image-wrap">
                 <img
                   src={meal?.image || mealImg}
@@ -88,8 +81,6 @@ function DayPlanCard({
                   className="meal-row-image"
                 />
               </div>
-
-              {/* Info */}
               <div className="meal-row-content">
                 <p className="meal-row-title">
                   {meal
@@ -148,12 +139,8 @@ function DayPlanCard({
                   </>
                 )}
               </div>
-
-              {/* Right side — checkbox + view recipe */}
               {meal && (
                 <div className="meal-row-actions">
-
-                  {/* ── Done checkbox ── */}
                   <button
                     className={`meal-done-check ${done ? "meal-done-check--done" : ""}`}
                     onClick={() => toggleMealDone(day, key)}
@@ -172,8 +159,6 @@ function DayPlanCard({
                       </svg>
                     )}
                   </button>
-
-                  {/* ── View recipe ── */}
                   <button
                     className="meal-row-view-recipe-btn"
                     onClick={() =>

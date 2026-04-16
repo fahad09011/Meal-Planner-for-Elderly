@@ -1,15 +1,15 @@
-/**
- * App-wide accessibility: visible focus, calmer motion, readable defaults.
- * Complements page-specific styles (meal plan, view plan, etc.).
- */
 
-/* Minimum readable line length comfort */
+
+
+
+
+
 p,
 li {
   line-height: 1.5;
 }
 
-/* Keyboard focus — high-contrast ring for links & native controls */
+
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -21,7 +21,7 @@ textarea:focus-visible,
   outline-offset: 2px;
 }
 
-/* Login inputs already use border + box-shadow on focus */
+
 .loginPage .loginField input:focus-visible {
   outline: none;
 }

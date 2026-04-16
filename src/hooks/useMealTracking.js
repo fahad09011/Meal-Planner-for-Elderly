@@ -21,13 +21,11 @@ const createEmptyTracking = () => {
   }, {});
 };
 
-
 function useMealTracking(mealPlanId, trackingEpoch = 0) {
   const { user } = useAuth();
   const [mealTracking, setMealTracking] = useState(createEmptyTracking());
   const [trackingLoading, setTrackingLoading] = useState(false);
 
-  // ── Load tracking from DB when week changes ──
   useEffect(() => {
     if (!mealPlanId) {
       setMealTracking(createEmptyTracking());
@@ -45,8 +43,8 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
 
         const tracking = createEmptyTracking();
 
-        // DB rows can come in mixed enum casing depending on migration history.
-        // Normalize keys before writing into our strict local shape.
+        
+        
         result.data.forEach((row) => {
           const dayKey = String(row.day_of_week ?? "").trim();
           const mealKey = String(row.meal_type ?? "").toLowerCase().trim();
@@ -56,8 +54,8 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
         });
 
         setMealTracking(tracking);
-      } catch (err) {
-        console.error("Failed to load meal tracking:", err);
+      } catch (error) {
+        console.error("Failed to load meal tracking:", error);
         setMealTracking(createEmptyTracking());
       } finally {
         setTrackingLoading(false);
@@ -67,7 +65,6 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
     fetchTracking();
   }, [mealPlanId, trackingEpoch]);
 
-  // ── Toggle one meal done/undone ──
   async function toggleMealDone(day, mealType) {
     if (!mealPlanId || !user) return;
     if (!DAYS.includes(day) || !MEAL_TYPES.includes(mealType)) return;
@@ -75,8 +72,6 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
     const currentValue = mealTracking?.[day]?.[mealType] ?? false;
     const nextValue = !currentValue;
 
-    // Persist first, then update UI.
-    // This prevents showing "done" in UI when DB save actually fails.
     const result = await setMealCompletion(
       mealPlanId,
       day,
@@ -89,7 +84,7 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
       return;
     }
 
-    // update local state
+    
     setMealTracking((prev) => ({
       ...prev,
       [day]: {
@@ -99,7 +94,6 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
     }));
   }
 
-  // ── Mark all meals done for a day ──
   async function markDayDone(day) {
     if (!DAYS.includes(day) || !mealPlanId || !user) return;
   
@@ -122,7 +116,6 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
     }));
   }
 
-  // ── Derived values ──
   const completedDays = DAYS.filter(
     (day) => MEAL_TYPES.every((mealType) => mealTracking[day]?.[mealType]),
   ).length;
