@@ -77,6 +77,23 @@ export function AuthProvider({ children }) {
     return { error };
   }
 
+  /** Sends Supabase “reset password” email. Add this URL in Dashboard → Auth → Redirect URLs. */
+  async function sendPasswordResetEmail(email) {
+    const redirectTo = `${window.location.origin}/reset-password`;
+    const { error } = await supabase.auth.resetPasswordForEmail(
+      email.trim(),
+      { redirectTo },
+    );
+    return { error };
+  }
+
+  async function updatePassword(newPassword) {
+    const { data, error } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+    return { data, error };
+  }
+
   const value = {
     session,
     user,
@@ -84,6 +101,8 @@ export function AuthProvider({ children }) {
     signIn,
     signUp,
     signOut,
+    sendPasswordResetEmail,
+    updatePassword,
     isAuthenticated: !!user,
   };
 

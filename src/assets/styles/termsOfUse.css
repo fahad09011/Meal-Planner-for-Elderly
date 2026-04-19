@@ -1,0 +1,98 @@
+/* Terms of use — readable legal-style page */
+
+.termsPage {
+  width: 100%;
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2rem clamp(16px, 4vw, 28px) 3.5rem;
+  min-height: calc(100vh - var(--navbar-height, 68px));
+}
+
+.termsContainer {
+  background: var(--white);
+  border: var(--border-light);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.termsHeader {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(90, 82, 88, 0.12);
+}
+
+.termsTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--text-main);
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+
+.termsUpdated {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.termsBody {
+  font-size: var(--font-size-base);
+  line-height: 1.65;
+  color: var(--text-main);
+}
+
+.termsBody h2 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 1.75rem 0 0.65rem;
+  color: var(--primary-green-dark);
+  letter-spacing: -0.02em;
+}
+
+.termsBody h2:first-of-type {
+  margin-top: 0;
+}
+
+.termsBody p {
+  margin: 0 0 0.85rem;
+}
+
+.termsBody ul {
+  margin: 0 0 1rem;
+  padding-left: 1.35rem;
+}
+
+.termsBody li {
+  margin-bottom: 0.45rem;
+}
+
+.termsBody li:last-child {
+  margin-bottom: 0;
+}
+
+.termsFooterNav {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(90, 82, 88, 0.12);
+}
+
+.termsBackLink {
+  font-weight: 600;
+  color: var(--primary-green-dark);
+  text-decoration: none;
+}
+
+.termsBackLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.termsBackLink:focus-visible {
+  outline: 3px solid var(--primary-green);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
