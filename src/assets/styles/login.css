@@ -495,11 +495,6 @@
   color: var(--login-green);
 }
 
-.loginFooterDot {
-  color: #c5ccc8;
-  user-select: none;
-}
-
 .loginRoleFieldset {
   border: none;
   margin: 0 0 1rem;
@@ -565,6 +560,16 @@
   font-size: 0.8rem;
   color: #6b756f;
   line-height: 1.35;
+}
+
+/* Standalone auth screens (e.g. reset password from email link) */
+.loginCard--narrow {
+  grid-template-columns: 1fr;
+  max-width: 420px;
+}
+
+.loginCardBody--solo {
+  padding: 2rem 1.75rem;
 }
 
 @media (max-width: 768px) {

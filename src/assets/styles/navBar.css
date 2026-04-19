@@ -7,89 +7,115 @@
   height: 36px;
   width: 36px;
   border-radius: 50%;
-  border: 2px solid rgba(95, 130, 111, 0.35);
+  border: none;
   box-shadow: 0 2px 8px rgba(42, 36, 40, 0.08);
   object-fit: cover;
   flex-shrink: 0;
+  display: block;
 }
 
-.app-navbar.navbar {
+/* One-row navbar: logo | nav | account (desktop); logo + toggler, then drawer (mobile) */
+.app-navbar.navbar,
+.app-navbar.navbar.navbar-light {
   position: sticky;
   top: 0;
   z-index: 1030;
-  min-height: var(--navbar-height, 128px);
+  min-height: var(--navbar-height, 72px);
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(14px) saturate(1.2);
   -webkit-backdrop-filter: blur(14px) saturate(1.2);
-  border-bottom: 1px solid rgba(95, 130, 111, 0.12);
+  border: none !important;
   box-shadow: 0 4px 24px rgba(42, 36, 40, 0.06);
-  padding: 0 18px !important;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  padding: 0 !important;
+}
+
+@media (min-width: 992px) {
+  .app-navbar.navbar,
+  .app-navbar.navbar.navbar-light {
+    padding: 0 18px !important;
+  }
 }
 
 .app-navbar__inner {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding-top: 8px;
-  padding-bottom: 10px;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 
-.app-navbar__top {
+@media (max-width: 991.98px) {
+  /* Full-width shell: remove Bootstrap container-fluid side gutters on small screens */
+  .app-navbar .container-fluid.app-navbar__inner {
+    --bs-gutter-x: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    max-width: none;
+  }
+
+  .app-navbar__inner {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  /* Inset only the top bar (logo + menu); drawer goes edge-to-edge below */
+  .app-navbar__row {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+.app-navbar__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 56px;
   width: 100%;
+  flex-wrap: nowrap;
+  min-height: 52px;
 }
 
-.app-navbar__top-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  flex: 0 0 auto;
-  margin-left: auto;
-  justify-content: flex-end;
-  max-width: 100%;
+/* Small screens: menu drawer wraps to its own full-width row under logo + toggler */
+@media (max-width: 991.98px) {
+  .app-navbar__row {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .app-navbar__collapse {
+    flex-basis: 100%;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    order: 3;
+  }
 }
 
-.app-navbar__nav {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 4px 6px;
-  width: 100%;
-  margin: 0;
-  padding: 4px 0 0;
-  list-style: none;
-}
-
-.app-navbar__nav .nav-item {
-  margin: 0;
-}
-
-.app-navbar__links {
-  width: 100%;
+.app-navbar__collapse {
   display: none;
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
 }
 
-.app-navbar__links--open {
-  display: block;
+.app-navbar__collapse--open {
+  display: flex;
   animation: navbar-collapse-in 0.22s ease-out;
 }
 
 @media (min-width: 992px) {
-  .app-navbar__links {
-    display: block;
+  .app-navbar__collapse {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    gap: 12px;
+    animation: none;
   }
 
-  .app-navbar__links--open {
+  .app-navbar__collapse--open {
     animation: none;
   }
 }
@@ -106,25 +132,114 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .app-navbar__links--open {
+  .app-navbar__collapse--open {
     animation: none;
   }
 }
 
 @media (max-width: 991.98px) {
-  .app-navbar__links--open {
+  .app-navbar__collapse--open {
     background: rgba(255, 255, 255, 0.98);
-    border-top: 1px solid rgba(95, 130, 111, 0.1);
-    padding: 12px 0 16px;
-    margin-top: 8px;
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    border: none;
+    margin-top: 4px;
+    margin-left: -12px;
+    margin-right: -12px;
+    width: calc(100% + 24px);
+    max-width: none;
+    box-sizing: border-box;
+    padding: 12px max(12px, env(safe-area-inset-left, 0px)) 16px
+      max(12px, env(safe-area-inset-right, 0px));
+    border-radius: 0;
     box-shadow: 0 12px 32px rgba(42, 36, 40, 0.08);
   }
 }
 
-.app-navbar .container-fluid {
-  max-width: 1320px;
-  margin: 0 auto;
+.app-navbar__nav {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px 6px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app-navbar__nav .nav-item {
+  margin: 0;
+}
+
+@media (min-width: 992px) {
+  .app-navbar__nav {
+    flex: 1 1 auto;
+    justify-content: center;
+    flex-wrap: nowrap;
+    width: auto;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .app-navbar__nav {
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: nowrap;
+  }
+
+  .app-navbar__nav .nav-link {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+.app-navbar__account {
+  flex-shrink: 0;
+}
+
+@media (min-width: 992px) {
+  .app-navbar__account {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 991.98px) {
+  /* Avatar + select on one row; sign-out / log-in fixed-width chip below */
+  .app-navbar__account.infoContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.65rem;
+    width: 100%;
+  }
+
+  .app-navbar__account .navbar-user-avatar {
+    flex: 0 0 auto;
+    align-self: center;
+  }
+
+  .app-navbar__account .navbar-care-select {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    max-width: none;
+    align-self: center;
+  }
+
+  .app-navbar__account .navbar-userIdentity {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .app-navbar__account .navSignOut,
+  .app-navbar__account a.navSignOut.navSignOut--link {
+    flex: 0 0 auto;
+    align-self: flex-start;
+    width: min(11rem, 100%);
+    box-sizing: border-box;
+  }
 }
 
 .app-navbar .navbar-brand {
@@ -136,6 +251,7 @@
   font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--primary-green-dark);
+  flex-shrink: 0;
 }
 
 .app-navbar .navbar-brand:hover {
@@ -188,78 +304,57 @@
     rgba(255, 255, 255, 0.95) 0%,
     rgba(248, 252, 249, 0.88) 100%
   );
-  border: 1px solid rgba(95, 130, 111, 0.18);
+  border: none;
   border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  box-shadow: none;
 }
 
-.navbar-care-wrap {
+/* Navbar account strip: no card frame (user asked to drop borders here) */
+.app-navbar__account.infoContainer {
+  background: transparent;
+  padding: 0.25rem 0;
+}
+
+/* Caregiver account strip: avatar → whose data (select) → Sign out */
+.navbar-user-avatar {
   display: flex;
   align-items: center;
-  gap: 0.5rem 0.65rem;
-  flex-wrap: wrap;
-  padding: 0.35rem 0.65rem 0.35rem 0.5rem;
-  border-radius: var(--border-radius-sm);
-  background: rgba(232, 242, 236, 0.55);
-  border: 1px solid rgba(95, 130, 111, 0.14);
-}
-
-.navbar-care-label {
-  font-size: var(--font-size-xs);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--primary-green-dark);
-  margin: 0;
-  white-space: nowrap;
-  opacity: 0.9;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 0;
 }
 
 .navbar-care-select {
   min-height: 42px;
+  flex: 1 1 auto;
+  min-width: 0;
   max-width: 220px;
   padding: 0.45rem 2rem 0.45rem 0.75rem;
   border-radius: var(--border-radius-sm);
-  border: 1px solid rgba(95, 130, 111, 0.22);
+  border: none;
   font-size: var(--font-size-sm);
   font-weight: 500;
   font-family: var(--font-sans);
-  background-color: var(--white);
+  background-color: rgba(248, 252, 249, 0.9);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234a6b5c' d='M3 4.5L6 7.5L9 4.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.65rem center;
   color: var(--text-main);
-  box-shadow: 0 1px 3px rgba(42, 36, 40, 0.06);
+  box-shadow: none;
   appearance: none;
   cursor: pointer;
   transition:
-    border-color 0.15s ease,
+    background-color 0.15s ease,
     box-shadow 0.15s ease;
 }
 
 .navbar-care-select:hover {
-  border-color: var(--primary-green);
+  background-color: rgba(232, 242, 236, 0.95);
 }
 
 .navbar-care-select:focus {
-  border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px rgba(95, 130, 111, 0.22);
+  box-shadow: 0 0 0 2px rgba(95, 130, 111, 0.25);
   outline: none;
-}
-
-@media (max-width: 991.98px) {
-  .navbar-care-wrap {
-    flex: 1 1 100%;
-    width: 100%;
-    margin: 0 0 0.25rem;
-    padding: 0.5rem 0.75rem;
-  }
-
-  .navbar-care-select {
-    max-width: 100%;
-    width: 100%;
-    flex: 1 1 auto;
-  }
 }
 
 .navbar-userIdentity {
@@ -272,8 +367,7 @@
 
 @media (min-width: 992px) {
   .navbar-userIdentity {
-    flex: 0 1 auto;
-    max-width: min(240px, 28vw);
+    max-width: min(220px, 26vw);
   }
 }
 
@@ -289,11 +383,14 @@
 }
 
 .navSignOut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--white);
   background: var(--primary-green);
-  border: 2px solid var(--primary-green);
+  border: none;
   border-radius: var(--border-radius-sm);
   padding: 9px 16px;
   min-height: 44px;
@@ -303,15 +400,11 @@
   transition:
     background 0.18s ease,
     color 0.18s ease,
-    border-color 0.18s ease,
     box-shadow 0.18s ease,
     transform 0.12s ease;
 }
 
 a.navSignOut.navSignOut--link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   text-decoration: none;
   color: var(--white);
 }
@@ -328,7 +421,6 @@ a.navSignOut.navSignOut--link:hover {
 
 .navSignOut:hover {
   background: var(--primary-green-hover);
-  border-color: var(--primary-green-hover);
   color: var(--white);
   box-shadow: 0 4px 16px rgba(95, 130, 111, 0.35);
 }
@@ -344,18 +436,14 @@ a.navSignOut.navSignOut--link:hover {
 }
 
 .app-navbar .navbar-toggler {
-  border: 1px solid rgba(95, 130, 111, 0.2);
+  border: none;
   border-radius: var(--border-radius-sm);
   padding: 0.45rem 0.6rem;
   box-shadow: 0 1px 4px rgba(42, 36, 40, 0.06);
+  flex-shrink: 0;
 }
 
 .app-navbar .navbar-toggler:focus {
   box-shadow: 0 0 0 3px rgba(95, 130, 111, 0.25);
 }
 
-@media (min-width: 992px) {
-  .app-navbar__nav {
-    justify-content: center;
-  }
-}
