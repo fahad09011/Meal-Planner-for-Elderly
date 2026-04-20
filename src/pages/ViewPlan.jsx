@@ -9,14 +9,14 @@ import DayPlanCard from "../components/meals/DayPlanCard";
 import { getWeekStartDate, getWeekLastDate } from "../utils/helpers";
 
 const DAYS = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+"Monday",
+"Tuesday",
+"Wednesday",
+"Thursday",
+"Friday",
+"Saturday",
+"Sunday"];
+
 
 function ViewPlan() {
   const { authLoading } = useAuth();
@@ -25,7 +25,7 @@ function ViewPlan() {
     loadMealPlanForWeek,
     mealPlanLoading,
     mealPlanId,
-    mealPlanTrackingEpoch,
+    mealPlanTrackingEpoch
   } = useContext(AppContext);
   const [activeDay, setActiveDay] = useState("Monday");
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ function ViewPlan() {
     completedDays,
     progress,
     isDayComplete,
-    isMealDone,
+    isMealDone
   } = useMealTracking(mealPlanId, mealPlanTrackingEpoch);
 
   useEffect(() => {
@@ -55,8 +55,8 @@ function ViewPlan() {
           <div className="spinner" />
           <p>Loading your meal plan…</p>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
@@ -82,8 +82,8 @@ function ViewPlan() {
             <div className="view-plan-progress-track">
               <div
                 className="view-plan-progress-fill"
-                style={{ width: `${progress}%` }}
-              />
+                style={{ width: `${progress}%` }} />
+              
             </div>
             <span className="view-plan-progress-text">
               {completedDays} of 7 days eaten
@@ -96,8 +96,8 @@ function ViewPlan() {
             type="button"
             className="button view-plan-header-btn"
             onClick={() => navigate("/shopping")}
-            aria-label="Open shopping list"
-          >
+            aria-label="Open shopping list">
+            
             Shopping list
           </Button>
         </div>
@@ -106,8 +106,8 @@ function ViewPlan() {
       <section
         className="view-plan-day-tabs"
         role="tablist"
-        aria-label="Choose a day of the week"
-      >
+        aria-label="Choose a day of the week">
+        
         {DAYS.map((day) => {
           const d = weeklyPlan[day];
           const selected = activeDay === day;
@@ -120,21 +120,21 @@ function ViewPlan() {
               id={`view-plan-tab-${day}`}
               aria-controls={`view-plan-panel-${day}`}
               className={`view-plan-day-tab ${selected ? "view-plan-day-tab--active" : ""}`}
-              onClick={() => setActiveDay(day)}
-            >
+              onClick={() => setActiveDay(day)}>
+              
               <span className="view-plan-day-tab-name">{day.slice(0, 3)}</span>
               <div className="view-plan-day-tab-dots" aria-hidden="true">
-                {["breakfast", "lunch", "dinner"].map((m) => (
-                  <span
-                    key={m}
-                    className={`view-plan-day-tab-dot ${
-                      d?.[m] ? "view-plan-day-tab-dot--planned" : ""
-                    } ${isMealDone(day, m) ? "view-plan-day-tab-dot--done" : ""}`}
-                  />
-                ))}
+                {["breakfast", "lunch", "dinner"].map((m) =>
+                <span
+                  key={m}
+                  className={`view-plan-day-tab-dot ${
+                  d?.[m] ? "view-plan-day-tab-dot--planned" : ""} ${
+                  isMealDone(day, m) ? "view-plan-day-tab-dot--done" : ""}`} />
+
+                )}
               </div>
-            </button>
-          );
+            </button>);
+
         })}
       </section>
 
@@ -142,19 +142,19 @@ function ViewPlan() {
         className="view-plan-content"
         role="tabpanel"
         id={`view-plan-panel-${activeDay}`}
-        aria-labelledby={`view-plan-tab-${activeDay}`}
-      >
+        aria-labelledby={`view-plan-tab-${activeDay}`}>
+        
         <DayPlanCard
           day={activeDay}
           dayPlan={weeklyPlan[activeDay]}
           isMealDone={isMealDone}
           toggleMealDone={toggleMealDone}
           markDayDone={markDayDone}
-          isDayComplete={isDayComplete}
-        />
+          isDayComplete={isDayComplete} />
+        
       </section>
-    </main>
-  );
+    </main>);
+
 }
 
 export default ViewPlan;

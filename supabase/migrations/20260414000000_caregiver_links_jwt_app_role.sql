@@ -1,4 +1,3 @@
--- Allow INSERT when app_role is only in JWT (signup) before first profile save
 DROP POLICY IF EXISTS "caregiver_links_insert" ON public.caregiver_links;
 
 CREATE POLICY "caregiver_links_insert"

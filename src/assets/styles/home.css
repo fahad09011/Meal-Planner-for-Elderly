@@ -1,4 +1,3 @@
-
 .homeMainContainer {
   width: 100%;
   min-height: calc(100vh - var(--navbar-height));
@@ -9,8 +8,6 @@
   background: transparent;
   padding-bottom: env(safe-area-inset-bottom, 0);
 }
-
-
 .homeHero {
   flex: 1;
   display: flex;
@@ -23,7 +20,6 @@
   margin: 0 auto;
   width: 100%;
 }
-
 .homeHero__eyebrow {
   font-size: var(--font-size-xs);
   font-weight: 700;
@@ -32,7 +28,6 @@
   color: var(--primary-green-dark);
   margin: 0 0 0.75rem;
 }
-
 .homeHero__title {
   font-family: var(--font-display);
   font-size: clamp(1.65rem, 4.5vw, 2.35rem);
@@ -42,7 +37,6 @@
   color: var(--text-main);
   margin: 0 0 1rem;
 }
-
 .homeHero__lede {
   font-size: clamp(1rem, 2.2vw, 1.125rem);
   color: var(--text-muted);
@@ -50,8 +44,6 @@
   margin: 0;
   max-width: 32rem;
 }
-
-
 .homeButtonContainer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -63,33 +55,26 @@
   margin: 0 auto;
   margin-top: auto;
 }
-
 .homeNavLink {
   text-decoration: none;
   color: var(--text-main);
   display: block;
   border-radius: var(--border-radius);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   border: 2px solid transparent;
 }
-
 .homeNavLink:focus-visible {
   outline: none;
   border-color: var(--primary-green-dark);
   box-shadow: 0 0 0 4px rgba(95, 130, 111, 0.28);
 }
-
 .homeNavLink:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
-
 .homeNavLink:active {
   transform: scale(0.98);
 }
-
 .div1 {
   grid-column: 1;
   grid-row: 1;
@@ -106,7 +91,6 @@
   grid-column: 2;
   grid-row: 2;
 }
-
 .HomeButton {
   display: flex;
   justify-content: flex-start;
@@ -115,11 +99,9 @@
   min-height: 84px;
   height: auto;
   width: 100%;
-
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-
   padding: 14px 28px;
   border-radius: var(--border-radius);
   border: 1px solid rgba(255, 255, 255, 0.85);
@@ -129,24 +111,20 @@
     border-color 0.22s ease,
     box-shadow 0.22s ease;
 }
-
 .homeNavLink:hover .HomeButton {
   background: rgba(95, 130, 111, 0.92);
   border-color: rgba(95, 130, 111, 0.35);
   box-shadow: var(--shadow-md);
 }
-
 .homeNavLink:hover .homeButtonTitle {
   color: #fff;
 }
-
 .buttonIcon {
   height: 46px;
   width: 46px;
   object-fit: contain;
   flex-shrink: 0;
 }
-
 .homeButtonTitle {
   font-size: clamp(1.05rem, 2.4vw, 1.3rem);
   font-weight: 600;
@@ -154,29 +132,24 @@
   transition: color 0.2s ease;
   line-height: 1.3;
 }
-
 @media (max-width: 992px) {
   :root {
     --navbar-height: 72px;
   }
 }
-
 @media (max-width: 768px) {
   .homeButtonContainer {
     padding: 8px 20px 32px;
     gap: 12px;
   }
-
   .HomeButton {
     min-height: 76px;
   }
-
   .buttonIcon {
     height: 42px;
     width: 42px;
   }
 }
-
 @media (max-width: 480px) {
   .homeButtonContainer {
     grid-template-columns: 1fr;
@@ -184,7 +157,6 @@
     padding: 8px 16px 28px;
     gap: 10px;
   }
-
   .div1 {
     grid-column: 1;
     grid-row: 1;
@@ -201,12 +173,10 @@
     grid-column: 1;
     grid-row: 4;
   }
-
   .HomeButton {
     min-height: 70px;
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .homeNavLink:hover,
   .homeNavLink:active {

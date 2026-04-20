@@ -22,21 +22,21 @@ function TestAuth() {
   };
 
   const handleSignIn = async () => {
-    if (!email || !password) { addLog("ERROR:", "Enter email and password"); return; }
+    if (!email || !password) {addLog("ERROR:", "Enter email and password");return;}
     const { data, error } = await signIn(email, password);
-    if (error) addLog("Sign-in FAILED:", error.message);
-    else addLog("Sign-in OK:", data.user.email);
+    if (error) addLog("Sign-in FAILED:", error.message);else
+    addLog("Sign-in OK:", data.user.email);
   };
 
   const handleSignOut = async () => {
     const { error } = await signOut();
-    if (error) addLog("Sign-out FAILED:", error.message);
-    else addLog("Sign-out OK", {});
+    if (error) addLog("Sign-out FAILED:", error.message);else
+    addLog("Sign-out OK", {});
   };
 
-  
+
   const handleCreate = async () => {
-    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    if (!user) {addLog("ERROR:", "Sign in first");return;}
     const testData = {
       age: "68",
       weightKg: "72",
@@ -46,7 +46,7 @@ function TestAuth() {
       dietary: ["vegetarian"],
       allergies: ["gluten"],
       healthConditions: ["diabetes", "hypertension"],
-      budget: "medium",
+      budget: "medium"
     };
     addLog("Creating profile...", testData);
     const result = await createProfile(user.id, testData);
@@ -54,13 +54,13 @@ function TestAuth() {
   };
 
   const handleGet = async () => {
-    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    if (!user) {addLog("ERROR:", "Sign in first");return;}
     const result = await getProfile(user.id);
     addLog("getProfile:", result);
   };
 
   const handleUpdate = async () => {
-    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    if (!user) {addLog("ERROR:", "Sign in first");return;}
     const updatedData = {
       age: "76",
       weightKg: "70",
@@ -70,16 +70,16 @@ function TestAuth() {
       dietary: ["vegan"],
       allergies: ["dairy", "peanut"],
       healthConditions: ["heartDisease"],
-      budget: "low",
+      budget: "low"
     };
     addLog("Updating profile...", updatedData);
     const result = await updateProfile(user.id, updatedData);
     addLog("updateProfile:", result);
   };
 
-  
+
   const handleSaveProfile = async () => {
-    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    if (!user) {addLog("ERROR:", "Sign in first");return;}
     const contextData = {
       age: "65",
       weightKg: "75",
@@ -89,7 +89,7 @@ function TestAuth() {
       dietary: ["pescetarian"],
       allergies: ["soy"],
       healthConditions: ["highCholesterol"],
-      budget: "flexible",
+      budget: "flexible"
     };
     addLog("saveProfile (context)...", contextData);
     const result = await saveProfile(contextData);
@@ -106,9 +106,9 @@ function TestAuth() {
     addLog("hasProfile:", hasProfile);
   };
 
-  
+
   const handleSaveMealPlanDB = async () => {
-    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    if (!user) {addLog("ERROR:", "Sign in first");return;}
     const weekStart = "2026-03-16";
     addLog("Saving weeklyPlan to DB...", { userId: user.id, weekStart });
     const result = await saveMealPlan(user.id, weekStart, weeklyPlan);
@@ -116,7 +116,7 @@ function TestAuth() {
   };
 
   const handleGetMealPlanByWeek = async () => {
-    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    if (!user) {addLog("ERROR:", "Sign in first");return;}
     const weekStart = "2026-03-16";
     addLog("Getting meal plan from DB...", { userId: user.id, weekStart });
     const result = await getMealPlanByWeek(user.id, weekStart);
@@ -124,14 +124,14 @@ function TestAuth() {
   };
 
   const handleSaveMealPlanAuto = async () => {
-    if (!user) { addLog("ERROR:", "Sign in first"); return; }
+    if (!user) {addLog("ERROR:", "Sign in first");return;}
     const weekStart = "2026-03-16";
     addLog("Saving weeklyPlan (auto mode) to DB...", { userId: user.id, weekStart, mode: "auto" });
     const result = await saveMealPlan(user.id, weekStart, weeklyPlan, "auto");
     addLog("saveMealPlan (auto):", result);
   };
 
-  
+
   const handleSaveWeeklyPlanCtx = () => {
     saveWeeklyPlan(weeklyPlan);
     addLog("saveWeeklyPlan (context) called", weeklyPlan);
@@ -149,53 +149,53 @@ function TestAuth() {
       Thursday: { breakfast: null, lunch: null, dinner: null },
       Friday: { breakfast: null, lunch: null, dinner: null },
       Saturday: { breakfast: null, lunch: null, dinner: null },
-      Sunday: { breakfast: null, lunch: null, dinner: null },
+      Sunday: { breakfast: null, lunch: null, dinner: null }
     };
     setWeeklyPlan(emptyPlan);
     addLog("weeklyPlan cleared", {});
   };
 
-  
+
   const handleSetMealCompletion = async () => {
-    if (!user) { addLog("ERROR:", "Sign in first"); return; }
-    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId — save a meal plan first"); return; }
+    if (!user) {addLog("ERROR:", "Sign in first");return;}
+    if (!mealPlanId) {addLog("ERROR:", "No mealPlanId — save a meal plan first");return;}
     addLog("Setting Monday breakfast as completed...", { mealPlanId });
     const result = await setMealCompletion(mealPlanId, "Monday", "breakfast", true, user.id);
     addLog("setMealCompletion:", result);
   };
 
   const handleUnsetMealCompletion = async () => {
-    if (!user) { addLog("ERROR:", "Sign in first"); return; }
-    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId"); return; }
+    if (!user) {addLog("ERROR:", "Sign in first");return;}
+    if (!mealPlanId) {addLog("ERROR:", "No mealPlanId");return;}
     addLog("Unsetting Monday breakfast...", { mealPlanId });
     const result = await setMealCompletion(mealPlanId, "Monday", "breakfast", false, user.id);
     addLog("setMealCompletion (undo):", result);
   };
 
   const handleGetMealCompletions = async () => {
-    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId — save a meal plan first"); return; }
+    if (!mealPlanId) {addLog("ERROR:", "No mealPlanId — save a meal plan first");return;}
     addLog("Getting all meal completions...", { mealPlanId });
     const result = await getMealCompletions(mealPlanId);
     addLog("getMealCompletions:", result);
   };
 
-  
+
   const handleCreateOrGetShoppingList = async () => {
-    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId — save a meal plan first"); return; }
+    if (!mealPlanId) {addLog("ERROR:", "No mealPlanId — save a meal plan first");return;}
     addLog("Creating/getting shopping list...", { mealPlanId });
     const result = await createOrGetShoppingList(mealPlanId);
     addLog("createOrGetShoppingList:", result);
   };
 
   const handleBuildAndSaveShoppingItems = async () => {
-    if (!user) { addLog("ERROR:", "Sign in first"); return; }
-    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId"); return; }
+    if (!user) {addLog("ERROR:", "Sign in first");return;}
+    if (!mealPlanId) {addLog("ERROR:", "No mealPlanId");return;}
     const items = buildShoppingItemsFromWeeklyPlan(weeklyPlan);
     addLog("Built shopping items from weeklyPlan:", { count: items.length, items });
-    if (items.length === 0) { addLog("WARN:", "No ingredients found in weeklyPlan"); return; }
+    if (items.length === 0) {addLog("WARN:", "No ingredients found in weeklyPlan");return;}
 
     const listResult = await createOrGetShoppingList(mealPlanId);
-    if (!listResult.success) { addLog("ERROR:", listResult.error); return; }
+    if (!listResult.success) {addLog("ERROR:", listResult.error);return;}
     const shoppingListId = listResult.data.id;
 
     addLog("Replacing shopping list items...", { shoppingListId, itemCount: items.length });
@@ -204,17 +204,17 @@ function TestAuth() {
   };
 
   const handleGetShoppingListItems = async () => {
-    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId"); return; }
+    if (!mealPlanId) {addLog("ERROR:", "No mealPlanId");return;}
     addLog("Getting shopping list items...", { mealPlanId });
     const result = await getShoppingListItems(mealPlanId);
     addLog("getShoppingListItems:", result);
   };
 
   const handleCheckFirstItem = async () => {
-    if (!mealPlanId) { addLog("ERROR:", "No mealPlanId"); return; }
+    if (!mealPlanId) {addLog("ERROR:", "No mealPlanId");return;}
     const listResult = await getShoppingListItems(mealPlanId);
     if (!listResult.success || !listResult.data?.length) {
-      addLog("ERROR:", "No shopping items found to check"); return;
+      addLog("ERROR:", "No shopping items found to check");return;
     }
     const firstItem = listResult.data[0];
     const newChecked = !firstItem.checked;
@@ -321,8 +321,8 @@ function TestAuth() {
         {log.length === 0 && <div style={{ color: "#555" }}>-- no logs yet --</div>}
         {log.map((entry, i) => <div key={i} style={{ borderBottom: "1px solid #222", padding: "2px 0" }}>{entry}</div>)}
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
 export default TestAuth;

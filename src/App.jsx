@@ -1,5 +1,5 @@
 
-import './App.css'
+import './App.css';
 import Home from './pages/Home';
 import MealPlan from './pages/MealPlan';
 
@@ -22,28 +22,28 @@ function App() {
       <Router>
 
     <div className="mainAppContainer">
-      <Navbar/>
+      <Navbar />
         <Routes>
-      <Route path="/" element={<Home/>}/>
-      <Route path="/home" element={<Home/>}/>
-      <Route path="/mealPlan" element={<MealPlan/>}/>
+      <Route path="/" element={<Home />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/mealPlan" element={<MealPlan />} />
 
-      <Route path="/viewPlan" element={<ViewPlan/>}/>
-      <Route path="/mealDetails/:mealId" element={<MealDetails/>}/>
-      <Route path="/shopping" element={<Shopping/>}/>
-      <Route path="/profile" element={<Profile/>}/>
-      <Route path="/caregiving" element={<Caregiving/>}/>
-      <Route path="/login" element={<LoginForm/>}/>
-      <Route path="/terms" element={<TermsOfUse/>}/>
-      <Route path="/reset-password" element={<ResetPassword/>}/>
+      <Route path="/viewPlan" element={<ViewPlan />} />
+      <Route path="/mealDetails/:mealId" element={<MealDetails />} />
+      <Route path="/shopping" element={<Shopping />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/caregiving" element={<Caregiving />} />
+      <Route path="/login" element={<LoginForm />} />
+      <Route path="/terms" element={<TermsOfUse />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
    
   </Routes>
     </div>
     </Router>
 
         </AppProvider>
-    </>
-  )
+    </>);
+
 }
 
-export default App
+export default App;

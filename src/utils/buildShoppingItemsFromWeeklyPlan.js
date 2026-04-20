@@ -1,17 +1,17 @@
 import {
   groupShoppingItemByName,
-  normalizeShoppingItemName,
-} from "./shoppingGroupByName";
+  normalizeShoppingItemName } from
+"./shoppingGroupByName";
 import { normalizeUnit } from "./transformMeal";
 const DAYS = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+"Monday",
+"Tuesday",
+"Wednesday",
+"Thursday",
+"Friday",
+"Saturday",
+"Sunday"];
+
 const MEAL_TYPES = ["breakfast", "lunch", "dinner"];
 
 const normalizeText = (value) => {
@@ -28,39 +28,39 @@ const VOLUME_TO_ML = {
   tablespoon: 15,
   cup: 240,
   milliliter: 1,
-  liter: 1000,
+  liter: 1000
 };
 
 const WEIGHT_TO_G = {
   gram: 1,
   kilogram: 1000,
   ounce: 28.3495,
-  pound: 453.592,
+  pound: 453.592
 };
 const LIQUID_SPICE_HINTS = [
-  "extract",
-  "sauce",
-  "vinegar",
-  "oil",
-  "paste",
-  "liquid",
-];
+"extract",
+"sauce",
+"vinegar",
+"oil",
+"paste",
+"liquid"];
+
 const LIQUID_ITEM_HINTS = [
-  "oil",
-  "sauce",
-  "vinegar",
-  "syrup",
-  "honey",
-  "stock",
-  "broth",
-  "milk",
-  "cream",
-  "juice",
-  "water",
-  "wine",
-  "extract",
-  "paste",
-];
+"oil",
+"sauce",
+"vinegar",
+"syrup",
+"honey",
+"stock",
+"broth",
+"milk",
+"cream",
+"juice",
+"water",
+"wine",
+"extract",
+"paste"];
+
 
 const getUnitFamily = (unit) => {
   if (VOLUME_UNITS.has(unit)) return "volume";
@@ -111,18 +111,18 @@ const convertAmountToTarget = (amount, sourceUnit, targetUnit, family) => {
     const sourceFactor = VOLUME_TO_ML[sourceUnit];
     const targetFactor = VOLUME_TO_ML[targetUnit];
     if (!sourceFactor || !targetFactor) return null;
-    return (numericAmount * sourceFactor) / targetFactor;
+    return numericAmount * sourceFactor / targetFactor;
   }
 
   if (family === "weight") {
     const sourceFactor = WEIGHT_TO_G[sourceUnit];
     const targetFactor = WEIGHT_TO_G[targetUnit];
     if (!sourceFactor || !targetFactor) return null;
-    return (numericAmount * sourceFactor) / targetFactor;
+    return numericAmount * sourceFactor / targetFactor;
   }
 
   if (family === "count") {
-    
+
     if (GENERIC_COUNT_UNITS.has(sourceUnit) && GENERIC_COUNT_UNITS.has(targetUnit)) {
       return numericAmount;
     }
@@ -147,7 +147,7 @@ const convertAmountToBase = (amount, sourceUnit, family) => {
 };
 
 const isSpiceCategory = (category) =>
-  String(category ?? "").toLowerCase().trim() === "spices";
+String(category ?? "").toLowerCase().trim() === "spices";
 
 const isLikelyLiquidSpice = (item) => {
   const name = String(item?.name ?? "").toLowerCase();
@@ -156,8 +156,8 @@ const isLikelyLiquidSpice = (item) => {
   return (
     unit === "milliliter" ||
     unit === "liter" ||
-    LIQUID_SPICE_HINTS.some((hint) => name.includes(hint) || aisle.includes(hint))
-  );
+    LIQUID_SPICE_HINTS.some((hint) => name.includes(hint) || aisle.includes(hint)));
+
 };
 
 const isEggIngredient = (item) => {
@@ -173,8 +173,8 @@ const isLiquidItem = (item) => {
   const category = String(item?.category ?? "").toLowerCase();
   return (
     LIQUID_ITEM_HINTS.some((hint) => name.includes(hint) || aisle.includes(hint)) ||
-    category === "beverages"
-  );
+    category === "beverages");
+
 };
 
 const convertAmountToMlForLiquid = (amount, sourceUnit) => {
@@ -198,7 +198,7 @@ const convertAmountToGramForSpice = (amount, sourceUnit) => {
 const mergeItemsWithUnitStrategy = (itemsWithSameName) => {
   const groupItems = Array.isArray(itemsWithSameName) ? itemsWithSameName : [];
   const shouldForceLiquidToMl =
-    groupItems.length > 0 && groupItems.some((item) => isLiquidItem(item));
+  groupItems.length > 0 && groupItems.some((item) => isLiquidItem(item));
 
   if (shouldForceLiquidToMl) {
     const totalInMl = groupItems.reduce((sum, item) => {
@@ -207,18 +207,18 @@ const mergeItemsWithUnitStrategy = (itemsWithSameName) => {
     }, 0);
     const useL = totalInMl >= 1000;
     return [
-      {
-        ...groupItems[0],
-        unit: useL ? "liter" : "milliliter",
-        amount: Number((useL ? totalInMl / 1000 : totalInMl).toFixed(2)),
-      },
-    ];
+    {
+      ...groupItems[0],
+      unit: useL ? "liter" : "milliliter",
+      amount: Number((useL ? totalInMl / 1000 : totalInMl).toFixed(2))
+    }];
+
   }
 
   const shouldForceSpiceToGram =
-    groupItems.length > 1 &&
-    groupItems.some((item) => isSpiceCategory(item?.category)) &&
-    !groupItems.some((item) => isLikelyLiquidSpice(item));
+  groupItems.length > 1 &&
+  groupItems.some((item) => isSpiceCategory(item?.category)) &&
+  !groupItems.some((item) => isLikelyLiquidSpice(item));
 
   if (shouldForceSpiceToGram) {
     const totalInGram = groupItems.reduce((sum, item) => {
@@ -226,12 +226,12 @@ const mergeItemsWithUnitStrategy = (itemsWithSameName) => {
       return sum + convertAmountToGramForSpice(item?.amount, normalizedUnit);
     }, 0);
     return [
-      {
-        ...groupItems[0],
-        unit: "gram",
-        amount: Number(totalInGram.toFixed(2)),
-      },
-    ];
+    {
+      ...groupItems[0],
+      unit: "gram",
+      amount: Number(totalInGram.toFixed(2))
+    }];
+
   }
 
   const byFamily = {};
@@ -239,14 +239,14 @@ const mergeItemsWithUnitStrategy = (itemsWithSameName) => {
     const normalizedUnit = normalizeUnit(item?.unit ?? "");
     const family = getUnitFamily(normalizedUnit);
     const key =
-      family === "count" && !GENERIC_COUNT_UNITS.has(normalizedUnit)
-        ? `other:${normalizedUnit}`
-        : family;
+    family === "count" && !GENERIC_COUNT_UNITS.has(normalizedUnit) ?
+    `other:${normalizedUnit}` :
+    family;
 
     if (!byFamily[key]) byFamily[key] = [];
     byFamily[key].push({
       ...item,
-      unit: normalizedUnit,
+      unit: normalizedUnit
     });
   });
 
@@ -260,7 +260,7 @@ const mergeItemsWithUnitStrategy = (itemsWithSameName) => {
       merged.push({
         ...group[0],
         unit: exactUnit,
-        amount: Number(total.toFixed(2)),
+        amount: Number(total.toFixed(2))
       });
       return;
     }
@@ -273,7 +273,7 @@ const mergeItemsWithUnitStrategy = (itemsWithSameName) => {
     const targetUnit = chooseTargetUnitFromExisting(
       group.map((item) => item.unit),
       family,
-      totalBaseAmount,
+      totalBaseAmount
     );
     let total = 0;
     let hasConvertible = false;
@@ -290,14 +290,14 @@ const mergeItemsWithUnitStrategy = (itemsWithSameName) => {
       merged.push({
         ...group[0],
         unit: targetUnit,
-        amount: Number(total.toFixed(2)),
+        amount: Number(total.toFixed(2))
       });
     } else {
       const fallbackTotal = group.reduce((sum, item) => sum + Number(item.amount || 0), 0);
       merged.push({
         ...group[0],
         unit: targetUnit,
-        amount: Number(fallbackTotal.toFixed(2)),
+        amount: Number(fallbackTotal.toFixed(2))
       });
     }
   });
@@ -315,13 +315,13 @@ const mergeItemsWithUnitStrategy = (itemsWithSameName) => {
 
   const absorbableCount = countRows.reduce(
     (sum, item) => sum + Number(item.amount || 0),
-    0,
+    0
   );
 
   if (absorbableCount > 0 && measurableRows.length > 0) {
     measurableRows[0] = {
       ...measurableRows[0],
-      amount: Number((measurableRows[0].amount + absorbableCount).toFixed(2)),
+      amount: Number((measurableRows[0].amount + absorbableCount).toFixed(2))
     };
   }
 
@@ -333,17 +333,17 @@ export const buildShoppingItemsFromWeeklyPlan = (weeklyPlan) => {
   const accumulator = {};
   DAYS.forEach((day) => {
     const dayPlan = weeklyPlan?.[day];
-    
+
     if (!dayPlan) return;
 
     MEAL_TYPES.forEach((mealType) => {
       const meal = dayPlan?.[mealType];
-    
+
       if (!dayPlan) return;
 
-      const ingredients = Array.isArray(meal?.ingredients)
-        ? meal?.ingredients
-        : [];
+      const ingredients = Array.isArray(meal?.ingredients) ?
+      meal?.ingredients :
+      [];
       ingredients.forEach((ingredient) => {
         const rawName = String(ingredient?.name ?? "").trim();
         const category = ingredient?.category ?? "Other";
@@ -362,7 +362,7 @@ export const buildShoppingItemsFromWeeklyPlan = (weeklyPlan) => {
           category,
           aisle,
           amount,
-          unit,
+          unit
         });
       });
     });

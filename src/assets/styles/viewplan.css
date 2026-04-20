@@ -1,4 +1,3 @@
-
 .view-plan-page {
   background: transparent;
   min-height: calc(100vh - var(--navbar-height, 128px));
@@ -6,8 +5,6 @@
   max-width: 1200px;
   margin: 0 auto;
 }
-
-
 .view-plan-header {
   display: flex;
   justify-content: space-between;
@@ -16,7 +13,6 @@
   flex-wrap: wrap;
   gap: 14px;
 }
-
 .view-plan-title {
   font-family: var(--font-display);
   font-size: clamp(1.45rem, 2.8vw, 1.75rem);
@@ -26,30 +22,25 @@
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
-
 .view-plan-date {
   font-size: var(--font-size-sm);
   color: var(--text-muted);
   margin: 0;
 }
-
 .view-plan-header-right {
   display: flex;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
 }
-
 .view-plan-header-left {
   min-width: 0;
 }
-
 .view-plan-progress {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
 .view-plan-progress-track {
   width: 160px;
   height: 7px;
@@ -57,22 +48,18 @@
   border-radius: 99px;
   overflow: hidden;
 }
-
 .view-plan-progress-fill {
   height: 100%;
   background: var(--primary-green);
   border-radius: 99px;
   transition: width 0.4s ease;
 }
-
 .view-plan-progress-text {
   font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--primary-green);
   white-space: nowrap;
 }
-
-
 .view-plan-day-tabs {
   display: flex;
   gap: 6px;
@@ -82,7 +69,6 @@
   padding: 6px;
   margin-bottom: 20px;
 }
-
 .view-plan-day-tab {
   flex: 1;
   display: flex;
@@ -96,34 +82,42 @@
   cursor: pointer;
   transition: background 0.15s ease;
 }
-
-.view-plan-day-tab:hover { background: var(--light-bg); }
-
-.view-plan-day-tab--active { background: var(--primary-green); }
-
+.view-plan-day-tab:hover {
+  background: var(--light-bg);
+}
+.view-plan-day-tab--active {
+  background: var(--primary-green);
+}
 .view-plan-day-tab-name {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-muted);
 }
-
-.view-plan-day-tab--active .view-plan-day-tab-name { color: var(--white); }
-
-.view-plan-day-tab-dots { display: flex; gap: 3px; }
-
+.view-plan-day-tab--active .view-plan-day-tab-name {
+  color: var(--white);
+}
+.view-plan-day-tab-dots {
+  display: flex;
+  gap: 3px;
+}
 .view-plan-day-tab-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: #ddd;
 }
-
-.view-plan-day-tab-dot--planned { background: #a8d8c1; }
-.view-plan-day-tab-dot--done { background: var(--primary-green); }
-.view-plan-day-tab--active .view-plan-day-tab-dot { background: rgba(255,255,255,0.35); }
-.view-plan-day-tab--active .view-plan-day-tab-dot--done { background: #fff; }
-
-
+.view-plan-day-tab-dot--planned {
+  background: #a8d8c1;
+}
+.view-plan-day-tab-dot--done {
+  background: var(--primary-green);
+}
+.view-plan-day-tab--active .view-plan-day-tab-dot {
+  background: rgba(255, 255, 255, 0.35);
+}
+.view-plan-day-tab--active .view-plan-day-tab-dot--done {
+  background: #fff;
+}
 .day-plan-card {
   background: var(--white);
   border-radius: var(--border-radius-lg);
@@ -131,29 +125,25 @@
   overflow: hidden;
   box-shadow: var(--shadow-sm);
 }
-
 .day-plan-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 18px 22px;
-  border-bottom: 1px solid rgba(0,0,0,0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   background: var(--white);
 }
-
 .day-plan-card-title {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--text-main);
   margin: 0 0 3px;
 }
-
 .day-plan-card-subtitle {
   font-size: var(--font-size-sm);
   color: var(--text-muted);
   margin: 0;
 }
-
 .day-plan-card-status-badge {
   font-size: var(--font-size-sm);
   font-weight: 600;
@@ -162,18 +152,15 @@
   background: var(--secondary-green);
   color: var(--primary-green);
 }
-
 .day-plan-card-status-badge--done {
   background: #e8f6ee;
   color: #2f7f4f;
 }
-
 .day-plan-card-header-actions {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
 .mark-all-done-btn {
   border: 1.5px solid var(--primary-green);
   background: var(--secondary-green);
@@ -185,35 +172,30 @@
   cursor: pointer;
   transition: all 0.15s ease;
 }
-
 .mark-all-done-btn:hover {
   background: var(--primary-green);
   color: var(--white);
 }
-
-
 .day-plan-meal-list {
   display: flex;
   flex-direction: column;
 }
-
 .meal-row {
   display: flex;
   align-items: center;
   gap: 0;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   min-height: 110px;
 }
-
-.meal-row:last-child { border-bottom: none; }
-
-.meal-row--empty { opacity: 0.55; }
-
+.meal-row:last-child {
+  border-bottom: none;
+}
+.meal-row--empty {
+  opacity: 0.55;
+}
 .meal-row--done {
   background: #fbfefc;
 }
-
-
 .meal-row-category {
   width: 110px;
   flex-shrink: 0;
@@ -223,33 +205,27 @@
   justify-content: center;
   padding: 12px 8px;
 }
-
 .meal-row-category-label {
   font-size: var(--font-size-sm);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  writing-mode: vertical-lr;  
+  writing-mode: vertical-lr;
   text-orientation: mixed;
   transform: rotate(180deg);
 }
-
-
 .meal-row-image-wrap {
   width: 130px;
   flex-shrink: 0;
   align-self: stretch;
   overflow: hidden;
 }
-
 .meal-row-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-
-
 .meal-row-content {
   flex: 1;
   padding: 14px 18px;
@@ -258,7 +234,6 @@
   gap: 8px;
   min-width: 0;
 }
-
 .meal-row-title {
   font-size: var(--font-size-lg);
   font-weight: 600;
@@ -266,40 +241,32 @@
   margin: 0;
   line-height: 1.3;
 }
-
-
 .meal-row-nutrition {
   display: flex;
   gap: 20px;
 }
-
 .meal-row-nutrition-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   min-width: 44px;
 }
-
 .meal-row-nutrition-value {
   font-size: var(--font-size-base);
   font-weight: 700;
   color: var(--primary-green);
 }
-
 .meal-row-nutrition-label {
   font-size: var(--font-size-xs);
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-
-
 .meal-row-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
 }
-
 .meal-row-tag {
   font-size: var(--font-size-xs);
   font-weight: 600;
@@ -308,14 +275,12 @@
   color: var(--primary-green);
   border-radius: 99px;
 }
-
 .meal-row-actions {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-right: 18px;
 }
-
 .meal-done-check {
   width: 32px;
   height: 32px;
@@ -329,17 +294,13 @@
   transition: all 0.15s ease;
   flex-shrink: 0;
 }
-
 .meal-done-check:hover {
   border-color: var(--primary-green);
 }
-
 .meal-done-check--done {
   background: var(--primary-green);
   border-color: var(--primary-green);
 }
-
-
 .meal-row-view-recipe-btn {
   flex-shrink: 0;
   display: flex;
@@ -356,13 +317,10 @@
   transition: all 0.15s ease;
   white-space: nowrap;
 }
-
 .meal-row-view-recipe-btn:hover {
   background: var(--primary-green);
   color: var(--white);
 }
-
-
 .day-plan-empty {
   background: var(--white);
   border-radius: var(--border-radius-lg);
@@ -370,63 +328,58 @@
   padding: 56px 24px;
   text-align: center;
 }
-
 .day-plan-empty-title {
   font-size: var(--font-size-xl);
   font-weight: 600;
   color: var(--text-main);
   margin: 0 0 8px;
 }
-
 .day-plan-empty-subtitle {
   font-size: var(--font-size-base);
   color: var(--text-muted);
   margin: 0;
 }
-
-
 @media (max-width: 768px) {
-  .view-plan-page { padding: 16px 16px 40px; }
-
-  .view-plan-header { flex-direction: column; align-items: flex-start; }
-
-  .meal-row { flex-wrap: wrap; min-height: auto; }
-
+  .view-plan-page {
+    padding: 16px 16px 40px;
+  }
+  .view-plan-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .meal-row {
+    flex-wrap: wrap;
+    min-height: auto;
+  }
   .meal-row-nutrition {
     flex-wrap: wrap;
     gap: 10px 16px;
     justify-content: flex-start;
   }
-
   .meal-row-category {
     width: 100%;
     justify-content: flex-start;
     padding: 10px 14px 6px;
     align-self: auto;
   }
-
   .meal-row-category-label {
     writing-mode: horizontal-tb;
     text-orientation: mixed;
     transform: none;
     letter-spacing: 0.03em;
   }
-
   .meal-row-image-wrap {
     width: 100px;
     height: 80px;
     align-self: auto;
   }
-
   .day-plan-card {
     overflow-x: hidden;
     max-width: 100%;
   }
-
   .meal-row {
     overflow-x: hidden;
   }
-
   .meal-row-actions {
     flex: 1 1 100%;
     width: 100%;
@@ -438,8 +391,6 @@
     align-items: center;
     gap: 10px;
   }
-
-  
   .meal-row-view-recipe-btn {
     flex: 1;
     min-width: 0;
@@ -449,34 +400,30 @@
     justify-content: center;
     padding: 10px 12px;
   }
-
   .meal-done-check {
     width: 38px;
     height: 38px;
     flex-shrink: 0;
   }
-
   .view-plan-day-tabs {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
-
   .view-plan-day-tabs::-webkit-scrollbar {
     display: none;
   }
-
-  .view-plan-day-tab { flex-shrink: 0; min-width: 52px; }
+  .view-plan-day-tab {
+    flex-shrink: 0;
+    min-width: 52px;
+  }
 }
-
-
 .view-plan-page-intro {
   margin-bottom: 1.25rem;
   padding-bottom: 1rem;
   border-bottom: var(--border-light);
 }
-
 .view-plan-title--page {
   font-family: var(--font-display);
   font-size: clamp(1.45rem, 3vw, 1.85rem);
@@ -485,7 +432,6 @@
   line-height: 1.2;
   letter-spacing: -0.03em;
 }
-
 .view-plan-lede {
   margin: 0;
   font-size: 1.0625rem;
@@ -493,22 +439,18 @@
   color: var(--text-muted);
   max-width: 42rem;
 }
-
 .view-plan-date--emphasis {
   font-size: 1.0625rem;
   font-weight: 600;
   color: var(--text-main);
 }
-
 .view-plan-progress-track {
   width: min(200px, 42vw);
   height: 10px;
 }
-
 .view-plan-progress-text {
   font-size: 1rem;
 }
-
 .view-plan-header-btn.button {
   min-height: 48px;
   padding-left: 1rem;
@@ -516,42 +458,34 @@
   font-size: 1.0625rem;
   font-weight: 600;
 }
-
 .view-plan-day-tab {
   min-height: 56px;
   padding: 12px 10px;
 }
-
 .view-plan-day-tab:focus-visible {
   outline: 3px solid var(--primary-green-dark);
   outline-offset: 2px;
 }
-
 .view-plan-day-tab-name {
   font-size: 0.95rem;
   font-weight: 700;
 }
-
 .view-plan-day-tab-dots {
   gap: 5px;
 }
-
 .view-plan-day-tab-dot {
   width: 8px;
   height: 8px;
 }
-
 .mark-all-done-btn {
   min-height: 44px;
   padding: 10px 18px;
   font-size: 1rem;
 }
-
 .mark-all-done-btn:focus-visible {
   outline: 3px solid var(--primary-green-dark);
   outline-offset: 2px;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .view-plan-progress-fill {
     transition: none;

@@ -5,7 +5,7 @@ import { AppContext } from "./AppContext";
 import { getWeekStartDate } from "../utils/helpers";
 
 const GUEST_SAVE_MESSAGE =
-  "To save your meal plan you need an account. Please sign in or create one from the login page.";
+"To save your meal plan you need an account. Please sign in or create one from the login page.";
 
 const useMealPlan = ({
   days,
@@ -16,15 +16,15 @@ const useMealPlan = ({
   profileData,
   saveCurrentMealPlan,
   mealsFetchReady = true,
-  user = null,
+  user = null
 }) => {
   const { activeDataUserId, recipeSearchCache, setRecipeSearchCache } =
-    useContext(AppContext);
+  useContext(AppContext);
 
   const defaultDaySelection = {
     breakfast: null,
     lunch: null,
-    dinner: null,
+    dinner: null
   };
 
   const [apiMeals, setApiMeals] = useState([]);
@@ -48,8 +48,8 @@ const useMealPlan = ({
         diets: meal.diets,
         mealType: meal.mealType,
         ingredients: meal.ingredients,
-        instructions: meal.instructions,
-      },
+        instructions: meal.instructions
+      }
     }));
   };
 
@@ -60,7 +60,7 @@ const useMealPlan = ({
 
   const safeDraft = mealPlanDraft || {};
   const completedDay = days.filter((day) =>
-    isDayCompleted(safeDraft[day])
+  isDayCompleted(safeDraft[day])
   ).length;
 
   const handleSaveDayPlan = () => {
@@ -75,7 +75,7 @@ const useMealPlan = ({
 
     setMealPlanDraft((prevState) => ({
       ...prevState,
-      [selectedDay]: daySelection,
+      [selectedDay]: daySelection
     }));
 
     const idx = days.indexOf(selectedDay);
@@ -123,10 +123,10 @@ const useMealPlan = ({
     const currentKey = getRecipeSearchCacheKey(activeDataUserId, profileData);
     const cached = recipeSearchCache;
     if (
-      cached.key === currentKey &&
-      Array.isArray(cached.meals) &&
-      cached.meals.length > 0
-    ) {
+    cached.key === currentKey &&
+    Array.isArray(cached.meals) &&
+    cached.meals.length > 0)
+    {
       setMealsRequested(true);
       setMealError("");
       setApiMeals(cached.meals);
@@ -158,12 +158,12 @@ const useMealPlan = ({
       cancelled = true;
     };
   }, [
-    mealsFetchReady,
-    profileData,
-    activeDataUserId,
-    recipeSearchCache.key,
-    setRecipeSearchCache,
-  ]);
+  mealsFetchReady,
+  profileData,
+  activeDataUserId,
+  recipeSearchCache.key,
+  setRecipeSearchCache]
+  );
 
   async function fetchApiMeals() {
     if (!mealsFetchReady) return;
@@ -198,7 +198,7 @@ const useMealPlan = ({
     isDayCompleted,
     completedDay,
     handleSaveDayPlan,
-    generateWeeklyPlan,
+    generateWeeklyPlan
   };
 };
 

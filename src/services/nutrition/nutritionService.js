@@ -3,15 +3,15 @@ import healthConditionRules from "./healthConditionRules";
 import { dietCompatibilityMap } from "./dietMap";
 import { getMaxCaloriesPerMeal, getMinCaloriesPerMeal } from "../../utils/bmr";
 const filterByDietary = (meal, profile) => {
-  
+
   if (!profile.dietary || profile.dietary.length === 0) {
     return true;
   }
   const mealDiet = Array.isArray(meal.diets) ? meal.diets : [];
-  return profile.dietary.every((selectedDiet)=>{
+  return profile.dietary.every((selectedDiet) => {
     const allowedDiets = dietCompatibilityMap[selectedDiet] || [selectedDiet];
-    return allowedDiets.some((allowedDiet)=>mealDiet.includes(allowedDiet));
-  })
+    return allowedDiets.some((allowedDiet) => mealDiet.includes(allowedDiet));
+  });
 
 };
 
@@ -37,7 +37,7 @@ const filterByHealthCondition = (meal, profile) => {
     for (const healthCondition of healthConditions) {
       if (healthConditionRules[healthCondition]) {
         for (const [key, value] of Object.entries(
-          healthConditionRules[healthCondition],
+          healthConditionRules[healthCondition]
         )) {
           if (key === "maxCalories") continue;
           const { ruleType, nutrientKey } = parseNutritionRuleKey(key);
@@ -49,19 +49,19 @@ const filterByHealthCondition = (meal, profile) => {
           if (ruleType === "min" && nutrientAmount < value) return false;
         }
 
-        
-        
+
+
       }
     }
   }
   return true;
 };
 
-const budgetRule={
+const budgetRule = {
   low: 4,
   medium: 8,
-flexible: true
-}
+  flexible: true
+};
 const filterByBudget = (meal, profile) => {
   if (!profile.budget) {
     return true;
@@ -105,7 +105,7 @@ export const mealCountByCategory = (filterMeal) => {
   return {
     breakfast: breakFast,
     lunch: lunch,
-    dinner: dinner,
+    dinner: dinner
   };
 };
 
@@ -113,14 +113,14 @@ const filterMeals = (meals, profile) => {
   let filteredMeal = meals.filter((meal) => {
     return (
       filterByDietary(meal, profile) &&
-      
+
       filterByHealthCondition(meal, profile) &&
       mealFitsCalorieLimit(meal, profile) &&
-      filterByBudget(meal, profile)
-    );
+      filterByBudget(meal, profile));
+
   });
-  
-  
+
+
   return filteredMeal;
 };
 export default filterMeals;

@@ -25,23 +25,23 @@ export default function ShoppingHowItWorksModal({ show, onClose }) {
       <div
         className="shopping-help-backdrop"
         aria-hidden="true"
-        onClick={onClose}
-      />
+        onClick={onClose} />
+      
       <div
         id="shopping-how-it-works-dialog"
         className="modal show d-block shopping-help-modal"
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="shopping-how-it-works-title"
-      >
+        aria-labelledby="shopping-how-it-works-title">
+        
         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable shopping-help-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h2
                 id="shopping-how-it-works-title"
-                className="modal-title h5 mb-0"
-              >
+                className="modal-title h5 mb-0">
+                
                 How shopping list works
               </h2>
               <button
@@ -49,8 +49,8 @@ export default function ShoppingHowItWorksModal({ show, onClose }) {
                 type="button"
                 className="btn-close"
                 aria-label="Close"
-                onClick={onClose}
-              />
+                onClick={onClose} />
+              
             </div>
             <div className="modal-body shopping-help-body">
               <section className="shopping-help-section" aria-labelledby="shop-help-source">
@@ -126,6 +126,6 @@ export default function ShoppingHowItWorksModal({ show, onClose }) {
           </div>
         </div>
       </div>
-    </>
-  );
+    </>);
+
 }

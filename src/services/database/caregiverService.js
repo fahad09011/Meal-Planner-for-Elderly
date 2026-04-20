@@ -1,7 +1,7 @@
 import { supabase } from "./supabaseClient";
 
 const UUID_RE =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 export function isValidUuid(value) {
   return typeof value === "string" && UUID_RE.test(value.trim());
@@ -11,11 +11,11 @@ export async function listOutgoingCaregiverLinks(caregiverUserId) {
   if (!caregiverUserId) {
     return { success: false, error: new Error("Caregiver user id is required"), data: [] };
   }
-  const { data, error } = await supabase
-    .from("caregiver_links")
-    .select("id, elderly_user_id, created_at")
-    .eq("caregiver_user_id", caregiverUserId)
-    .order("created_at", { ascending: false });
+  const { data, error } = await supabase.
+  from("caregiver_links").
+  select("id, elderly_user_id, created_at").
+  eq("caregiver_user_id", caregiverUserId).
+  order("created_at", { ascending: false });
 
   if (error) {
     console.error("listOutgoingCaregiverLinks:", error);
@@ -34,20 +34,20 @@ export async function getRecipientNamesByUserIds(userIds) {
   const map = {};
 
   const { data: rpcRows, error: rpcError } = await supabase.rpc(
-    "get_care_recipient_display_names_for_caregiver",
+    "get_care_recipient_display_names_for_caregiver"
   );
   if (!rpcError && Array.isArray(rpcRows)) {
     rpcRows.forEach((row) => {
       const id = row?.elderly_user_id != null ? String(row.elderly_user_id) : "";
       if (!id || !idSet.has(id)) return;
       const name =
-        typeof row?.display_name === "string" ? row.display_name.trim() : "";
+      typeof row?.display_name === "string" ? row.display_name.trim() : "";
       if (name) map[id] = name;
     });
   } else if (rpcError) {
     const msg = String(rpcError.message ?? "").toLowerCase();
     const missingFn =
-      rpcError.code === "42883" || msg.includes("could not find the function");
+    rpcError.code === "42883" || msg.includes("could not find the function");
     if (!missingFn) {
       console.error("get_care_recipient_display_names_for_caregiver:", rpcError);
     }
@@ -58,10 +58,10 @@ export async function getRecipientNamesByUserIds(userIds) {
     return { success: true, data: map };
   }
 
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("user_id, full_name")
-    .in("user_id", missingForProfile);
+  const { data, error } = await supabase.
+  from("profiles").
+  select("user_id, full_name").
+  in("user_id", missingForProfile);
 
   if (error) {
     const msg = String(error.message ?? "").toLowerCase();
@@ -94,7 +94,7 @@ export async function createCaregiverLink(caregiverUserId, elderlyUserId) {
   }
 
   const { data, error } = await supabase.rpc("create_caregiver_link", {
-    p_elderly_user_id: elderly,
+    p_elderly_user_id: elderly
   });
 
   if (error) {
@@ -103,29 +103,29 @@ export async function createCaregiverLink(caregiverUserId, elderlyUserId) {
     if (code === "23505" || msg.includes("duplicate") || msg.includes("unique") || msg.includes("already_linked")) {
       return {
         success: false,
-        error: new Error("That person is already linked to your account."),
+        error: new Error("That person is already linked to your account.")
       };
     }
     if (msg.includes("elderly_has_no_profile")) {
       return {
         success: false,
         error: new Error(
-          "That user ID has no saved profile yet. They must sign in and complete Profile first.",
-        ),
+          "That user ID has no saved profile yet. They must sign in and complete Profile first."
+        )
       };
     }
     if (msg.includes("not_a_caregiver_account") || code === "42501") {
       return {
         success: false,
         error: new Error(
-          "Only accounts registered as caregiver or both can add recipients. That is chosen when you create your account. Sign out and back in if your role was updated.",
-        ),
+          "Only accounts registered as caregiver or both can add recipients. That is chosen when you create your account. Sign out and back in if your role was updated."
+        )
       };
     }
     if (msg.includes("invalid_elderly_id")) {
       return {
         success: false,
-        error: new Error("You cannot add your own account as a care recipient."),
+        error: new Error("You cannot add your own account as a care recipient.")
       };
     }
     console.error("createCaregiverLink:", error);

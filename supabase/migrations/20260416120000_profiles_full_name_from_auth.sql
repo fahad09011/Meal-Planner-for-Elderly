@@ -1,7 +1,3 @@
--- Keep a readable label on `public.profiles` in sync with Supabase Auth user metadata
--- (`raw_user_meta_data`: full_name / name / display_name). Caregivers can SELECT linked
--- elderly profile rows (see `profiles_select_for_linked_caregiver`) but cannot read Auth
--- for other users from the browser client.
 
 ALTER TABLE public.profiles
   ADD COLUMN IF NOT EXISTS full_name text;

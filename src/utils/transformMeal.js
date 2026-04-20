@@ -2,10 +2,10 @@ import { dietResponseMap } from "../services/nutrition/dietMap";
 export const extractSummary = (apiSummary) => {
   const summary = typeof apiSummary === "string" ? apiSummary : "";
 
-  return summary
-    .replace(/<[^>]*>/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+  return summary.
+  replace(/<[^>]*>/g, "").
+  replace(/\s+/g, " ").
+  trim();
 };
 
 export const extractNutrition = (apiNutrition) => {
@@ -24,19 +24,19 @@ export const extractNutrition = (apiNutrition) => {
     iron: "Iron",
     folate: "Folate",
     vitaminB12: "Vitamin B12",
-    vitaminC: "Vitamin C",
+    vitaminC: "Vitamin C"
   };
   const result = {};
-  const nutrients = Array.isArray(apiNutrition?.nutrients)
-    ? apiNutrition.nutrients
-    : [];
+  const nutrients = Array.isArray(apiNutrition?.nutrients) ?
+  apiNutrition.nutrients :
+  [];
   Object.entries(nutritionMap).forEach(([key, mappedNutrients]) => {
     const nutrient = nutrients.find(
-      (apiNut) => apiNut?.name === mappedNutrients,
+      (apiNut) => apiNut?.name === mappedNutrients
     );
     result[key] = nutrient?.amount ?? 0;
-    
-    
+
+
   });
   return result;
 };
@@ -44,9 +44,9 @@ export const extractNutrition = (apiNutrition) => {
 const dinnerConditions = ["main course", "main dish"];
 const lunchConditions = ["salad", "side dish", "appetizer", "soup"];
 export const extractMealCategory = (apiMealType) => {
-  const mealTypes = Array.isArray(apiMealType)
-    ? apiMealType.map((type) => type.toLowerCase())
-    : [];
+  const mealTypes = Array.isArray(apiMealType) ?
+  apiMealType.map((type) => type.toLowerCase()) :
+  [];
 
   if (mealTypes.includes("breakfast")) {
     return "breakfast";
@@ -79,7 +79,7 @@ export const extractMealCategory = (apiMealType) => {
 
   return "Others";
 };
-export const normalizeUnit = (unit)=>{
+export const normalizeUnit = (unit) => {
   if (typeof unit !== "string" || unit.trim() === "") {
     return "";
   }
@@ -150,121 +150,121 @@ export const normalizeUnit = (unit)=>{
     handfuls: "handful",
     stalks: "stalk",
     stalk: "stalk",
-    whole: "whole",
+    whole: "whole"
   };
-  return unitMap[normalizedunit] ?? normalizedunit
+  return unitMap[normalizedunit] ?? normalizedunit;
 };
 
-export const getIngredientCategory =(aisle)=>{
-  if(typeof aisle !== "string" || aisle.trim() === "" || aisle.trim() === "?") {
+export const getIngredientCategory = (aisle) => {
+  if (typeof aisle !== "string" || aisle.trim() === "" || aisle.trim() === "?") {
     return "Other";
   }
   const normalizedAisle = aisle.toLowerCase().trim();
   const ingredientCategoryMap = {
     Produce: [
-      "produce",
-      "vegetable",
-      "vegetables",
-      "fruit",
-      "fruits",
-      "fresh herbs",
-      "fresh"
-    ],
-  
+    "produce",
+    "vegetable",
+    "vegetables",
+    "fruit",
+    "fruits",
+    "fresh herbs",
+    "fresh"],
+
+
     Dairy: [
-      "milk, eggs, other dairy",
-      "dairy",
-      "cheese"
-    ],
-  
+    "milk, eggs, other dairy",
+    "dairy",
+    "cheese"],
+
+
     Meat: [
-      "meat",
-      "pork",
-      "beef",
-      "chicken",
-      "turkey",
-      "sausage",
-      "bacon"
-    ],
-  
+    "meat",
+    "pork",
+    "beef",
+    "chicken",
+    "turkey",
+    "sausage",
+    "bacon"],
+
+
     Seafood: [
-      "seafood",
-      "fish",
-      "salmon",
-      "tuna",
-      "shrimp"
-    ],
-  
+    "seafood",
+    "fish",
+    "salmon",
+    "tuna",
+    "shrimp"],
+
+
     Grains: [
-      "pasta",
-      "rice",
-      "cereal",
-      "oats",
-      "grains"
-    ],
-  
+    "pasta",
+    "rice",
+    "cereal",
+    "oats",
+    "grains"],
+
+
     Pantry: [
-      "canned",
-      "jarred",
-      "pantry",
-      "baking",
-      "oil",
-      "vinegar",
-      "salad dressing",
-      "condiments",
-      "ethnic foods",
-      "health foods",
-      "nuts",
-      "nut butters",
-      "jams",
-      "honey"
-    ],
-  
+    "canned",
+    "jarred",
+    "pantry",
+    "baking",
+    "oil",
+    "vinegar",
+    "salad dressing",
+    "condiments",
+    "ethnic foods",
+    "health foods",
+    "nuts",
+    "nut butters",
+    "jams",
+    "honey"],
+
+
     Spices: [
-      "spice",
-      "spices",
-      "seasoning",
-      "seasonings",
-      "herbs"
-    ],
-  
+    "spice",
+    "spices",
+    "seasoning",
+    "seasonings",
+    "herbs"],
+
+
     Bakery: [
-      "bakery",
-      "bread",
-      "tortillas"
-    ],
-  
+    "bakery",
+    "bread",
+    "tortillas"],
+
+
     Frozen: [
-      "frozen"
-    ],
-  
+    "frozen"],
+
+
     Beverages: [
-      "beverage",
-      "beverages",
-      "tea",
-      "coffee",
-      "tea and coffee",
-      "alcoholic beverages"
-    ]
+    "beverage",
+    "beverages",
+    "tea",
+    "coffee",
+    "tea and coffee",
+    "alcoholic beverages"]
+
   };
-  for(const [category, values] of Object.entries(ingredientCategoryMap)){
-    if(values.some((value)=> normalizedAisle.includes(value))){
-      return category
+  for (const [category, values] of Object.entries(ingredientCategoryMap)) {
+    if (values.some((value) => normalizedAisle.includes(value))) {
+      return category;
     }
   }
-  return "Other"
+  return "Other";
 };
 export const cleanIngredientName = (name) => {
   if (typeof name !== "string") return "";
 
-  return name
-    .trim()
-    .replace(/^(additional toppings:|optional:|for garnish:)\s*/i, "")
-    .replace(/^to\s+\d+\s+/i, "")
-    .replace(/\*\d+$/i, "")
-    .replace(/\s+/g, " ")
-    .replace(/^[,.:;)\](\s]+|[,.:;)\](\s]+$/g, "")
-    .trim();
+  return name.
+  trim().
+  replace(/^(additional toppings:|optional:|for garnish:)\s*/i, "").
+  replace(/^to\s+\d+\s+/i, "").
+  replace(/\*\d+$/i, "").
+  replace(/\s+/g, " ").
+  replace(/^[,.:;)\](\s]+|[,.:;)\](\s]+$/g, "").
+  trim();
 };
 export const extractIngredients = (apiIngredients) => {
   const ingredients = Array.isArray(apiIngredients) ? apiIngredients : [];
@@ -283,57 +283,57 @@ export const extractIngredients = (apiIngredients) => {
     }
     const metricAmount = ingredient?.measures?.metric?.amount;
     const metricUnit =
-      ingredient?.measures?.metric?.unitShort ??
-      ingredient?.measures?.metric?.unitLong ??
-      "";
+    ingredient?.measures?.metric?.unitShort ??
+    ingredient?.measures?.metric?.unitLong ??
+    "";
     return {
       id: ingredient.id ?? null,
       name: cleanIngredientName(
         ingredient.nameClean || ingredient.name || ingredient.originalName || ""
       ),
-      displayName: 
-      ingredient.original || 
+      displayName:
+      ingredient.original ||
       ingredient.originalName ||
-      ingredient.nameClean || 
+      ingredient.nameClean ||
       ingredient.name || "",
       aisle: ingredient.aisle ?? "",
       category: getIngredientCategory(ingredient.aisle ?? ""),
       quantity: {
         amount: ingredient.amount ?? 0,
-        unit: normalizeUnit(ingredient.unit ?? ""),
+        unit: normalizeUnit(ingredient.unit ?? "")
       },
       shoppingQuantity: {
         amount: metricAmount ?? ingredient.amount ?? 0,
-        unit: normalizeUnit(metricUnit || ingredient.unit || ""),
+        unit: normalizeUnit(metricUnit || ingredient.unit || "")
       },
-      meta: Array.isArray(ingredient.meta) ? ingredient.meta : [],
+      meta: Array.isArray(ingredient.meta) ? ingredient.meta : []
     };
   });
 };
 
 export const extractInstructions = (apiInstructions) => {
-  const steps = Array.isArray(apiInstructions?.[0]?.steps)
-    ? apiInstructions[0].steps
-    : [];
+  const steps = Array.isArray(apiInstructions?.[0]?.steps) ?
+  apiInstructions[0].steps :
+  [];
   return steps.map((step) => {
     if (step == null || typeof step !== "object") {
       return { stepNumber: 0, description: "" };
     }
     return {
       stepNumber: step.number ?? 0,
-      description: step.step ?? "",
+      description: step.step ?? ""
     };
   });
 };
 
 export const extractDiet = (apiDiets) => {
-  
+
   const diets = Array.isArray(apiDiets) ? apiDiets : [];
-  const normalizedDiets = diets
-  .map((diet)=> String(diet).toLowerCase().trim())
-.map((diet)=> dietResponseMap[diet] ?? null)
-.filter(Boolean);
-return[...new Set(normalizedDiets)];  
+  const normalizedDiets = diets.
+  map((diet) => String(diet).toLowerCase().trim()).
+  map((diet) => dietResponseMap[diet] ?? null).
+  filter(Boolean);
+  return [...new Set(normalizedDiets)];
 };
 
 export const transFormMeal = (apiMeal) => {
@@ -352,7 +352,6 @@ export const transFormMeal = (apiMeal) => {
     diets: extractDiet(apiMeal.diets),
     mealType: extractMealCategory(apiMeal.dishTypes),
     ingredients: extractIngredients(apiMeal.extendedIngredients),
-    instructions: extractInstructions(apiMeal.analyzedInstructions),
+    instructions: extractInstructions(apiMeal.analyzedInstructions)
   };
 };
-

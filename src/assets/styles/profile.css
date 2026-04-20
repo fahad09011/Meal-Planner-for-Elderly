@@ -1,419 +1,359 @@
-
 .profileMainContainer {
-    width: 100%;
-    min-height: calc(100vh - var(--navbar-height, 128px));
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 16px;
-    background: transparent;
-  }
-  
-  
-  .profileForm {
-    width: 100%;
-    max-width: 700px;
-    padding: 32px;
-    background-color: var(--white);
-    border: var(--border-light);
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  
-  
-  .formTitleContainer {
-    margin-bottom: 8px;
-  }
-  
-  .formTitle {
-    font-family: var(--font-display);
-    font-size: clamp(1.45rem, 2.8vw, 1.75rem);
-    font-weight: 600;
-    line-height: 1.2;
-    color: var(--text-main);
-    margin-bottom: 12px;
-    letter-spacing: -0.03em;
-  }
-  
-  hr {
-    border: none;
-    border-top: 1px solid rgba(106, 106, 106, 0.2);
-    margin: 16px 0;
-  }
-  
-  
-  .ageGroupMainSection,
-  .profileMetricsSection,
-  .dietaryMainSection,
-  .allergiesMainSection,
-  .healthConsiderationMainSection,
-  .budgetMainSection {
-    padding: 8px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .profileMetricsSection {
-    gap: 14px;
-  }
-
-  .profile-section-hint {
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.45;
-    color: var(--text-muted);
-  }
-
-  .profileSubTitle {
-    margin: 8px 0 0;
-    font-size: var(--font-size-lg);
-    font-weight: 600;
-    color: var(--text-main);
-  }
-
+  width: 100%;
+  min-height: calc(100vh - var(--navbar-height, 128px));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 16px;
+  background: transparent;
+}
+.profileForm {
+  width: 100%;
+  max-width: 700px;
+  padding: 32px;
+  background-color: var(--white);
+  border: var(--border-light);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.formTitleContainer {
+  margin-bottom: 8px;
+}
+.formTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.8vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-main);
+  margin-bottom: 12px;
+  letter-spacing: -0.03em;
+}
+hr {
+  border: none;
+  border-top: 1px solid rgba(106, 106, 106, 0.2);
+  margin: 16px 0;
+}
+.ageGroupMainSection,
+.profileMetricsSection,
+.dietaryMainSection,
+.allergiesMainSection,
+.healthConsiderationMainSection,
+.budgetMainSection {
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.profileMetricsSection {
+  gap: 14px;
+}
+.profile-section-hint {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+.profileSubTitle {
+  margin: 8px 0 0;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-main);
+}
+.profileMetricsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+@media (max-width: 640px) {
   .profileMetricsGrid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: 1fr;
   }
-
-  @media (max-width: 640px) {
-    .profileMetricsGrid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .profileFieldLabel {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--text-main);
-  }
-
-  .profileTextInput {
-    min-height: 48px;
-    padding: 10px 14px;
-    font-size: 1.0625rem;
-    border: var(--border-light);
-    border-radius: var(--border-radius);
-    background: var(--white);
-    color: var(--text-main);
-  }
-
-  .profileTextInput:focus {
-    outline: 3px solid var(--primary-green-dark);
-    outline-offset: 2px;
-    border-color: var(--primary-green);
-  }
-
-  .genderRow {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--gap);
-  }
-
-  .activityLevelList {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .activityLevelCard {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 14px 16px;
-    border: var(--border-light);
-    border-radius: var(--border-radius);
-    background: var(--white);
-    cursor: pointer;
-    transition: border-color 0.2s ease, background 0.2s ease;
-  }
-
-  .activityLevelCard:hover {
-    border-color: var(--primary-green);
-  }
-
-  .activityLevelCard--selected {
-    border-color: var(--primary-green);
-    background: var(--secondary-green);
-  }
-
-  .activityLevelCard:focus-within {
-    outline: 3px solid var(--primary-green-dark);
-    outline-offset: 2px;
-  }
-
-  .activityLevelCard .check {
-    margin-top: 2px;
-    flex-shrink: 0;
-  }
-
-  .activityLevelCardBody {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .activityLevelTitle {
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--text-main);
-    line-height: 1.3;
-  }
-
-  .activityLevelDesc {
-    font-size: 1rem;
-    line-height: 1.45;
-    color: var(--text-muted);
-  }
-
-  .profileEnergySummary {
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px solid rgba(106, 106, 106, 0.2);
-  }
-
+}
+.profileFieldLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+.profileTextInput {
+  min-height: 48px;
+  padding: 10px 14px;
+  font-size: 1.0625rem;
+  border: var(--border-light);
+  border-radius: var(--border-radius);
+  background: var(--white);
+  color: var(--text-main);
+}
+.profileTextInput:focus {
+  outline: 3px solid var(--primary-green-dark);
+  outline-offset: 2px;
+  border-color: var(--primary-green);
+}
+.genderRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.activityLevelList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.activityLevelCard {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: var(--border-light);
+  border-radius: var(--border-radius);
+  background: var(--white);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.activityLevelCard:hover {
+  border-color: var(--primary-green);
+}
+.activityLevelCard--selected {
+  border-color: var(--primary-green);
+  background: var(--secondary-green);
+}
+.activityLevelCard:focus-within {
+  outline: 3px solid var(--primary-green-dark);
+  outline-offset: 2px;
+}
+.activityLevelCard .check {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.activityLevelCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+.activityLevelTitle {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+.activityLevelDesc {
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+.profileEnergySummary {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(106, 106, 106, 0.2);
+}
+.profileEnergySummaryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 10px;
+}
+@media (max-width: 520px) {
   .profileEnergySummaryGrid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-    margin-top: 10px;
+    grid-template-columns: 1fr;
   }
-
-  @media (max-width: 520px) {
-    .profileEnergySummaryGrid {
-      grid-template-columns: 1fr;
-    }
+}
+.profileEnergyCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border-radius: var(--border-radius);
+  border: var(--border-light);
+  background: rgba(106, 106, 106, 0.06);
+}
+.profileEnergyCard--accent {
+  border-color: var(--primary-green);
+  background: var(--secondary-green);
+}
+.profileEnergyLabel {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.profileEnergyValue {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-main);
+}
+.profileEnergyUnit {
+  font-size: 1rem;
+  color: var(--text-main);
+}
+.profileEnergyHelp {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+  margin-top: 4px;
+}
+.profileEnergyFootnote {
+  margin-top: 12px;
+  max-width: 40rem;
+}
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-main);
+}
+.ageGroupMainContainer,
+.dietaryGroupMainContainer,
+.allergiesGroupMainContainer,
+.healthConsiderationGroupMainContainer,
+.budgetGroupMainContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.ageGroupContainer,
+.dietaryGroupContainer,
+.allergiesGroupContainer,
+.healthConsiderationGroupContainer,
+.budgetGroupContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  min-width: 100px;
+  font-size: var(--font-size-base);
+  padding: 10px 16px;
+  border-radius: var(--border-radius);
+  border: var(--border-light);
+  background: var(--white);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  user-select: none;
+}
+.ageGroupContainer:has(input:checked),
+.dietaryGroupContainer:has(input:checked),
+.allergiesGroupContainer:has(input:checked),
+.healthConsiderationGroupContainer:has(input:checked),
+.budgetGroupContainer:has(input:checked) {
+  background-color: var(--secondary-green);
+  border-color: var(--primary-green);
+}
+.ageGroupContainer label,
+.dietaryGroupContainer label,
+.allergiesGroupContainer label,
+.healthConsiderationGroupContainer label,
+.budgetGroupContainer label {
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  color: var(--text-main);
+  line-height: 1;
+}
+.check {
+  position: relative;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #bbb;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+input[type=radio].check {
+  border-radius: 50%;
+}
+.check::before {
+  content: "";
+  position: absolute;
+  border: solid #fff;
+  display: block;
+  width: 0.45rem;
+  height: 0.85rem;
+  border-width: 0 0.15em 0.15em 0;
+  z-index: 1;
+  opacity: 0;
+  right: calc(50% - 0.28em);
+  top: calc(50% - 0.55em);
+  transform: rotate(0deg);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform-origin: center center;
+}
+input[type=radio].check::before {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.check:checked {
+  background-color: var(--primary-green);
+  animation: checkPop 0.25s ease-in forwards;
+}
+.check:checked::before {
+  opacity: 1;
+  transform: rotate(405deg);
+}
+input[type=radio].check:checked::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+@keyframes checkPop {
+  0% {
+    transform: scale(1);
   }
-
-  .profileEnergyCard {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 16px 18px;
-    border-radius: var(--border-radius);
-    border: var(--border-light);
-    background: rgba(106, 106, 106, 0.06);
+  50% {
+    transform: scale(0.85);
   }
-
-  .profileEnergyCard--accent {
-    border-color: var(--primary-green);
-    background: var(--secondary-green);
+  100% {
+    transform: scale(1);
   }
-
-  .profileEnergyLabel {
-    font-size: 0.9375rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--text-muted);
+}
+.formButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding-top: 8px;
+  flex-wrap: wrap;
+}
+@media (max-width: 768px) {
+  .profileForm {
+    padding: 20px 16px;
   }
-
-  .profileEnergyValue {
-    font-size: clamp(1.75rem, 4vw, 2.25rem);
-    font-weight: 700;
-    line-height: 1.1;
-    color: var(--text-main);
-  }
-
-  .profileEnergyUnit {
-    font-size: 1rem;
-    color: var(--text-main);
-  }
-
-  .profileEnergyHelp {
-    font-size: 0.9375rem;
-    color: var(--text-muted);
-    line-height: 1.35;
-    margin-top: 4px;
-  }
-
-  .profileEnergyFootnote {
-    margin-top: 12px;
-    max-width: 40rem;
-  }
-  
-  
-  .title {
-    font-size: var(--font-size-lg);
-    font-weight: 600;
-    color: var(--text-main);
-  }
-  
-  
   .ageGroupMainContainer,
   .dietaryGroupMainContainer,
   .allergiesGroupMainContainer,
   .healthConsiderationGroupMainContainer,
   .budgetGroupMainContainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--gap);
+    gap: var(--gap-sm);
   }
-  
-  
   .ageGroupContainer,
   .dietaryGroupContainer,
   .allergiesGroupContainer,
   .healthConsiderationGroupContainer,
   .budgetGroupContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    width: fit-content;
-    min-width: 100px;
-    font-size: var(--font-size-base);
-    padding: 10px 16px;
-    border-radius: var(--border-radius);
-    border: var(--border-light);
-    background: var(--white);
-    cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease;
-    user-select: none;
+    min-width: 80px;
+    padding: 9px 12px;
+    font-size: var(--font-size-sm);
   }
-  
-  
-  .ageGroupContainer:has(input:checked),
-  .dietaryGroupContainer:has(input:checked),
-  .allergiesGroupContainer:has(input:checked),
-  .healthConsiderationGroupContainer:has(input:checked),
-  .budgetGroupContainer:has(input:checked) {
-    background-color: var(--secondary-green);
-    border-color: var(--primary-green);
-  }
-  
-  
-  .ageGroupContainer label,
-  .dietaryGroupContainer label,
-  .allergiesGroupContainer label,
-  .healthConsiderationGroupContainer label,
-  .budgetGroupContainer label {
-    cursor: pointer;
-    font-size: var(--font-size-base);
-    color: var(--text-main);
-    line-height: 1;
-  }
-  
-  
-  .check {
-    position: relative;
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    appearance: none;
-    -webkit-appearance: none;
-    background-color: #bbb;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.15s ease;
-  }
-  
-  
-  input[type="radio"].check {
-    border-radius: 50%;
-  }
-  
-  .check::before {
-    content: '';
-    position: absolute;
-    border: solid #fff;
-    display: block;
-    width: 0.45rem;
-    height: 0.85rem;
-    border-width: 0 0.15em 0.15em 0;
-    z-index: 1;
-    opacity: 0;
-    right: calc(50% - 0.28em);
-    top: calc(50% - 0.55em);
-    transform: rotate(0deg);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    transform-origin: center center;
-  }
-  
-  
-  input[type="radio"].check::before {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    border: none;
-    background: #fff;
-    top: 50%;
-    left: 50%;
-    right: auto;
-    transform: translate(-50%, -50%) scale(0);
-    transition: transform 0.2s ease, opacity 0.2s ease;
-  }
-  
-  .check:checked {
-    background-color: var(--primary-green);
-    animation: checkPop 0.25s ease-in forwards;
-  }
-  
-  .check:checked::before {
-    opacity: 1;
-    transform: rotate(405deg);
-  }
-  
-  input[type="radio"].check:checked::before {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  
-  @keyframes checkPop {
-    0%   { transform: scale(1); }
-    50%  { transform: scale(0.85); }
-    100% { transform: scale(1); }
-  }
-  
-  
-  .formButtonContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    padding-top: 8px;
-    flex-wrap: wrap;
-  }
-  
-  
-  @media (max-width: 768px) {
-    .profileForm {
-      padding: 20px 16px;
-    }
-  
-    .ageGroupMainContainer,
-    .dietaryGroupMainContainer,
-    .allergiesGroupMainContainer,
-    .healthConsiderationGroupMainContainer,
-    .budgetGroupMainContainer {
-      gap: var(--gap-sm);
-    }
-  
-    .ageGroupContainer,
-    .dietaryGroupContainer,
-    .allergiesGroupContainer,
-    .healthConsiderationGroupContainer,
-    .budgetGroupContainer {
-      min-width: 80px;
-      padding: 9px 12px;
-      font-size: var(--font-size-sm);
-    }
-  }
-
-
+}
 .profile-page-lede {
   margin: 0 0 1rem;
   font-size: 1.0625rem;
@@ -421,7 +361,6 @@
   color: var(--text-muted);
   max-width: 38rem;
 }
-
 .ageGroupContainer,
 .dietaryGroupContainer,
 .allergiesGroupContainer,
@@ -430,7 +369,6 @@
   min-height: 48px;
   padding: 12px 18px;
 }
-
 .ageGroupContainer label,
 .dietaryGroupContainer label,
 .allergiesGroupContainer label,
@@ -439,24 +377,20 @@
   font-size: 1.0625rem;
   line-height: 1.35;
 }
-
 .check {
   width: 24px;
   height: 24px;
 }
-
-input[type="radio"].check::before {
+input[type=radio].check::before {
   width: 10px;
   height: 10px;
 }
-
 .check::before {
   width: 0.5rem;
   height: 0.95rem;
   right: calc(50% - 0.32em);
   top: calc(50% - 0.58em);
 }
-
 .ageGroupContainer:focus-within,
 .dietaryGroupContainer:focus-within,
 .allergiesGroupContainer:focus-within,
@@ -465,25 +399,21 @@ input[type="radio"].check::before {
   outline: 3px solid var(--primary-green-dark);
   outline-offset: 2px;
 }
-
 .formButtonContainer .button {
   min-height: 48px;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
   font-size: 1.0625rem;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .check {
     animation: none;
     transition: none;
   }
-
   .check:checked {
     animation: none;
   }
 }
-
 .profile-user-id-box {
   background: var(--secondary-green, #f0f7f4);
   border: var(--border-light);
@@ -491,27 +421,23 @@ input[type="radio"].check::before {
   padding: 12px 14px;
   margin-bottom: 16px;
 }
-
 .profile-user-id-box p {
   margin: 0 0 8px;
   font-size: 0.95rem;
   color: var(--text-main);
 }
-
 .profile-user-id-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
 }
-
 .profile-user-id-code {
   font-family: ui-monospace, monospace;
   font-size: 0.85rem;
   word-break: break-all;
   flex: 1 1 200px;
 }
-
 .profile-readonly-banner {
   background: #fff8e6;
   border: 1px solid #e6d4a8;
@@ -521,20 +447,16 @@ input[type="radio"].check::before {
   font-size: 0.95rem;
   color: var(--text-main);
 }
-
 .profile-fieldset-reset {
   border: none;
   margin: 0;
   padding: 0;
   min-width: 0;
 }
-
-
 .profile-page-lede--short {
   margin-bottom: 0.75rem;
   max-width: 36rem;
 }
-
 .profile-intro-details {
   margin: 0 0 1rem;
   padding: 0;
@@ -542,7 +464,6 @@ input[type="radio"].check::before {
   border-radius: var(--border-radius);
   background: rgba(255, 255, 255, 0.65);
 }
-
 .profile-intro-details__summary {
   list-style: none;
   cursor: pointer;
@@ -551,24 +472,19 @@ input[type="radio"].check::before {
   font-size: var(--font-size-sm);
   color: var(--primary-green-dark);
 }
-
 .profile-intro-details__summary::-webkit-details-marker {
   display: none;
 }
-
 .profile-intro-details__body {
   padding: 0 1rem 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
-
 .profile-intro-details__body p {
   margin: 0;
   font-size: var(--font-size-sm);
   line-height: 1.55;
   color: var(--text-muted);
 }
-
-
 .profileFold {
   margin-bottom: 1rem;
   border: var(--border-light);
@@ -577,7 +493,6 @@ input[type="radio"].check::before {
   box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
-
 .profileFold__summary {
   list-style: none;
   cursor: pointer;
@@ -590,11 +505,9 @@ input[type="radio"].check::before {
   color: var(--text-main);
   transition: background 0.15s ease;
 }
-
 .profileFold__summary::-webkit-details-marker {
   display: none;
 }
-
 .profileFold__summary::after {
   content: "";
   flex-shrink: 0;
@@ -605,21 +518,17 @@ input[type="radio"].check::before {
   transform: rotate(45deg);
   transition: transform 0.2s ease;
 }
-
 .profileFold[open] > .profileFold__summary::after {
   transform: rotate(-135deg);
   margin-top: 0.25rem;
 }
-
 .profileFold__summary:hover {
   background: var(--secondary-green);
 }
-
 .profileFold__summary:focus-visible {
   outline: 3px solid var(--primary-green);
   outline-offset: -2px;
 }
-
 .profileFold__summaryText {
   display: flex;
   flex-direction: column;
@@ -628,7 +537,6 @@ input[type="radio"].check::before {
   min-width: 0;
   text-align: left;
 }
-
 .profileFold__title {
   font-family: var(--font-display);
   font-size: 1.125rem;
@@ -636,39 +544,32 @@ input[type="radio"].check::before {
   letter-spacing: -0.02em;
   color: var(--text-main);
 }
-
 .profileFold__subtitle {
   font-size: var(--font-size-sm);
   font-weight: 500;
   color: var(--text-muted);
   line-height: 1.35;
 }
-
 .profileFold__body {
   padding: 0 1.15rem 1.15rem;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
-
 .profileFold__body.profileMetricsSection,
 .profileFold__body.profileFoodSection,
 .profileFold__body.profileHealthBudgetSection {
   padding-top: 0.75rem;
 }
-
 .profile-section-hint--compact {
   margin-bottom: 0.75rem;
   font-size: var(--font-size-sm);
 }
-
 .profileSubTitle--spaced {
   margin-top: 1.25rem;
 }
-
 .profile-mini-details {
   margin: 0 0 0.75rem;
   border-radius: var(--border-radius-sm);
 }
-
 .profile-mini-details__summary {
   list-style: none;
   cursor: pointer;
@@ -677,29 +578,23 @@ input[type="radio"].check::before {
   color: var(--primary-green-dark);
   padding: 0.35rem 0;
 }
-
 .profile-mini-details__summary::-webkit-details-marker {
   display: none;
 }
-
 .profile-mini-details__text {
   margin: 0.35rem 0 0;
   padding-left: 0.65rem;
   border-left: 3px solid var(--secondary-green);
 }
-
 .profileEnergyFootnoteWrap {
   margin-top: 0.75rem;
   margin-bottom: 0;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .profileFold__summary::after {
     transition: none;
   }
 }
-
-
 .formTitleHeaderRow {
   display: flex;
   flex-wrap: wrap;
@@ -708,68 +603,55 @@ input[type="radio"].check::before {
   gap: 12px;
   margin-bottom: 10px;
 }
-
 .formTitleHeaderRow .formTitle {
   margin-bottom: 0;
   flex: 1 1 auto;
   min-width: min(100%, 10rem);
 }
-
 .profile-how-it-works-btn {
   flex-shrink: 0;
 }
-
 .profile-help-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 1040;
 }
-
 .profile-help-modal.modal.show {
   z-index: 1055;
   pointer-events: none;
 }
-
 .profile-help-modal .modal-dialog {
   pointer-events: auto;
 }
-
 .profile-help-dialog {
   max-width: min(560px, calc(100vw - 2rem));
 }
-
 .profile-help-body {
   font-size: var(--font-size-base, 1rem);
   line-height: 1.55;
   color: var(--text-main);
 }
-
 .profile-help-section {
   margin-bottom: 1.25rem;
 }
-
 .profile-help-section:last-child {
   margin-bottom: 0;
 }
-
 .profile-help-heading {
   font-size: 1rem;
   font-weight: 600;
   margin: 0 0 0.5rem;
   color: var(--text-main);
 }
-
 .profile-help-muted {
   font-size: var(--font-size-sm);
   color: var(--text-muted);
   margin-bottom: 0;
 }
-
 .profile-help-body p {
   margin: 0 0 0.65rem;
 }
-
 .profile-help-body p:last-child {
   margin-bottom: 0;
 }

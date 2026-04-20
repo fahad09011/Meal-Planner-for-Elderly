@@ -6,13 +6,13 @@ import "../../assets/styles/mealCard.css";
 function MealCard({ meals, selectMeal, daySelection }) {
   const navigate = useNavigate();
   const capitalizer = (string) =>
-    string ? string[0].toUpperCase() + string.slice(1) : "";
+  string ? string[0].toUpperCase() + string.slice(1) : "";
 
   const isSelected = daySelection?.[meals.mealType]?.id === meals.id;
   const summaryTeaser =
-    typeof meals.summary === "string" && meals.summary.trim() !== ""
-      ? meals.summary.trim()
-      : null;
+  typeof meals.summary === "string" && meals.summary.trim() !== "" ?
+  meals.summary.trim() :
+  null;
 
   return (
     <div className="mainMealCardContainer">
@@ -20,20 +20,20 @@ function MealCard({ meals, selectMeal, daySelection }) {
       <img
         src={meals.image}
         alt={meals.title}
-        className="mealImage"
-      />
+        className="mealImage" />
+      
 
       <div className="mealDataSection">
         <p className="mealName">{meals.title}</p>
-        {summaryTeaser ? (
-          <p className="mealDescription mealDescription--teaser">{summaryTeaser}</p>
-        ) : null}
+        {summaryTeaser ?
+        <p className="mealDescription mealDescription--teaser">{summaryTeaser}</p> :
+        null}
         <div className="mealTagContainer">
-          {(meals.diets ?? []).map((tag, index) => (
-            <span key={index} className="mealTag">
+          {(meals.diets ?? []).map((tag, index) =>
+          <span key={index} className="mealTag">
               {capitalizer(tag)}
             </span>
-          ))}
+          )}
         </div>
       </div>
 
@@ -41,8 +41,8 @@ function MealCard({ meals, selectMeal, daySelection }) {
 
         <Button
           className={`mealButton ${isSelected ? "click" : "button"}`}
-          onClick={() => selectMeal(meals)}
-        >
+          onClick={() => selectMeal(meals)}>
+          
           {isSelected ? "✓ Selected" : "Select for plan"}
         </Button>
 
@@ -50,25 +50,25 @@ function MealCard({ meals, selectMeal, daySelection }) {
           type="button"
           className="mealViewBtn"
           onClick={() =>
-            navigate(`/mealDetails/${meals.id}`, { state: { meal: meals } })
-          }
-        >
+          navigate(`/mealDetails/${meals.id}`, { state: { meal: meals } })
+          }>
+          
           <svg
             width="14" height="14" viewBox="0 0 14 14"
             fill="none" stroke="currentColor"
             strokeWidth="2" strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M1 7s2-4 6-4 6 4 6 4-2 4-6 4-6-4-6-4z"/>
-            <circle cx="7" cy="7" r="1.8"/>
+            strokeLinejoin="round">
+            
+            <path d="M1 7s2-4 6-4 6 4 6 4-2 4-6 4-6-4-6-4z" />
+            <circle cx="7" cy="7" r="1.8" />
           </svg>
           View recipe
         </button>
 
       </div>
 
-    </div>
-  );
+    </div>);
+
 }
 
 export default MealCard;

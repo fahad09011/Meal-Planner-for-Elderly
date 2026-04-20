@@ -7,8 +7,8 @@ function AutoGenerateBanner({ completedDay, onGenerate, onAutoWeeklyPlan }) {
       className="auto-generate-banner"
       data-completed-days={completedDay}
       aria-labelledby="auto-banner-title"
-      aria-describedby="auto-banner-desc"
-    >
+      aria-describedby="auto-banner-desc">
+      
       <div className="auto-generate-banner__icon" aria-hidden="true">
         <svg
           width="28"
@@ -18,8 +18,8 @@ function AutoGenerateBanner({ completedDay, onGenerate, onAutoWeeklyPlan }) {
           stroke="white"
           strokeWidth="1.6"
           strokeLinecap="round"
-          strokeLinejoin="round"
-        >
+          strokeLinejoin="round">
+          
           <path d="M13 2l2.5 7H23l-6 4.5 2.5 7L13 17l-6.5 4.5 2.5-7L3 9h7.5L13 2z" />
         </svg>
       </div>
@@ -39,8 +39,8 @@ function AutoGenerateBanner({ completedDay, onGenerate, onAutoWeeklyPlan }) {
           type="button"
           className="auto-generate-banner__btn"
           onClick={onAutoWeeklyPlan}
-          aria-label="Fill all seven days using suggested recipes from the list below."
-        >
+          aria-label="Fill all seven days using suggested recipes from the list below.">
+          
           Suggest whole week
         </Button>
         <Button
@@ -48,13 +48,13 @@ function AutoGenerateBanner({ completedDay, onGenerate, onAutoWeeklyPlan }) {
           className="auto-generate-banner__btn"
           onClick={onGenerate}
           aria-label="Save this meal plan to your account. Needs all seven days filled."
-          disabled={completedDay < 7}
-        >
+          disabled={completedDay < 7}>
+          
           Save plan to account
         </Button>
       </div>
-    </section>
-  );
+    </section>);
+
 }
 
 export default AutoGenerateBanner;

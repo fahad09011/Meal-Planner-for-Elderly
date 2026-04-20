@@ -4,4 +4,4 @@ function Header() {
   return <div />;
 }
 
-export default Header
+export default Header;

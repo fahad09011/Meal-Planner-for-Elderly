@@ -14,21 +14,21 @@ import { useAuth } from "../context/AuthContext";
 
 function MealPlan() {
   const days = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday"];
+
 
   const {
     mealPlanDraft,
     setMealPlanDraft,
     profileData,
     profileHydrated,
-    saveCurrentMealPlan,
+    saveCurrentMealPlan
   } = useContext(AppContext);
 
   const { authLoading, user } = useAuth();
@@ -48,7 +48,7 @@ function MealPlan() {
     isDayCompleted,
     completedDay,
     handleSaveDayPlan,
-    generateWeeklyPlan,
+    generateWeeklyPlan
   } = useMealPlan({
     days,
     mealPlanDraft,
@@ -58,7 +58,7 @@ function MealPlan() {
     profileData,
     mealsFetchReady,
     saveCurrentMealPlan,
-    user,
+    user
   });
 
   const { count, filteredMeals } = useNutrition(apiMeals);
@@ -87,7 +87,7 @@ function MealPlan() {
     await generateWeeklyPlan(generationMode);
   }
 
-  const progress = Math.round((completedDay / 7) * 100);
+  const progress = Math.round(completedDay / 7 * 100);
 
   function handleDayTabClick(day) {
     setSelectedDay(day);
@@ -108,8 +108,8 @@ function MealPlan() {
           <AutoGenerateBanner
             completedDay={completedDay}
             onAutoWeeklyPlan={handleAutoGenerateWeeklyPlan}
-            onGenerate={handleFinalGenerateWeeklyPlan}
-          />
+            onGenerate={handleFinalGenerateWeeklyPlan} />
+          
 
           <section className="daySelectSection" aria-label="Step 1: choose a day of the week">
             <div className="daySelectSection-tabsWrap">
@@ -125,27 +125,27 @@ function MealPlan() {
                       role="tab"
                       aria-selected={selectedDay === day}
                       className={`view-plan-day-tab ${
-                        selectedDay === day ? "view-plan-day-tab--active" : ""
-                      }`}
-                      onClick={() => handleDayTabClick(day)}
-                    >
+                      selectedDay === day ? "view-plan-day-tab--active" : ""}`
+                      }
+                      onClick={() => handleDayTabClick(day)}>
+                      
                       <span className="view-plan-day-tab-name">{day.slice(0, 3)}</span>
                       <div className="view-plan-day-tab-dots">
-                        {["breakfast", "lunch", "dinner"].map((mealSlot) => (
-                          <span
-                            key={mealSlot}
-                            className={`view-plan-day-tab-dot ${
-                              dayPlan?.[mealSlot] ? "view-plan-day-tab-dot--planned" : ""
-                            } ${
-                              dayComplete && dayPlan?.[mealSlot]
-                                ? "view-plan-day-tab-dot--done"
-                                : ""
-                            }`}
-                          />
-                        ))}
+                        {["breakfast", "lunch", "dinner"].map((mealSlot) =>
+                        <span
+                          key={mealSlot}
+                          className={`view-plan-day-tab-dot ${
+                          dayPlan?.[mealSlot] ? "view-plan-day-tab-dot--planned" : ""} ${
+
+                          dayComplete && dayPlan?.[mealSlot] ?
+                          "view-plan-day-tab-dot--done" :
+                          ""}`
+                          } />
+
+                        )}
                       </div>
-                    </button>
-                  );
+                    </button>);
+
                 })}
               </div>
             </div>
@@ -153,8 +153,8 @@ function MealPlan() {
             <Button
               className="save-day-btn save-day-btn-top"
               onClick={handleManualSaveDayPlan}
-              aria-label={`Save breakfast, lunch and dinner for ${selectedDay}`}
-            >
+              aria-label={`Save breakfast, lunch and dinner for ${selectedDay}`}>
+              
               Save this day
             </Button>
           </section>
@@ -166,8 +166,8 @@ function MealPlan() {
               completed={progress}
               labelAlignment="center"
               customLabel={` Week progress: ${completedDay} of 7 days `}
-              maxCompleted={100}
-            />
+              maxCompleted={100} />
+            
           </section>
 
           <section className="dayTitleSection" aria-labelledby="meal-plan-day-heading">
@@ -179,68 +179,68 @@ function MealPlan() {
               your time. Recipe ideas load automatically when this page opens.
             </p>
 
-            {!mealsFetchReady ? (
-              <p className="meal-plan-fetch-hint meal-plan-fetch-hint--below-day" role="status">
+            {!mealsFetchReady ?
+            <p className="meal-plan-fetch-hint meal-plan-fetch-hint--below-day" role="status">
                 Your profile is still loading. Please wait a moment.
-              </p>
-            ) : null}
+              </p> :
+            null}
           </section>
 
-          {loadingMeals ? (
-            <section className="loading-container" aria-busy="true" aria-live="polite">
+          {loadingMeals ?
+          <section className="loading-container" aria-busy="true" aria-live="polite">
               <div className="spinner-wrapper">
                 <div className="spinner"></div>
                 <p>Loading recipe ideas…</p>
               </div>
-            </section>
-          ) : mealError ? (
-            <section className="error-container" role="alert">
+            </section> :
+          mealError ?
+          <section className="error-container" role="alert">
               <p className="error-container__message">{mealError}</p>
               <button type="button" className="meal-plan-retry-btn" onClick={() => fetchApiMeals()}>
                 Try again
               </button>
-            </section>
-          ) : !mealsRequested ? (
-            <section className="meal-plan-prompt-placeholder" aria-live="polite">
+            </section> :
+          !mealsRequested ?
+          <section className="meal-plan-prompt-placeholder" aria-live="polite">
               <p className="meal-plan-prompt-placeholder__text">Getting recipe ideas ready…</p>
-            </section>
-          ) : (
-            <div className="cont">
+            </section> :
+
+          <div className="cont">
               <MealList
-                meals={filteredMeals}
-                mealsCount={mealsCount}
-                selectMeal={selectMeal}
-                weeklyPlan={mealPlanDraft}
-                daySelection={daySelection}
-                selectedDay={selectedDay}
-              />
+              meals={filteredMeals}
+              mealsCount={mealsCount}
+              selectMeal={selectMeal}
+              weeklyPlan={mealPlanDraft}
+              daySelection={daySelection}
+              selectedDay={selectedDay} />
+            
 
               <section className="action-buttons-section" aria-label="Save day or whole plan">
                 <div className="day-actions">
                   <Button
-                    className="save-day-btn"
-                    onClick={handleManualSaveDayPlan}
-                    aria-label={`Save meals for ${selectedDay}`}
-                  >
+                  className="save-day-btn"
+                  onClick={handleManualSaveDayPlan}
+                  aria-label={`Save meals for ${selectedDay}`}>
+                  
                     Save this day
                   </Button>
 
                   <Button
-                    className="generate-plan-btn"
-                    disabled={completedDay < 7}
-                    onClick={handleFinalGenerateWeeklyPlan}
-                    aria-label="Save the full week to your account. Available when all seven days are filled."
-                  >
+                  className="generate-plan-btn"
+                  disabled={completedDay < 7}
+                  onClick={handleFinalGenerateWeeklyPlan}
+                  aria-label="Save the full week to your account. Available when all seven days are filled.">
+                  
                     Save plan to account
                   </Button>
                 </div>
               </section>
             </div>
-          )}
+          }
         </div>
       </main>
-    </>
-  );
+    </>);
+
 }
 
 export default MealPlan;

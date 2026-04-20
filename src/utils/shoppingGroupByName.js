@@ -1,7 +1,7 @@
 function trimNonAlphanumericFromEnds(value) {
-  return typeof value === "string"
-    ? value.replace(/^[^a-z0-9]+|[^a-z0-9]+$/gi, "")
-    : "";
+  return typeof value === "string" ?
+  value.replace(/^[^a-z0-9]+|[^a-z0-9]+$/gi, "") :
+  "";
 }
 
 function singularizeLastWord(value) {
@@ -23,12 +23,12 @@ function singularizeLastWord(value) {
 }
 
 function collapseRepeatedLettersAndSpaces(value) {
-  return typeof value === "string"
-    ? value
-        .replace(/(.)\1+/g, "$1")
-        .replace(/\s+/g, " ")
-        .trim()
-    : "";
+  return typeof value === "string" ?
+  value.
+  replace(/(.)\1+/g, "$1").
+  replace(/\s+/g, " ").
+  trim() :
+  "";
 }
 
 function buildStableGroupKey(normalizedLabel) {
@@ -38,30 +38,30 @@ function buildStableGroupKey(normalizedLabel) {
 export function normalizeShoppingItemName(name, category = "") {
   if (typeof name !== "string" || name.trim() === "") return "";
 
-  let normalized = trimNonAlphanumericFromEnds(name.toLowerCase().trim())
-    .replace(/\s+/g, " ")
-    .replace(/\bor$/g, "")
-    .trim();
+  let normalized = trimNonAlphanumericFromEnds(name.toLowerCase().trim()).
+  replace(/\s+/g, " ").
+  replace(/\bor$/g, "").
+  trim();
 
-  normalized = normalized
-    .replace(/^juice of lemon$/i, "lemon juice")
-    .replace(/^lemon juice$/, "lemon juice")
-    .replace(/^cloves garlic$/i, "garlic")
-    .replace(/^garlic cloves$/i, "garlic")
-    .replace(/^rosemary leaves$/i, "rosemary")
-    .replace(/^spinach leaves$/i, "spinach")
-    .replace(/^broccoli florets$/i, "broccoli")
-    .replace(/^cauliflower florets$/i, "cauliflower");
+  normalized = normalized.
+  replace(/^juice of lemon$/i, "lemon juice").
+  replace(/^lemon juice$/, "lemon juice").
+  replace(/^cloves garlic$/i, "garlic").
+  replace(/^garlic cloves$/i, "garlic").
+  replace(/^rosemary leaves$/i, "rosemary").
+  replace(/^spinach leaves$/i, "spinach").
+  replace(/^broccoli florets$/i, "broccoli").
+  replace(/^cauliflower florets$/i, "cauliflower");
 
-  normalized = normalized
-    .replace(/\b(leaves|leaf|stalks|stalk|florets|floret|cloves|clove)\b/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+  normalized = normalized.
+  replace(/\b(leaves|leaf|stalks|stalk|florets|floret|cloves|clove)\b/g, "").
+  replace(/\s+/g, " ").
+  trim();
 
   if (
-    category === "Produce" &&
-    /^(bell pepper|peppers|pepper)$/.test(normalized)
-  ) {
+  category === "Produce" &&
+  /^(bell pepper|peppers|pepper)$/.test(normalized))
+  {
     return "bell pepper";
   }
 
@@ -92,21 +92,21 @@ export function groupShoppingItemByName(items) {
     }
     groups[groupKey].push({
       ...item,
-      name: normalizedName,
+      name: normalizedName
     });
   });
 
   const mergedEntries = Object.entries(groups).map(([groupKey, rows]) => {
-    const namesShortestFirst = [...rows]
-      .map((row) => row.name)
-      .sort(
-        (left, right) =>
-          left.length - right.length || left.localeCompare(right),
-      );
+    const namesShortestFirst = [...rows].
+    map((row) => row.name).
+    sort(
+      (left, right) =>
+      left.length - right.length || left.localeCompare(right)
+    );
     const displayName = namesShortestFirst[0] ?? "";
     const rowsWithCanonicalName = rows.map((row) => ({
       ...row,
-      name: displayName,
+      name: displayName
     }));
     return [groupKey, rowsWithCanonicalName];
   });

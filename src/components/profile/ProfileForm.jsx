@@ -17,7 +17,7 @@ function ProfileForm() {
     hasProfile,
     defaultProfile,
     activeDataUserId,
-    viewingOwnProfile,
+    viewingOwnProfile
   } = useContext(AppContext);
   const [formData, setFormData] = useState(profileData);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,7 +28,7 @@ function ProfileForm() {
   }, [profileData]);
 
   const { restingCalories, dailyCalories } =
-    getRestingAndDailyCaloriesFromProfile(formData);
+  getRestingAndDailyCaloriesFromProfile(formData);
 
   function handleOnChange(event) {
     const { name, value, type, checked } = event.target;
@@ -42,7 +42,7 @@ function ProfileForm() {
         }
         return {
           ...prev,
-          [name]: newArray,
+          [name]: newArray
         };
       });
     } else {
@@ -59,7 +59,7 @@ function ProfileForm() {
       alert("Profile saved successfully.");
     } else {
       const errorMessage =
-        result.error?.message ?? "Something went wrong saving your profile.";
+      result.error?.message ?? "Something went wrong saving your profile.";
       console.error("Profile save failed:", result.error);
       alert(`Profile not saved: ${errorMessage}`);
     }
@@ -94,8 +94,8 @@ function ProfileForm() {
                 ref={howItWorksBtnRef}
                 type="button"
                 className="button inActive profile-how-it-works-btn"
-                onClick={() => setShowHowItWorks(true)}
-              >
+                onClick={() => setShowHowItWorks(true)}>
+                
                 How it works
               </button>
             </div>
@@ -103,8 +103,8 @@ function ProfileForm() {
               Expand a section below to change your details. Use “How it works” anytime for a full
               explanation.
             </p>
-            {user && activeDataUserId ? (
-              <div className="profile-user-id-box">
+            {user && activeDataUserId ?
+            <div className="profile-user-id-box">
                 <p>
                   <strong>User ID</strong> (for caregivers to link this account)
                 </p>
@@ -114,14 +114,14 @@ function ProfileForm() {
                     Copy
                   </Button>
                 </div>
-              </div>
-            ) : null}
-            {!viewingOwnProfile ? (
-              <p className="profile-readonly-banner" role="status">
+              </div> :
+            null}
+            {!viewingOwnProfile ?
+            <p className="profile-readonly-banner" role="status">
                 You are viewing someone else&apos;s profile. Meal planning uses their details; only they
                 can change this form when signed in to their own account.
-              </p>
-            ) : null}
+              </p> :
+            null}
             <hr />
           </div>
 
@@ -142,108 +142,108 @@ function ProfileForm() {
               <label className="profileFieldLabel" htmlFor="profile-age">
                 Age (years)
                 <input
-                  id="profile-age"
-                  className="profileTextInput"
-                  type="number"
-                  name="age"
-                  min={18}
-                  max={120}
-                  required
-                  inputMode="numeric"
-                  value={formData.age}
-                  onChange={handleOnChange}
-                  placeholder="e.g. 72"
-                />
+                      id="profile-age"
+                      className="profileTextInput"
+                      type="number"
+                      name="age"
+                      min={18}
+                      max={120}
+                      required
+                      inputMode="numeric"
+                      value={formData.age}
+                      onChange={handleOnChange}
+                      placeholder="e.g. 72" />
+                    
               </label>
               <label className="profileFieldLabel" htmlFor="profile-weight">
                 Weight (kg)
                 <input
-                  id="profile-weight"
-                  className="profileTextInput"
-                  type="number"
-                  name="weightKg"
-                  min={1}
-                  max={400}
-                  step="0.1"
-                  required
-                  inputMode="decimal"
-                  value={formData.weightKg}
-                  onChange={handleOnChange}
-                  placeholder="e.g. 70"
-                />
+                      id="profile-weight"
+                      className="profileTextInput"
+                      type="number"
+                      name="weightKg"
+                      min={1}
+                      max={400}
+                      step="0.1"
+                      required
+                      inputMode="decimal"
+                      value={formData.weightKg}
+                      onChange={handleOnChange}
+                      placeholder="e.g. 70" />
+                    
               </label>
               <label className="profileFieldLabel" htmlFor="profile-height">
                 Height (cm)
                 <input
-                  id="profile-height"
-                  className="profileTextInput"
-                  type="number"
-                  name="heightCm"
-                  min={100}
-                  max={250}
-                  required
-                  inputMode="numeric"
-                  value={formData.heightCm}
-                  onChange={handleOnChange}
-                  placeholder="e.g. 165"
-                />
+                      id="profile-height"
+                      className="profileTextInput"
+                      type="number"
+                      name="heightCm"
+                      min={100}
+                      max={250}
+                      required
+                      inputMode="numeric"
+                      value={formData.heightCm}
+                      onChange={handleOnChange}
+                      placeholder="e.g. 165" />
+                    
               </label>
             </div>
 
             <p className="profileSubTitle">Gender</p>
             <div className="genderRow">
               {[
-                { id: "gender-male", value: "male", label: "Male" },
-                { id: "gender-female", value: "female", label: "Female" },
-              ].map(({ id, value, label }, i) => (
-                <div className="ageGroupContainer" key={value}>
+                  { id: "gender-male", value: "male", label: "Male" },
+                  { id: "gender-female", value: "female", label: "Female" }].
+                  map(({ id, value, label }, i) =>
+                  <div className="ageGroupContainer" key={value}>
                   <input
-                    required={i === 0}
-                    className="check"
-                    type="radio"
-                    name="gender"
-                    id={id}
-                    onChange={handleOnChange}
-                    checked={formData.gender === value}
-                    value={value}
-                  />
+                      required={i === 0}
+                      className="check"
+                      type="radio"
+                      name="gender"
+                      id={id}
+                      onChange={handleOnChange}
+                      checked={formData.gender === value}
+                      value={value} />
+                    
                   <label htmlFor={id}>{label}</label>
                 </div>
-              ))}
+                  )}
             </div>
 
             <p className="profileSubTitle">Activity level</p>
             <div className="activityLevelList">
-              {ACTIVITY_LEVEL_OPTIONS.map((opt, i) => (
-                <label
-                  key={opt.id}
-                  className={`activityLevelCard ${formData.activityLevel === opt.id ? "activityLevelCard--selected" : ""}`}
-                  htmlFor={`activity-${opt.id}`}
-                >
+              {ACTIVITY_LEVEL_OPTIONS.map((opt, i) =>
+                  <label
+                    key={opt.id}
+                    className={`activityLevelCard ${formData.activityLevel === opt.id ? "activityLevelCard--selected" : ""}`}
+                    htmlFor={`activity-${opt.id}`}>
+                    
                   <input
-                    className="check"
-                    type="radio"
-                    name="activityLevel"
-                    id={`activity-${opt.id}`}
-                    value={opt.id}
-                    checked={formData.activityLevel === opt.id}
-                    onChange={handleOnChange}
-                    required={i === 0}
-                  />
+                      className="check"
+                      type="radio"
+                      name="activityLevel"
+                      id={`activity-${opt.id}`}
+                      value={opt.id}
+                      checked={formData.activityLevel === opt.id}
+                      onChange={handleOnChange}
+                      required={i === 0} />
+                    
                   <span className="activityLevelCardBody">
                     <span className="activityLevelTitle">
                       {opt.label} ({opt.multiplier})
                     </span>
-                    {formData.activityLevel === opt.id ? (
-                      <span className="activityLevelDesc">{opt.description}</span>
-                    ) : null}
+                    {formData.activityLevel === opt.id ?
+                      <span className="activityLevelDesc">{opt.description}</span> :
+                      null}
                   </span>
                 </label>
-              ))}
+                  )}
             </div>
 
-            {restingCalories != null && (
-              <div className="profileEnergySummary" role="status" aria-live="polite">
+            {restingCalories != null &&
+                <div className="profileEnergySummary" role="status" aria-live="polite">
                 <p className="profileSubTitle">Estimated energy</p>
                 <div className="profileEnergySummaryGrid">
                   <div className="profileEnergyCard">
@@ -252,17 +252,17 @@ function ProfileForm() {
                     <span className="profileEnergyUnit">kcal / day</span>
                     <span className="profileEnergyHelp">At rest</span>
                   </div>
-                  {dailyCalories != null && (
+                  {dailyCalories != null &&
                     <div className="profileEnergyCard profileEnergyCard--accent">
                       <span className="profileEnergyLabel">Daily with activity</span>
                       <span className="profileEnergyValue">{dailyCalories}</span>
                       <span className="profileEnergyUnit">kcal / day</span>
                       <span className="profileEnergyHelp">Resting × activity level</span>
                     </div>
-                  )}
+                    }
                 </div>
               </div>
-            )}
+                }
           </section>
           </details>
 
@@ -278,27 +278,27 @@ function ProfileForm() {
             <div className="dietaryGroupMainContainer">
               <div className="dietaryGroupContainer vegetarian">
                 <input
-                  className="check"
-                  type="checkbox"
-                  name="dietary"
-                  id="vegetarian"
-                  onChange={handleOnChange}
-                  value="vegetarian"
-                  checked={formData.dietary.includes("vegetarian")}
-                />
+                      className="check"
+                      type="checkbox"
+                      name="dietary"
+                      id="vegetarian"
+                      onChange={handleOnChange}
+                      value="vegetarian"
+                      checked={formData.dietary.includes("vegetarian")} />
+                    
                 <label htmlFor="vegetarian">Vegetarian</label>
               </div>
 
               <div className="dietaryGroupContainer glutenfree">
                 <input
-                  className="check"
-                  type="checkbox"
-                  name="dietary"
-                  id="glutenfree"
-                  onChange={handleOnChange}
-                  checked={formData.dietary.includes("gluten_free")}
-                  value="gluten_free"
-                />
+                      className="check"
+                      type="checkbox"
+                      name="dietary"
+                      id="glutenfree"
+                      onChange={handleOnChange}
+                      checked={formData.dietary.includes("gluten_free")}
+                      value="gluten_free" />
+                    
                 <label htmlFor="glutenfree">Gluten Free</label>
               </div>
             </div>
@@ -307,27 +307,27 @@ function ProfileForm() {
             <div className="allergiesGroupMainContainer">
               <div className="allergiesGroupContainer nuts">
                 <input
-                  className="check"
-                  type="checkbox"
-                  name="allergies"
-                  id="peanut"
-                  onChange={handleOnChange}
-                  checked={formData.allergies.includes("peanut")}
-                  value="peanut"
-                />
+                      className="check"
+                      type="checkbox"
+                      name="allergies"
+                      id="peanut"
+                      onChange={handleOnChange}
+                      checked={formData.allergies.includes("peanut")}
+                      value="peanut" />
+                    
                 <label htmlFor="peanut">Peanut</label>
               </div>
 
               <div className="allergiesGroupContainer dairy">
                 <input
-                  className="check"
-                  type="checkbox"
-                  name="allergies"
-                  id="dairy"
-                  onChange={handleOnChange}
-                  checked={formData.allergies.includes("dairy")}
-                  value="dairy"
-                />
+                      className="check"
+                      type="checkbox"
+                      name="allergies"
+                      id="dairy"
+                      onChange={handleOnChange}
+                      checked={formData.allergies.includes("dairy")}
+                      value="dairy" />
+                    
                 <label htmlFor="dairy">Dairy</label>
               </div>
             </div>
@@ -346,55 +346,55 @@ function ProfileForm() {
             <div className="healthConsiderationGroupMainContainer">
               <div className="healthConsiderationGroupContainer bloodPressure">
                 <input
-                  className="check"
-                  type="checkbox"
-                  name="healthConditions"
-                  id="hypertension"
-                  onChange={handleOnChange}
-                  checked={formData.healthConditions.includes(
-                    "hypertension",
-                  )}
-                  value="hypertension"
-                />
+                      className="check"
+                      type="checkbox"
+                      name="healthConditions"
+                      id="hypertension"
+                      onChange={handleOnChange}
+                      checked={formData.healthConditions.includes(
+                        "hypertension"
+                      )}
+                      value="hypertension" />
+                    
                 <label htmlFor="hypertension">Hypertension</label>
               </div>
 
               <div className="healthConsiderationGroupContainer diabetes">
                 <input
-                  className="check"
-                  type="checkbox"
-                  name="healthConditions"
-                  id="diabetes"
-                  onChange={handleOnChange}
-                  checked={formData.healthConditions.includes("diabetes")}
-                  value="diabetes"
-                />
+                      className="check"
+                      type="checkbox"
+                      name="healthConditions"
+                      id="diabetes"
+                      onChange={handleOnChange}
+                      checked={formData.healthConditions.includes("diabetes")}
+                      value="diabetes" />
+                    
                 <label htmlFor="diabetes">Diabetes</label>
               </div>
 
               <div className="healthConsiderationGroupContainer diabetes">
                 <input
-                  className="check"
-                  type="checkbox"
-                  name="healthConditions"
-                  id="kidneyDisease"
-                  onChange={handleOnChange}
-                  checked={formData.healthConditions.includes("kidneyDisease")}
-                  value="kidneyDisease"
-                />
+                      className="check"
+                      type="checkbox"
+                      name="healthConditions"
+                      id="kidneyDisease"
+                      onChange={handleOnChange}
+                      checked={formData.healthConditions.includes("kidneyDisease")}
+                      value="kidneyDisease" />
+                    
                 <label htmlFor="kidneyDisease">Kidney Disease</label>
               </div>
 
               <div className="healthConsiderationGroupContainer diabetes">
                 <input
-                  className="check"
-                  type="checkbox"
-                  name="healthConditions"
-                  id="highCholesterol"
-                  onChange={handleOnChange}
-                  checked={formData.healthConditions.includes("highCholesterol")}
-                  value="highCholesterol"
-                />
+                      className="check"
+                      type="checkbox"
+                      name="healthConditions"
+                      id="highCholesterol"
+                      onChange={handleOnChange}
+                      checked={formData.healthConditions.includes("highCholesterol")}
+                      value="highCholesterol" />
+                    
                 <label htmlFor="highCholesterol">High Cholesterol</label>
               </div>
 
@@ -404,65 +404,65 @@ function ProfileForm() {
             <div className="budgetGroupMainContainer">
               <div className="budgetGroupContainer low">
                 <input
-                  className="check"
-                  type="radio"
-                  name="budget"
-                  id="low"
-                  onChange={handleOnChange}
-                  checked={formData.budget === "low"}
-                  value="low"
-                />
+                      className="check"
+                      type="radio"
+                      name="budget"
+                      id="low"
+                      onChange={handleOnChange}
+                      checked={formData.budget === "low"}
+                      value="low" />
+                    
                 <label htmlFor="low">Low</label>
               </div>
               <div className="budgetGroupContainer medium">
                 <input
-                  className="check"
-                  type="radio"
-                  name="budget"
-                  id="medium"
-                  onChange={handleOnChange}
-                  checked={formData.budget === "medium"}
-                  value="medium"
-                />
+                      className="check"
+                      type="radio"
+                      name="budget"
+                      id="medium"
+                      onChange={handleOnChange}
+                      checked={formData.budget === "medium"}
+                      value="medium" />
+                    
                 <label htmlFor="medium">Medium</label>
               </div>
               <div className="budgetGroupContainer flexible">
                 <input
-                  className="check"
-                  type="radio"
-                  name="budget"
-                  id="flexible"
-                  onChange={handleOnChange}
-                  checked={formData.budget === "flexible"}
-                  value="flexible"
-                />
+                      className="check"
+                      type="radio"
+                      name="budget"
+                      id="flexible"
+                      onChange={handleOnChange}
+                      checked={formData.budget === "flexible"}
+                      value="flexible" />
+                    
                 <label htmlFor="flexible">Flexible</label>
               </div>
             </div>
           </section>
           </details>
           <div className="formButtonContainer">
-  {viewingOwnProfile ? (
-    !hasProfile ? (
-      <Button type="submit" className="button">
+  {viewingOwnProfile ?
+              !hasProfile ?
+              <Button type="submit" className="button">
         {isSubmitting ? "Saving..." : "Save Profile"}
-      </Button>
-    ) : (
-      <>
+      </Button> :
+
+              <>
         <Button type="submit" className="button">
           {isSubmitting ? "Updating..." : "Update Profile"}
         </Button>
 
         <Button
-          type="button"
-          className="inActive button"
-          onClick={handleClearProfile}
-        >
+                  type="button"
+                  className="inActive button"
+                  onClick={handleClearProfile}>
+                  
           Clear Profile
         </Button>
-      </>
-    )
-  ) : null}
+      </> :
+
+              null}
 </div>
           </fieldset>
         </form>
@@ -472,10 +472,10 @@ function ProfileForm() {
         onClose={() => {
           setShowHowItWorks(false);
           requestAnimationFrame(() => howItWorksBtnRef.current?.focus());
-        }}
-      />
-    </div>
-  );
+        }} />
+      
+    </div>);
+
 }
 
 export default ProfileForm;

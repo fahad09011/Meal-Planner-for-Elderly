@@ -1,4 +1,3 @@
-
 .mainWrapper {
   display: flex;
   flex-direction: column;
@@ -6,16 +5,12 @@
   min-height: 100vh;
   background: transparent;
 }
-
-
 .mealPlanMainContainer {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px 24px 0;
 }
-
-
 .mealPlanTitle {
   font-family: var(--font-display);
   font-size: clamp(1.5rem, 3vw, 1.85rem);
@@ -25,8 +20,6 @@
   letter-spacing: -0.03em;
   line-height: 1.2;
 }
-
-
 .auto-generate-banner {
   background: var(--ai-bg);
   border-radius: 16px;
@@ -38,9 +31,8 @@
   position: relative;
   overflow: hidden;
 }
-
 .auto-generate-banner::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -40px;
   right: -40px;
@@ -50,7 +42,6 @@
   background: rgba(255, 255, 255, 0.05);
   pointer-events: none;
 }
-
 .auto-generate-banner__icon {
   width: 52px;
   height: 52px;
@@ -61,11 +52,9 @@
   justify-content: center;
   flex-shrink: 0;
 }
-
 .auto-generate-banner__text {
   flex: 1;
 }
-
 .auto-generate-banner__title {
   font-size: clamp(1.125rem, 2vw, 1.35rem);
   font-weight: 700;
@@ -73,7 +62,6 @@
   margin: 0 0 8px;
   line-height: 1.25;
 }
-
 .auto-generate-banner__sub {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.92);
@@ -81,7 +69,6 @@
   line-height: 1.55;
   max-width: 40rem;
 }
-
 .auto-generate-banner__actions {
   display: flex;
   flex-wrap: wrap;
@@ -89,7 +76,6 @@
   gap: 10px;
   flex-shrink: 0;
 }
-
 .auto-generate-banner__btn {
   flex-shrink: 0;
   min-height: 48px;
@@ -104,22 +90,17 @@
   transition: opacity 0.15s ease;
   line-height: 1.25;
 }
-
 .auto-generate-banner__btn:hover:not(:disabled) {
   opacity: 0.92;
 }
-
 .auto-generate-banner__btn:focus-visible {
   outline: 3px solid #fff;
   outline-offset: 3px;
 }
-
 .auto-generate-banner__btn:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
-
-
 .daySelectSection {
   display: flex;
   justify-content: space-between;
@@ -131,8 +112,6 @@
   border: var(--border-light);
   margin-bottom: 16px;
 }
-
-
 .meal-plan-page .daySelectSection {
   position: sticky;
   top: 0;
@@ -140,13 +119,10 @@
   background: var(--white);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
-
-
 .daySelectSection-tabsWrap {
   flex: 1;
   min-width: 0;
 }
-
 .daySelectSection .meal-plan-day-tabs {
   margin-bottom: 0;
   background: transparent;
@@ -154,7 +130,6 @@
   padding: 0;
   box-shadow: none;
 }
-
 .dayListContainer {
   display: flex;
   flex: 1;
@@ -167,14 +142,11 @@
   background: var(--white);
   border-radius: var(--border-radius);
 }
-
 .dayList {
   flex: 1;
   list-style: none;
   padding: 0;
 }
-
-
 .progressBarSection {
   padding: 12px 0;
   width: 55%;
@@ -185,76 +157,59 @@
   left: 0 !important;
   right: 0 !important;
 }
-
-
 .dayTitleSection {
   padding: 12px 0 8px;
   display: flex;
   flex-direction: column;
   line-height: 1.4;
 }
-
 .dayTitle {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--text-main);
   margin: 0;
 }
-
 .dayText {
   font-size: var(--font-size-sm);
   color: var(--text-muted);
   margin: 4px 0 0;
 }
-
 .meal-plan-fetch-hint--below-day {
   margin-top: 14px;
 }
-
 .meal-plan-fetch-hint {
   margin: 0;
   font-size: 1rem;
   line-height: 1.45;
   color: var(--text-main);
 }
-
 .meal-plan-fetch-hint--muted {
   color: var(--text-muted);
 }
-
 .meal-plan-prompt-placeholder {
   max-width: 1200px;
   margin: 0 auto;
   padding: 32px 24px 48px;
   text-align: center;
 }
-
 .meal-plan-prompt-placeholder__text {
   margin: 0;
   font-size: var(--font-size-base);
   color: var(--text-muted);
   line-height: 1.5;
 }
-
-
 .cont {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
 }
-
-
 .meal-list-container {
   padding: 8px 0;
 }
-
-
 .meal-section {
   margin-bottom: 36px;
 }
-
-
 .badge {
   background-color: var(--secondary-green);
   color: var(--primary-green-dark);
@@ -263,20 +218,15 @@
   font-size: var(--font-size-sm);
   font-weight: 600;
 }
-
-
 .mealCompleteBadge {
   font-size: var(--font-size-base);
   padding-left: 8px;
   color: var(--primary-green);
 }
-
-
 .action-buttons-section {
   padding: 24px;
   margin-top: 8px;
 }
-
 .day-actions {
   display: flex;
   gap: 16px;
@@ -285,8 +235,6 @@
   margin: 0 auto;
   flex-wrap: wrap;
 }
-
-
 .loading-container,
 .error-container {
   min-height: 400px;
@@ -297,14 +245,12 @@
   padding: 40px 20px;
   gap: 20px;
 }
-
 .spinner-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
 }
-
 .spinner {
   width: 48px;
   height: 48px;
@@ -313,11 +259,11 @@
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
-
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
-
 .error-container button {
   background: var(--primary-green);
   color: var(--white);
@@ -327,21 +273,17 @@
   font-size: var(--font-size-base);
   cursor: pointer;
 }
-
 .loading-container p,
 .error-container p {
   font-size: var(--font-size-lg);
   color: var(--text-main);
   margin: 0;
 }
-
-
 .meal-plan-page-header {
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: var(--border-light);
 }
-
 .meal-plan-page-title {
   font-family: var(--font-display);
   font-size: clamp(1.5rem, 3vw, 1.85rem);
@@ -351,7 +293,6 @@
   margin: 0 0 12px;
   letter-spacing: -0.03em;
 }
-
 .meal-plan-page-lede {
   font-size: 1.0625rem;
   line-height: 1.55;
@@ -359,64 +300,53 @@
   margin: 0;
   max-width: 44rem;
 }
-
 .meal-plan-page .progressBarSection {
   width: 100%;
   padding: 16px 0;
 }
-
 .meal-plan-page .dayTitle {
   font-family: var(--font-display);
   font-size: clamp(1.2rem, 2.5vw, 1.45rem);
   font-weight: 600;
   letter-spacing: -0.02em;
 }
-
 .meal-plan-page .dayTitleSection .dayText {
   font-size: 1.0625rem;
   line-height: 1.5;
   max-width: 42rem;
 }
-
 .meal-plan-page .view-plan-day-tab {
   min-height: 56px;
   min-width: 3.75rem;
   padding: 12px 10px;
 }
-
 .meal-plan-page .view-plan-day-tab-name {
   font-size: 0.95rem;
   font-weight: 700;
 }
-
 .meal-plan-page .view-plan-day-tab-dots {
   gap: 5px;
 }
-
 .meal-plan-page .view-plan-day-tab-dot {
   width: 8px;
   height: 8px;
 }
-
 .meal-plan-page .save-day-btn-top {
   min-height: 48px;
   padding: 0 20px;
   font-size: 1.0625rem;
   font-weight: 600;
 }
-
 .meal-plan-page :is(.save-day-btn, .generate-plan-btn).button:focus-visible {
   outline: 3px solid var(--primary-green-dark);
   outline-offset: 3px;
 }
-
 .meal-plan-page .error-container__message {
   text-align: center;
   max-width: 32rem;
   line-height: 1.55;
   font-size: 1.0625rem;
 }
-
 .meal-plan-page .meal-plan-retry-btn {
   min-height: 48px;
   padding: 12px 28px;
@@ -428,93 +358,75 @@
   border: 2px solid transparent;
   cursor: pointer;
 }
-
 .meal-plan-page .meal-plan-retry-btn:hover {
   background: var(--primary-green-hover);
 }
-
 .meal-plan-page .meal-plan-retry-btn:focus-visible {
   outline: 3px solid var(--primary-green-dark);
   outline-offset: 3px;
 }
-
 .meal-plan-page .meal-plan-prompt-placeholder__text {
   font-size: 1.0625rem;
   line-height: 1.55;
   max-width: 36rem;
   margin: 0 auto;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .meal-plan-page .spinner {
     animation: none;
     border-top-color: var(--primary-green);
   }
-
   .meal-plan-page .save-day-btn:hover,
   .meal-plan-page .generate-plan-btn:not(:disabled):hover {
     transform: none;
   }
 }
-
-
 @media (max-width: 768px) {
   .mealPlanMainContainer,
   .cont {
     padding: 16px;
   }
-
   .progressBarSection {
     width: 100%;
   }
-
   .daySelectSection {
     flex-direction: column;
     align-items: stretch;
     gap: 8px;
   }
-
   .daySelectSection .meal-plan-day-tabs {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
-
   .daySelectSection .meal-plan-day-tabs::-webkit-scrollbar {
     display: none;
   }
-
   .daySelectSection .view-plan-day-tab {
     flex-shrink: 0;
     min-width: 52px;
   }
-
   .dayListContainer {
     gap: 4px;
     overflow-x: auto;
   }
-
   .dayList {
     flex-shrink: 0;
     min-width: 44px;
   }
-
   .day-actions {
     flex-direction: column;
   }
-
   .auto-generate-banner {
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
   }
-
   .auto-generate-banner__actions {
     width: 100%;
     flex-direction: column;
   }
-
   .auto-generate-banner__btn {
     width: 100%;
   }

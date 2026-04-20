@@ -5,8 +5,8 @@ function HomeButton({ icon, title }) {
     <div className="HomeButton">
       <img src={icon} alt={title} className="buttonIcon" />
       <span className="homeButtonTitle">{title}</span>
-    </div>
-  );
+    </div>);
+
 }
 
 export default HomeButton;

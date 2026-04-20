@@ -25,7 +25,7 @@ function ResetPassword() {
     });
 
     const {
-      data: { subscription },
+      data: { subscription }
     } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!active) return;
       if (session?.user) setCanSetPassword(true);
@@ -47,7 +47,7 @@ function ResetPassword() {
 
     if (password.length < MIN_PASSWORD_LEN) {
       setFormError(
-        `Password must be at least ${MIN_PASSWORD_LEN} characters.`,
+        `Password must be at least ${MIN_PASSWORD_LEN} characters.`
       );
       return;
     }
@@ -80,68 +80,68 @@ function ResetPassword() {
             password below.
           </p>
 
-          {checking ? (
-            <p className="loginFormHint" aria-live="polite">
+          {checking ?
+          <p className="loginFormHint" aria-live="polite">
               One moment…
-            </p>
-          ) : null}
+            </p> :
+          null}
 
-          {!checking && !canSetPassword ? (
-            <p className="loginFormMessage loginFormMessageError" role="alert">
+          {!checking && !canSetPassword ?
+          <p className="loginFormMessage loginFormMessageError" role="alert">
               This link is invalid or has expired. Request a new reset email
               from the sign-in page.
-            </p>
-          ) : null}
+            </p> :
+          null}
 
-          {canSetPassword ? (
-            <form className="loginForm" onSubmit={handleSubmit} noValidate>
-              {formError ? (
-                <p className="loginFormMessage loginFormMessageError" role="alert">
+          {canSetPassword ?
+          <form className="loginForm" onSubmit={handleSubmit} noValidate>
+              {formError ?
+            <p className="loginFormMessage loginFormMessageError" role="alert">
                   {formError}
-                </p>
-              ) : null}
-              {formSuccess ? (
-                <p className="loginFormMessage loginFormMessageSuccess" role="status">
+                </p> :
+            null}
+              {formSuccess ?
+            <p className="loginFormMessage loginFormMessageSuccess" role="status">
                   {formSuccess}
-                </p>
-              ) : null}
+                </p> :
+            null}
 
               <div className="loginField">
                 <label htmlFor="reset-password">New password</label>
                 <input
-                  id="reset-password"
-                  type="password"
-                  name="password"
-                  autoComplete="new-password"
-                  required
-                  minLength={MIN_PASSWORD_LEN}
-                  disabled={isSubmitting}
-                />
+                id="reset-password"
+                type="password"
+                name="password"
+                autoComplete="new-password"
+                required
+                minLength={MIN_PASSWORD_LEN}
+                disabled={isSubmitting} />
+              
               </div>
               <div className="loginField">
                 <label htmlFor="reset-confirm">Confirm new password</label>
                 <input
-                  id="reset-confirm"
-                  type="password"
-                  name="confirmPassword"
-                  autoComplete="new-password"
-                  required
-                  disabled={isSubmitting}
-                />
+                id="reset-confirm"
+                type="password"
+                name="confirmPassword"
+                autoComplete="new-password"
+                required
+                disabled={isSubmitting} />
+              
               </div>
               <button type="submit" className="loginSubmit" disabled={isSubmitting}>
                 {isSubmitting ? "Saving…" : "Save new password"}
               </button>
-            </form>
-          ) : null}
+            </form> :
+          null}
 
           <p className="loginLinks loginLinksRegister">
             <Link to="/login">Back to sign in</Link>
           </p>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
 export default ResetPassword;

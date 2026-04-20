@@ -8,11 +8,11 @@ import shoppingButtonIcon from "../assets/images/shoppingButtonIcon.png";
 import { NavLink } from "react-router-dom";
 
 const NAV_BUTTONS = [
-  { to: "/mealPlan", icon: mealButtonIcon, title: "Create meal plan", cls: "div1" },
-  { to: "/profile", icon: profileButtonIcon, title: "My profile", cls: "div2" },
-  { to: "/shopping", icon: shoppingButtonIcon, title: "Shopping list", cls: "div3" },
-  { to: "/viewPlan", icon: careButtonIcon, title: "View weekly plan", cls: "div4" },
-];
+{ to: "/mealPlan", icon: mealButtonIcon, title: "Create meal plan", cls: "div1" },
+{ to: "/profile", icon: profileButtonIcon, title: "My profile", cls: "div2" },
+{ to: "/shopping", icon: shoppingButtonIcon, title: "Shopping list", cls: "div3" },
+{ to: "/viewPlan", icon: careButtonIcon, title: "View weekly plan", cls: "div4" }];
+
 
 function Home() {
   return (
@@ -27,14 +27,14 @@ function Home() {
       </header>
 
       <div className="homeButtonContainer" role="navigation" aria-label="Main shortcuts">
-        {NAV_BUTTONS.map(({ to, icon, title, cls }) => (
-          <NavLink key={to} to={to} className={`homeNavLink ${cls}`} aria-label={title}>
+        {NAV_BUTTONS.map(({ to, icon, title, cls }) =>
+        <NavLink key={to} to={to} className={`homeNavLink ${cls}`} aria-label={title}>
             <HomeButton icon={icon} title={title} />
           </NavLink>
-        ))}
+        )}
       </div>
-    </main>
-  );
+    </main>);
+
 }
 
 export default Home;

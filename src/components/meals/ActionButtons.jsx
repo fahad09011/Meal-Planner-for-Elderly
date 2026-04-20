@@ -12,13 +12,13 @@ function ActionButtons({ selectedDay, completedDay, onSave, onGenerate }) {
         <Button
           className="generate-plan-btn"
           disabled={completedDay !== 7}
-          onClick={onGenerate}
-        >
+          onClick={onGenerate}>
+          
           ✅ Generate Weekly Plan
         </Button>
       </div>
-    </section>
-  );
+    </section>);
+
 }
 
 export default ActionButtons;

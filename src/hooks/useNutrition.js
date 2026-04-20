@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
 import filterMeals, { mealCountByCategory } from "../services/nutrition/nutritionService";
 import { AppContext } from "./AppContext";
- const  useNutrition = (meals) => {
-  const safeMeals = Array.isArray(meals) ? meals : [] ;
+const useNutrition = (meals) => {
+  const safeMeals = Array.isArray(meals) ? meals : [];
 
   const { profileData, setProfileData } = useContext(AppContext);
 
   const filteredMeals = filterMeals(safeMeals, profileData);
 
   const count = mealCountByCategory(filteredMeals);
-  
-  return { filteredMeals, count};
-}
+
+  return { filteredMeals, count };
+};
 
 export default useNutrition;

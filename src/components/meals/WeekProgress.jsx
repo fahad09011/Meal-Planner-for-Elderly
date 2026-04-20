@@ -2,7 +2,7 @@ import React from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 
 function WeekProgress({ completedDay }) {
-  const progress = Math.round((completedDay / 7) * 100);
+  const progress = Math.round(completedDay / 7 * 100);
 
   return (
     <section className="progressBarSection">
@@ -12,10 +12,10 @@ function WeekProgress({ completedDay }) {
         completed={progress}
         labelAlignment="center"
         customLabel={`${completedDay}/7 completed`}
-        maxCompleted={100}
-      />
-    </section>
-  );
+        maxCompleted={100} />
+      
+    </section>);
+
 }
 
 export default WeekProgress;

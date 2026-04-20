@@ -2,9 +2,9 @@ export default async function handler(req, res) {
   const rawApiKey = process.env.SPOONACULAR_API_KEY.trim();
   const API_KEY = typeof rawApiKey === "string" ? rawApiKey.trim() : "";
   if (!API_KEY) {
-    return res
-      .status(500)
-      .json({ error: "spoonacular-API_KEY is not set on server" });
+    return res.
+    status(500).
+    json({ error: "spoonacular-API_KEY is not set on server" });
   }
   const { type = "breakfast,main course,side dish" } = req.query || {};
   const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeNutrition=true&addRecipeInformation=true&addRecipeInstructions=true&${encodeURIComponent(type)}&fillIngredients=true`;
