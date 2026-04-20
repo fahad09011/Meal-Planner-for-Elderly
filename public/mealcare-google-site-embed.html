@@ -87,6 +87,18 @@
       margin: 1rem 0 0;
     }
     .screenshot:first-child { margin-top: 0; }
+    .screenshot__link {
+      display: block;
+      line-height: 0;
+      border-radius: 10px;
+      cursor: zoom-in;
+    }
+    .screenshot__link:hover img,
+    .screenshot__link:focus-visible img {
+      opacity: 0.97;
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    .screenshot__link:focus-visible { outline: none; }
     .screenshot img {
       width: 100%;
       max-width: 100%;
@@ -94,7 +106,6 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       display: block;
-      vertical-align: middle;
     }
     .screenshot figcaption {
       font-size: 0.98rem;
@@ -144,8 +155,10 @@
         <li>Choose <strong>Log in</strong> and sign in, or register if your team has enabled it.</li>
       </ol>
       <figure class="screenshot">
-        <img src="/user-guide/01-login.png" width="1200" height="675" alt="MealCare sign-in page with Sign in and Create account tabs" loading="lazy" decoding="async" />
-        <figcaption>Sign in with your email and password, or create an account.</figcaption>
+        <a class="screenshot__link" href="/user-guide/01-login.png" target="_blank" rel="noopener noreferrer" aria-label="Open sign-in screenshot full size">
+          <img src="/user-guide/01-login.png" width="1200" height="675" alt="MealCare sign-in page with Sign in and Create account tabs" loading="lazy" decoding="async" />
+        </a>
+        <figcaption>Sign in with your email and password, or create an account. <em>Click the image to open it full size.</em></figcaption>
       </figure>
     </section>
 
@@ -153,20 +166,28 @@
       <h2 id="screenshots-plan">Meal Plan</h2>
       <p style="margin-top:0">Pick a day, choose breakfast, lunch, and dinner, then save. Use Quick actions to suggest the whole week when you are ready.</p>
       <figure class="screenshot">
-        <img src="/user-guide/02-meal-plan-week.png" width="1200" height="675" alt="Meal Plan page with day selector and Quick actions" loading="lazy" decoding="async" />
-        <figcaption>Your weekly meals: choose a day, use Quick actions, and track week progress.</figcaption>
+        <a class="screenshot__link" href="/user-guide/02-meal-plan-week.png" target="_blank" rel="noopener noreferrer" aria-label="Open Meal Plan screenshot full size">
+          <img src="/user-guide/02-meal-plan-week.png" width="1200" height="675" alt="Meal Plan page with day selector and Quick actions" loading="lazy" decoding="async" />
+        </a>
+        <figcaption>Your weekly meals: choose a day, use Quick actions, and track week progress. <em>Click the image for full size.</em></figcaption>
       </figure>
       <div class="shot-grid shot-grid--3">
         <figure class="screenshot">
-          <img src="/user-guide/03-meal-plan-breakfast.png" width="400" height="225" alt="Breakfast meal options with recipe cards" loading="lazy" decoding="async" />
+          <a class="screenshot__link" href="/user-guide/03-meal-plan-breakfast.png" target="_blank" rel="noopener noreferrer" aria-label="Open breakfast options screenshot full size">
+            <img src="/user-guide/03-meal-plan-breakfast.png" width="400" height="225" alt="Breakfast meal options with recipe cards" loading="lazy" decoding="async" />
+          </a>
           <figcaption>Breakfast — choose a meal and tap Select for plan.</figcaption>
         </figure>
         <figure class="screenshot">
-          <img src="/user-guide/04-meal-plan-lunch.png" width="400" height="225" alt="Lunch meal options with recipe cards" loading="lazy" decoding="async" />
+          <a class="screenshot__link" href="/user-guide/04-meal-plan-lunch.png" target="_blank" rel="noopener noreferrer" aria-label="Open lunch options screenshot full size">
+            <img src="/user-guide/04-meal-plan-lunch.png" width="400" height="225" alt="Lunch meal options with recipe cards" loading="lazy" decoding="async" />
+          </a>
           <figcaption>Lunch — same flow for midday meals.</figcaption>
         </figure>
         <figure class="screenshot">
-          <img src="/user-guide/05-meal-plan-dinner.png" width="400" height="225" alt="Dinner meal options with recipe cards" loading="lazy" decoding="async" />
+          <a class="screenshot__link" href="/user-guide/05-meal-plan-dinner.png" target="_blank" rel="noopener noreferrer" aria-label="Open dinner options screenshot full size">
+            <img src="/user-guide/05-meal-plan-dinner.png" width="400" height="225" alt="Dinner meal options with recipe cards" loading="lazy" decoding="async" />
+          </a>
           <figcaption>Dinner — pick from suggested recipes or view details.</figcaption>
         </figure>
       </div>
@@ -176,8 +197,10 @@
       <h2 id="screenshots-view">View meal plan</h2>
       <p style="margin-top:0">See what is planned for the week, mark meals as eaten, and open recipes.</p>
       <figure class="screenshot">
-        <img src="/user-guide/06-view-meal-plan.png" width="1200" height="675" alt="This week's meals with day tabs and nutrition summary" loading="lazy" decoding="async" />
-        <figcaption>This week’s meals: tap a day, track eaten meals, and use Shopping list when needed.</figcaption>
+        <a class="screenshot__link" href="/user-guide/06-view-meal-plan.png" target="_blank" rel="noopener noreferrer" aria-label="Open View meal plan screenshot full size">
+          <img src="/user-guide/06-view-meal-plan.png" width="1200" height="675" alt="This week's meals with day tabs and nutrition summary" loading="lazy" decoding="async" />
+        </a>
+        <figcaption>This week’s meals: tap a day, track eaten meals, and use Shopping list when needed. <em>Click the image for full size.</em></figcaption>
       </figure>
     </section>
 
@@ -185,11 +208,15 @@
       <h2 id="screenshots-shopping">Shopping List</h2>
       <p style="margin-top:0">Ingredients come from your saved plan. Filter by aisle, tick items as you shop, and watch your progress.</p>
       <figure class="screenshot">
-        <img src="/user-guide/07-shopping-list.png" width="1200" height="675" alt="Shopping list with aisles and progress sidebar" loading="lazy" decoding="async" />
-        <figcaption>Shopping list with filters and trolley progress.</figcaption>
+        <a class="screenshot__link" href="/user-guide/07-shopping-list.png" target="_blank" rel="noopener noreferrer" aria-label="Open shopping list screenshot full size">
+          <img src="/user-guide/07-shopping-list.png" width="1200" height="675" alt="Shopping list with aisles and progress sidebar" loading="lazy" decoding="async" />
+        </a>
+        <figcaption>Shopping list with filters and trolley progress. <em>Click the image for full size.</em></figcaption>
       </figure>
       <figure class="screenshot">
-        <img src="/user-guide/08-shopping-barcode-scan.png" width="1200" height="675" alt="Scan barcode dialog with camera and product check" loading="lazy" decoding="async" />
+        <a class="screenshot__link" href="/user-guide/08-shopping-barcode-scan.png" target="_blank" rel="noopener noreferrer" aria-label="Open barcode scan screenshot full size">
+          <img src="/user-guide/08-shopping-barcode-scan.png" width="1200" height="675" alt="Scan barcode dialog with camera and product check" loading="lazy" decoding="async" />
+        </a>
         <figcaption>Scan barcode — point the camera at a product; the app checks if it is on your list.</figcaption>
       </figure>
     </section>
@@ -198,15 +225,21 @@
       <h2 id="screenshots-profile">Profile</h2>
       <p style="margin-top:0">Your user ID (for caregivers), body and activity settings, and food or health preferences.</p>
       <figure class="screenshot">
-        <img src="/user-guide/09-profile-user-id.png" width="1200" height="675" alt="Profile page showing user ID for caregiver linking" loading="lazy" decoding="async" />
-        <figcaption>User ID — share with a caregiver so they can link to your account.</figcaption>
+        <a class="screenshot__link" href="/user-guide/09-profile-user-id.png" target="_blank" rel="noopener noreferrer" aria-label="Open profile user ID screenshot full size">
+          <img src="/user-guide/09-profile-user-id.png" width="1200" height="675" alt="Profile page showing user ID for caregiver linking" loading="lazy" decoding="async" />
+        </a>
+        <figcaption>User ID — share with a caregiver so they can link to your account. <em>Click the image for full size.</em></figcaption>
       </figure>
       <figure class="screenshot">
-        <img src="/user-guide/10-profile-body-activity.png" width="1200" height="675" alt="Body and activity section with BMR and energy estimate" loading="lazy" decoding="async" />
+        <a class="screenshot__link" href="/user-guide/10-profile-body-activity.png" target="_blank" rel="noopener noreferrer" aria-label="Open body and activity screenshot full size">
+          <img src="/user-guide/10-profile-body-activity.png" width="1200" height="675" alt="Body and activity section with BMR and energy estimate" loading="lazy" decoding="async" />
+        </a>
         <figcaption>Your body &amp; activity — age, weight, height, and estimated daily energy.</figcaption>
       </figure>
       <figure class="screenshot">
-        <img src="/user-guide/11-profile-preferences.png" width="1200" height="675" alt="Food preferences and health conditions checkboxes" loading="lazy" decoding="async" />
+        <a class="screenshot__link" href="/user-guide/11-profile-preferences.png" target="_blank" rel="noopener noreferrer" aria-label="Open profile preferences screenshot full size">
+          <img src="/user-guide/11-profile-preferences.png" width="1200" height="675" alt="Food preferences and health conditions checkboxes" loading="lazy" decoding="async" />
+        </a>
         <figcaption>Food preferences, allergies, health filters, and budget — then Update profile.</figcaption>
       </figure>
     </section>
@@ -236,7 +269,7 @@
       </ul>
     </section>
 
-    <footer>MealCare user guide · Opens in a new tab when you use “Open MealCare”</footer>
+    <footer>MealCare user guide · Click any screenshot to open the full image in a new tab · “Open MealCare” opens the app in a new tab</footer>
   </div>
 </body>
 </html>
