@@ -1,4 +1,3 @@
-
 .loginPage {
   --login-green: #4a6759;
   --login-green-deep: #3d5648;
@@ -7,14 +6,12 @@
   --login-squircle: rgba(255, 255, 255, 0.14);
   --login-squircle-hover: rgba(255, 255, 255, 0.22);
   --login-accent: #5a7d6a;
-
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 80px);
   padding: 1.5rem;
 }
-
 .loginCard {
   display: grid;
   grid-template-columns: minmax(280px, 1fr) minmax(300px, 1fr);
@@ -22,16 +19,17 @@
   width: 100%;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow:
-    0 4px 6px rgba(45, 62, 52, 0.08),
-    0 24px 48px rgba(45, 62, 52, 0.15);
+  box-shadow: 0 4px 6px rgba(45, 62, 52, 0.08), 0 24px 48px rgba(45, 62, 52, 0.15);
   background: #fff;
 }
-
-
 .loginHero {
   position: relative;
-  background: linear-gradient(160deg, var(--login-green) 0%, var(--login-green-deep) 55%, #354a3f 100%);
+  background:
+    linear-gradient(
+      160deg,
+      var(--login-green) 0%,
+      var(--login-green-deep) 55%,
+      #354a3f 100%);
   color: var(--login-white);
   padding: 2.25rem 2rem 2.5rem;
   min-height: 420px;
@@ -39,15 +37,17 @@
   flex-direction: column;
   justify-content: center;
 }
-
 .loginHeroGlow {
   position: absolute;
   inset: -40% -20% auto -30%;
   height: 70%;
-  background: radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.12) 0%, transparent 55%);
+  background:
+    radial-gradient(
+      ellipse at 30% 20%,
+      rgba(255, 255, 255, 0.12) 0%,
+      transparent 55%);
   pointer-events: none;
 }
-
 .loginHeroInner {
   position: relative;
   z-index: 1;
@@ -64,14 +64,12 @@
     Arial,
     sans-serif;
 }
-
 .loginHeroBrand {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1.75rem;
 }
-
 .loginHeroLogoSquircle {
   width: 44px;
   height: 44px;
@@ -81,16 +79,12 @@
   align-items: center;
   justify-content: center;
   color: var(--login-white);
-  transition:
-    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background 0.25s ease;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease;
 }
-
 .loginHeroBrand:hover .loginHeroLogoSquircle {
   transform: scale(1.06) rotate(-2deg);
   background: var(--login-squircle-hover);
 }
-
 .loginHeroLogoMark {
   position: relative;
   display: flex;
@@ -99,12 +93,10 @@
   width: 100%;
   height: 100%;
 }
-
 .loginHeroLogoLeaf {
   width: 22px;
   height: 22px;
 }
-
 .loginHeroLogoPlus {
   position: absolute;
   bottom: 4px;
@@ -114,24 +106,20 @@
   line-height: 1;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
 }
-
 .loginHeroBrandText {
   margin: 0;
   font-size: 1.35rem;
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
-
 .loginHeroBrandStrong {
   font-weight: 700;
   color: var(--login-white);
 }
-
 .loginHeroBrandMuted {
   font-weight: 500;
   color: var(--login-muted);
 }
-
 .loginHeroTitle {
   font-family: var(--font-display);
   margin: 0 0 1rem;
@@ -140,7 +128,6 @@
   line-height: 1.15;
   letter-spacing: -0.03em;
 }
-
 .loginHeroDesc {
   margin: 0 0 1.75rem;
   font-size: 0.98rem;
@@ -148,7 +135,6 @@
   color: rgba(255, 255, 255, 0.92);
   max-width: 34ch;
 }
-
 .loginHeroFeatures {
   list-style: none;
   margin: 0;
@@ -158,7 +144,6 @@
   gap: 0.65rem;
   width: 100%;
 }
-
 .loginHeroFeature {
   display: flex;
   align-items: flex-start;
@@ -172,18 +157,15 @@
     transform 0.25s ease,
     box-shadow 0.25s ease;
 }
-
 .loginHeroFeature:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: translateX(6px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
-
 .loginHeroFeature:focus-within {
   outline: 2px solid rgba(255, 255, 255, 0.45);
   outline-offset: 2px;
 }
-
 .loginHeroFeatureIcon {
   flex-shrink: 0;
   width: 44px;
@@ -195,42 +177,33 @@
   justify-content: center;
   font-size: 1.35rem;
   color: var(--login-white);
-  transition:
-    background 0.25s ease,
-    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: background 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
 .loginHeroFeature:hover .loginHeroFeatureIcon {
   background: var(--login-squircle-hover);
   transform: scale(1.05);
 }
-
 .loginHeroFeatureText {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
   padding-top: 0.1rem;
 }
-
 .loginHeroFeatureTitle {
   font-weight: 700;
   font-size: 1.02rem;
   letter-spacing: -0.01em;
 }
-
 .loginHeroFeatureSub {
   font-size: 0.9rem;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.88);
 }
-
-
 .loginHeroReveal {
   opacity: 0;
   animation: loginHeroIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   animation-delay: var(--d, 0ms);
 }
-
 @keyframes loginHeroIn {
   from {
     opacity: 0;
@@ -241,21 +214,17 @@
     transform: translateY(0);
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .loginHeroReveal {
     animation: none;
     opacity: 1;
   }
-
   .loginHeroFeature:hover,
   .loginHeroBrand:hover .loginHeroLogoSquircle,
   .loginHeroFeature:hover .loginHeroFeatureIcon {
     transform: none;
   }
 }
-
-
 .loginCardBody {
   display: flex;
   flex-direction: column;
@@ -263,7 +232,6 @@
   gap: 0.25rem;
   justify-content: center;
 }
-
 .loginAuthTabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -273,7 +241,6 @@
   background: #eef2ef;
   border-radius: 10px;
 }
-
 .loginAuthTab {
   min-height: 48px;
   padding: 0.65rem 0.85rem;
@@ -289,22 +256,18 @@
     color 0.2s ease,
     box-shadow 0.2s ease;
 }
-
 .loginAuthTab:hover {
   color: #2d3833;
 }
-
 .loginAuthTabActive {
   color: #1a1f1c;
   background: #fff;
   box-shadow: 0 1px 3px rgba(45, 62, 52, 0.12);
 }
-
 .loginAuthTab:focus-visible {
   outline: 2px solid var(--login-green);
   outline-offset: 2px;
 }
-
 .loginFormMessage {
   padding: 0.65rem 0.85rem;
   margin-bottom: 0.75rem;
@@ -312,25 +275,21 @@
   font-size: 0.95rem;
   line-height: 1.45;
 }
-
 .loginFormMessageError {
   background: #fdeeee;
   color: #8a2b2b;
   border: 1px solid #f0c4c4;
 }
-
 .loginFormMessageSuccess {
   background: #edf5f0;
   color: #2d5a40;
   border: 1px solid #c5ddcc;
 }
-
 .loginFieldHint {
   font-size: 0.8rem;
   color: #7a8580;
   margin-top: -0.15rem;
 }
-
 .loginLinkButton {
   display: inline-flex;
   align-items: center;
@@ -345,23 +304,19 @@
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-
 .loginLinkButton:hover {
   color: var(--login-green-deep);
 }
-
 .loginLinkButton:focus-visible {
   outline: 2px solid var(--login-green);
   outline-offset: 2px;
   border-radius: 2px;
 }
-
 .loginSubmit:disabled {
   opacity: 0.65;
   cursor: not-allowed;
   transform: none;
 }
-
 .loginSubtitle {
   font-weight: 700;
   font-size: 1.35rem;
@@ -369,53 +324,43 @@
   margin: 0 0 0.35rem;
   color: #1a1f1c;
 }
-
 .loginFormHint {
   margin: 0 0 1.25rem;
   font-size: 1.02rem;
   color: #5c6560;
   line-height: 1.5;
 }
-
 .loginForm {
   display: flex;
   flex-direction: column;
 }
-
 .loginField {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   margin-bottom: 1rem;
 }
-
 .loginField label {
   font-size: 0.95rem;
   font-weight: 600;
   color: #3d4540;
 }
-
 .loginField input {
   font-size: 1.0625rem;
   min-height: 48px;
   padding: 0.75rem 0.9rem;
   border: 1px solid #d4dcd8;
   border-radius: 8px;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-
 .loginField input:hover {
   border-color: #b8c9bf;
 }
-
 .loginField input:focus {
   outline: none;
   border-color: var(--login-green);
   box-shadow: 0 0 0 3px rgba(74, 103, 89, 0.22);
 }
-
 .loginSubmit {
   margin-top: 0.35rem;
   min-height: 52px;
@@ -423,7 +368,11 @@
   font-size: 1.0625rem;
   font-weight: 600;
   color: #fff;
-  background: linear-gradient(180deg, var(--login-accent) 0%, var(--login-green) 100%);
+  background:
+    linear-gradient(
+      180deg,
+      var(--login-accent) 0%,
+      var(--login-green) 100%);
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -433,48 +382,40 @@
     filter 0.2s ease;
   box-shadow: 0 4px 14px rgba(74, 103, 89, 0.35);
 }
-
 .loginSubmit:hover {
   filter: brightness(1.06);
   transform: translateY(-1px);
   box-shadow: 0 8px 22px rgba(74, 103, 89, 0.4);
 }
-
 .loginSubmit:active {
   transform: translateY(0);
   box-shadow: 0 2px 10px rgba(74, 103, 89, 0.35);
 }
-
 @media (prefers-reduced-motion: reduce) {
   .loginSubmit:hover,
   .loginSubmit:active {
     transform: none;
   }
 }
-
 .loginLinks {
   margin-top: 0.85rem;
   font-size: 0.95rem;
 }
-
 .loginLinks a {
   color: var(--login-green);
   font-weight: 500;
   text-decoration: none;
   transition: color 0.2s ease;
 }
-
 .loginLinks a:hover {
   color: var(--login-green-deep);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-
 .loginLinksRegister {
   margin-top: 0.35rem;
   color: #5c6560;
 }
-
 .loginFooterLinks {
   display: flex;
   flex-wrap: wrap;
@@ -484,24 +425,20 @@
   padding-top: 1.75rem;
   font-size: 0.8rem;
 }
-
 .loginFooterLinks a {
   color: #8a9590;
   text-decoration: none;
   transition: color 0.2s ease;
 }
-
 .loginFooterLinks a:hover {
   color: var(--login-green);
 }
-
 .loginRoleFieldset {
   border: none;
   margin: 0 0 1rem;
   padding: 0;
   min-width: 0;
 }
-
 .loginRoleLegend {
   font-size: 0.95rem;
   font-weight: 600;
@@ -509,18 +446,15 @@
   padding: 0;
   margin-bottom: 0.25rem;
 }
-
 .loginRoleLegendHint {
   margin-top: 0;
   margin-bottom: 0.65rem;
 }
-
 .loginRoleList {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-
 .loginRoleCard {
   display: flex;
   gap: 0.6rem;
@@ -529,59 +463,46 @@
   border-radius: 10px;
   border: 1px solid #e2e8e4;
   cursor: pointer;
-  transition:
-    border-color 0.15s ease,
-    background 0.15s ease;
+  transition: border-color 0.15s ease, background 0.15s ease;
 }
-
 .loginRoleCard:has(input:checked) {
   border-color: var(--login-green);
   background: #f4faf6;
 }
-
 .loginRoleCard input {
   margin-top: 0.2rem;
   flex-shrink: 0;
 }
-
 .loginRoleCardBody {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
 }
-
 .loginRoleCardTitle {
   font-size: 0.95rem;
   font-weight: 600;
   color: #2a332e;
 }
-
 .loginRoleCardHint {
   font-size: 0.8rem;
   color: #6b756f;
   line-height: 1.35;
 }
-
-/* Standalone auth screens (e.g. reset password from email link) */
 .loginCard--narrow {
   grid-template-columns: 1fr;
   max-width: 420px;
 }
-
 .loginCardBody--solo {
   padding: 2rem 1.75rem;
 }
-
 @media (max-width: 768px) {
   .loginCard {
     grid-template-columns: 1fr;
   }
-
   .loginHero {
     min-height: auto;
     padding: 2rem 1.5rem 1.75rem;
   }
-
   .loginHeroDesc {
     max-width: none;
   }

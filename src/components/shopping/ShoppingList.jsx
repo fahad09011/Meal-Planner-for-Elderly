@@ -9,8 +9,8 @@ function ShoppingList({ items, statusFilter, categoryFilter, onToggleChecked }) 
     if (categoryFilter && categoryFilter !== "all") {
       list = list.filter((row) => aisleLabel(row) === categoryFilter);
     }
-    if (statusFilter === "pending") list = list.filter((row) => !row.checked);
-    else if (statusFilter === "done") list = list.filter((row) => row.checked);
+    if (statusFilter === "pending") list = list.filter((row) => !row.checked);else
+    if (statusFilter === "done") list = list.filter((row) => row.checked);
     filtered = list;
   }
 
@@ -30,8 +30,8 @@ function ShoppingList({ items, statusFilter, categoryFilter, onToggleChecked }) 
     return (
       <p className="shopping-list__empty-filter" role="status">
         Nothing to show for these filters. Try another aisle or switch &ldquo;Show on list&rdquo; to All items.
-      </p>
-    );
+      </p>);
+
   }
 
   return (
@@ -39,22 +39,22 @@ function ShoppingList({ items, statusFilter, categoryFilter, onToggleChecked }) 
       {groups.map(([section, sectionItems], idx) => {
         const sid = `shop-section-${idx}`;
         return (
-        <section key={section} className="shopping-list__section" aria-labelledby={sid}>
+          <section key={section} className="shopping-list__section" aria-labelledby={sid}>
           <h3 id={sid} className="shopping-list__section-title">
             {section}
           </h3>
           <ul className="shopping-list__rows">
-            {sectionItems.map((item) => (
+            {sectionItems.map((item) =>
               <li key={item.id} className="shopping-list__row-wrap">
                 <ShoppingListItem item={item} onToggleChecked={onToggleChecked} />
               </li>
-            ))}
+              )}
           </ul>
-        </section>
-        );
+        </section>);
+
       })}
-    </div>
-  );
+    </div>);
+
 }
 
 export default ShoppingList;

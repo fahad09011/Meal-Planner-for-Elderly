@@ -25,12 +25,12 @@ function ShoppingAisleFilter({ items, selected, onSelect }) {
     key: label,
     label,
     count,
-    color: colorForAisle(label, idx),
+    color: colorForAisle(label, idx)
   }));
   const rows = [
-    { key: "all", label: "All items", count: total, color: colorForAisle("All items", 0) },
-    ...categories,
-  ];
+  { key: "all", label: "All items", count: total, color: colorForAisle("All items", 0) },
+  ...categories];
+
 
   return (
     <nav className="shopping-aisle-filter" aria-labelledby="shopping-aisle-filter-label">
@@ -47,26 +47,26 @@ function ShoppingAisleFilter({ items, selected, onSelect }) {
                 className={`shopping-aisle-filter__row ${isActive ? "shopping-aisle-filter__row--active" : ""}`}
                 onClick={() => onSelect(row.key === "all" ? "all" : row.key)}
                 aria-current={isActive ? "true" : undefined}
-                aria-label={`${row.label}, ${row.count} items`}
-              >
+                aria-label={`${row.label}, ${row.count} items`}>
+                
                 <span
                   className="shopping-aisle-filter__dot"
                   style={{ backgroundColor: row.color }}
-                  aria-hidden="true"
-                />
+                  aria-hidden="true" />
+                
                 <span className="shopping-aisle-filter__name">{row.label}</span>
                 <span
-                  className={`shopping-aisle-filter__count ${isActive ? "shopping-aisle-filter__count--plain" : ""}`}
-                >
+                  className={`shopping-aisle-filter__count ${isActive ? "shopping-aisle-filter__count--plain" : ""}`}>
+                  
                   {row.count}
                 </span>
               </button>
-            </li>
-          );
+            </li>);
+
         })}
       </ul>
-    </nav>
-  );
+    </nav>);
+
 }
 
 export default ShoppingAisleFilter;

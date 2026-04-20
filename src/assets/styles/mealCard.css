@@ -1,4 +1,3 @@
-
 .mainMealCardContainer {
   width: 100%;
   height: 100%;
@@ -9,17 +8,17 @@
   box-shadow: var(--shadow-sm);
   overflow: hidden;
   background: var(--white);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
   cursor: pointer;
 }
-
 .mainMealCardContainer:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
   border-color: var(--primary-green);
 }
-
-
 .mealImage {
   width: 100%;
   height: 132px;
@@ -27,14 +26,10 @@
   display: block;
   flex-shrink: 0;
 }
-
-
 .mealButtoncontainer {
   padding: 8px 10px 0;
   flex-shrink: 0;
 }
-
-
 .mealDataSection {
   display: flex;
   flex-direction: column;
@@ -42,7 +37,6 @@
   padding: 6px 10px 10px;
   flex: 1;
 }
-
 .mealName {
   font-size: clamp(15px, 1.6vw, 17px);
   font-weight: 600;
@@ -54,7 +48,6 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
 .mealDescription {
   font-size: var(--font-size-sm);
   color: var(--text-muted);
@@ -65,13 +58,9 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
-
 .mealDescription--teaser {
   -webkit-line-clamp: 1;
 }
-
-
 .mealTagContainer {
   display: flex;
   flex-wrap: wrap;
@@ -79,7 +68,6 @@
   margin-top: auto;
   padding-top: 2px;
 }
-
 .mealTag {
   font-size: var(--font-size-xs);
   font-weight: 500;
@@ -88,23 +76,17 @@
   color: var(--primary-green-dark);
   border-radius: 99px;
 }
-
 .mealTag:nth-child(even) {
   background: var(--secondary-bg);
   color: var(--text-muted);
 }
-
-
-
 .mealCardActions {
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding: 0 10px 10px;
-  margin-top: auto;      
+  margin-top: auto;
 }
-
-
 .mealViewBtn {
   width: 100%;
   min-height: 46px;
@@ -124,55 +106,42 @@
   transition: all 0.15s ease;
   font-family: inherit;
 }
-
 .mealViewBtn:hover {
   background: var(--secondary-green);
 }
-
-
 .mealButtoncontainer,
 .mealViewBtnContainer {
-  display: none;   
+  display: none;
 }
-
-
 @media (max-width: 599px) {
-  
   .mealTagContainer {
     display: none;
   }
-
   .mealImage {
     height: 120px;
   }
-
   .mealDataSection {
     gap: 3px;
     padding: 5px 8px 8px;
   }
-
   .mealName {
     font-size: clamp(14px, 3.8vw, 15px);
     -webkit-line-clamp: 2;
   }
-
   .mealDescription--teaser,
   .mealDescription {
     -webkit-line-clamp: 1;
     line-height: 1.35;
   }
-
   .mealCardActions {
     padding: 0 8px 10px;
     gap: 6px;
   }
-
   .mealViewBtn {
     min-height: 44px;
     padding: 10px 12px;
     font-size: var(--font-size-base);
   }
-
   .mealCardActions .mealButton {
     min-height: 44px;
     height: auto;
@@ -180,14 +149,12 @@
     padding-bottom: 10px;
   }
 }
-
 @media (min-width: 600px) {
   .mealCardActions .mealButton {
     min-height: 46px;
     height: auto;
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .mainMealCardContainer:hover {
     transform: none;

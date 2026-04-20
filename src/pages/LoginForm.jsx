@@ -7,22 +7,22 @@ import { useAuth } from "../context/AuthContext";
 import { APP_ROLES, APP_ROLE_SIGNUP_OPTIONS } from "../constants/appRoles";
 
 const FEATURES = [
-  {
-    icon: BiCalendar,
-    title: "Weekly meal planner",
-    text: "Plan all 7 days — breakfast, lunch and dinner",
-  },
-  {
-    icon: BiLineChart,
-    title: "Nutrition tracking",
-    text: "Low-sugar and low-sodium meal options",
-  },
-  {
-    icon: BiBasket,
-    title: "Shopping list",
-    text: "Auto-generated from your meal plan",
-  },
-];
+{
+  icon: BiCalendar,
+  title: "Weekly meal planner",
+  text: "Plan all 7 days — breakfast, lunch and dinner"
+},
+{
+  icon: BiLineChart,
+  title: "Nutrition tracking",
+  text: "Low-sugar and low-sodium meal options"
+},
+{
+  icon: BiBasket,
+  title: "Shopping list",
+  text: "Auto-generated from your meal plan"
+}];
+
 
 const MIN_PASSWORD_LEN = 8;
 
@@ -31,8 +31,8 @@ function LogoMark() {
     <span className="loginHeroLogoMark" aria-hidden="true">
       <FaLeaf className="loginHeroLogoLeaf" />
       <span className="loginHeroLogoPlus">+</span>
-    </span>
-  );
+    </span>);
+
 }
 
 function LoginForm() {
@@ -71,7 +71,7 @@ function LoginForm() {
       return;
     }
     setFormSuccess(
-      "If an account exists for that email, you will get a message with a link to reset your password.",
+      "If an account exists for that email, you will get a message with a link to reset your password."
     );
     event.target.reset();
   }
@@ -126,7 +126,7 @@ function LoginForm() {
     setIsSubmitting(true);
     const { data, error } = await signUp(email, password, {
       full_name: fullName || undefined,
-      app_role: signUpAppRole,
+      app_role: signUpAppRole
     });
     setIsSubmitting(false);
 
@@ -173,12 +173,12 @@ function LoginForm() {
             </p>
 
             <ul className="loginHeroFeatures" role="list">
-              {FEATURES.map(({ icon: Icon, title, text }, i) => (
-                <li
-                  key={title}
-                  className="loginHeroFeature loginHeroReveal"
-                  style={{ "--d": `${240 + i * 70}ms` }}
-                >
+              {FEATURES.map(({ icon: Icon, title, text }, i) =>
+              <li
+                key={title}
+                className="loginHeroFeature loginHeroReveal"
+                style={{ "--d": `${240 + i * 70}ms` }}>
+                
                   <span className="loginHeroFeatureIcon" aria-hidden="true">
                     <Icon />
                   </span>
@@ -187,52 +187,52 @@ function LoginForm() {
                     <span className="loginHeroFeatureSub">{text}</span>
                   </span>
                 </li>
-              ))}
+              )}
             </ul>
           </div>
         </aside>
 
         <div className="loginCardBody">
-          {authMode === "forgot" ? null : (
-            <div className="loginAuthTabs" role="tablist" aria-label="Sign in or create account">
+          {authMode === "forgot" ? null :
+          <div className="loginAuthTabs" role="tablist" aria-label="Sign in or create account">
               <button
-                type="button"
-                role="tab"
-                id="tab-signin"
-                aria-selected={authMode === "signin"}
-                aria-controls="panel-auth"
-                className={`loginAuthTab ${authMode === "signin" ? "loginAuthTabActive" : ""}`}
-                onClick={() => switchMode("signin")}
-              >
+              type="button"
+              role="tab"
+              id="tab-signin"
+              aria-selected={authMode === "signin"}
+              aria-controls="panel-auth"
+              className={`loginAuthTab ${authMode === "signin" ? "loginAuthTabActive" : ""}`}
+              onClick={() => switchMode("signin")}>
+              
                 Sign in
               </button>
               <button
-                type="button"
-                role="tab"
-                id="tab-signup"
-                aria-selected={authMode === "signup"}
-                aria-controls="panel-auth"
-                className={`loginAuthTab ${authMode === "signup" ? "loginAuthTabActive" : ""}`}
-                onClick={() => switchMode("signup")}
-              >
+              type="button"
+              role="tab"
+              id="tab-signup"
+              aria-selected={authMode === "signup"}
+              aria-controls="panel-auth"
+              className={`loginAuthTab ${authMode === "signup" ? "loginAuthTabActive" : ""}`}
+              onClick={() => switchMode("signup")}>
+              
                 Create account
               </button>
             </div>
-          )}
+          }
 
           <div
             id="panel-auth"
             role="tabpanel"
             aria-labelledby={
-              authMode === "signin"
-                ? "tab-signin"
-                : authMode === "signup"
-                  ? "tab-signup"
-                  : "forgot-heading"
-            }
-          >
-            {authMode === "forgot" ? (
-              <>
+            authMode === "signin" ?
+            "tab-signin" :
+            authMode === "signup" ?
+            "tab-signup" :
+            "forgot-heading"
+            }>
+            
+            {authMode === "forgot" ?
+            <>
                 <h2 id="forgot-heading" className="loginSubtitle">
                   Forgot password
                 </h2>
@@ -240,26 +240,26 @@ function LoginForm() {
                   Enter your email. We will send you a link to choose a new password.
                 </p>
                 <form className="loginForm" onSubmit={handleForgotPassword} noValidate>
-                  {formError ? (
-                    <p className="loginFormMessage loginFormMessageError" role="alert">
+                  {formError ?
+                <p className="loginFormMessage loginFormMessageError" role="alert">
                       {formError}
-                    </p>
-                  ) : null}
-                  {formSuccess ? (
-                    <p className="loginFormMessage loginFormMessageSuccess" role="status">
+                    </p> :
+                null}
+                  {formSuccess ?
+                <p className="loginFormMessage loginFormMessageSuccess" role="status">
                       {formSuccess}
-                    </p>
-                  ) : null}
+                    </p> :
+                null}
                   <div className="loginField">
                     <label htmlFor="forgot-email">Email address</label>
                     <input
-                      id="forgot-email"
-                      type="email"
-                      name="email"
-                      autoComplete="email"
-                      required
-                      disabled={isSubmitting}
-                    />
+                    id="forgot-email"
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    required
+                    disabled={isSubmitting} />
+                  
                   </div>
                   <button type="submit" className="loginSubmit" disabled={isSubmitting}>
                     {isSubmitting ? "Sending…" : "Send reset link"}
@@ -270,45 +270,45 @@ function LoginForm() {
                     Back to sign in
                   </button>
                 </p>
-              </>
-            ) : authMode === "signin" ? (
-              <>
+              </> :
+            authMode === "signin" ?
+            <>
                 <h2 className="loginSubtitle">Welcome back</h2>
                 <p className="loginFormHint">Sign in with the email you used to register.</p>
 
                 <form id="login-signin-form" name="signIn" className="loginForm" onSubmit={handleSignIn} noValidate>
-                  {formError ? (
-                    <p className="loginFormMessage loginFormMessageError" role="alert">
+                  {formError ?
+                <p className="loginFormMessage loginFormMessageError" role="alert">
                       {formError}
-                    </p>
-                  ) : null}
-                  {formSuccess ? (
-                    <p className="loginFormMessage loginFormMessageSuccess" role="status">
+                    </p> :
+                null}
+                  {formSuccess ?
+                <p className="loginFormMessage loginFormMessageSuccess" role="status">
                       {formSuccess}
-                    </p>
-                  ) : null}
+                    </p> :
+                null}
 
                   <div className="loginField">
                     <label htmlFor="signin-email">Email address</label>
                     <input
-                      id="signin-email"
-                      type="email"
-                      name="email"
-                      autoComplete="email"
-                      required
-                      disabled={isSubmitting}
-                    />
+                    id="signin-email"
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    required
+                    disabled={isSubmitting} />
+                  
                   </div>
                   <div className="loginField">
                     <label htmlFor="signin-password">Password</label>
                     <input
-                      id="signin-password"
-                      type="password"
-                      name="password"
-                      autoComplete="current-password"
-                      required
-                      disabled={isSubmitting}
-                    />
+                    id="signin-password"
+                    type="password"
+                    name="password"
+                    autoComplete="current-password"
+                    required
+                    disabled={isSubmitting} />
+                  
                   </div>
                   <button type="submit" className="loginSubmit" disabled={isSubmitting}>
                     {isSubmitting ? "Signing in…" : "Sign in"}
@@ -317,10 +317,10 @@ function LoginForm() {
 
                 <p className="loginLinks">
                   <button
-                    type="button"
-                    className="loginLinkButton"
-                    onClick={() => switchMode("forgot")}
-                  >
+                  type="button"
+                  className="loginLinkButton"
+                  onClick={() => switchMode("forgot")}>
+                  
                     Forgot password?
                   </button>
                 </p>
@@ -330,36 +330,36 @@ function LoginForm() {
                     Create an account
                   </button>
                 </p>
-              </>
-            ) : authMode === "signup" ? (
-              <>
+              </> :
+            authMode === "signup" ?
+            <>
                 <h2 className="loginSubtitle">Create your account</h2>
                 <p className="loginFormHint">
                   Enter your details below. You can add more in your profile later.
                 </p>
 
                 <form id="login-signup-form" name="signUp" className="loginForm" onSubmit={handleSignUp} noValidate>
-                  {formError ? (
-                    <p className="loginFormMessage loginFormMessageError" role="alert">
+                  {formError ?
+                <p className="loginFormMessage loginFormMessageError" role="alert">
                       {formError}
-                    </p>
-                  ) : null}
-                  {formSuccess ? (
-                    <p className="loginFormMessage loginFormMessageSuccess" role="status">
+                    </p> :
+                null}
+                  {formSuccess ?
+                <p className="loginFormMessage loginFormMessageSuccess" role="status">
                       {formSuccess}
-                    </p>
-                  ) : null}
+                    </p> :
+                null}
 
                   <div className="loginField">
                     <label htmlFor="signup-name">Your name (optional)</label>
                     <input
-                      id="signup-name"
-                      type="text"
-                      name="fullName"
-                      autoComplete="name"
-                      placeholder="e.g. Mary O'Brien"
-                      disabled={isSubmitting}
-                    />
+                    id="signup-name"
+                    type="text"
+                    name="fullName"
+                    autoComplete="name"
+                    placeholder="e.g. Mary O'Brien"
+                    disabled={isSubmitting} />
+                  
                   </div>
                   <fieldset className="loginRoleFieldset">
                     <legend className="loginRoleLegend">How will you use MealCare?</legend>
@@ -367,48 +367,48 @@ function LoginForm() {
                       You can change this later in your profile.
                     </p>
                     <div className="loginRoleList" role="radiogroup" aria-label="Account type">
-                      {APP_ROLE_SIGNUP_OPTIONS.map((opt) => (
-                        <label key={opt.value} className="loginRoleCard">
+                      {APP_ROLE_SIGNUP_OPTIONS.map((opt) =>
+                    <label key={opt.value} className="loginRoleCard">
                           <input
-                            id={`signup-app-role-${opt.value}`}
-                            type="radio"
-                            name="appRole"
-                            value={opt.value}
-                            checked={signUpAppRole === opt.value}
-                            onChange={() => setSignUpAppRole(opt.value)}
-                            disabled={isSubmitting}
-                          />
+                        id={`signup-app-role-${opt.value}`}
+                        type="radio"
+                        name="appRole"
+                        value={opt.value}
+                        checked={signUpAppRole === opt.value}
+                        onChange={() => setSignUpAppRole(opt.value)}
+                        disabled={isSubmitting} />
+                      
                           <span className="loginRoleCardBody">
                             <span className="loginRoleCardTitle">{opt.label}</span>
                             <span className="loginRoleCardHint">{opt.hint}</span>
                           </span>
                         </label>
-                      ))}
+                    )}
                     </div>
                   </fieldset>
                   <div className="loginField">
                     <label htmlFor="signup-email">Email address</label>
                     <input
-                      id="signup-email"
-                      type="email"
-                      name="email"
-                      autoComplete="email"
-                      required
-                      disabled={isSubmitting}
-                    />
+                    id="signup-email"
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    required
+                    disabled={isSubmitting} />
+                  
                   </div>
                   <div className="loginField">
                     <label htmlFor="signup-password">Password</label>
                     <input
-                      id="signup-password"
-                      type="password"
-                      name="password"
-                      autoComplete="new-password"
-                      required
-                      minLength={MIN_PASSWORD_LEN}
-                      aria-describedby="signup-password-hint"
-                      disabled={isSubmitting}
-                    />
+                    id="signup-password"
+                    type="password"
+                    name="password"
+                    autoComplete="new-password"
+                    required
+                    minLength={MIN_PASSWORD_LEN}
+                    aria-describedby="signup-password-hint"
+                    disabled={isSubmitting} />
+                  
                     <span id="signup-password-hint" className="loginFieldHint">
                       At least {MIN_PASSWORD_LEN} characters
                     </span>
@@ -416,13 +416,13 @@ function LoginForm() {
                   <div className="loginField">
                     <label htmlFor="signup-confirm">Confirm password</label>
                     <input
-                      id="signup-confirm"
-                      type="password"
-                      name="confirmPassword"
-                      autoComplete="new-password"
-                      required
-                      disabled={isSubmitting}
-                    />
+                    id="signup-confirm"
+                    type="password"
+                    name="confirmPassword"
+                    autoComplete="new-password"
+                    required
+                    disabled={isSubmitting} />
+                  
                   </div>
                   <button type="submit" className="loginSubmit" disabled={isSubmitting}>
                     {isSubmitting ? "Creating account…" : "Create account"}
@@ -435,8 +435,8 @@ function LoginForm() {
                     Sign in
                   </button>
                 </p>
-              </>
-            ) : null}
+              </> :
+            null}
           </div>
 
           <div className="loginFooterLinks">
@@ -444,8 +444,8 @@ function LoginForm() {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
 export default LoginForm;

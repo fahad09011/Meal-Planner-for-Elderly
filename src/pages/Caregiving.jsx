@@ -12,7 +12,7 @@ function Caregiving() {
     careLinksLoaded,
     addCareRecipientByUserId,
     removeCareRecipientByLinkId,
-    canActAsCaregiver,
+    canActAsCaregiver
   } = useContext(AppContext);
   const [elderlyIdInput, setElderlyIdInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -32,9 +32,9 @@ function Caregiving() {
       setElderlyIdInput("");
     } else {
       const errorMessage =
-        result.error?.message ||
-        result.error?.details ||
-        "Could not add this user. They need an account and a saved profile first.";
+      result.error?.message ||
+      result.error?.details ||
+      "Could not add this user. They need an account and a saved profile first.";
       setError(errorMessage);
     }
   }
@@ -56,8 +56,8 @@ function Caregiving() {
     return (
       <div className="caregiving-page">
         <p>Loading…</p>
-      </div>
-    );
+      </div>);
+
   }
 
   if (!user) {
@@ -67,8 +67,8 @@ function Caregiving() {
         <p>
           <Link to="/login">Sign in</Link> to manage care recipients.
         </p>
-      </div>
-    );
+      </div>);
+
   }
 
   if (!canActAsCaregiver) {
@@ -80,8 +80,8 @@ function Caregiving() {
           Open <Link to="/profile">Profile</Link>, choose that account type, save your profile, then
           come back here.
         </p>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
@@ -112,8 +112,8 @@ function Caregiving() {
               value={elderlyIdInput}
               onChange={(ev) => setElderlyIdInput(ev.target.value)}
               autoComplete="off"
-              spellCheck={false}
-            />
+              spellCheck={false} />
+            
             <Button type="submit" className="button" disabled={busy || !elderlyIdInput.trim()}>
               {busy ? "Adding…" : "Add"}
             </Button>
@@ -128,14 +128,14 @@ function Caregiving() {
 
       <div className="caregiving-card">
         <h2>Your care recipients</h2>
-        {!careLinksLoaded ? (
-          <p>Loading list…</p>
-        ) : careRecipients.length === 0 ? (
-          <p>No one linked yet. Add a user ID above.</p>
-        ) : (
-          <ul className="caregiving-list">
-            {careRecipients.map((row) => (
-              <li key={row.id}>
+        {!careLinksLoaded ?
+        <p>Loading list…</p> :
+        careRecipients.length === 0 ?
+        <p>No one linked yet. Add a user ID above.</p> :
+
+        <ul className="caregiving-list">
+            {careRecipients.map((row) =>
+          <li key={row.id}>
                 <span className="caregiving-id">
                   {row.elderly_name?.trim() || "Unnamed recipient"}
                   <small style={{ display: "block", opacity: 0.75 }}>
@@ -143,25 +143,25 @@ function Caregiving() {
                   </small>
                 </span>
                 <Button
-                  type="button"
-                  className="inActive button"
-                  disabled={busy}
-                  onClick={() => handleRemove(row.id)}
-                >
+              type="button"
+              className="inActive button"
+              disabled={busy}
+              onClick={() => handleRemove(row.id)}>
+              
                   Remove
                 </Button>
               </li>
-            ))}
+          )}
           </ul>
-        )}
+        }
       </div>
 
       <p className="caregiving-hint">
         Use the navbar dropdown <strong>Viewing</strong> to switch between your own data and a care
         recipient&apos;s meal plan and shopping list.
       </p>
-    </div>
-  );
+    </div>);
+
 }
 
 export default Caregiving;

@@ -19,25 +19,25 @@ function DaySelector({ days, selectedDay, onDayClick, onSave, weeklyPlan, isDayC
                 role="tab"
                 aria-selected={selectedDay === day}
                 className={`view-plan-day-tab ${
-                  selectedDay === day ? "view-plan-day-tab--active" : ""
-                }`}
-                onClick={() => onDayClick(day)}
-              >
+                selectedDay === day ? "view-plan-day-tab--active" : ""}`
+                }
+                onClick={() => onDayClick(day)}>
+                
                 <span className="view-plan-day-tab-name">{day.slice(0, 3)}</span>
                 <div className="view-plan-day-tab-dots">
-                  {["breakfast", "lunch", "dinner"].map((mealSlot) => (
-                    <span
-                      key={mealSlot}
-                      className={`view-plan-day-tab-dot ${
-                        dayPlan?.[mealSlot] ? "view-plan-day-tab-dot--planned" : ""
-                      } ${
-                        dayComplete && dayPlan?.[mealSlot] ? "view-plan-day-tab-dot--done" : ""
-                      }`}
-                    />
-                  ))}
+                  {["breakfast", "lunch", "dinner"].map((mealSlot) =>
+                  <span
+                    key={mealSlot}
+                    className={`view-plan-day-tab-dot ${
+                    dayPlan?.[mealSlot] ? "view-plan-day-tab-dot--planned" : ""} ${
+
+                    dayComplete && dayPlan?.[mealSlot] ? "view-plan-day-tab-dot--done" : ""}`
+                    } />
+
+                  )}
                 </div>
-              </button>
-            );
+              </button>);
+
           })}
         </div>
       </div>
@@ -45,8 +45,8 @@ function DaySelector({ days, selectedDay, onDayClick, onSave, weeklyPlan, isDayC
       <Button className="save-day-btn save-day-btn-top" onClick={onSave}>
         💾 Save for {selectedDay}
       </Button>
-    </section>
-  );
+    </section>);
+
 }
 
 export default DaySelector;

@@ -8,8 +8,8 @@ import {
   getShoppingListItems,
   syncShoppingListFromWeeklyPlan,
   updateShoppingListItemChecked,
-  addShoppingListItemFromBarcodeProduct,
-} from "../services/database/shoppingListService";
+  addShoppingListItemFromBarcodeProduct } from
+"../services/database/shoppingListService";
 import BarcodeScannerModal from "../components/shopping/BarcodeScannerModal";
 import ShoppingHowItWorksModal from "../components/shopping/ShoppingHowItWorksModal";
 import ShoppingList from "../components/shopping/ShoppingList";
@@ -19,14 +19,14 @@ import ShoppingProgress from "../components/shopping/ShoppingProgress";
 import { aisleLabel } from "../utils/shoppingAisle";
 
 const WEEK_DAYS = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+"Monday",
+"Tuesday",
+"Wednesday",
+"Thursday",
+"Friday",
+"Saturday",
+"Sunday"];
+
 
 function weeklyPlanHasMeals(plan) {
   if (!plan || typeof plan !== "object") return false;
@@ -47,11 +47,11 @@ function Shopping() {
     mealPlanLoading,
     weeklyPlan,
     shoppingListSessionCache,
-    setShoppingListSessionCache,
+    setShoppingListSessionCache
   } = useContext(AppContext);
-  
+
   const waitingForMealPlan = Boolean(
-    user && !authLoading && mealPlanLoading && !mealPlanId,
+    user && !authLoading && mealPlanLoading && !mealPlanId
   );
   const [shoppingItems, setShoppingItems] = useState([]);
   const [shoppingLoading, setShoppingLoading] = useState(false);
@@ -73,10 +73,10 @@ function Shopping() {
 
     const cached = shoppingCacheRef.current;
     if (
-      cached.mealPlanId === mealPlanId &&
-      Array.isArray(cached.items) &&
-      cached.items.length > 0
-    ) {
+    cached.mealPlanId === mealPlanId &&
+    Array.isArray(cached.items) &&
+    cached.items.length > 0)
+    {
       setShoppingItems(cached.items);
       setFetchError(null);
       setShoppingLoading(false);
@@ -95,7 +95,7 @@ function Shopping() {
         console.error("Failed to fetch shopping items", result.error);
         setShoppingItems([]);
         setFetchError(
-          "We could not load your list. Please try again in a moment.",
+          "We could not load your list. Please try again in a moment."
         );
         setShoppingLoading(false);
         return;
@@ -106,7 +106,7 @@ function Shopping() {
         const sync = await syncShoppingListFromWeeklyPlan(
           mealPlanId,
           weeklyPlan,
-          user.id,
+          user.id
         );
         if (!cancelled && sync.success) {
           const again = await getShoppingListItems(mealPlanId);
@@ -148,13 +148,13 @@ function Shopping() {
     if (!mealPlanId || !user?.id) {
       return {
         success: false,
-        error: new Error("Sign in and load a meal plan before adding items."),
+        error: new Error("Sign in and load a meal plan before adding items.")
       };
     }
     const result = await addShoppingListItemFromBarcodeProduct(
       mealPlanId,
       user.id,
-      product,
+      product
     );
     if (!result.success) return result;
 
@@ -170,7 +170,7 @@ function Shopping() {
     let snapshot;
     setShoppingItems((list) => {
       snapshot = list.map((row) => ({ ...row }));
-      return list.map((row) => (row.id === itemId ? { ...row, checked } : row));
+      return list.map((row) => row.id === itemId ? { ...row, checked } : row);
     });
     const result = await updateShoppingListItemChecked(itemId, checked);
     if (!result.success) {
@@ -181,7 +181,7 @@ function Shopping() {
     if (result.data) {
       setShoppingItems((list) => {
         const next = list.map((row) =>
-          row.id === itemId ? { ...row, ...result.data } : row,
+        row.id === itemId ? { ...row, ...result.data } : row
         );
         setShoppingListSessionCache({ mealPlanId, items: next });
         return next;
@@ -189,7 +189,7 @@ function Shopping() {
     } else {
       setShoppingItems((list) => {
         const next = list.map((row) =>
-          row.id === itemId ? { ...row, checked } : row,
+        row.id === itemId ? { ...row, checked } : row
         );
         setShoppingListSessionCache({ mealPlanId, items: next });
         return next;
@@ -199,78 +199,78 @@ function Shopping() {
 
   return (
     <div className="shopping-page page">
-      {shoppingLoading || waitingForMealPlan ? (
-        <section
-          className="shopping-loading loading-container"
-          aria-busy="true"
-          aria-live="polite"
-        >
+      {shoppingLoading || waitingForMealPlan ?
+      <section
+        className="shopping-loading loading-container"
+        aria-busy="true"
+        aria-live="polite">
+        
           <div className="spinner-wrapper">
             <div className="spinner" />
             <p className="shopping-loading__text">
               Loading your shopping list…
             </p>
           </div>
-        </section>
-      ) : (
-        <main className="shopping-layout layout">
+        </section> :
+
+      <main className="shopping-layout layout">
           <aside className="info shopping-page__column shopping-page__column--left">
             <div className="info-box shopping-info-box">
               <h2 className="shopping-panel__title">Your list</h2>
-              {!mealPlanId ? (
-                <p className="shopping-info-box__text">
+              {!mealPlanId ?
+            <p className="shopping-info-box__text">
                   Open your meal plan for this week first. Your shopping list is
                   built from the meals you save.
-                </p>
-              ) : (
-                <p className="shopping-info-box__text">
+                </p> :
+
+            <p className="shopping-info-box__text">
                   Ingredients from your saved meal plan. Use How it works (above
                   the list) for filters, aisles, and barcode help.
                 </p>
-              )}
-              {!mealPlanId ? (
-                <Link className="shopping-info-box__link" to="/mealPlan">
+            }
+              {!mealPlanId ?
+            <Link className="shopping-info-box__link" to="/mealPlan">
                   Go to meal plan
-                </Link>
-              ) : null}
+                </Link> :
+            null}
             </div>
-            {mealPlanId && shoppingItems.length > 0 ? (
-              <ShoppingAisleFilter
-                items={shoppingItems}
-                selected={categoryFilter}
-                onSelect={setCategoryFilter}
-              />
-            ) : null}
-            {mealPlanId ? (
-              <ShoppingFilters
-                value={statusFilter}
-                onChange={setStatusFilter}
-                counts={counts}
-              />
-            ) : null}
+            {mealPlanId && shoppingItems.length > 0 ?
+          <ShoppingAisleFilter
+            items={shoppingItems}
+            selected={categoryFilter}
+            onSelect={setCategoryFilter} /> :
+
+          null}
+            {mealPlanId ?
+          <ShoppingFilters
+            value={statusFilter}
+            onChange={setStatusFilter}
+            counts={counts} /> :
+
+          null}
           </aside>
 
           <section
-            className="content shopping-page__column shopping-page__column--center"
-            aria-labelledby="shopping-main-title"
-          >
+          className="content shopping-page__column shopping-page__column--center"
+          aria-labelledby="shopping-main-title">
+          
             <div className="content-header shopping-content-header">
               <div className="shopping-content-header__intro">
                 <div className="shopping-content-header__titleRow">
                   <h1
-                    id="shopping-main-title"
-                    className="title shopping-content-header__title"
-                  >
+                  id="shopping-main-title"
+                  className="title shopping-content-header__title">
+                  
                     Shopping list
                   </h1>
                   <button
-                    ref={howItWorksBtnRef}
-                    type="button"
-                    className="btn btn-outline-secondary shopping-how-it-works-btn"
-                    onClick={() => setShowHowItWorks(true)}
-                    aria-haspopup="dialog"
-                    aria-expanded={showHowItWorks}
-                  >
+                  ref={howItWorksBtnRef}
+                  type="button"
+                  className="btn btn-outline-secondary shopping-how-it-works-btn"
+                  onClick={() => setShowHowItWorks(true)}
+                  aria-haspopup="dialog"
+                  aria-expanded={showHowItWorks}>
+                  
                     How it works
                   </button>
                 </div>
@@ -280,45 +280,45 @@ function Shopping() {
                 </p>
               </div>
               <div className="shopping-content-header__end">
-                {mealPlanId ? (
-                  <button
-                    type="button"
-                    className="shopping-barcode-btn btn btn-primary"
-                    onClick={() => setShowBarcodeModal(true)}
-                    aria-haspopup="dialog"
-                    aria-expanded={showBarcodeModal}
-                  >
+                {mealPlanId ?
+              <button
+                type="button"
+                className="shopping-barcode-btn btn btn-primary"
+                onClick={() => setShowBarcodeModal(true)}
+                aria-haspopup="dialog"
+                aria-expanded={showBarcodeModal}>
+                
                     <BiBarcode
-                      className="shopping-barcode-btn__icon"
-                      aria-hidden
-                    />
+                  className="shopping-barcode-btn__icon"
+                  aria-hidden />
+                
                     <span>Scan barcode</span>
-                  </button>
-                ) : null}
+                  </button> :
+              null}
                 <div
-                  className="options shopping-content-header__meta"
-                  aria-live="polite"
-                >
-                  {mealPlanId
-                    ? `${counts.total} item${counts.total === 1 ? "" : "s"}`
-                    : "No plan loaded"}
+                className="options shopping-content-header__meta"
+                aria-live="polite">
+                
+                  {mealPlanId ?
+                `${counts.total} item${counts.total === 1 ? "" : "s"}` :
+                "No plan loaded"}
                 </div>
               </div>
             </div>
 
             <div className="content-body shopping-content-body">
-              {fetchError ? (
-                <p className="shopping-error" role="alert">
+              {fetchError ?
+            <p className="shopping-error" role="alert">
                   {fetchError}
-                </p>
-              ) : null}
+                </p> :
+            null}
 
-              {!mealPlanId ? (
-                <p className="shopping-empty">
+              {!mealPlanId ?
+            <p className="shopping-empty">
                   Load a meal plan to see your shopping list here.
-                </p>
-              ) : !shoppingItems.length ? (
-                <div className="shopping-empty shopping-empty--card">
+                </p> :
+            !shoppingItems.length ?
+            <div className="shopping-empty shopping-empty--card">
                   <p className="shopping-empty__title">No items yet</p>
                   <p className="shopping-empty__text">
                     Save your meal plan for this week. We will fill this list
@@ -327,44 +327,44 @@ function Shopping() {
                   <Link className="shopping-empty__link" to="/viewPlan">
                     View meal plan
                   </Link>
-                </div>
-              ) : (
-                <ShoppingList
-                  items={shoppingItems}
-                  statusFilter={statusFilter}
-                  categoryFilter={categoryFilter}
-                  onToggleChecked={handleToggleChecked}
-                />
-              )}
+                </div> :
+
+            <ShoppingList
+              items={shoppingItems}
+              statusFilter={statusFilter}
+              categoryFilter={categoryFilter}
+              onToggleChecked={handleToggleChecked} />
+
+            }
             </div>
           </section>
 
           <aside className="side shopping-page__column shopping-page__column--right">
-            {mealPlanId ? (
-              <ShoppingProgress total={counts.total} completed={counts.done} />
-            ) : null}
-            {mealPlanId ? (
-              <BarcodeScannerModal
-                onClose={() => setShowBarcodeModal(false)}
-                show={showBarcodeModal}
-                mealPlanId={mealPlanId}
-                shoppingItems={shoppingItems}
-                onMarkMatchedItemBought={handleToggleChecked}
-                onAddProductToShoppingList={handleAddBarcodeProductToList}
-              />
-            ) : null}
+            {mealPlanId ?
+          <ShoppingProgress total={counts.total} completed={counts.done} /> :
+          null}
+            {mealPlanId ?
+          <BarcodeScannerModal
+            onClose={() => setShowBarcodeModal(false)}
+            show={showBarcodeModal}
+            mealPlanId={mealPlanId}
+            shoppingItems={shoppingItems}
+            onMarkMatchedItemBought={handleToggleChecked}
+            onAddProductToShoppingList={handleAddBarcodeProductToList} /> :
+
+          null}
           </aside>
         </main>
-      )}
+      }
       <ShoppingHowItWorksModal
         show={showHowItWorks}
         onClose={() => {
           setShowHowItWorks(false);
           requestAnimationFrame(() => howItWorksBtnRef.current?.focus());
-        }}
-      />
-    </div>
-  );
+        }} />
+      
+    </div>);
+
 }
 
 export default Shopping;

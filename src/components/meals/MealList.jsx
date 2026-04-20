@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import MealSection from "./MealSection";
 
 const CATEGORIES = [
-  { key: "breakfast", label: "Breakfast" },
-  { key: "lunch",     label: "Lunch"     },
-  { key: "dinner",    label: "Dinner"    },
-];
+{ key: "breakfast", label: "Breakfast" },
+{ key: "lunch", label: "Lunch" },
+{ key: "dinner", label: "Dinner" }];
+
 
 function MealList({ meals, mealsCount, selectMeal, weeklyPlan, selectedDay, daySelection }) {
   const [isMobile, setIsMobile] = useState(
@@ -17,7 +17,7 @@ function MealList({ meals, mealsCount, selectMeal, weeklyPlan, selectedDay, dayS
     const onViewportChange = (event) => setIsMobile(event.matches);
     narrowScreenQuery.addEventListener("change", onViewportChange);
     return () =>
-      narrowScreenQuery.removeEventListener("change", onViewportChange);
+    narrowScreenQuery.removeEventListener("change", onViewportChange);
   }, []);
 
   const mealsByMealType = CATEGORIES.reduce((accumulator, { key }) => {
@@ -27,23 +27,23 @@ function MealList({ meals, mealsCount, selectMeal, weeklyPlan, selectedDay, dayS
 
   return (
     <div className="meal-list-container">
-      {CATEGORIES.map(({ key, label }) => (
-        <MealSection
-          key={key}
-          categoryKey={key}
-          label={label}
-          categoryMeals={mealsByMealType[key]}
-          count={mealsCount?.[key] ?? mealsByMealType[key].length}
-          isMobile={isMobile}
-          isSelected={daySelection?.[selectedDay]?.[key] != null}
-          selectMeal={selectMeal}
-          weeklyPlan={weeklyPlan}
-          selectedDay={selectedDay}
-          daySelection={daySelection}
-        />
-      ))}
-    </div>
-  );
+      {CATEGORIES.map(({ key, label }) =>
+      <MealSection
+        key={key}
+        categoryKey={key}
+        label={label}
+        categoryMeals={mealsByMealType[key]}
+        count={mealsCount?.[key] ?? mealsByMealType[key].length}
+        isMobile={isMobile}
+        isSelected={daySelection?.[selectedDay]?.[key] != null}
+        selectMeal={selectMeal}
+        weeklyPlan={weeklyPlan}
+        selectedDay={selectedDay}
+        daySelection={daySelection} />
+
+      )}
+    </div>);
+
 }
 
 export default MealList;

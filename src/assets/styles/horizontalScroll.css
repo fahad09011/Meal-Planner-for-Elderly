@@ -1,92 +1,80 @@
-
-
 .meal-hscroll {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    overflow-y: visible;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    padding: 4px 16px 12px;
-    padding-left: max(16px, env(safe-area-inset-left));
-    padding-right: max(16px, env(safe-area-inset-right));
-    margin: 0 -16px;
-  
-    
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  
-  .meal-hscroll::-webkit-scrollbar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 4px 16px 12px;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  margin: 0 -16px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.meal-hscroll::-webkit-scrollbar {
+  display: none;
+}
+.meal-hscroll__card {
+  flex-shrink: 0;
+  width: min(168px, 76vw);
+  max-width: 188px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.meal-hscroll__spacer {
+  flex-shrink: 0;
+  width: 4px;
+}
+.meal-hscroll__dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding-top: 10px;
+}
+.meal-hscroll__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.15);
+  transition: background 0.2s, transform 0.2s;
+}
+.meal-hscroll__dot--active {
+  background: #678B7A;
+  transform: scale(1.4);
+}
+.scroll-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-60%);
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: white;
+  color: #52524e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.15s;
+  padding: 0;
+}
+.scroll-arrow:active {
+  opacity: 0.75;
+}
+.scroll-arrow--left {
+  left: 4px;
+}
+.scroll-arrow--right {
+  right: 4px;
+}
+@media (min-width: 600px) {
+  .meal-hscroll,
+  .meal-hscroll__dots,
+  .scroll-arrow {
     display: none;
   }
-  
-  .meal-hscroll__card {
-    flex-shrink: 0;
-    width: min(168px, 76vw);
-    max-width: 188px;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-  
-  .meal-hscroll__spacer {
-    flex-shrink: 0;
-    width: 4px;
-  }
-  
-  .meal-hscroll__dots {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    padding-top: 10px;
-  }
-  
-  .meal-hscroll__dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.15);
-    transition: background 0.2s, transform 0.2s;
-  }
-  
-  .meal-hscroll__dot--active {
-    background: #678B7A;
-    transform: scale(1.4);
-  }
-  
-  
-  .scroll-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-60%);
-    z-index: 10;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    background: white;
-    color: #52524e;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: opacity 0.15s;
-    padding: 0;
-  }
-  
-  .scroll-arrow:active {
-    opacity: 0.75;
-  }
-  
-  .scroll-arrow--left  { left: 4px; }
-  .scroll-arrow--right { right: 4px; }
-  
-  
-  @media (min-width: 600px) {
-    .meal-hscroll,
-    .meal-hscroll__dots,
-    .scroll-arrow {
-      display: none;
-    }
-  }
+}

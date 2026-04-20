@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
       try {
         const {
           data: { session },
-          error,
+          error
         } = await supabase.auth.getSession();
 
         if (error) {
@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
     loadInitialSession();
 
     const {
-      data: { subscription },
+      data: { subscription }
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session ?? null);
       setUser(session?.user ?? null);
@@ -54,7 +54,7 @@ export function AuthProvider({ children }) {
   async function signIn(email, password) {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
-      password,
+      password
     });
 
     return { data, error };
@@ -65,8 +65,8 @@ export function AuthProvider({ children }) {
       email,
       password,
       options: {
-        data: userMetadata,
-      },
+        data: userMetadata
+      }
     });
 
     return { data, error };
@@ -77,19 +77,19 @@ export function AuthProvider({ children }) {
     return { error };
   }
 
-  /** Sends Supabase “reset password” email. Add this URL in Dashboard → Auth → Redirect URLs. */
+
   async function sendPasswordResetEmail(email) {
     const redirectTo = `${window.location.origin}/reset-password`;
     const { error } = await supabase.auth.resetPasswordForEmail(
       email.trim(),
-      { redirectTo },
+      { redirectTo }
     );
     return { error };
   }
 
   async function updatePassword(newPassword) {
     const { data, error } = await supabase.auth.updateUser({
-      password: newPassword,
+      password: newPassword
     });
     return { data, error };
   }
@@ -103,7 +103,7 @@ export function AuthProvider({ children }) {
     signOut,
     sendPasswordResetEmail,
     updatePassword,
-    isAuthenticated: !!user,
+    isAuthenticated: !!user
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

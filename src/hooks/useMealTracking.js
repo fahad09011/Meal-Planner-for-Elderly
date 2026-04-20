@@ -3,14 +3,14 @@ import { getMealCompletions, setMealCompletion } from "../services/database/meal
 import { useAuth } from "../context/AuthContext";
 
 const DAYS = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+"Monday",
+"Tuesday",
+"Wednesday",
+"Thursday",
+"Friday",
+"Saturday",
+"Sunday"];
+
 
 const MEAL_TYPES = ["breakfast", "lunch", "dinner"];
 
@@ -43,8 +43,8 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
 
         const tracking = createEmptyTracking();
 
-        
-        
+
+
         result.data.forEach((row) => {
           const dayKey = String(row.day_of_week ?? "").trim();
           const mealKey = String(row.meal_type ?? "").toLowerCase().trim();
@@ -77,53 +77,53 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
       day,
       mealType,
       nextValue,
-      user.id,
+      user.id
     );
     if (!result.success) {
       console.error("Error setting meal completion", result.error);
       return;
     }
 
-    
+
     setMealTracking((prev) => ({
       ...prev,
       [day]: {
         ...prev[day],
-        [mealType]: nextValue,
-      },
+        [mealType]: nextValue
+      }
     }));
   }
 
   async function markDayDone(day) {
     if (!DAYS.includes(day) || !mealPlanId || !user) return;
-  
+
     const results = await Promise.all(
       MEAL_TYPES.map((mealType) =>
-        setMealCompletion(mealPlanId, day, mealType, true, user.id)
+      setMealCompletion(mealPlanId, day, mealType, true, user.id)
       )
     );
-  
+
     const hasFailure = results.some((result) => !result.success);
-  
+
     if (hasFailure) {
       console.error("Failed to mark full day done");
       return;
     }
-  
+
     setMealTracking((prev) => ({
       ...prev,
-      [day]: { breakfast: true, lunch: true, dinner: true },
+      [day]: { breakfast: true, lunch: true, dinner: true }
     }));
   }
 
   const completedDays = DAYS.filter(
-    (day) => MEAL_TYPES.every((mealType) => mealTracking[day]?.[mealType]),
+    (day) => MEAL_TYPES.every((mealType) => mealTracking[day]?.[mealType])
   ).length;
 
-  const progress = Math.round((completedDays / 7) * 100);
+  const progress = Math.round(completedDays / 7 * 100);
 
   const isDayComplete = (day) =>
-    MEAL_TYPES.every((mealType) => mealTracking[day]?.[mealType]);
+  MEAL_TYPES.every((mealType) => mealTracking[day]?.[mealType]);
 
   const isMealDone = (day, mealType) => mealTracking[day]?.[mealType] ?? false;
 
@@ -135,7 +135,7 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
     completedDays,
     progress,
     isDayComplete,
-    isMealDone,
+    isMealDone
   };
 }
 

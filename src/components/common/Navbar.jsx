@@ -13,7 +13,7 @@ function Navbar() {
     careLinksLoaded,
     selectedClientUserId,
     setSelectedClientUserId,
-    canActAsCaregiver,
+    canActAsCaregiver
   } = useContext(AppContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,7 +24,7 @@ function Navbar() {
   }, [location.pathname]);
 
   const displayLabel =
-    user?.user_metadata?.full_name?.trim() || user?.email || "";
+  user?.user_metadata?.full_name?.trim() || user?.email || "";
 
   async function handleSignOut() {
     await signOut();
@@ -45,15 +45,15 @@ function Navbar() {
             onClick={() => setNavOpen((open) => !open)}
             aria-controls="app-navbar-collapse"
             aria-expanded={navOpen}
-            aria-label={navOpen ? "Close menu" : "Open menu"}
-          >
+            aria-label={navOpen ? "Close menu" : "Open menu"}>
+            
             <span className="navbar-toggler-icon" />
           </button>
 
           <div
             id="app-navbar-collapse"
-            className={`app-navbar__collapse${navOpen ? " app-navbar__collapse--open" : ""}`}
-          >
+            className={`app-navbar__collapse${navOpen ? " app-navbar__collapse--open" : ""}`}>
+            
             <ul className="navbar-nav app-navbar__nav">
               <li className="nav-item">
                 <NavLink className="nav-link" to="/home">
@@ -80,69 +80,69 @@ function Navbar() {
                   Profile
                 </NavLink>
               </li>
-              {user && canActAsCaregiver ? (
-                <li className="nav-item">
+              {user && canActAsCaregiver ?
+              <li className="nav-item">
                   <NavLink className="nav-link" to="/caregiving">
                     Caregiving
                   </NavLink>
-                </li>
-              ) : null}
+                </li> :
+              null}
             </ul>
 
             <div className="infoContainer app-navbar__account">
               {user &&
               canActAsCaregiver &&
               careLinksLoaded &&
-              careRecipients.length > 0 ? (
-                <>
+              careRecipients.length > 0 ?
+              <>
                   <span className="navbar-user-avatar" title={displayLabel || undefined}>
                     <img src={icon} alt="" className="userIcon" width={36} height={36} />
                   </span>
                   <select
-                    id="navbar-care-select"
-                    name="viewingClientUserId"
-                    className="navbar-care-select"
-                    value={selectedClientUserId ?? ""}
-                    onChange={(event) => {
-                      const value = event.target.value;
-                      setSelectedClientUserId(value === "" ? null : value);
-                    }}
-                    title="Whose meal plan and shopping list to show"
-                    aria-label="Whose meal plan and shopping list to show. Choose Myself or a linked care recipient."
-                  >
+                  id="navbar-care-select"
+                  name="viewingClientUserId"
+                  className="navbar-care-select"
+                  value={selectedClientUserId ?? ""}
+                  onChange={(event) => {
+                    const value = event.target.value;
+                    setSelectedClientUserId(value === "" ? null : value);
+                  }}
+                  title="Whose meal plan and shopping list to show"
+                  aria-label="Whose meal plan and shopping list to show. Choose Myself or a linked care recipient.">
+                  
                     <option value="">Myself</option>
-                    {careRecipients.map((row) => (
-                      <option key={row.id} value={row.elderly_user_id}>
-                        {row.elderly_name?.trim()
-                          ? row.elderly_name
-                          : `Care recipient…${row.elderly_user_id.slice(0, 8)}`}
+                    {careRecipients.map((row) =>
+                  <option key={row.id} value={row.elderly_user_id}>
+                        {row.elderly_name?.trim() ?
+                    row.elderly_name :
+                    `Care recipient…${row.elderly_user_id.slice(0, 8)}`}
                       </option>
-                    ))}
+                  )}
                   </select>
-                </>
-              ) : (
-                <div className="navbar-userIdentity">
+                </> :
+
+              <div className="navbar-userIdentity">
                   <img src={icon} alt="" className="userIcon" width={36} height={36} />
                   <span className="navbar-text" title={displayLabel || undefined}>
                     {authLoading ? "…" : displayLabel || "Not signed in"}
                   </span>
                 </div>
-              )}
-              {user ? (
-                <button type="button" className="navSignOut" onClick={handleSignOut}>
+              }
+              {user ?
+              <button type="button" className="navSignOut" onClick={handleSignOut}>
                   Sign out
-                </button>
-              ) : (
-                <NavLink className="navSignOut navSignOut--link" to="/login">
+                </button> :
+
+              <NavLink className="navSignOut navSignOut--link" to="/login">
                   Log in
                 </NavLink>
-              )}
+              }
             </div>
           </div>
         </div>
       </div>
-    </nav>
-  );
+    </nav>);
+
 }
 
 export default Navbar;

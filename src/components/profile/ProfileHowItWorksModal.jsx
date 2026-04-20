@@ -25,16 +25,16 @@ export default function ProfileHowItWorksModal({ show, onClose }) {
       <div
         className="profile-help-backdrop"
         aria-hidden="true"
-        onClick={onClose}
-      />
+        onClick={onClose} />
+      
       <div
         id="profile-how-it-works-dialog"
         className="modal show d-block profile-help-modal"
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="profile-how-it-works-title"
-      >
+        aria-labelledby="profile-how-it-works-title">
+        
         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable profile-help-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -46,8 +46,8 @@ export default function ProfileHowItWorksModal({ show, onClose }) {
                 type="button"
                 className="btn-close"
                 aria-label="Close"
-                onClick={onClose}
-              />
+                onClick={onClose} />
+              
             </div>
             <div className="modal-body profile-help-body">
               <section className="profile-help-section" aria-labelledby="help-overview">
@@ -135,6 +135,6 @@ export default function ProfileHowItWorksModal({ show, onClose }) {
           </div>
         </div>
       </div>
-    </>
-  );
+    </>);
+
 }

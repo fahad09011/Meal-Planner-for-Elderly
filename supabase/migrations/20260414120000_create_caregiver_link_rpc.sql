@@ -1,4 +1,3 @@
--- Fix caregiver link insert: RLS prevented verifying elderly profile exists (could not read other rows).
 CREATE OR REPLACE FUNCTION public.create_caregiver_link(p_elderly_user_id uuid)
 RETURNS TABLE (id uuid, elderly_user_id uuid, created_at timestamp without time zone)
 LANGUAGE plpgsql

@@ -1,4 +1,3 @@
--- Idempotent caregiver access (run once per environment; safe to re-run after drops).
 CREATE UNIQUE INDEX IF NOT EXISTS caregiver_links_caregiver_elderly_uidx
   ON public.caregiver_links (caregiver_user_id, elderly_user_id)
   WHERE caregiver_user_id IS NOT NULL AND elderly_user_id IS NOT NULL;

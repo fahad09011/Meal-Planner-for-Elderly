@@ -1,6 +1,3 @@
--- Caregivers cannot read other users' Auth from the client. Expose display labels only for
--- users explicitly linked in `caregiver_links` (same pattern as `create_caregiver_link`).
--- Display name matches Supabase Auth user metadata: full_name, name, display_name, username.
 
 CREATE OR REPLACE FUNCTION public.get_care_recipient_display_names_for_caregiver()
 RETURNS TABLE (elderly_user_id uuid, display_name text)

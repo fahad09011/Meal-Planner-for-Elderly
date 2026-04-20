@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import "../assets/styles/termsOfUse.css";
 
-/**
- * Terms of use for MealCare (student / coursework context).
- * Not legal advice — supervisors may require edits for institutional submission.
- */
+
+
+
+
 function TermsOfUse() {
   return (
     <main className="termsPage" aria-labelledby="terms-title">
@@ -82,8 +82,8 @@ function TermsOfUse() {
           </nav>
         </div>
       </article>
-    </main>
-  );
+    </main>);
+
 }
 
 export default TermsOfUse;

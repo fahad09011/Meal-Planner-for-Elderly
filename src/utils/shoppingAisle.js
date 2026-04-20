@@ -1,9 +1,9 @@
 export function aisleLabel(item) {
   const name = String(
-    item?.ingredient_name ?? item?.name ?? "",
-  )
-    .toLowerCase()
-    .trim();
+    item?.ingredient_name ?? item?.name ?? ""
+  ).
+  toLowerCase().
+  trim();
   const aisle = String(item?.aisle ?? "").toLowerCase().trim();
   const category = String(item?.category ?? "").toLowerCase().trim();
 
@@ -27,11 +27,11 @@ export function aisleLabel(item) {
       /\byogurt\b/.test(value) ||
       /\b(yoghurt)\b/.test(value) ||
       /\bcheese\b/.test(value) ||
-      /\bbutter\b/.test(value)
-    );
+      /\bbutter\b/.test(value));
+
   };
 
-  // Eggs: store shelves often put them with dairy, but they are not dairy foods — own filter bucket.
+
   if (isEggWord(name)) {
     return "Eggs";
   }
@@ -39,10 +39,10 @@ export function aisleLabel(item) {
   const looksDairyFromText = isDairyMilkWord(name) || isOtherDairyWord(name);
 
   const looksDairyFromAisle =
-    aisle.includes("milk, eggs") ||
-    aisle.includes("other dairy") ||
-    aisle.includes("dairy") ||
-    aisle.includes("cheese");
+  aisle.includes("milk, eggs") ||
+  aisle.includes("other dairy") ||
+  aisle.includes("dairy") ||
+  aisle.includes("cheese");
 
   if (looksDairyFromText || looksDairyFromAisle || category === "dairy") {
     return "Dairy";

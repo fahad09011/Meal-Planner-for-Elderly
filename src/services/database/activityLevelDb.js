@@ -8,7 +8,7 @@ const DB_TO_APP = {
   moderately_active: "moderately_active",
   active: "very_active",
   very_active: "very_active",
-  extra_active: "extra_active",
+  extra_active: "extra_active"
 };
 
 const APP_TO_DB = {
@@ -16,7 +16,7 @@ const APP_TO_DB = {
   lightly_active: "lightly_active",
   moderately_active: "moderately_active",
   very_active: "very_active",
-  extra_active: "extra_active",
+  extra_active: "extra_active"
 };
 
 export function activityLevelFromDb(dbValue) {

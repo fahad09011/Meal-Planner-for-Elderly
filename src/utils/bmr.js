@@ -6,10 +6,10 @@ export function calculateRestingDailyCalories({ age, weightKg, heightCm, gender 
   const heightCmNum = Number(heightCm);
   const ageYears = Number(age);
   if (
-    !Number.isFinite(weightKgNum) ||
-    !Number.isFinite(heightCmNum) ||
-    !Number.isFinite(ageYears)
-  ) {
+  !Number.isFinite(weightKgNum) ||
+  !Number.isFinite(heightCmNum) ||
+  !Number.isFinite(ageYears))
+  {
     return null;
   }
   if (weightKgNum <= 0 || heightCmNum <= 0 || ageYears < 18 || ageYears > 120) {
@@ -17,7 +17,7 @@ export function calculateRestingDailyCalories({ age, weightKg, heightCm, gender 
   }
 
   const base =
-    10 * weightKgNum + 6.25 * heightCmNum - 5 * ageYears;
+  10 * weightKgNum + 6.25 * heightCmNum - 5 * ageYears;
   let restingCalories;
   if (gender === "male") {
     restingCalories = base + 5;
@@ -44,30 +44,30 @@ export function getRestingAndDailyCaloriesFromProfile(profile) {
     age: profile.age,
     weightKg: profile.weightKg,
     heightCm: profile.heightCm,
-    gender: profile.gender,
+    gender: profile.gender
   });
   const dailyCalories =
-    restingCalories != null && profile.activityLevel
-      ? calculateDailyCaloriesAfterActivity(restingCalories, profile.activityLevel)
-      : null;
+  restingCalories != null && profile.activityLevel ?
+  calculateDailyCaloriesAfterActivity(restingCalories, profile.activityLevel) :
+  null;
   return { restingCalories, dailyCalories };
 }
 
 export function getMaxCaloriesPerMeal(profile) {
   const { dailyCalories } = getRestingAndDailyCaloriesFromProfile(profile);
   const caloriesFromDailyBudget =
-    dailyCalories != null ? Math.round(dailyCalories / 3) : null;
+  dailyCalories != null ? Math.round(dailyCalories / 3) : null;
 
   const healthConditionsList = profile.healthConditions || [];
   const weightManagementRule = healthConditionRules.weightManagement;
   const weightManagementMaxCalories =
-    healthConditionsList.includes("weightManagement") &&
-    weightManagementRule?.maxCalories != null
-      ? weightManagementRule.maxCalories
-      : null;
+  healthConditionsList.includes("weightManagement") &&
+  weightManagementRule?.maxCalories != null ?
+  weightManagementRule.maxCalories :
+  null;
 
   const limits = [caloriesFromDailyBudget, weightManagementMaxCalories].filter(
-    (value) => value != null && value > 0,
+    (value) => value != null && value > 0
   );
   if (limits.length === 0) return null;
   return Math.min(...limits);

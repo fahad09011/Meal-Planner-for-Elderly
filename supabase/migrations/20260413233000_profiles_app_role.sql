@@ -1,4 +1,3 @@
--- Account type: who may create caregiver_links (caregiver or both only)
 ALTER TABLE public.profiles
   ADD COLUMN IF NOT EXISTS app_role text NOT NULL DEFAULT 'elderly';
 

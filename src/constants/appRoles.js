@@ -2,26 +2,26 @@
 export const APP_ROLES = {
   elderly: "elderly",
   caregiver: "caregiver",
-  both: "both",
+  both: "both"
 };
 
 export const APP_ROLE_SIGNUP_OPTIONS = [
-  {
-    value: APP_ROLES.elderly,
-    label: "I’m planning meals for myself",
-    hint: "Use MealCare for your own weekly plan and shopping list.",
-  },
-  {
-    value: APP_ROLES.caregiver,
-    label: "I’m a caregiver or family helper",
-    hint: "You can link other people’s accounts after they share their user ID.",
-  },
-  {
-    value: APP_ROLES.both,
-    label: "Both — I plan for myself and for someone I care for",
-    hint: "Full access: your profile plus linked care recipients.",
-  },
-];
+{
+  value: APP_ROLES.elderly,
+  label: "I’m planning meals for myself",
+  hint: "Use MealCare for your own weekly plan and shopping list."
+},
+{
+  value: APP_ROLES.caregiver,
+  label: "I’m a caregiver or family helper",
+  hint: "You can link other people’s accounts after they share their user ID."
+},
+{
+  value: APP_ROLES.both,
+  label: "Both — I plan for myself and for someone I care for",
+  hint: "Full access: your profile plus linked care recipients."
+}];
+
 
 export function normalizeAppRole(value) {
   const v = String(value ?? "").trim().toLowerCase();

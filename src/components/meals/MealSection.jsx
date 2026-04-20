@@ -7,7 +7,7 @@ const GRID_COLS = "col-12 col-sm-4 col-lg-4 col-xl-3";
 function MealSection({
   categoryKey, label, categoryMeals, count,
   isMobile, isSelected,
-  selectMeal, weeklyPlan, selectedDay, daySelection,
+  selectMeal, weeklyPlan, selectedDay, daySelection
 }) {
   const sharedCardProps = { weeklyPlan, daySelection, selectedDay };
 
@@ -21,48 +21,48 @@ function MealSection({
           {count} options
         </span>
 
-        {isSelected && (
-          <span className="badge bg-success d-flex align-items-center gap-1 ms-1">
+        {isSelected &&
+        <span className="badge bg-success d-flex align-items-center gap-1 ms-1">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none"
-              stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="1.5,6 4.5,9.5 10.5,2.5" />
             </svg>
             Selected
           </span>
-        )}
+        }
       </div>
 
-      {categoryMeals.length === 0 ? (
-        <p className="text-muted fst-italic px-2">
+      {categoryMeals.length === 0 ?
+      <p className="text-muted fst-italic px-2">
           No {label.toLowerCase()} options found.
-        </p>
+        </p> :
 
-      ) : isMobile ? (
-        <HorizontalScroll
-          meals={categoryMeals}
-          selectMeal={selectMeal}
-          {...sharedCardProps}
-        />
+      isMobile ?
+      <HorizontalScroll
+        meals={categoryMeals}
+        selectMeal={selectMeal}
+        {...sharedCardProps} /> :
 
-      ) : (
-        <div className="row g-3">
-          {categoryMeals.map((meal) => (
-            <div
-              className={GRID_COLS}
-              key={meal.id ?? meal._id ?? meal.name}
-            >
+
+
+      <div className="row g-3">
+          {categoryMeals.map((meal) =>
+        <div
+          className={GRID_COLS}
+          key={meal.id ?? meal._id ?? meal.name}>
+          
               <MealCard
-                meals={meal}
-                selectMeal={selectMeal}
-                {...sharedCardProps}
-              />
+            meals={meal}
+            selectMeal={selectMeal}
+            {...sharedCardProps} />
+          
             </div>
-          ))}
+        )}
         </div>
-      )}
+      }
 
-    </section>
-  );
+    </section>);
+
 }
 
 export default MealSection;

@@ -5,11 +5,11 @@ export const createOrGetShoppingList = async (mealPlanId) => {
   if (!mealPlanId) {
     return { success: false, error: new Error("Meal plan ID is required") };
   }
-  const { data, error } = await supabase
-    .from("shopping_lists")
-    .upsert([{ meal_plan_id: mealPlanId }], { onConflict: "meal_plan_id" })
-    .select()
-    .single();
+  const { data, error } = await supabase.
+  from("shopping_lists").
+  upsert([{ meal_plan_id: mealPlanId }], { onConflict: "meal_plan_id" }).
+  select().
+  single();
   if (error) {
     console.error("Error creating shopping list:", error);
     return { success: false, error };
@@ -26,10 +26,10 @@ export const replaceShoppingListItems = async (shoppingListId, items, updatedBy)
     return { success: false, error: new Error("Items must be an array") };
   }
 
-  const { error: deleteError } = await supabase
-    .from("shopping_list_items")
-    .delete()
-    .eq("shopping_list_id", shoppingListId);
+  const { error: deleteError } = await supabase.
+  from("shopping_list_items").
+  delete().
+  eq("shopping_list_id", shoppingListId);
 
   if (deleteError) {
     console.error("Error deleting shopping list items:", deleteError);
@@ -48,13 +48,13 @@ export const replaceShoppingListItems = async (shoppingListId, items, updatedBy)
     unit: item.unit,
     checked: false,
     added_by_barcode: false,
-    updated_by: updatedBy,
+    updated_by: updatedBy
   }));
 
-  const { data, error } = await supabase
-    .from("shopping_list_items")
-    .insert(itemPayload)
-    .select();
+  const { data, error } = await supabase.
+  from("shopping_list_items").
+  insert(itemPayload).
+  select();
 
   if (error) {
     console.error("Error inserting shopping list items:", error);
@@ -82,11 +82,11 @@ export const getShoppingListItems = async (mealPlanId) => {
     return { success: false, error: new Error("Meal plan ID is required") };
   }
 
-  const { data: shoppingList, error: listError } = await supabase
-    .from("shopping_lists")
-    .select("*")
-    .eq("meal_plan_id", mealPlanId)
-    .maybeSingle();
+  const { data: shoppingList, error: listError } = await supabase.
+  from("shopping_lists").
+  select("*").
+  eq("meal_plan_id", mealPlanId).
+  maybeSingle();
 
   if (listError) {
     console.error("Error loading shopping list:", listError);
@@ -96,10 +96,10 @@ export const getShoppingListItems = async (mealPlanId) => {
     return { success: true, data: [] };
   }
 
-  const { data, error } = await supabase
-    .from("shopping_list_items")
-    .select("*")
-    .eq("shopping_list_id", shoppingList.id);
+  const { data, error } = await supabase.
+  from("shopping_list_items").
+  select("*").
+  eq("shopping_list_id", shoppingList.id);
 
   if (error) {
     console.error("Error loading shopping list items:", error);
@@ -112,12 +112,12 @@ export const updateShoppingListItemChecked = async (itemId, checked) => {
   if (!itemId) {
     return { success: false, error: new Error("Item ID is required") };
   }
-  const { data, error } = await supabase
-    .from("shopping_list_items")
-    .update({ checked })
-    .eq("id", itemId)
-    .select()
-    .single();
+  const { data, error } = await supabase.
+  from("shopping_list_items").
+  update({ checked }).
+  eq("id", itemId).
+  select().
+  single();
   if (error) {
     console.error("Error updating shopping list item", error);
     return { success: false, error };
@@ -125,12 +125,12 @@ export const updateShoppingListItemChecked = async (itemId, checked) => {
   return { success: true, data };
 };
 
-/** Inserts one row from a barcode lookup (Open Food Facts, etc.). */
+
 export const addShoppingListItemFromBarcodeProduct = async (mealPlanId, userId, product) => {
   if (!mealPlanId || !userId) {
     return {
       success: false,
-      error: new Error("Meal plan and user are required to add a shopping item."),
+      error: new Error("Meal plan and user are required to add a shopping item.")
     };
   }
   const name = String(product?.name ?? "").trim();
@@ -142,7 +142,7 @@ export const addShoppingListItemFromBarcodeProduct = async (mealPlanId, userId, 
   if (!parent.success || !parent.data?.id) {
     return {
       success: false,
-      error: parent.error || new Error("Could not create or load shopping list."),
+      error: parent.error || new Error("Could not create or load shopping list.")
     };
   }
 
@@ -155,14 +155,14 @@ export const addShoppingListItemFromBarcodeProduct = async (mealPlanId, userId, 
     unit: "item",
     checked: false,
     added_by_barcode: true,
-    updated_by: userId,
+    updated_by: userId
   };
 
-  const { data, error } = await supabase
-    .from("shopping_list_items")
-    .insert([payload])
-    .select()
-    .single();
+  const { data, error } = await supabase.
+  from("shopping_list_items").
+  insert([payload]).
+  select().
+  single();
 
   if (error) {
     console.error("Error inserting barcode shopping item:", error);

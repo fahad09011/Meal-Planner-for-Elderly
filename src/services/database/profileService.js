@@ -8,11 +8,11 @@ function toNumOrNull(value) {
 }
 
 export const getProfile = async (userId) => {
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("user_id", userId)
-    .maybeSingle();
+  const { data, error } = await supabase.
+  from("profiles").
+  select("*").
+  eq("user_id", userId).
+  maybeSingle();
 
   if (error) {
     console.error("Error fetching profile: ", error);
@@ -25,11 +25,11 @@ export const getAppRoleForUser = async (userId) => {
   if (!userId) {
     return { success: false, error: new Error("User id required"), data: null };
   }
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("app_role")
-    .eq("user_id", userId)
-    .maybeSingle();
+  const { data, error } = await supabase.
+  from("profiles").
+  select("app_role").
+  eq("user_id", userId).
+  maybeSingle();
 
   if (error) {
     console.error("getAppRoleForUser:", error);
@@ -50,14 +50,14 @@ export const createProfile = async (userId, profileData) => {
     allergies: profileData.allergies,
     health_conditions: profileData.healthConditions,
     budget: profileData.budget,
-    app_role: normalizeAppRole(profileData.appRole),
+    app_role: normalizeAppRole(profileData.appRole)
   };
 
-  const { data, error } = await supabase
-    .from("profiles")
-    .insert([dbPayload])
-    .select()
-    .single();
+  const { data, error } = await supabase.
+  from("profiles").
+  insert([dbPayload]).
+  select().
+  single();
 
   if (error) {
     console.error("Error inserting profile in DB: ", error);
@@ -78,15 +78,15 @@ export const updateProfile = async (userId, profileData) => {
     allergies: profileData.allergies,
     health_conditions: profileData.healthConditions,
     budget: profileData.budget,
-    app_role: normalizeAppRole(profileData.appRole),
+    app_role: normalizeAppRole(profileData.appRole)
   };
 
-  const { data, error } = await supabase
-    .from("profiles")
-    .update(dbPayload)
-    .eq("user_id", userId)
-    .select()
-    .single();
+  const { data, error } = await supabase.
+  from("profiles").
+  update(dbPayload).
+  eq("user_id", userId).
+  select().
+  single();
 
   if (error) {
     console.error("Error updating profile in DB:", error);
