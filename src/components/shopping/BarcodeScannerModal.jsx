@@ -225,13 +225,13 @@ function BarcodeScannerModal({
                 className="btn btn-primary mb-3"
                 onClick={handleManualBarcodeLookup}
               >
-                Test Lookup
+                Check barcode
               </button>
 
-              {scanStatus === "loading" && <p>Looking up product...</p>}
+              {scanStatus === "loading" && <p>Checking barcode...</p>}
 
               {scanStatus === "error" && (
-                <p className="text-danger">Product not found.</p>
+                <p className="text-danger">No product found for this barcode.</p>
               )}
 
               {scanStatus === "found" && productResult && (
@@ -244,10 +244,7 @@ function BarcodeScannerModal({
 
               {scanStatus === "found" && matchedShoppingItem && (
                 <div className="mt-2">
-                  <p className="text-success">
-                    A matching line is already on your list — you can mark it bought or add
-                    this scan as a separate line.
-                  </p>
+                  <p className="text-success">Match found in your shopping list.</p>
                   <button
                     type="button"
                     className="btn btn-success me-2 mb-2"
@@ -261,7 +258,7 @@ function BarcodeScannerModal({
               {scanStatus === "found" && productResult && (
                 <div className="mt-2">
                   {!matchedShoppingItem ? (
-                    <p className="text-warning">Not in your shopping list</p>
+                    <p className="text-warning">No match in your shopping list.</p>
                   ) : null}
                   {!mealPlanId ? (
                     <p className="text-muted small mb-2">

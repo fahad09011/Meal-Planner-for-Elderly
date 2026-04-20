@@ -83,6 +83,33 @@
       text-align: center;
       padding: 0.5rem 0 0;
     }
+    .screenshot {
+      margin: 1rem 0 0;
+    }
+    .screenshot:first-child { margin-top: 0; }
+    .screenshot img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: block;
+      vertical-align: middle;
+    }
+    .screenshot figcaption {
+      font-size: 0.98rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      line-height: 1.45;
+    }
+    .shot-grid {
+      display: grid;
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+    @media (min-width: 640px) {
+      .shot-grid--3 { grid-template-columns: repeat(3, 1fr); }
+    }
   </style>
 </head>
 <body>
@@ -116,6 +143,72 @@
         <li>Go to <a href="https://meal-planner-for-elderly.vercel.app/" target="_blank" rel="noopener noreferrer">https://meal-planner-for-elderly.vercel.app/</a></li>
         <li>Choose <strong>Log in</strong> and sign in, or register if your team has enabled it.</li>
       </ol>
+      <figure class="screenshot">
+        <img src="/user-guide/01-login.png" width="1200" height="675" alt="MealCare sign-in page with Sign in and Create account tabs" loading="lazy" decoding="async" />
+        <figcaption>Sign in with your email and password, or create an account.</figcaption>
+      </figure>
+    </section>
+
+    <section aria-labelledby="screenshots-plan">
+      <h2 id="screenshots-plan">Meal Plan</h2>
+      <p style="margin-top:0">Pick a day, choose breakfast, lunch, and dinner, then save. Use Quick actions to suggest the whole week when you are ready.</p>
+      <figure class="screenshot">
+        <img src="/user-guide/02-meal-plan-week.png" width="1200" height="675" alt="Meal Plan page with day selector and Quick actions" loading="lazy" decoding="async" />
+        <figcaption>Your weekly meals: choose a day, use Quick actions, and track week progress.</figcaption>
+      </figure>
+      <div class="shot-grid shot-grid--3">
+        <figure class="screenshot">
+          <img src="/user-guide/03-meal-plan-breakfast.png" width="400" height="225" alt="Breakfast meal options with recipe cards" loading="lazy" decoding="async" />
+          <figcaption>Breakfast — choose a meal and tap Select for plan.</figcaption>
+        </figure>
+        <figure class="screenshot">
+          <img src="/user-guide/04-meal-plan-lunch.png" width="400" height="225" alt="Lunch meal options with recipe cards" loading="lazy" decoding="async" />
+          <figcaption>Lunch — same flow for midday meals.</figcaption>
+        </figure>
+        <figure class="screenshot">
+          <img src="/user-guide/05-meal-plan-dinner.png" width="400" height="225" alt="Dinner meal options with recipe cards" loading="lazy" decoding="async" />
+          <figcaption>Dinner — pick from suggested recipes or view details.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section aria-labelledby="screenshots-view">
+      <h2 id="screenshots-view">View meal plan</h2>
+      <p style="margin-top:0">See what is planned for the week, mark meals as eaten, and open recipes.</p>
+      <figure class="screenshot">
+        <img src="/user-guide/06-view-meal-plan.png" width="1200" height="675" alt="This week's meals with day tabs and nutrition summary" loading="lazy" decoding="async" />
+        <figcaption>This week’s meals: tap a day, track eaten meals, and use Shopping list when needed.</figcaption>
+      </figure>
+    </section>
+
+    <section aria-labelledby="screenshots-shopping">
+      <h2 id="screenshots-shopping">Shopping List</h2>
+      <p style="margin-top:0">Ingredients come from your saved plan. Filter by aisle, tick items as you shop, and watch your progress.</p>
+      <figure class="screenshot">
+        <img src="/user-guide/07-shopping-list.png" width="1200" height="675" alt="Shopping list with aisles and progress sidebar" loading="lazy" decoding="async" />
+        <figcaption>Shopping list with filters and trolley progress.</figcaption>
+      </figure>
+      <figure class="screenshot">
+        <img src="/user-guide/08-shopping-barcode-scan.png" width="1200" height="675" alt="Scan barcode dialog with camera and product check" loading="lazy" decoding="async" />
+        <figcaption>Scan barcode — point the camera at a product; the app checks if it is on your list.</figcaption>
+      </figure>
+    </section>
+
+    <section aria-labelledby="screenshots-profile">
+      <h2 id="screenshots-profile">Profile</h2>
+      <p style="margin-top:0">Your user ID (for caregivers), body and activity settings, and food or health preferences.</p>
+      <figure class="screenshot">
+        <img src="/user-guide/09-profile-user-id.png" width="1200" height="675" alt="Profile page showing user ID for caregiver linking" loading="lazy" decoding="async" />
+        <figcaption>User ID — share with a caregiver so they can link to your account.</figcaption>
+      </figure>
+      <figure class="screenshot">
+        <img src="/user-guide/10-profile-body-activity.png" width="1200" height="675" alt="Body and activity section with BMR and energy estimate" loading="lazy" decoding="async" />
+        <figcaption>Your body &amp; activity — age, weight, height, and estimated daily energy.</figcaption>
+      </figure>
+      <figure class="screenshot">
+        <img src="/user-guide/11-profile-preferences.png" width="1200" height="675" alt="Food preferences and health conditions checkboxes" loading="lazy" decoding="async" />
+        <figcaption>Food preferences, allergies, health filters, and budget — then Update profile.</figcaption>
+      </figure>
     </section>
 
     <section aria-labelledby="use">
