@@ -11,11 +11,13 @@ const mockFrom = vi.fn(() => ({
   select: mockSelectAll,
 }));
 
-vi.mock("./supabaseClient", () => ({
+vi.mock("@/services/database/supabaseClient", () => ({
   supabase: { from: (...args) => mockFrom(...args) },
 }));
 
-const { setMealCompletion, getMealCompletions } = await import("./mealCompletionService");
+const { setMealCompletion, getMealCompletions } = await import(
+  "@/services/database/mealCompletionService"
+);
 
 beforeEach(() => {
   vi.clearAllMocks();

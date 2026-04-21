@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { aisleLabel } from "./shoppingAisle";
+import { aisleLabel } from "@/utils/shoppingAisle";
 
 describe("aisleLabel", () => {
   it("groups milk under Dairy even when aisle is Beverages", () => {

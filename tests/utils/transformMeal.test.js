@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { extractDiet, extractNutrition } from "./transformMeal";
+import { extractDiet, extractNutrition } from "@/utils/transformMeal";
 
 
 

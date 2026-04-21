@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getProfile, createProfile, updateProfile } from "./profileService";
+import { getProfile, createProfile, updateProfile } from "@/services/database/profileService";
 
 const mockSingle = vi.fn();
 const mockMaybeSingle = vi.fn();
@@ -17,7 +17,7 @@ const mockFrom = vi.fn(() => ({
   update: mockUpdate,
 }));
 
-vi.mock("./supabaseClient", () => ({
+vi.mock("@/services/database/supabaseClient", () => ({
   supabase: { from: (...args) => mockFrom(...args) },
 }));
 

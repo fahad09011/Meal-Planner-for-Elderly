@@ -36,7 +36,7 @@ const mockFrom = vi.fn(() => ({
   update: mockUpdate,
 }));
 
-vi.mock("./supabaseClient", () => ({
+vi.mock("@/services/database/supabaseClient", () => ({
   supabase: { from: (...args) => mockFrom(...args) },
 }));
 
@@ -46,7 +46,7 @@ const {
   getShoppingListItems,
   updateShoppingListItemChecked,
   addShoppingListItemFromBarcodeProduct,
-} = await import("./shoppingListService");
+} = await import("@/services/database/shoppingListService");
 
 beforeEach(() => {
   vi.clearAllMocks();

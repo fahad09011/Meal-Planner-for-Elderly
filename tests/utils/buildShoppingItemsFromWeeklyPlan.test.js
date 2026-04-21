@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildShoppingItemsFromWeeklyPlan } from "./buildShoppingItemsFromWeeklyPlan";
+import { buildShoppingItemsFromWeeklyPlan } from "@/utils/buildShoppingItemsFromWeeklyPlan";
 
 const emptyWeek = {
   Monday: { breakfast: null, lunch: null, dinner: null },

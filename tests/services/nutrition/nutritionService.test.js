@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import filterMeals, { mealCountByCategory } from "./nutritionService";
-import { getMaxCaloriesPerMeal, getMinCaloriesPerMeal } from "../../utils/bmr";
+import filterMeals, { mealCountByCategory } from "@/services/nutrition/nutritionService";
+import { getMaxCaloriesPerMeal, getMinCaloriesPerMeal } from "@/utils/bmr";
 
 const makeMeal = (overrides = {}) => ({
   title: "Test Meal",

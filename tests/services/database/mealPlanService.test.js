@@ -9,11 +9,13 @@ const mockGetEq1 = vi.fn(() => ({ eq: mockGetEq2 }));
 const mockGetSelect = vi.fn(() => ({ eq: mockGetEq1 }));
 const mockFrom = vi.fn(() => ({ upsert: mockUpsert, select: mockGetSelect }));
 
-vi.mock("./supabaseClient", () => ({
+vi.mock("@/services/database/supabaseClient", () => ({
   supabase: { from: (...args) => mockFrom(...args) },
 }));
 
-const { saveMealPlan, getMealPlanByWeek } = await import("./mealPlanService");
+const { saveMealPlan, getMealPlanByWeek } = await import(
+  "@/services/database/mealPlanService"
+);
 
 const userId = "user-123";
 const weekStartDate = "2026-03-16";

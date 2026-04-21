@@ -7,9 +7,9 @@
 }
 :root {
   --navbar-height: 72px;
-  --primary-green: #5f826f;
-  --primary-green-dark: #4a6b5c;
-  --primary-green-hover: #6d9484;
+  --primary-green: #4a6b5c;
+  --primary-green-dark: #3a5245;
+  --primary-green-hover: #567a6a;
   --secondary-green: #e8f2ec;
   --main-bg: #faf8f6;
   --secondary-bg: #f0ebe8;
@@ -35,7 +35,7 @@
   --shadow-sm: 0 2px 10px rgba(42, 36, 40, 0.06);
   --shadow-md: 0 8px 28px rgba(42, 36, 40, 0.1);
   --shadow-lg: 0 16px 48px rgba(42, 36, 40, 0.12);
-  --shadow-btn: 0 3px 12px rgba(95, 130, 111, 0.28);
+  --shadow-btn: 0 3px 12px rgba(74, 107, 92, 0.28);
   --ai-bg: #3a4d7a;
   --ai-light: #eef1f9;
   --font-sans:

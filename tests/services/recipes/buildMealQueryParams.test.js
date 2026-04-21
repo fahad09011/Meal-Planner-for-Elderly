@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
-import buildMealQueryParams, { getRecipeSearchCacheKey } from "./buildMealQueryParams";
+import buildMealQueryParams, { getRecipeSearchCacheKey } from "@/services/recipes/buildMealQueryParams";
 import {
   getRestingAndDailyCaloriesFromProfile,
   getMaxCaloriesPerMeal,
   getMinCaloriesPerMeal,
-} from "../../utils/bmr";
+} from "@/utils/bmr";
 
 const emptyProfile = { dietary: [], allergies: [], healthConditions: [], budget: "" };
 

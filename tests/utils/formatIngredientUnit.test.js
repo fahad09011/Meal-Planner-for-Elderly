@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatUnitForDisplay } from "./formatIngredientUnit";
+import { formatUnitForDisplay } from "@/utils/formatIngredientUnit";
 
 describe("formatUnitForDisplay", () => {
   it("abbreviates metric mass and volume", () => {

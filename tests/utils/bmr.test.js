@@ -5,7 +5,7 @@ import {
   getRestingAndDailyCaloriesFromProfile,
   getMaxCaloriesPerMeal,
   getMinCaloriesPerMeal,
-} from "./bmr";
+} from "@/utils/bmr";
 
 describe("calculateRestingDailyCalories", () => {
   it("returns null for empty or invalid inputs", () => {
