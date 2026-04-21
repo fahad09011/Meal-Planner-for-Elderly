@@ -40,7 +40,7 @@
   transition: background 0.2s, transform 0.2s;
 }
 .meal-hscroll__dot--active {
-  background: #678B7A;
+  background: var(--primary-green);
   transform: scale(1.4);
 }
 .scroll-arrow {

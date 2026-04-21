@@ -7,7 +7,7 @@ function WeekProgress({ completedDay }) {
   return (
     <section className="progressBarSection">
       <ProgressBar
-        bgColor="#678B7A"
+        bgColor="#4a6b5c"
         height="40px"
         completed={progress}
         labelAlignment="center"

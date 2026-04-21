@@ -80,13 +80,25 @@
   border-radius: 9px;
   background: transparent;
   cursor: pointer;
-  transition: background 0.15s ease;
+  color: var(--text-muted);
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
-.view-plan-day-tab:hover {
+.view-plan-day-tab:hover:not(.view-plan-day-tab--active) {
   background: var(--light-bg);
+  color: var(--text-main);
+}
+.view-plan-day-tab:hover:not(.view-plan-day-tab--active) .view-plan-day-tab-name {
+  color: var(--text-main);
 }
 .view-plan-day-tab--active {
   background: var(--primary-green);
+  color: var(--white);
+}
+.view-plan-day-tab--active:hover {
+  background: var(--primary-green);
+  color: var(--white);
 }
 .view-plan-day-tab-name {
   font-size: 0.85rem;
@@ -94,6 +106,9 @@
   color: var(--text-muted);
 }
 .view-plan-day-tab--active .view-plan-day-tab-name {
+  color: var(--white);
+}
+.view-plan-day-tab--active:hover .view-plan-day-tab-name {
   color: var(--white);
 }
 .view-plan-day-tab-dots {
