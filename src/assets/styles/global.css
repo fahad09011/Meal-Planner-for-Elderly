@@ -89,3 +89,21 @@ body {
   line-height: 1.2;
   color: var(--text-main);
 }
+
+/* External links (e.g. user guide in Google Docs) */
+.app-external-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-decoration: inherit;
+}
+.app-external-link__icon {
+  width: 0.92em;
+  height: 0.92em;
+  flex-shrink: 0;
+  opacity: 0.88;
+}
+.app-external-link:hover .app-external-link__icon,
+.app-external-link:focus-visible .app-external-link__icon {
+  opacity: 1;
+}

@@ -20,7 +20,7 @@ function Navbar() {
   const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
-    setNavOpen(false);
+    queueMicrotask(() => setNavOpen(false));
   }, [location.pathname]);
 
   const displayLabel =
@@ -67,12 +67,12 @@ function Navbar() {
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/viewPlan">
-                  View meal plan
+                  View Plan
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/shopping">
-                  Shopping List
+                  Shopping
                 </NavLink>
               </li>
               <li className="nav-item">

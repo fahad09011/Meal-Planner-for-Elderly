@@ -11,6 +11,7 @@ import MealList from "../components/meals/MealList";
 import AutoGenerateBanner from "../components/meals/AutoGenerateBanner";
 import { AppContext } from "../hooks/AppContext";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function MealPlan() {
   const days = [
@@ -91,6 +92,55 @@ function MealPlan() {
 
   function handleDayTabClick(day) {
     setSelectedDay(day);
+  }
+
+  if (authLoading) {
+    return (
+      <main className="mainWrapper meal-plan-page" id="meal-plan-main">
+        <div className="loading-container" aria-busy="true" aria-live="polite">
+          <div className="spinner-wrapper">
+            <div className="spinner" />
+            <p>Loading…</p>
+          </div>
+        </div>
+      </main>);
+
+  }
+
+  if (!user) {
+    return (
+      <main className="mainWrapper meal-plan-page" id="meal-plan-main">
+        <div className="mealPlanMainContainer">
+          <header className="meal-plan-page-header">
+            <h1 className="meal-plan-page-title">Your weekly meals</h1>
+            <p className="meal-plan-page-lede">
+              Plan a full week of breakfasts, lunches, and dinners from recipe ideas that match your
+              profile and health needs.
+            </p>
+          </header>
+          <section
+            className="meal-plan-auth-gate"
+            aria-labelledby="meal-plan-auth-gate-title">
+            <h2 id="meal-plan-auth-gate-title" className="meal-plan-auth-gate__title">
+              Sign in to see meals
+            </h2>
+            <p className="meal-plan-auth-gate__text">
+              To browse and choose recipe ideas for your plan, you need a MealCare account. Sign in, or
+              create one in a few steps — it helps us show meals that fit you and keeps unnecessary
+              traffic off our recipe search.
+            </p>
+            <div className="meal-plan-auth-gate__actions">
+              <Link to="/login" className="button meal-plan-auth-gate__primary">
+                Log in or create account
+              </Link>
+              <Link to="/home" className="meal-plan-auth-gate__home">
+                Back to home
+              </Link>
+            </div>
+          </section>
+        </div>
+      </main>);
+
   }
 
   return (

@@ -89,9 +89,6 @@ function ViewPlan() {
               {completedDays} of 7 days eaten
             </span>
           </div>
-          <Button type="button" className="inActive button view-plan-header-btn" disabled>
-            Print (soon)
-          </Button>
           <Button
             type="button"
             className="button view-plan-header-btn"

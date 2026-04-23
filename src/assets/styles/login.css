@@ -433,6 +433,10 @@
 .loginFooterLinks a:hover {
   color: var(--login-green);
 }
+.loginFooterLinks__sep {
+  color: #b8c0bc;
+  user-select: none;
+}
 .loginRoleFieldset {
   border: none;
   margin: 0 0 1rem;

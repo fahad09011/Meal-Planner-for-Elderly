@@ -5,9 +5,15 @@ import HorizontalScroll from "./HorizontalScroll";
 const GRID_COLS = "col-12 col-sm-4 col-lg-4 col-xl-3";
 
 function MealSection({
-  categoryKey, label, categoryMeals, count,
-  isMobile, isSelected,
-  selectMeal, weeklyPlan, selectedDay, daySelection
+  label,
+  categoryMeals,
+  count,
+  isMobile,
+  isSelected,
+  selectMeal,
+  weeklyPlan,
+  selectedDay,
+  daySelection,
 }) {
   const sharedCardProps = { weeklyPlan, daySelection, selectedDay };
 

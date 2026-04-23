@@ -251,25 +251,25 @@ describe("Layer 2: filterByBudget", () => {
     expect(result).toHaveLength(1);
   });
 
-  it("passes low budget meal (price <= $4)", () => {
+  it("passes low budget meal (price <= €4)", () => {
     const meals = [makeMeal({ pricePerServing: 3.5 })];
     const result = filterMeals(meals, { ...emptyProfile, budget: "low" });
     expect(result).toHaveLength(1);
   });
 
-  it("rejects low budget meal (price > $4)", () => {
+  it("rejects low budget meal (price > €4)", () => {
     const meals = [makeMeal({ pricePerServing: 5.0 })];
     const result = filterMeals(meals, { ...emptyProfile, budget: "low" });
     expect(result).toHaveLength(0);
   });
 
-  it("passes medium budget meal (price <= $8)", () => {
+  it("passes medium budget meal (price <= €8)", () => {
     const meals = [makeMeal({ pricePerServing: 7.5 })];
     const result = filterMeals(meals, { ...emptyProfile, budget: "medium" });
     expect(result).toHaveLength(1);
   });
 
-  it("rejects medium budget meal (price > $8)", () => {
+  it("rejects medium budget meal (price > €8)", () => {
     const meals = [makeMeal({ pricePerServing: 9.0 })];
     const result = filterMeals(meals, { ...emptyProfile, budget: "medium" });
     expect(result).toHaveLength(0);
