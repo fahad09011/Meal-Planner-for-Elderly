@@ -7,7 +7,9 @@ import "./assets/styles/horizontalScroll.css";
 import "./assets/styles/shopping.css";
 import App from './App.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
+import { registerSW } from 'virtual:pwa-register'
 
+registerSW()
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
 
