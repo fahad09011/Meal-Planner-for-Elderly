@@ -61,8 +61,7 @@ export const fetchProductByBarcode = async (barcode) => {
     barcodeCache.set(normalized, result);
 
     return result;
-  } catch (error) {
-    console.error("Barcode API error:", error);
+  } catch {
     return { success: false, error: "Something went wrong" };
   }
 };

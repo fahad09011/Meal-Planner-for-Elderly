@@ -14,21 +14,15 @@ export function AuthProvider({ children }) {
     async function loadInitialSession() {
       try {
         const {
-          data: { session },
-          error
+          data: { session }
         } = await supabase.auth.getSession();
-
-        if (error) {
-          console.error("Error loading auth session:", error.message);
-        }
 
         if (isMounted) {
           setSession(session ?? null);
           setUser(session?.user ?? null);
           setAuthLoading(false);
         }
-      } catch (error) {
-        console.error("Unexpected auth session error:", error);
+      } catch {
         if (isMounted) {
           setAuthLoading(false);
         }
@@ -61,7 +55,6 @@ export function AuthProvider({ children }) {
   }
 
   async function signUp(email, password, userMetadata = {}) {
-    // Must match a URL in Supabase Auth → URL Configuration (same origin as the dev server)
     const emailRedirectTo = window.location.origin;
     const { data, error } = await supabase.auth.signUp({
       email,

@@ -17,7 +17,6 @@ function TestAuth() {
   const addLog = useCallback((label, data) => {
     const timestamp = new Date().toLocaleTimeString();
     const entry = `[${timestamp}] ${label} ${JSON.stringify(data, null, 2)}`;
-    console.log(label, data);
     setLog((prev) => [...prev, entry]);
   }, []);
 

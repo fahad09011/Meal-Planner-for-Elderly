@@ -351,7 +351,6 @@ export function AppProvider({ children }) {
       if (hasProfile) {
         result = await updateProfile(user.id, profileLoad);
         if (result.success) {
-          console.log("updated method called");
           setProfileData(profileLoad);
         } else {
           return { success: false, error: result.error };
@@ -359,18 +358,14 @@ export function AppProvider({ children }) {
       } else {
         result = await createProfile(user.id, profileLoad);
         if (result.success) {
-          console.log("created method called");
-
           setProfileData(profileLoad);
         } else {
           return { success: false, error: result.error };
         }
       }
       setOwnAppRole(normalizeAppRole(profileLoad.appRole));
-      console.log("Profile saved successfully", profileLoad);
       return { success: true, error: null };
     } catch (error) {
-      console.error("Error saving profile", error);
       return { success: false, error: error };
     }
   };
@@ -406,7 +401,6 @@ export function AppProvider({ children }) {
         generationMode
       );
       if (!result.success) {
-        console.error("Error saving meal plan", result.error);
         return { success: false, error: result.error };
       }
 
@@ -417,10 +411,7 @@ export function AppProvider({ children }) {
       setMealPlanId(savedRow?.id || null);
 
       if (savedRow?.id) {
-        const cleared = await deleteMealCompletionsForMealPlan(savedRow.id);
-        if (!cleared.success) {
-          console.error("Saved plan but failed to reset tracking", cleared.error);
-        }
+        await deleteMealCompletionsForMealPlan(savedRow.id);
       }
       setMealPlanDraft(emptyWeeklyPlanClone());
       setMealPlanTrackingEpoch((epoch) => epoch + 1);
@@ -428,7 +419,6 @@ export function AppProvider({ children }) {
 
       return result;
     } catch (error) {
-      console.error("Error saving meal plan", error);
       return { success: false, error: error };
     } finally {
       setMealPlanLoading(false);
@@ -463,7 +453,6 @@ export function AppProvider({ children }) {
           lastMealPlanLoadKeyRef.current = key;
           return result;
         } catch (error) {
-          console.error("Error loading meal plan", error);
           setWeeklyPlan(defaultWeeklyPlan);
           setMealPlanId(null);
           return { success: false, error: error };

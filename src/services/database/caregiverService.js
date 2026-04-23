@@ -18,7 +18,6 @@ export async function listOutgoingCaregiverLinks(caregiverUserId) {
   order("created_at", { ascending: false });
 
   if (error) {
-    console.error("listOutgoingCaregiverLinks:", error);
     return { success: false, error, data: [] };
   }
   return { success: true, data: data ?? [] };
@@ -44,13 +43,6 @@ export async function getRecipientNamesByUserIds(userIds) {
       typeof row?.display_name === "string" ? row.display_name.trim() : "";
       if (name) map[id] = name;
     });
-  } else if (rpcError) {
-    const msg = String(rpcError.message ?? "").toLowerCase();
-    const missingFn =
-    rpcError.code === "42883" || msg.includes("could not find the function");
-    if (!missingFn) {
-      console.error("get_care_recipient_display_names_for_caregiver:", rpcError);
-    }
   }
 
   const missingForProfile = ids.map(String).filter((id) => !map[id]);
@@ -64,11 +56,6 @@ export async function getRecipientNamesByUserIds(userIds) {
   in("user_id", missingForProfile);
 
   if (error) {
-    const msg = String(error.message ?? "").toLowerCase();
-    const missingCol = msg.includes("full_name") && (msg.includes("does not exist") || msg.includes("schema cache"));
-    if (!missingCol) {
-      console.error("getRecipientNamesByUserIds (profiles):", error);
-    }
     return { success: true, data: map };
   }
 
@@ -128,7 +115,6 @@ export async function createCaregiverLink(caregiverUserId, elderlyUserId) {
         error: new Error("You cannot add your own account as a care recipient.")
       };
     }
-    console.error("createCaregiverLink:", error);
     return { success: false, error };
   }
 
@@ -145,7 +131,6 @@ export async function deleteCaregiverLink(linkId) {
   }
   const { error } = await supabase.from("caregiver_links").delete().eq("id", linkId);
   if (error) {
-    console.error("deleteCaregiverLink:", error);
     return { success: false, error };
   }
   return { success: true, data: null };

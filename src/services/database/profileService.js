@@ -15,7 +15,6 @@ export const getProfile = async (userId) => {
   maybeSingle();
 
   if (error) {
-    console.error("Error fetching profile: ", error);
     return { success: false, error };
   }
   return { success: true, data: data ?? null };
@@ -32,7 +31,6 @@ export const getAppRoleForUser = async (userId) => {
   maybeSingle();
 
   if (error) {
-    console.error("getAppRoleForUser:", error);
     return { success: false, error, data: null };
   }
   return { success: true, data: data?.app_role ?? null };
@@ -60,7 +58,6 @@ export const createProfile = async (userId, profileData) => {
   single();
 
   if (error) {
-    console.error("Error inserting profile in DB: ", error);
     return { success: false, error };
   }
   return { success: true, data };
@@ -89,7 +86,6 @@ export const updateProfile = async (userId, profileData) => {
   single();
 
   if (error) {
-    console.error("Error updating profile in DB:", error);
     return { success: false, error };
   }
   return { success: true, data };

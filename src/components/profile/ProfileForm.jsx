@@ -59,7 +59,6 @@ function ProfileForm() {
     } else {
       const errorMessage =
       result.error?.message ?? "Something went wrong saving your profile.";
-      console.error("Profile save failed:", result.error);
       alert(`Profile not saved: ${errorMessage}`);
     }
   };
