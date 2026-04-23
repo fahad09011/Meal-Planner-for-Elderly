@@ -15,8 +15,16 @@
   gap: 6px;
   white-space: nowrap;
 }
+/* <Link> → <a>; Bootstrap a / a:hover / a:visited outrank .button for color */
+a.button,
+a.button:visited {
+  color: var(--white);
+  text-decoration: none;
+}
 .button:hover:not(:disabled) {
   background: var(--primary-green-hover);
+  /* Outrank Bootstrap `a:hover` (links styled as .button) */
+  color: var(--white);
 }
 .button:active:not(:disabled) {
   transform: scale(0.98);
