@@ -2,7 +2,7 @@
 import './App.css';
 import Home from './pages/Home';
 import MealPlan from './pages/MealPlan';
-
+import { Analytics } from "@vercel/analytics/react"
 import Shopping from './pages/Shopping';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/common/Navbar';
@@ -19,6 +19,7 @@ function App() {
   return (
     <>
     <AppProvider>
+      <Analytics />
       <Router>
 
     <div className="mainAppContainer">
