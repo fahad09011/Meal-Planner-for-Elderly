@@ -61,11 +61,14 @@ export function AuthProvider({ children }) {
   }
 
   async function signUp(email, password, userMetadata = {}) {
+    // Must match a URL in Supabase Auth → URL Configuration (same origin as the dev server)
+    const emailRedirectTo = window.location.origin;
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: userMetadata
+        data: userMetadata,
+        emailRedirectTo
       }
     });
 
