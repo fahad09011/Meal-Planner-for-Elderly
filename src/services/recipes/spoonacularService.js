@@ -1,11 +1,10 @@
 import buildMealQueryParams from "./buildMealQueryParams";
-
 import { transFormMeal } from "../../utils/transformMeal";
 
 /**
  * - With VITE_SPOONACULAR_API_KEY in .env (local), calls Spoonacular from the browser.
- * - In production, omit that variable and set SPOONACULAR_API_KEY only on the server
- *   (Vercel project env) so the app uses /api/spoonacular.
+ * - In production, omit that variable and set SPOONACULAR_API_KEY on the server (Vercel) so
+ *   the app uses /api/meals (see `api/meals.js`), matching the deployed proxy fix on main.
  */
 export default async function fetchMeals(profileData) {
   const params = buildMealQueryParams(profileData);
@@ -37,7 +36,11 @@ export default async function fetchMeals(profileData) {
       );
     }
     const pathPrefix = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
-    requestUrl = `${pathPrefix}/api/spoonacular?${query}`;
+    requestUrl = `${pathPrefix}/api/meals?${query}`;
+  }
+
+  if (import.meta.env.DEV) {
+    console.log("[Spoonacular] GET", requestUrl);
   }
 
   const response = await fetch(requestUrl);
@@ -48,23 +51,25 @@ export default async function fetchMeals(profileData) {
     throw new Error(
       "Meal search failed: the server returned a web page instead of recipe data. " +
         "This usually means /api is blocked by a bad rewrite, or the deploy is out of date. " +
-        "In Vercel, set the env var SPOONACULAR_API_KEY (not VITE_) and redeploy with the current vercel.json.",
+        "In Vercel, set SPOONACULAR_API_KEY and redeploy with the current vercel.json.",
     );
   }
   try {
     data = raw ? JSON.parse(raw) : null;
   } catch (e) {
-    throw new Error("Meal search returned invalid data. Check /api/spoonacular on the server and redeploy.");
+    throw new Error(
+      "Meal search returned invalid data. Check /api/meals on the server and redeploy.",
+    );
   }
 
   if (!response.ok) {
     const fromApi =
-    data &&
-    (typeof data.message === "string" ?
-      data.message :
-      typeof data.error === "string" ?
-        data.error :
-        null);
+      data &&
+      (typeof data.message === "string"
+        ? data.message
+        : typeof data.error === "string"
+          ? data.error
+          : null);
     if (response.status === 404 && !hasClientKey) {
       throw new Error(
         "Recipe search endpoint not found. For local `vite preview`, set VITE_SPOONACULAR_API_KEY, or use `vercel dev` / a real Vercel deploy with SPOONACULAR_API_KEY set.",
