@@ -3,6 +3,7 @@ import {
   createProfile,
   updateProfile,
   getProfile,
+  getProfileForSessionUser,
   getAppRoleForUser } from
 "../services/database/profileService";
 import { normalizeAppRole, canProvideCare } from "../constants/appRoles";
@@ -294,7 +295,9 @@ export function AppProvider({ children }) {
 
     (async () => {
       try {
-        const { success, data } = await getProfile(activeDataUserId);
+        const { success, data } = await (user.id === activeDataUserId ?
+        getProfileForSessionUser() :
+        getProfile(activeDataUserId));
         if (cancelled) return;
         if (success && data) {
           setProfileData({

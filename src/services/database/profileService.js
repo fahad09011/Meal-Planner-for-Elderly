@@ -21,6 +21,19 @@ export const getProfile = async (userId) => {
   return { success: true, data: data ?? null };
 };
 
+/**
+ * Load the current user's profile without putting their user_id in the request URL
+ * (RLS should limit rows to what the session may read). Not for caregiver "acting as" another user.
+ */
+export const getProfileForSessionUser = async () => {
+  const { data, error } = await supabase.from("profiles").select("*").maybeSingle();
+  if (error) {
+    console.error("Error fetching profile: ", error);
+    return { success: false, error };
+  }
+  return { success: true, data: data ?? null };
+};
+
 export const getAppRoleForUser = async (userId) => {
   if (!userId) {
     return { success: false, error: new Error("User id required"), data: null };
