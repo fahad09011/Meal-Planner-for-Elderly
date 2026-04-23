@@ -1,17 +1,8 @@
 import buildMealQueryParams from "./buildMealQueryParams";
 import { transFormMeal } from "../../utils/transformMeal";
 
-/**
- * - With VITE_SPOONACULAR_API_KEY in .env (local), calls Spoonacular from the browser.
- * - In production, omit that variable and set SPOONACULAR_API_KEY on the server (Vercel) so
- *   the app uses /api/meals (see `api/meals.js`), matching the deployed proxy fix on main.
- */
 export default async function fetchMeals(profileData) {
   const params = buildMealQueryParams(profileData);
-
-  if (import.meta.env.DEV) {
-    console.log("[Spoonacular] complexSearch params:", params);
-  }
 
   const search = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
@@ -39,10 +30,6 @@ export default async function fetchMeals(profileData) {
     requestUrl = `${pathPrefix}/api/meals?${query}`;
   }
 
-  if (import.meta.env.DEV) {
-    console.log("[Spoonacular] GET", requestUrl);
-  }
-
   const response = await fetch(requestUrl);
   const raw = await response.text();
   let data;
@@ -56,7 +43,7 @@ export default async function fetchMeals(profileData) {
   }
   try {
     data = raw ? JSON.parse(raw) : null;
-  } catch (e) {
+  } catch {
     throw new Error(
       "Meal search returned invalid data. Check /api/meals on the server and redeploy.",
     );

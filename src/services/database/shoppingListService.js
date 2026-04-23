@@ -11,7 +11,6 @@ export const createOrGetShoppingList = async (mealPlanId) => {
   select().
   single();
   if (error) {
-    console.error("Error creating shopping list:", error);
     return { success: false, error };
   }
   return { success: true, data };
@@ -32,7 +31,6 @@ export const replaceShoppingListItems = async (shoppingListId, items, updatedBy)
   eq("shopping_list_id", shoppingListId);
 
   if (deleteError) {
-    console.error("Error deleting shopping list items:", deleteError);
     return { success: false, error: deleteError };
   }
   if (items.length === 0) {
@@ -57,7 +55,6 @@ export const replaceShoppingListItems = async (shoppingListId, items, updatedBy)
   select();
 
   if (error) {
-    console.error("Error inserting shopping list items:", error);
     return { success: false, error };
   }
   return { success: true, data };
@@ -89,7 +86,6 @@ export const getShoppingListItems = async (mealPlanId) => {
   maybeSingle();
 
   if (listError) {
-    console.error("Error loading shopping list:", listError);
     return { success: false, error: listError };
   }
   if (!shoppingList) {
@@ -102,7 +98,6 @@ export const getShoppingListItems = async (mealPlanId) => {
   eq("shopping_list_id", shoppingList.id);
 
   if (error) {
-    console.error("Error loading shopping list items:", error);
     return { success: false, error };
   }
   return { success: true, data };
@@ -119,7 +114,6 @@ export const updateShoppingListItemChecked = async (itemId, checked) => {
   select().
   single();
   if (error) {
-    console.error("Error updating shopping list item", error);
     return { success: false, error };
   }
   return { success: true, data };
@@ -165,7 +159,6 @@ export const addShoppingListItemFromBarcodeProduct = async (mealPlanId, userId, 
   single();
 
   if (error) {
-    console.error("Error inserting barcode shopping item:", error);
     return { success: false, error };
   }
   return { success: true, data };

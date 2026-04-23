@@ -32,9 +32,6 @@ export const generateAutoWeeklyPlan = (meals) => {
       dinnerMeals.push(meal);
     }
   });
-  console.log("Breakfast count:", breakfastMeals.length);
-  console.log("Lunch count:", lunchMeals.length);
-  console.log("Dinner count:", dinnerMeals.length);
 
   DAYS.forEach((day, index) => {
     weeklyPlan[day].breakfast = breakfastMeals.length > 0 ?

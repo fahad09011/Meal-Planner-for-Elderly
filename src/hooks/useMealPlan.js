@@ -82,8 +82,6 @@ const useMealPlan = ({
     if (setSelectedDay && idx >= 0 && idx < days.length - 1) {
       setSelectedDay(days[idx + 1]);
     }
-
-    console.log("daySelection: ", daySelection);
   };
 
   const generateWeeklyPlan = async (generationMode = "manual") => {
@@ -100,7 +98,6 @@ const useMealPlan = ({
       if (setSelectedDay) setSelectedDay("Monday");
     } else {
       alert("Error generating weekly plan");
-      console.error("Error generating weekly plan", result.error);
     }
   };
 
@@ -155,7 +152,6 @@ const useMealPlan = ({
         }
       } catch (error) {
         if (!cancelled) {
-          console.error("Spoonacular API:", error.message);
           setMealError(error.message || "Failed to load API meals");
         }
       } finally {
@@ -166,13 +162,12 @@ const useMealPlan = ({
     return () => {
       cancelled = true;
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- recipeSearchCache.key only; full object would loop after setRecipeSearchCache.
   }, [
     mealsFetchReady,
     user,
     profileData,
     activeDataUserId,
-    recipeSearchCache.key,
+    recipeSearchCache,
     setRecipeSearchCache,
   ]);
 
@@ -189,7 +184,6 @@ const useMealPlan = ({
       setApiMeals(data);
       setRecipeSearchCache({ key: currentKey, meals: data });
     } catch (error) {
-      console.error("Spoonacular API:", error.message);
       setMealError(error.message || "Failed to load API meals");
     } finally {
       setInternalLoading(false);

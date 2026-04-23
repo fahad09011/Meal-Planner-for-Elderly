@@ -99,7 +99,6 @@ function Shopping() {
       if (cancelled) return;
 
       if (!result.success) {
-        console.error("Failed to fetch shopping items", result.error);
         setShoppingItems([]);
         setFetchError(
           "We could not load your list. Please try again in a moment."
@@ -182,7 +181,6 @@ function Shopping() {
     const result = await updateShoppingListItemChecked(itemId, checked);
     if (!result.success) {
       setShoppingItems(snapshot);
-      console.error("Could not update item", result.error);
       return;
     }
     if (result.data) {

@@ -117,9 +117,7 @@ function BarcodeScannerModal({
       },
       () => {}
     ).
-    catch((error) => {
-      console.error("Camera start error:", error);
-    });
+    catch(() => {});
 
     return () => {
       mountedRef.current = false;

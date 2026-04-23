@@ -22,7 +22,6 @@ generationMode = "manual") =>
   select().
   single();
   if (error) {
-    console.error("Error saving plan in DB: ", error);
     return { success: false, error };
   }
   return { success: true, data };
@@ -36,7 +35,6 @@ export const getMealPlanByWeek = async (userId, weekStartDate) => {
   eq("week_start_date", weekStartDate).
   maybeSingle();
   if (error) {
-    console.error("Error getting  plan from DB: ", error);
     return { success: false, error };
   }
   return { success: true, data: data ?? null };

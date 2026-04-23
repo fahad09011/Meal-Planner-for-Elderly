@@ -90,7 +90,6 @@ body {
   color: var(--text-main);
 }
 
-/* External links (e.g. user guide in Google Docs) */
 .app-external-link {
   display: inline-flex;
   align-items: center;

@@ -37,7 +37,6 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
       try {
         const result = await getMealCompletions(mealPlanId);
         if (!result.success || !result.data) {
-          console.error("Error getting meal completions", result.error);
           return;
         }
 
@@ -54,8 +53,7 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
         });
 
         setMealTracking(tracking);
-      } catch (error) {
-        console.error("Failed to load meal tracking:", error);
+      } catch {
         setMealTracking(createEmptyTracking());
       } finally {
         setTrackingLoading(false);
@@ -80,7 +78,6 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
       user.id
     );
     if (!result.success) {
-      console.error("Error setting meal completion", result.error);
       return;
     }
 
@@ -106,7 +103,6 @@ function useMealTracking(mealPlanId, trackingEpoch = 0) {
     const hasFailure = results.some((result) => !result.success);
 
     if (hasFailure) {
-      console.error("Failed to mark full day done");
       return;
     }
 
