@@ -27,6 +27,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      includeAssets: ["logo.png"],
       manifest: {
         name: "Meal Planner App",
         short_name: "MealCare",
@@ -35,8 +36,18 @@ export default defineConfig({
         background_color: APP_BG,
         display: "standalone",
         icons: [
-          { src: "/logo.png", sizes: "192x192", type: "image/png", purpose: "any" },
-          { src: "/logo.png", sizes: "512x512", type: "image/png", purpose: "any" },
+          {
+            src: "/logo.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any",
+          },
+          {
+            src: "/logo.png",
+            sizes: "192x192",
+            type: "image/png",
+            purpose: "any",
+          },
         ],
       },
     }),
