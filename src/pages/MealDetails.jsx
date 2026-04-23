@@ -84,19 +84,23 @@ function MealDetails() {
     const mealFromNavigation = location.state && location.state.meal;
 
     if (mealFromNavigation && String(mealFromNavigation.id) === String(mealId)) {
-      setMeal(mealFromNavigation);
-      setReady(true);
+      queueMicrotask(() => {
+        setMeal(mealFromNavigation);
+        setReady(true);
+      });
       return;
     }
 
     if (mealPlanLoading) {
-      setReady(false);
+      queueMicrotask(() => setReady(false));
       return;
     }
 
     const mealFromWeeklyPlan = findMealInWeeklyPlan(weeklyPlan, mealId);
-    setMeal(mealFromWeeklyPlan);
-    setReady(true);
+    queueMicrotask(() => {
+      setMeal(mealFromWeeklyPlan);
+      setReady(true);
+    });
   }, [mealId, weeklyPlan, mealPlanLoading, location.state]);
 
   if (!ready) {
@@ -197,7 +201,7 @@ function MealDetails() {
             null}
             {meal.pricePerServing !== undefined && meal.pricePerServing !== null ?
             <span className="meal-details-chip">
-                ~£{Number(meal.pricePerServing).toFixed(2)} / serving
+                ~€{Number(meal.pricePerServing).toFixed(2)} / serving
               </span> :
             null}
             {meal.mealType ?

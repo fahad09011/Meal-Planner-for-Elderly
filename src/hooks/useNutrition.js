@@ -4,7 +4,7 @@ import { AppContext } from "./AppContext";
 const useNutrition = (meals) => {
   const safeMeals = Array.isArray(meals) ? meals : [];
 
-  const { profileData, setProfileData } = useContext(AppContext);
+  const { profileData } = useContext(AppContext);
 
   const filteredMeals = filterMeals(safeMeals, profileData);
 

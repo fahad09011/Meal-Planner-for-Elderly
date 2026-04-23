@@ -476,7 +476,7 @@ export function AppProvider({ children }) {
       mealPlanLoadInflightRef.current = { key, promise };
       return promise;
     },
-    [user?.id, activeDataUserId]
+    [user, activeDataUserId]
   );
 
 

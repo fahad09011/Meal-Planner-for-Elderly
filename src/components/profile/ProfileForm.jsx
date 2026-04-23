@@ -11,7 +11,6 @@ function ProfileForm() {
   const { user } = useAuth();
   const {
     profileData,
-    setProfileData,
     saveProfile,
     clearProfile,
     hasProfile,

@@ -62,12 +62,17 @@ function Shopping() {
   const [showHowItWorks, setShowHowItWorks] = useState(false);
   const howItWorksBtnRef = useRef(null);
   const shoppingCacheRef = useRef(shoppingListSessionCache);
-  shoppingCacheRef.current = shoppingListSessionCache;
+
+  useEffect(() => {
+    shoppingCacheRef.current = shoppingListSessionCache;
+  }, [shoppingListSessionCache]);
 
   useEffect(() => {
     if (!mealPlanId) {
-      setShoppingItems([]);
-      setFetchError(null);
+      queueMicrotask(() => {
+        setShoppingItems([]);
+        setFetchError(null);
+      });
       return;
     }
 
@@ -77,9 +82,11 @@ function Shopping() {
     Array.isArray(cached.items) &&
     cached.items.length > 0)
     {
-      setShoppingItems(cached.items);
-      setFetchError(null);
-      setShoppingLoading(false);
+      queueMicrotask(() => {
+        setShoppingItems(cached.items);
+        setFetchError(null);
+        setShoppingLoading(false);
+      });
       return;
     }
 
@@ -136,7 +143,7 @@ function Shopping() {
       keys.add(aisleLabel(item));
     }
     if (!keys.has(categoryFilter)) {
-      setCategoryFilter("all");
+      queueMicrotask(() => setCategoryFilter("all"));
     }
   }, [categoryFilter, shoppingItems]);
 

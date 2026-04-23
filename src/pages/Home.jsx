@@ -2,16 +2,20 @@ import React from "react";
 import "../assets/styles/home.css";
 import HomeButton from "../components/common/HomeButton";
 import mealButtonIcon from "../assets/images/mealButtonIcon.png";
-import careButtonIcon from "../assets/images/careButtonIcon.png";
 import profileButtonIcon from "../assets/images/profileButtonIcon.png";
 import shoppingButtonIcon from "../assets/images/shoppingButtonIcon.png";
 import { NavLink } from "react-router-dom";
+import { BiBookOpen, BiLinkExternal } from "react-icons/bi";
+import {
+  USER_RESOURCES_DOC_URL,
+  USER_GUIDE_LINK_TEXT,
+  USER_GUIDE_LINK_ARIA_LABEL
+} from "../constants/externalLinks";
 
 const NAV_BUTTONS = [
 { to: "/mealPlan", icon: mealButtonIcon, title: "Create meal plan", cls: "div1" },
 { to: "/profile", icon: profileButtonIcon, title: "My profile", cls: "div2" },
-{ to: "/shopping", icon: shoppingButtonIcon, title: "Shopping list", cls: "div3" },
-{ to: "/viewPlan", icon: careButtonIcon, title: "View weekly plan", cls: "div4" }];
+{ to: "/shopping", icon: shoppingButtonIcon, title: "Shopping list", cls: "div3" }];
 
 
 function Home() {
@@ -19,10 +23,10 @@ function Home() {
     <main className="homeMainContainer" aria-label="Home — choose where to go">
       <header className="homeHero">
         <p className="homeHero__eyebrow">MealCare</p>
-        <h1 className="homeHero__title">Plan nourishing meals with confidence</h1>
+        <h1 className="homeHero__title">Eating well at home, one week at a time</h1>
         <p className="homeHero__lede">
-          Build your week, stay on budget, and keep shopping lists in sync — tailored to your
-          profile and dietary needs.
+          Plan balanced meals around your health needs, see your full week in one place, and turn it
+          into a clear shopping list — for you or with someone who helps you care.
         </p>
       </header>
 
@@ -32,6 +36,18 @@ function Home() {
             <HomeButton icon={icon} title={title} />
           </NavLink>
         )}
+        <a
+          className="homeNavLink homeNavLink--external div4"
+          href={USER_RESOURCES_DOC_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={USER_GUIDE_LINK_ARIA_LABEL}>
+          <div className="HomeButton HomeButton--guide">
+            <BiBookOpen className="homeGuideBookIcon" aria-hidden="true" focusable="false" />
+            <span className="homeButtonTitle homeButtonTitle--wrap">{USER_GUIDE_LINK_TEXT}</span>
+            <BiLinkExternal className="homeGuideExtIcon" aria-hidden="true" focusable="false" />
+          </div>
+        </a>
       </div>
     </main>);
 

@@ -5,7 +5,13 @@ import { AppContext } from "./AppContext";
 import { getWeekStartDate } from "../utils/helpers";
 
 const GUEST_SAVE_MESSAGE =
-"To save your meal plan you need an account. Please sign in or create one from the login page.";
+  "To save your meal plan you need an account. Please sign in or create one from the login page.";
+
+const DEFAULT_DAY_SELECTION = {
+  breakfast: null,
+  lunch: null,
+  dinner: null,
+};
 
 const useMealPlan = ({
   days,
@@ -21,17 +27,11 @@ const useMealPlan = ({
   const { activeDataUserId, recipeSearchCache, setRecipeSearchCache } =
   useContext(AppContext);
 
-  const defaultDaySelection = {
-    breakfast: null,
-    lunch: null,
-    dinner: null
-  };
-
   const [apiMeals, setApiMeals] = useState([]);
   const [internalLoading, setInternalLoading] = useState(false);
   const [mealError, setMealError] = useState("");
   const [mealsRequested, setMealsRequested] = useState(false);
-  const [daySelection, setDaySelection] = useState(defaultDaySelection);
+  const [daySelection, setDaySelection] = useState(DEFAULT_DAY_SELECTION);
 
   const selectMeal = (meal) => {
     setDaySelection((prev) => ({
@@ -105,12 +105,12 @@ const useMealPlan = ({
   };
 
   useEffect(() => {
-    const savedMeals = mealPlanDraft?.[selectedDay] || defaultDaySelection;
+    const savedMeals = mealPlanDraft?.[selectedDay] || DEFAULT_DAY_SELECTION;
 
     const isEmpty = Object.values(savedMeals).every((value) => value === null);
 
     if (isEmpty) {
-      setDaySelection(defaultDaySelection);
+      setDaySelection(DEFAULT_DAY_SELECTION);
     } else {
       setDaySelection(savedMeals);
     }
@@ -119,7 +119,16 @@ const useMealPlan = ({
   useEffect(() => {
     if (!mealsFetchReady) return;
 
+    if (!user) {
+      setApiMeals([]);
+      setMealError("");
+      setInternalLoading(false);
+      setMealsRequested(true);
+      return;
+    }
+
     let cancelled = false;
+
     const currentKey = getRecipeSearchCacheKey(activeDataUserId, profileData);
     const cached = recipeSearchCache;
     if (
@@ -157,16 +166,18 @@ const useMealPlan = ({
     return () => {
       cancelled = true;
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- recipeSearchCache.key only; full object would loop after setRecipeSearchCache.
   }, [
-  mealsFetchReady,
-  profileData,
-  activeDataUserId,
-  recipeSearchCache.key,
-  setRecipeSearchCache]
-  );
+    mealsFetchReady,
+    user,
+    profileData,
+    activeDataUserId,
+    recipeSearchCache.key,
+    setRecipeSearchCache,
+  ]);
 
   async function fetchApiMeals() {
-    if (!mealsFetchReady) return;
+    if (!mealsFetchReady || !user) return;
 
     setMealsRequested(true);
     const currentKey = getRecipeSearchCacheKey(activeDataUserId, profileData);

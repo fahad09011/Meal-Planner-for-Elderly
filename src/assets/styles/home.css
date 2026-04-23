@@ -91,6 +91,39 @@
   grid-column: 2;
   grid-row: 2;
 }
+.HomeButton--guide {
+  justify-content: space-between;
+  gap: 14px;
+}
+.homeButtonTitle--wrap {
+  flex: 1;
+  min-width: 0;
+  text-align: start;
+}
+.homeGuideBookIcon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  color: var(--primary-green);
+  transition: color 0.22s ease;
+}
+.homeGuideExtIcon {
+  width: 1.15em;
+  height: 1.15em;
+  min-width: 1.15em;
+  flex-shrink: 0;
+  color: var(--primary-green);
+  opacity: 0.9;
+  transition: color 0.22s ease, opacity 0.22s ease;
+}
+.homeNavLink--external:hover .homeGuideBookIcon,
+.homeNavLink--external:hover .homeGuideExtIcon,
+.homeNavLink--external:hover .homeButtonTitle {
+  color: #fff;
+}
+.homeNavLink--external:hover .homeGuideExtIcon {
+  opacity: 1;
+}
 .HomeButton {
   display: flex;
   justify-content: flex-start;
@@ -148,6 +181,10 @@
   .buttonIcon {
     height: 42px;
     width: 42px;
+  }
+  .homeGuideBookIcon {
+    width: 42px;
+    height: 42px;
   }
 }
 @media (max-width: 480px) {

@@ -88,12 +88,14 @@ function Caregiving() {
     <div className="caregiving-page">
       <h1>Caregiving</h1>
       <p className="caregiving-lede">
-        Add someone you support using the <strong>user ID</strong> from their Profile page (Supabase
-        account id). They must create their own account and save a profile before you can link them.
+        To link to someone you support, they open MealCare, go to their{" "}
+        <strong>Profile</strong> page, and share the <strong>user ID</strong> shown there with you. They
+        need their own MealCare account and a saved profile before you can add them.
       </p>
       <p className="caregiving-hint">
-        If you just registered as a caregiver, <strong>save your Profile</strong> (all required fields)
-        once first so your account type is stored; then you can add links here.
+        If you <strong>just signed up as a caregiver</strong>, go to <Link to="/profile">Profile</Link>,
+        complete every required field, and <strong>save</strong> once. Then you can add people you
+        support here.
       </p>
 
       <div className="caregiving-card">
@@ -101,14 +103,14 @@ function Caregiving() {
         <form id="caregiving-add-recipient-form" name="addCareRecipient" onSubmit={handleAdd}>
           <div className="caregiving-form-row">
             <label className="visually-hidden" htmlFor="care-elderly-id">
-              Elderly user ID
+              Care recipient's user ID from their Profile page
             </label>
             <input
               id="care-elderly-id"
               name="elderlyUserId"
               className="caregiving-input"
               type="text"
-              placeholder="e.g. 3fa85f64-5717-4562-b3fc-2c963f66afa6"
+              placeholder="Paste the user ID from their Profile page"
               value={elderlyIdInput}
               onChange={(ev) => setElderlyIdInput(ev.target.value)}
               autoComplete="off"
@@ -119,7 +121,8 @@ function Caregiving() {
             </Button>
           </div>
           <p className="caregiving-hint">
-            Use the exact UUID from their app. Wrong or duplicate IDs will show an error below.
+            It must match <strong>exactly</strong> what they see on their Profile (same letters and
+            numbers). A typo or a duplicate will show an error below.
           </p>
         </form>
         {error ? <p className="caregiving-error">{error}</p> : null}
@@ -131,7 +134,7 @@ function Caregiving() {
         {!careLinksLoaded ?
         <p>Loading list…</p> :
         careRecipients.length === 0 ?
-        <p>No one linked yet. Add a user ID above.</p> :
+        <p>No one linked yet. Add someone’s user ID above.</p> :
 
         <ul className="caregiving-list">
             {careRecipients.map((row) =>

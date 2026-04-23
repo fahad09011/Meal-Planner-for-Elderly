@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import MealCard from "./MealCard";
 import "../../assets/styles/horizontalScroll.css";
 
@@ -11,35 +11,35 @@ function HorizontalScroll({ meals, selectMeal, weeklyPlan, selectedDay, daySelec
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  function syncScrollControls() {
+  const syncScrollControls = useCallback(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
     setCanScrollLeft(scrollContainer.scrollLeft > 8);
     setCanScrollRight(
       scrollContainer.scrollLeft <
-      scrollContainer.scrollWidth - scrollContainer.clientWidth - 8
+        scrollContainer.scrollWidth - scrollContainer.clientWidth - 8,
     );
     setActiveIndex(
       Math.min(
         Math.round(scrollContainer.scrollLeft / (CARD_WIDTH + CARD_GAP)),
-        meals.length - 1
-      )
+        Math.max(0, meals.length - 1),
+      ),
     );
-  }
+  }, [meals.length]);
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
     syncScrollControls();
     scrollContainer.addEventListener("scroll", syncScrollControls, {
-      passive: true
+      passive: true,
     });
     window.addEventListener("resize", syncScrollControls, { passive: true });
     return () => {
       scrollContainer.removeEventListener("scroll", syncScrollControls);
       window.removeEventListener("resize", syncScrollControls);
     };
-  }, [meals]);
+  }, [meals, syncScrollControls]);
 
   function nudgeScroll(directionSign) {
     scrollRef.current?.scrollBy({

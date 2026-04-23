@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getProfile, createProfile, updateProfile } from "../services/database/profileService";
 import { saveMealPlan, getMealPlanByWeek } from "../services/database/mealPlanService";
@@ -14,12 +14,12 @@ function TestAuth() {
   const [password, setPassword] = useState("");
   const [log, setLog] = useState([]);
 
-  const addLog = (label, data) => {
+  const addLog = useCallback((label, data) => {
     const timestamp = new Date().toLocaleTimeString();
     const entry = `[${timestamp}] ${label} ${JSON.stringify(data, null, 2)}`;
     console.log(label, data);
     setLog((prev) => [...prev, entry]);
-  };
+  }, []);
 
   const handleSignIn = async () => {
     if (!email || !password) {addLog("ERROR:", "Enter email and password");return;}
@@ -229,9 +229,11 @@ function TestAuth() {
 
   useEffect(() => {
     if (!authLoading) {
-      addLog("Auth ready. User:", user ? user.email : "none");
+      queueMicrotask(() =>
+        addLog("Auth ready. User:", user ? user.email : "none"),
+      );
     }
-  }, [authLoading]);
+  }, [authLoading, user, addLog]);
 
   if (authLoading) return <div>Checking auth...</div>;
 

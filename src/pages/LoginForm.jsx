@@ -5,6 +5,12 @@ import { BiCalendar, BiLineChart, BiBasket } from "react-icons/bi";
 import { FaLeaf } from "react-icons/fa6";
 import { useAuth } from "../context/AuthContext";
 import { APP_ROLES, APP_ROLE_SIGNUP_OPTIONS } from "../constants/appRoles";
+import {
+  USER_RESOURCES_DOC_URL,
+  USER_GUIDE_LINK_TEXT,
+  USER_GUIDE_LINK_ARIA_LABEL
+} from "../constants/externalLinks";
+import { BiLinkExternal } from "react-icons/bi";
 
 const FEATURES = [
 {
@@ -173,21 +179,24 @@ function LoginForm() {
             </p>
 
             <ul className="loginHeroFeatures" role="list">
-              {FEATURES.map(({ icon: Icon, title, text }, i) =>
+              {FEATURES.map((feature, index) => {
+                const Icon = feature.icon;
+                return (
               <li
-                key={title}
+                key={feature.title}
                 className="loginHeroFeature loginHeroReveal"
-                style={{ "--d": `${240 + i * 70}ms` }}>
+                style={{ "--d": `${240 + index * 70}ms` }}>
                 
                   <span className="loginHeroFeatureIcon" aria-hidden="true">
                     <Icon />
                   </span>
                   <span className="loginHeroFeatureText">
-                    <span className="loginHeroFeatureTitle">{title}</span>
-                    <span className="loginHeroFeatureSub">{text}</span>
+                    <span className="loginHeroFeatureTitle">{feature.title}</span>
+                    <span className="loginHeroFeatureSub">{feature.text}</span>
                   </span>
                 </li>
-              )}
+                );
+              })}
             </ul>
           </div>
         </aside>
@@ -440,6 +449,22 @@ function LoginForm() {
           </div>
 
           <div className="loginFooterLinks">
+            <a
+              className="app-external-link"
+              href={USER_RESOURCES_DOC_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={USER_GUIDE_LINK_ARIA_LABEL}>
+              <span>{USER_GUIDE_LINK_TEXT}</span>
+              <BiLinkExternal
+                className="app-external-link__icon"
+                aria-hidden="true"
+                focusable="false"
+              />
+            </a>
+            <span className="loginFooterLinks__sep" aria-hidden="true">
+              ·
+            </span>
             <Link to="/terms">Terms of use</Link>
           </div>
         </div>

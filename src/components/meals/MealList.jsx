@@ -28,10 +28,9 @@ function MealList({ meals, mealsCount, selectMeal, weeklyPlan, selectedDay, dayS
   return (
     <div className="meal-list-container">
       {CATEGORIES.map(({ key, label }) =>
-      <MealSection
-        key={key}
-        categoryKey={key}
-        label={label}
+        <MealSection
+          key={key}
+          label={label}
         categoryMeals={mealsByMealType[key]}
         count={mealsCount?.[key] ?? mealsByMealType[key].length}
         isMobile={isMobile}
